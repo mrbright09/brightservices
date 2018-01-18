@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Bright Services</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="When you are looking for great computer service without the big box prices come see me.">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:600|Pacifico" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <link rel="stylesheet" href="signup.css" type="text/css" />
+    <link rel="stylesheet" href="login.css" type="text/css" />
+</head>
+
+<body>
+    <header>
+        <div id="headerinline" class="row">
+            <h1 id="logo" class="col-md-6">Bright Services</h1>
+            <button type="button" class="button4">
+                <a href="index.html">Home</a>
+            </button>
+            <button type="button" class="button4">
+                <a href="service.html">Services</a>
+            </button>
+            <button type="button" class="button4">
+                <a href="about.html">About</a>
+            </button>
+            <button type="button" onclick="document.getElementById('id03').style.display='block'" class="button4">Contact Us</button>
+            <button type="button" onclick="document.getElementById('id02').style.display='block'" class="button4">Sign In</button>
+            <button type="button" onclick="document.getElementById('id01').style.display='block'" class="button4">Sign Up</button>
+        </div>
+    </header>
+    <div class="intro container" style="margin-top: 193px; margin-bottom: 16px; background-color: transparent !important;">
+        <h2>
+            <p>Tired of all of the the Computer repair shops over charging you.</p>
+            <p>Well look no further Bright Services is here to help!</p>
+        </h2>
+        <h3>
+            <button type="button" class="button4" style="margin-left: 453px;"><a href="service.html">Get Started Now</a></button>
+        </h3>
+    </div>
+    <div id="id01" class="modal">
+        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <form class="modal-content animate" action="/action_page.php">
+            <div class="container">
+                <label>
+                    <b>Email</b>
+                </label>
+                <input type="text" placeholder="Enter Email" name="email" required>
+                <label>
+                    <b>Password</b>
+                </label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+                <label>
+                    <b>Repeat Password</b>
+                </label>
+                <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+                <input type="checkbox" checked="checked"> Remember me
+                <p>By creating an account you agree to our
+                    <a href="#">Terms & Privacy</a>.</p>
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                <div class="clearfix">
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                    <button type="submit" class="signupbtn">Sign Up</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        var modal = document.getElementById('id01');
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <div id="id02" class="modal">
+        <form class="modal-content animate" action="/action_page.php">
+            <div class="imgcontainer">
+                <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <img src="img_avatar2.png" alt="Avatar" class="avatar">
+            </div>
+            <div class="container">
+                <label>
+                    <b>Username</b>
+                </label>
+                <input type="text" placeholder="Enter Username" name="uname" required>
+                <label>
+                    <b>Password</b>
+                </label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+                <button class="loginbtn" type="submit">Login</button>
+                <input type="checkbox" checked="checked"> Remember me
+            </div>
+            <div class="container">
+                <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn2">Cancel</button>
+                <span class="psw">Forgot
+                    <a href="#">password?</a>
+                </span>
+            </div>
+        </form>
+    </div>
+    <script>
+        var modal = document.getElementById('id02');
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <div id="id03" class="modal">
+        <form class="modal-content animate" action="/action_page.php">
+            <div class="imgcontainer">
+                <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
+            </div>
+            <div class="container">
+                <h2>Contact Bright Services</h2>
+                <p>Want to get in Contact with Us? Fill out the form below to send us over a message and we'll get back to you in 24 - 48 hours.
+                </p>
+                <p>Required fields are marked with an asterisk *.</p>
+                <label>
+                    <b>*Name:</b>
+                </label>
+                <input type="text" name="myName" id="myName" required>
+                <label>
+                    <b>*E-mail:</b>
+                </label>
+                <input type="text" name="myEmail" id="myEmail" required>
+                <label for="experience">*Comments/Concerns:</label>
+                <textarea name="experience" id="experience" rows="6" cols="160"></textarea>
+                <button class="loginbtn" type="submit">Send Now</button>
+            </div>
+            <div class="container">
+                <button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtn2">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        var modal = document.getElementById('id03');
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <nav class="navbar fixed-bottom navbar-light bg-light ">
+        <a class="navbar-text" href="#">© 2017 Bright Services</a>
+    </nav>
+</body>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js " integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN " crossorigin="anonymous "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js " integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh " crossorigin="anonymous "></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js " integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ " crossorigin="anonymous "></script>
+
+</html>
