@@ -27,9 +27,7 @@
             <button type="button" class="button4">
                 <a href="assets/about.html">About</a>
             </button>
-            <button type="button" onclick="document.getElementById('id03').style.display='block'" class="button4">Contact Us</button>
-            <button type="button" onclick="document.getElementById('id02').style.display='block'" class="button4">Sign In</button>
-            <button type="button" onclick="document.getElementById('id01').style.display='block'" class="button4">Sign Up</button>
+            <button type="button" onclick="document.getElementById('id03').style.display='block'" class="button4"><a href="http://www.123formbuilder.com/form-3429974/Contact-Form">Contact Us</a></button>
         </div>
     </header>
     <div class="intro container" style="margin-top: 193px; margin-bottom: 16px; background-color: transparent !important;">
@@ -41,110 +39,6 @@
             <button type="button" class="button4" style="margin-left: 453px;"><a href="service.html">Get Started Now</a></button>
         </h3>
     </div>
-    <div id="id01" class="modal">
-        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-        <form class="modal-content animate" action="/action_page.php">
-            <div class="container">
-                <label>
-                    <b>Email</b>
-                </label>
-                <input type="text" placeholder="Enter Email" name="email" required>
-                <label>
-                    <b>Password</b>
-                </label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
-                <label>
-                    <b>Repeat Password</b>
-                </label>
-                <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-                <input type="checkbox" checked="checked"> Remember me
-                <p>By creating an account you agree to our
-                    <a href="#">Terms & Privacy</a>.</p>
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                <div class="clearfix">
-                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-                    <button type="submit" class="signupbtn">Sign Up</button>
-                </div>
-            </div>
-        </form>
-    </div>
-    <script>
-        var modal = document.getElementById('id01');
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
-    <div id="id02" class="modal">
-        <form class="modal-content animate" action="/action_page.php">
-            <div class="imgcontainer">
-                <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
-                <img src="assets/images/img_avatar2.png" alt="Avatar" class="avatar">
-            </div>
-            <div class="container">
-                <label>
-                    <b>Username</b>
-                </label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
-                <label>
-                    <b>Password</b>
-                </label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
-                <button class="loginbtn" type="submit">Login</button>
-                <input type="checkbox" checked="checked"> Remember me
-            </div>
-            <div class="container">
-                <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn2">Cancel</button>
-                <span class="psw">Forgot
-                    <a href="#">password?</a>
-                </span>
-            </div>
-        </form>
-    </div>
-    <script>
-        var modal = document.getElementById('id02');
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
-    <div id="id03" class="modal">
-        <form class="modal-content animate" action="/action_page.php">
-            <div class="imgcontainer">
-                <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
-            </div>
-            <div class="container">
-                <h2>Contact Bright Services</h2>
-                <p>Want to get in Contact with Us? Fill out the form below to send us over a message and we'll get back to you in 24 - 48 hours.
-                </p>
-                <p>Required fields are marked with an asterisk *.</p>
-                <label>
-                    <b>*Name:</b>
-                </label>
-                <input type="text" name="myName" id="myName" required>
-                <label>
-                    <b>*E-mail:</b>
-                </label>
-                <input type="text" name="myEmail" id="myEmail" required>
-                <label for="experience">*Comments/Concerns:</label>
-                <textarea name="experience" id="experience" rows="6" cols="160"></textarea>
-                <button class="loginbtn" type="submit">Send Now</button>
-            </div>
-            <div class="container">
-                <button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtn2">Cancel</button>
-            </div>
-        </form>
-    </div>
-    <script>
-        var modal = document.getElementById('id03');
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
     <nav class="navbar fixed-bottom navbar-light bg-light ">
         <a class="navbar-text" href="https://github.com/mrbright09">© 2018 Bright Services</a>
     </nav>
