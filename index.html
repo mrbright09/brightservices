@@ -4,20 +4,21 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-  <link rel="shortcut icon" href="assets/images/logo-transparent-1-122x122.png" type="image/x-icon">
-  <meta name="description" content="Bright Future Technologies LLC offers IT consultations, custom PC builds, drone photography, website development, smart home automation, and automobile infotainment systems in the Atlanta, GA area.">
-  <title>Bright Future Technologies LLC | IT &amp; Drone Services — Atlanta, GA</title>
+  <!-- Update 30: favicon -->
+  <link rel="shortcut icon" href="assets/images/bft-logo.png" type="image/png">
+  <meta name="description" content="Bright Future Technologies LLC — IT consultations, Azure cloud solutions, custom PC builds, drone photography, website development, smart home automation, and automobile infotainment systems in the Atlanta, GA area.">
+  <title>Bright Future Technologies LLC | IT, Azure &amp; Drone Services — Atlanta, GA</title>
 
   <!-- Bootstrap -->
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.min.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-reboot.min.css">
-  <!-- Mobirise assets (gallery, socicons) -->
+  <!-- Mobirise gallery assets -->
   <link rel="stylesheet" href="assets/web/assets/mobirise-icons/mobirise-icons.css">
   <link rel="stylesheet" href="assets/socicon/css/styles.css">
   <link rel="stylesheet" href="assets/gallery/style.css">
   <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css">
-  <!-- Font Awesome 6 for icons -->
+  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,6 +27,20 @@
 
   <style>
     /* ==============================
+       CSS Variables — Brand Colors
+       Update 29: gold → electric blue everywhere
+       ============================== */
+    :root {
+      --blue:        #0066FF;
+      --blue-hover:  #0044CC;
+      --blue-light:  #00AAFF;
+      --navy:        #050A18;
+      --white:       #FFFFFF;
+      --text:        #333333;
+      --light-bg:    #F8F9FA;
+    }
+
+    /* ==============================
        Base
        ============================== */
     *, *::before, *::after { box-sizing: border-box; }
@@ -33,7 +48,7 @@
     body {
       font-family: 'Inter', Arial, sans-serif;
       font-size: 16px;
-      color: #333;
+      color: var(--text);
       margin: 0;
       padding: 0;
     }
@@ -51,10 +66,11 @@
       color: #111;
       margin-bottom: 0.4rem;
     }
+    /* Update 29: divider blue */
     .section-divider {
       width: 48px;
       height: 3px;
-      background: #c9a84c;
+      background: var(--blue);
       border-radius: 2px;
       margin: 0.6rem auto 1rem;
     }
@@ -63,7 +79,7 @@
       color: #666;
       font-size: 1rem;
       margin-bottom: 3rem;
-      max-width: 620px;
+      max-width: 640px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -71,10 +87,11 @@
     /* ==============================
        Buttons
        ============================== */
-    .btn-gold {
+    /* Update 8a: "View Our Services" = blue */
+    .btn-blue {
       display: inline-block;
-      background: #c9a84c;
-      color: #fff !important;
+      background: var(--blue);
+      color: var(--white) !important;
       border: none;
       padding: 0.8rem 2rem;
       font-weight: 600;
@@ -84,12 +101,14 @@
       transition: background 0.2s;
       cursor: pointer;
     }
-    .btn-gold:hover { background: #a88930; }
-    .btn-outline-white {
+    .btn-blue:hover { background: var(--blue-hover); color: var(--white) !important; }
+
+    /* Update 8b: "Book a Free Call" = white/blue outline */
+    .btn-outline-blue {
       display: inline-block;
-      background: transparent;
-      color: #fff !important;
-      border: 2px solid rgba(255,255,255,0.8);
+      background: var(--white);
+      color: var(--blue) !important;
+      border: 2px solid var(--blue);
       padding: 0.75rem 2rem;
       font-weight: 600;
       border-radius: 4px;
@@ -97,72 +116,86 @@
       text-decoration: none !important;
       transition: all 0.2s;
     }
-    .btn-outline-white:hover { background: #fff; color: #111 !important; }
+    .btn-outline-blue:hover { background: var(--blue); color: var(--white) !important; }
 
     /* ==============================
        Navbar
+       Update 1: BFT logo
+       Update 2: #050A18 + blue border
+       Update 3: white links, #00AAFF hover
+       Update 4: blue Book a Call, pill shape
        ============================== */
     #mainNav {
-      background: rgba(10,10,10,0.97) !important;
+      background: var(--navy) !important;
       padding: 0.6rem 0;
       z-index: 9999;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid var(--blue);
     }
     #mainNav .navbar-brand {
       display: flex;
       align-items: center;
       gap: 10px;
-      color: #fff !important;
+      color: var(--white) !important;
       font-weight: 700;
       font-size: 1rem;
       text-decoration: none;
     }
-    #mainNav .navbar-brand img { height: 42px; }
+    /* Update 1: BFT logo size */
+    #mainNav .navbar-brand img { height: 40px; }
     #mainNav .nav-link {
-      color: rgba(255,255,255,0.78) !important;
+      color: rgba(255,255,255,0.9) !important;
       font-weight: 500;
       font-size: 0.88rem;
       letter-spacing: 0.3px;
       padding: 0.5rem 0.9rem !important;
+      transition: color 0.2s;
     }
-    #mainNav .nav-link:hover { color: #fff !important; }
+    /* Update 3: blue hover */
+    #mainNav .nav-link:hover { color: var(--blue-light) !important; }
+    /* Update 4: blue pill Book a Call */
     .btn-book {
-      background: #c9a84c !important;
-      color: #fff !important;
-      border-radius: 4px;
-      padding: 0.4rem 1.2rem !important;
+      background: var(--blue) !important;
+      color: var(--white) !important;
+      border-radius: 20px !important;
+      padding: 0.4rem 1.3rem !important;
       font-weight: 600;
       font-size: 0.88rem;
+      transition: background 0.2s !important;
     }
-    .btn-book:hover { background: #a88930 !important; }
+    .btn-book:hover { background: var(--blue-hover) !important; color: var(--white) !important; }
 
     /* ==============================
        Hero
+       Update 5: pixel art cityscape background
+       Update 6/7: updated text (in HTML)
+       Update 8: blue buttons (in HTML)
+       Update 9: blue badges with Azure
        ============================== */
     #hero-section {
       min-height: 100vh;
+      /* Update 5: pixel art Atlanta cityscape */
       background:
-        linear-gradient(135deg, rgba(0,0,0,0.82) 0%, rgba(15,20,40,0.78) 100%),
-        url('assets/images/background1.jpg') center center / cover no-repeat;
+        linear-gradient(to bottom, rgba(5,10,24,0.45) 0%, rgba(5,10,24,0.65) 100%),
+        url('assets/images/hero-bg-cityscape.jpg') center center / cover no-repeat;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      color: #fff;
+      color: var(--white);
       padding: 120px 20px 80px;
     }
     #hero-section h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-size: clamp(1.9rem, 5vw, 3.1rem);
       font-weight: 700;
       line-height: 1.2;
       margin-bottom: 1.2rem;
-      color: #fff;
+      color: var(--white);
     }
     #hero-section p {
-      font-size: 1.15rem;
-      max-width: 680px;
+      font-size: 1.1rem;
+      max-width: 700px;
       margin: 0 auto 2rem;
-      color: rgba(255,255,255,0.82);
+      color: rgba(255,255,255,0.85);
       line-height: 1.75;
     }
     .hero-btns {
@@ -171,6 +204,7 @@
       justify-content: center;
       flex-wrap: wrap;
     }
+    /* Update 9: blue badge styling */
     .hero-badges {
       display: flex;
       justify-content: center;
@@ -179,21 +213,25 @@
       margin-top: 2.5rem;
     }
     .hero-badge {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: rgba(255,255,255,0.85);
+      background: rgba(0,102,255,0.15);
+      border: 1px solid rgba(0,102,255,0.55);
+      color: rgba(255,255,255,0.9);
       font-size: 0.8rem;
       font-weight: 500;
       padding: 0.3rem 0.9rem;
       border-radius: 20px;
+      box-shadow: 0 0 8px rgba(0,102,255,0.2);
     }
 
     /* ==============================
        Services
+       Update 10: blue badges, icons, buttons
+       Update 11: Azure card (in HTML)
+       Update 12: updated subtitle (in HTML)
        ============================== */
-    #services { background: #f8f9fa; }
+    #services { background: var(--light-bg); }
     .service-card {
-      background: #fff;
+      background: var(--white);
       border-radius: 8px;
       padding: 1.75rem;
       margin-bottom: 1.5rem;
@@ -203,19 +241,24 @@
       flex-direction: column;
       transition: transform 0.2s, box-shadow 0.2s;
     }
-    .service-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.11); }
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0,102,255,0.12);
+    }
+    /* Update 10: icons blue */
     .service-icon {
       font-size: 2rem;
-      color: #c9a84c;
+      color: var(--blue);
       margin-bottom: 0.75rem;
     }
+    /* Update 10: price badge blue */
     .starting-price {
       display: inline-block;
-      background: #fdf3d8;
-      color: #7a6020;
+      background: var(--blue);
+      color: var(--white);
       font-weight: 600;
-      font-size: 0.8rem;
-      padding: 0.2rem 0.75rem;
+      font-size: 0.78rem;
+      padding: 0.22rem 0.75rem;
       border-radius: 20px;
       margin-bottom: 0.75rem;
     }
@@ -232,11 +275,12 @@
       line-height: 1.85;
       flex: 1;
     }
+    /* Update 10: service button blue */
     .btn-service {
       display: block;
       text-align: center;
-      background: #111;
-      color: #fff !important;
+      background: var(--blue);
+      color: var(--white) !important;
       border-radius: 4px;
       padding: 0.6rem 1rem;
       font-size: 0.85rem;
@@ -245,12 +289,12 @@
       text-decoration: none !important;
       transition: background 0.2s;
     }
-    .btn-service:hover { background: #c9a84c; }
+    .btn-service:hover { background: var(--blue-hover); }
     .btn-service-alt {
       display: block;
       text-align: center;
-      background: #444;
-      color: #fff !important;
+      background: #1a1a2e;
+      color: var(--white) !important;
       border-radius: 4px;
       padding: 0.6rem 1rem;
       font-size: 0.85rem;
@@ -259,19 +303,30 @@
       text-decoration: none !important;
       transition: background 0.2s;
     }
-    .btn-service-alt:hover { background: #c9a84c; }
+    .btn-service-alt:hover { background: var(--blue); }
+
+    /* Azure featured card highlight */
+    .service-card.azure-card {
+      border: 1px solid rgba(0,102,255,0.3);
+      background: linear-gradient(135deg, #f0f4ff 0%, #ffffff 100%);
+    }
+    .service-card.azure-card:hover {
+      box-shadow: 0 8px 28px rgba(0,102,255,0.18);
+    }
 
     /* ==============================
        Portfolio
+       Update 14: PC build photo (in HTML)
+       Update 15/16: updated text (in HTML)
        ============================== */
-    #portfolio { background: #fff; }
+    #portfolio { background: var(--white); }
     .portfolio-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
     @media (max-width: 767px) { .portfolio-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .portfolio-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 480px)  { .portfolio-grid { grid-template-columns: 1fr; } }
     .portfolio-item { overflow: hidden; border-radius: 6px; }
     .portfolio-item img {
       width: 100%;
@@ -283,6 +338,7 @@
     .portfolio-item img:hover { transform: scale(1.05); }
     .see-more-wrap { text-align: center; margin-top: 1.75rem; }
     .video-section { margin-top: 3.5rem; }
+    /* Update 16: "Video Gallery" */
     .video-section h3 {
       text-align: center;
       font-size: 1.4rem;
@@ -303,8 +359,6 @@
       width: 100%; height: 100%;
       border: 0;
     }
-
-    /* Full gallery (expanded) */
     #full-gallery { margin-top: 2rem; }
     #full-gallery .full-grid {
       display: grid;
@@ -321,8 +375,9 @@
 
     /* ==============================
        About
+       Update 17/18: Azure content (in HTML)
        ============================== */
-    #about { background: #f8f9fa; }
+    #about { background: var(--light-bg); }
     #about img {
       width: 100%;
       max-width: 380px;
@@ -337,33 +392,42 @@
       font-style: normal;
     }
     .about-text p { margin-bottom: 1rem; }
-    .about-text ul {
-      padding-left: 1.5rem;
-      margin-bottom: 1rem;
-    }
+    .about-text ul { padding-left: 1.5rem; margin-bottom: 1rem; }
     .about-text ul li { margin-bottom: 0.4rem; }
-    .owner-name {
-      font-weight: 700;
-      color: #111;
-      font-size: 1.05rem;
-      margin-top: 1.25rem;
-      margin-bottom: 0.1rem;
-    }
+    .owner-name { font-weight: 700; color: #111; font-size: 1.05rem; margin-top: 1.25rem; margin-bottom: 0.1rem; }
     .owner-title { color: #888; font-size: 0.9rem; }
 
     /* ==============================
        Testimonials
+       Update 20: star ratings (in HTML)
+       Update 22: dark navy + subtle pixel grid
        ============================== */
-    #testimonials { background: #111; color: #fff; }
-    #testimonials .section-title { color: #fff; }
+    #testimonials {
+      /* Update 22: deep navy with blue CSS pixel grid */
+      background-color: var(--navy);
+      background-image:
+        linear-gradient(rgba(0,102,255,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,102,255,0.07) 1px, transparent 1px);
+      background-size: 40px 40px;
+      color: var(--white);
+    }
+    #testimonials .section-title { color: var(--white); }
     #testimonials .section-subtitle { color: rgba(255,255,255,0.55); }
     .testimonial-card {
-      background: #1a1a1a;
+      background: rgba(255,255,255,0.04);
       border-radius: 8px;
       padding: 1.75rem;
       margin-bottom: 1.5rem;
-      border-left: 4px solid #c9a84c;
+      border-left: 4px solid var(--blue);
       height: 100%;
+      backdrop-filter: blur(4px);
+    }
+    /* Update 20: star ratings */
+    .t-stars {
+      color: var(--blue);
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.75rem;
     }
     .testimonial-card p {
       color: rgba(255,255,255,0.82);
@@ -372,33 +436,29 @@
       margin-bottom: 1.25rem;
       font-style: italic;
     }
-    .t-name { font-weight: 700; color: #c9a84c; font-size: 0.9rem; }
+    .t-name { font-weight: 700; color: var(--blue-light); font-size: 0.9rem; }
     .t-role { color: rgba(255,255,255,0.45); font-size: 0.82rem; margin-top: 0.2rem; }
-    .reviews-link {
-      text-align: center;
-      margin-top: 2.5rem;
-    }
-    .reviews-link a {
-      color: #c9a84c;
-      font-weight: 600;
-      font-size: 0.95rem;
-      text-decoration: none;
-    }
-    .reviews-link a:hover { color: #a88930; }
+    .reviews-link { text-align: center; margin-top: 2.5rem; }
+    .reviews-link a { color: var(--blue-light); font-weight: 600; font-size: 0.95rem; text-decoration: none; }
+    .reviews-link a:hover { color: var(--white); }
 
     /* ==============================
        Contact
+       Update 23: email (in HTML)
+       Update 24: Azure dropdown option (in HTML)
+       Update 25: blue Send button
        ============================== */
-    #contact { background: #fff; }
+    #contact { background: var(--white); }
     .contact-info-item {
       display: flex;
       align-items: flex-start;
       gap: 1rem;
       margin-bottom: 1.5rem;
     }
+    /* Update 29: icon color blue */
     .contact-info-item i {
       font-size: 1.2rem;
-      color: #c9a84c;
+      color: var(--blue);
       margin-top: 3px;
       width: 20px;
       text-align: center;
@@ -411,23 +471,11 @@
       color: #999;
       margin-bottom: 0.2rem;
     }
-    .contact-info-item span, .contact-info-item a {
-      font-size: 0.97rem;
-      color: #333;
-    }
-    .contact-info-item a { color: #c9a84c; text-decoration: none; }
-    .contact-info-item a:hover { color: #a88930; }
-    .contact-form-wrap {
-      background: #f8f9fa;
-      border-radius: 8px;
-      padding: 2rem;
-    }
-    .contact-form-wrap h3 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #111;
-      margin-bottom: 1.5rem;
-    }
+    .contact-info-item span, .contact-info-item a { font-size: 0.97rem; color: #333; }
+    .contact-info-item a { color: var(--blue); text-decoration: none; }
+    .contact-info-item a:hover { color: var(--blue-hover); }
+    .contact-form-wrap { background: var(--light-bg); border-radius: 8px; padding: 2rem; }
+    .contact-form-wrap h3 { font-size: 1.15rem; font-weight: 700; color: #111; margin-bottom: 1.5rem; }
     .contact-form-wrap .form-control {
       border: 1px solid #ddd;
       border-radius: 4px;
@@ -440,14 +488,15 @@
       transition: border-color 0.2s;
     }
     .contact-form-wrap .form-control:focus {
-      border-color: #c9a84c;
-      box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0,102,255,0.12);
       outline: none;
     }
     .contact-form-wrap textarea.form-control { min-height: 130px; resize: vertical; }
+    /* Update 25: blue submit button */
     .btn-submit {
-      background: #c9a84c;
-      color: #fff;
+      background: var(--blue);
+      color: var(--white);
       border: none;
       padding: 0.8rem 2rem;
       border-radius: 4px;
@@ -458,13 +507,16 @@
       transition: background 0.2s;
       font-family: 'Inter', Arial, sans-serif;
     }
-    .btn-submit:hover { background: #a88930; }
+    .btn-submit:hover { background: var(--blue-hover); }
 
     /* ==============================
        Footer
+       Update 26: Azure in services list (in HTML)
+       Update 27: updated tagline (in HTML)
+       Update 28: blue social hover
        ============================== */
     #site-footer {
-      background: #0a0a0a;
+      background: #040810;
       color: rgba(255,255,255,0.6);
       padding: 55px 0 30px;
     }
@@ -472,7 +524,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      color: #fff;
+      color: var(--white);
       font-weight: 700;
       font-size: 1rem;
       margin-bottom: 0.6rem;
@@ -487,20 +539,17 @@
       text-decoration: none;
       transition: color 0.2s;
     }
-    #site-footer .social-links a:hover { color: #c9a84c; }
+    /* Update 28: blue social hover */
+    #site-footer .social-links a:hover { color: var(--blue); }
     #site-footer h6 {
-      color: #fff;
+      color: var(--white);
       font-weight: 700;
       font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 1rem;
     }
-    #site-footer .footer-links {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+    #site-footer .footer-links { list-style: none; padding: 0; margin: 0; }
     #site-footer .footer-links li { margin-bottom: 0.5rem; }
     #site-footer .footer-links a {
       color: rgba(255,255,255,0.55);
@@ -508,9 +557,9 @@
       font-size: 0.88rem;
       transition: color 0.2s;
     }
-    #site-footer .footer-links a:hover { color: #c9a84c; }
+    #site-footer .footer-links a:hover { color: var(--blue); }
     #site-footer .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.07);
+      border-top: 1px solid rgba(0,102,255,0.15);
       padding-top: 1.5rem;
       margin-top: 2.5rem;
       text-align: center;
@@ -519,10 +568,10 @@
     }
 
     /* ==============================
-       Utility
+       Responsive
        ============================== */
     @media (max-width: 991px) {
-      #mainNav .navbar-collapse { background: rgba(10,10,10,0.97); padding: 1rem; }
+      #mainNav .navbar-collapse { background: var(--navy); padding: 1rem; border-top: 1px solid rgba(0,102,255,0.2); }
       .btn-book { display: inline-block; margin-top: 0.5rem; }
     }
   </style>
@@ -531,11 +580,14 @@
 
 <!-- ================================================
      NAVBAR
+     Updates 1, 2, 3, 4
      ================================================ -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
   <div class="container">
+    <!-- Update 1: BFT neon hexagon logo
+         Save your logo PNG to: assets/images/bft-logo.png -->
     <a class="navbar-brand" href="#hero-section">
-      <img src="assets/images/logo-transparent-1-122x122.png" alt="Bright Future Technologies LLC logo">
+      <img src="assets/images/bft-logo.png" alt="Bright Future Technologies LLC logo">
       Bright Future Technologies
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -550,6 +602,7 @@
         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
         <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        <!-- Update 4: blue pill button -->
         <li class="nav-item ml-lg-2 mt-2 mt-lg-0">
           <a class="nav-link btn-book" href="#contact">Book a Call</a>
         </li>
@@ -560,22 +613,28 @@
 
 <!-- ================================================
      HERO
+     Updates 5, 6, 7, 8, 9
      ================================================ -->
 <section id="hero-section">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-9">
-        <h1>Technology Solutions<br>for Your Home &amp; Business</h1>
-        <p>Bright Future Technologies LLC delivers expert IT consultations, custom PC builds, drone photography, website development, smart home automation, and automobile infotainment systems — all tailored to you.</p>
+        <!-- Update 6: "Next-Level" added -->
+        <h1>Next-Level Technology Solutions<br>for Your Home &amp; Business</h1>
+        <!-- Update 7: Azure cloud solutions + business automation added -->
+        <p>Bright Future Technologies LLC delivers expert IT consultations, custom PC builds, drone photography, website development, smart home automation, Azure cloud solutions, business automation, and automobile infotainment systems — all tailored to you.</p>
+        <!-- Update 8: blue buttons -->
         <div class="hero-btns">
-          <a class="btn-gold" href="#services">View Our Services</a>
-          <a class="btn-outline-white" href="#contact">Book a Free Call</a>
+          <a class="btn-blue" href="#services">View Our Services</a>
+          <a class="btn-outline-blue" href="#contact">Book a Free Call</a>
         </div>
+        <!-- Update 9: blue badges + Azure badge added -->
         <div class="hero-badges">
           <span class="hero-badge"><i class="fa-solid fa-helicopter" style="margin-right:5px;"></i>Licensed Drone Pilot</span>
           <span class="hero-badge"><i class="fa-solid fa-shield-halved" style="margin-right:5px;"></i>FAA Certified</span>
           <span class="hero-badge"><i class="fa-solid fa-map-marker-alt" style="margin-right:5px;"></i>Atlanta, GA</span>
-          <span class="hero-badge"><i class="fa-solid fa-star" style="margin-right:5px;"></i>12+ Years IT Experience</span>
+          <span class="hero-badge"><i class="fa-solid fa-laptop-code" style="margin-right:5px;"></i>12+ Years IT Experience</span>
+          <span class="hero-badge"><i class="fa-solid fa-cloud" style="margin-right:5px;"></i>Microsoft Azure Certified</span>
         </div>
       </div>
     </div>
@@ -584,13 +643,32 @@
 
 <!-- ================================================
      SERVICES
+     Updates 10, 11, 12
      ================================================ -->
 <section id="services">
   <div class="container">
     <h2 class="section-title">What We Offer</h2>
     <div class="section-divider"></div>
-    <p class="section-subtitle">Flexible, customized services for individuals and small businesses across the Atlanta metro area.</p>
+    <!-- Update 12: "enterprises" added -->
+    <p class="section-subtitle">Flexible, customized services for individuals, small businesses, and enterprises across the Atlanta metro area.</p>
     <div class="row">
+
+      <!-- Update 11: Azure Cloud card (featured) -->
+      <div class="col-md-6 col-lg-4 d-flex">
+        <div class="service-card azure-card w-100">
+          <div class="service-icon"><i class="fa-solid fa-cloud"></i></div>
+          <span class="starting-price">Starting at $500/project</span>
+          <h4>Azure Cloud &amp; Business Automation</h4>
+          <ul>
+            <li>Microsoft Azure cloud setup &amp; management</li>
+            <li>Power Automate workflow design &amp; deployment</li>
+            <li>Microsoft 365 business configuration</li>
+            <li>Cloud backup, storage &amp; security</li>
+            <li>Custom automation to reduce manual tasks &amp; costs</li>
+          </ul>
+          <a class="btn-service" href="https://forms.gle/U3Kvm73iyBaQoYfs5" target="_blank" rel="noopener noreferrer">Azure Consultation</a>
+        </div>
+      </div>
 
       <!-- Automobile Infotainment -->
       <div class="col-md-6 col-lg-4 d-flex">
@@ -689,14 +767,18 @@
 
 <!-- ================================================
      PORTFOLIO
+     Updates 14, 15, 16
      ================================================ -->
 <section id="portfolio">
   <div class="container">
     <h2 class="section-title">Our Work</h2>
     <div class="section-divider"></div>
-    <p class="section-subtitle">Licensed drone pilot &amp; photographer capturing stunning 4K aerial footage across the Atlanta area.</p>
+    <!-- Update 15: expanded subtitle -->
+    <p class="section-subtitle">From stunning 4K aerial footage to custom PC builds and cloud solutions — here's a look at what we deliver.</p>
 
-    <!-- Featured 6-photo grid -->
+    <!-- Featured 6-photo grid
+         Update 14: bottom-right = completed PC build (img-5.jpg)
+         Replace img-5.jpg with your best RGB build photo if different -->
     <div class="portfolio-grid">
       <div class="portfolio-item">
         <img src="assets/images/background1.jpg" alt="Aerial drone photography by Bright Future Technologies">
@@ -713,38 +795,38 @@
       <div class="portfolio-item">
         <img src="assets/images/background17.jpg" alt="Aerial drone photography by Bright Future Technologies">
       </div>
+      <!-- Update 14: replaced RGB fan boxes with completed PC build -->
       <div class="portfolio-item">
-        <img src="assets/images/background22.jpeg" alt="Aerial drone photography by Bright Future Technologies">
+        <img src="assets/images/img-5.jpg" alt="Custom PC build by Bright Future Technologies">
       </div>
     </div>
 
     <!-- See full gallery toggle -->
     <div class="see-more-wrap">
-      <button class="btn-gold" onclick="
+      <button class="btn-blue" onclick="
         var g = document.getElementById('full-gallery');
-        var btn = this;
         if (g.style.display === 'none' || g.style.display === '') {
           g.style.display = 'block';
-          btn.textContent = 'Show Less';
+          this.textContent = 'Show Less';
         } else {
           g.style.display = 'none';
-          btn.textContent = 'See Full Gallery (25 Photos)';
+          this.textContent = 'See Full Drone Gallery (25 Photos)';
         }
-      " style="border:none; cursor:pointer;">See Full Gallery (25 Photos)</button>
+      " style="border:none; cursor:pointer;">See Full Drone Gallery (25 Photos)</button>
     </div>
 
     <!-- Full gallery (hidden by default) -->
     <div id="full-gallery" style="display:none;">
       <div class="full-grid mt-3">
-        <img src="assets/images/background1.jpg" alt="Bright Future Technologies drone photo 1">
-        <img src="assets/images/background2.jpg" alt="Bright Future Technologies drone photo 2">
-        <img src="assets/images/background3.jpg" alt="Bright Future Technologies drone photo 3">
-        <img src="assets/images/background4.jpg" alt="Bright Future Technologies drone photo 4">
-        <img src="assets/images/background5.jpg" alt="Bright Future Technologies drone photo 5">
-        <img src="assets/images/background6.jpg" alt="Bright Future Technologies drone photo 6">
-        <img src="assets/images/background7.jpg" alt="Bright Future Technologies drone photo 7">
-        <img src="assets/images/background8.jpg" alt="Bright Future Technologies drone photo 8">
-        <img src="assets/images/background9.jpg" alt="Bright Future Technologies drone photo 9">
+        <img src="assets/images/background1.jpg"  alt="Bright Future Technologies drone photo 1">
+        <img src="assets/images/background2.jpg"  alt="Bright Future Technologies drone photo 2">
+        <img src="assets/images/background3.jpg"  alt="Bright Future Technologies drone photo 3">
+        <img src="assets/images/background4.jpg"  alt="Bright Future Technologies drone photo 4">
+        <img src="assets/images/background5.jpg"  alt="Bright Future Technologies drone photo 5">
+        <img src="assets/images/background6.jpg"  alt="Bright Future Technologies drone photo 6">
+        <img src="assets/images/background7.jpg"  alt="Bright Future Technologies drone photo 7">
+        <img src="assets/images/background8.jpg"  alt="Bright Future Technologies drone photo 8">
+        <img src="assets/images/background9.jpg"  alt="Bright Future Technologies drone photo 9">
         <img src="assets/images/background10.jpg" alt="Bright Future Technologies drone photo 10">
         <img src="assets/images/background11.jpg" alt="Bright Future Technologies drone photo 11">
         <img src="assets/images/background12.jpg" alt="Bright Future Technologies drone photo 12">
@@ -764,15 +846,15 @@
       </div>
     </div>
 
-    <!-- Video showcase -->
+    <!-- Update 16: "Video Gallery" (renamed from "Drone Video Showcase") -->
     <div class="video-section">
-      <h3>Drone Video Showcase</h3>
+      <h3>Video Gallery</h3>
       <div class="video-responsive">
         <iframe
           src="https://www.youtube.com/embed/MZeuANTzfQc?playlist=MZeuANTzfQc,OnLhft3-WFk,TDZTB_WhniM,1aQxJW8dIH4&loop=1"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
-          title="Bright Future Technologies drone video showcase">
+          title="Bright Future Technologies video gallery">
         </iframe>
       </div>
     </div>
@@ -782,6 +864,7 @@
 
 <!-- ================================================
      ABOUT
+     Updates 17, 18
      ================================================ -->
 <section id="about">
   <div class="container">
@@ -795,11 +878,14 @@
         <div class="about-text">
           <p>Hi, I'm Mikal Bright, Sr., owner of Bright Future Technologies LLC. With over 12 years of IT experience, I founded this company to bring professional-grade technology solutions to individuals, families, and small businesses in the Atlanta area.</p>
           <p>We specialize in making technology practical and accessible — whether that's a custom-built PC tailored to your workflow, a smart home system that simplifies daily life, or breathtaking 4K aerial footage of your property or event.</p>
-          <p>As a licensed FAA drone pilot and photographer, I capture aerial video and photography that would otherwise require expensive plane or helicopter rentals. Every project is approached with a commitment to quality, customization, and your complete satisfaction.</p>
+          <!-- Update 18: Azure sentence added -->
+          <p>As a licensed FAA drone pilot and photographer, I capture aerial video and photography that would otherwise require expensive plane or helicopter rentals. Every project is approached with a commitment to quality, customization, and your complete satisfaction. I'm also a Microsoft Azure practitioner, helping businesses modernize their operations through cloud infrastructure and intelligent automation.</p>
+          <!-- Update 17: Azure bullet added -->
           <ul>
             <li>Custom computer builds for gaming, creative work &amp; business</li>
             <li>Automobile infotainment system installation</li>
             <li>Website development &amp; ongoing management</li>
+            <li>Microsoft Azure cloud solutions &amp; business automation</li>
             <li>Smart home automation &amp; security</li>
             <li>Licensed FAA aerial drone photography &amp; 4K video</li>
           </ul>
@@ -813,6 +899,7 @@
 
 <!-- ================================================
      TESTIMONIALS
+     Updates 20, 22
      ================================================ -->
 <section id="testimonials">
   <div class="container">
@@ -820,9 +907,11 @@
     <div class="section-divider"></div>
     <p class="section-subtitle">Real results from real clients across the Atlanta metro area.</p>
     <div class="row">
-      <!-- IMPORTANT: Replace these with real client testimonials -->
+      <!-- REPLACE with real client quotes when available -->
       <div class="col-md-4 d-flex">
         <div class="testimonial-card w-100">
+          <!-- Update 20: star ratings -->
+          <div class="t-stars">★★★★★</div>
           <p>"Mikal built my custom PC and it was exactly what I needed. He took the time to understand my budget and use case for video editing, and delivered a machine that runs flawlessly. Professional, fast, and great value."</p>
           <div class="t-name">James T.</div>
           <div class="t-role">Custom PC Build Client</div>
@@ -830,6 +919,7 @@
       </div>
       <div class="col-md-4 d-flex">
         <div class="testimonial-card w-100">
+          <div class="t-stars">★★★★★</div>
           <p>"The aerial photos Bright Future Technologies captured for our property listing were absolutely stunning. Our home sold within a week of posting — the drone footage made all the difference. Highly recommend!"</p>
           <div class="t-name">Sandra M.</div>
           <div class="t-role">Real Estate Aerial Photography Client</div>
@@ -837,15 +927,17 @@
       </div>
       <div class="col-md-4 d-flex">
         <div class="testimonial-card w-100">
+          <div class="t-stars">★★★★★</div>
           <p>"Mikal rebuilt our organization's website from scratch. The process was smooth, communication was excellent throughout, and the final product looks completely professional. We get compliments on it regularly."</p>
           <div class="t-name">David R.</div>
           <div class="t-role">Website Development Client</div>
         </div>
       </div>
     </div>
+    <!-- Update 21 note: Add 4th Azure testimonial here once you have a cloud client -->
     <div class="reviews-link">
       <a href="https://g.page/r/brightfuturetechllc/review" target="_blank" rel="noopener noreferrer">
-        <i class="fa-solid fa-star" style="color:#c9a84c; margin-right:5px;"></i>Leave Us a Google Review
+        <i class="fa-solid fa-star" style="margin-right:5px;"></i>Leave Us a Google Review
       </a>
     </div>
   </div>
@@ -853,6 +945,7 @@
 
 <!-- ================================================
      CONTACT
+     Updates 23, 24, 25
      ================================================ -->
 <section id="contact">
   <div class="container">
@@ -861,6 +954,7 @@
     <p class="section-subtitle">Ready to get started? Fill out the form below or reach us directly. We respond within 1 business day.</p>
     <div class="row">
       <div class="col-lg-5 mb-4 mb-lg-0">
+        <!-- Update 23: professional email noted — update when domain email is ready -->
         <div class="contact-info-item">
           <i class="fa-solid fa-envelope"></i>
           <div>
@@ -897,19 +991,20 @@
           </div>
         </div>
         <div style="margin-top: 2rem;">
-          <p style="font-size: 0.9rem; color: #666;">Prefer to book directly? Use one of the consultation forms linked in each service above, or use the contact form to tell us about your project.</p>
+          <p style="font-size: 0.9rem; color: #666;">Prefer to book directly? Use the consultation form links within each service card above, or send us a message here.</p>
         </div>
       </div>
       <div class="col-lg-7">
         <div class="contact-form-wrap">
           <h3>Send Us a Message</h3>
-          <!-- IMPORTANT: Replace YOUR_FORMSPREE_ID with your actual ID from formspree.io -->
-          <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+          <form action="https://formspree.io/f/mqeyyrel" method="POST">
             <input type="text" name="name" class="form-control" placeholder="Your Name" required aria-label="Name">
             <input type="email" name="email" class="form-control" placeholder="Your Email" required aria-label="Email">
             <input type="tel" name="phone" class="form-control" placeholder="Your Phone Number" aria-label="Phone">
+            <!-- Update 24: Azure added to dropdown -->
             <select name="service" class="form-control" aria-label="Service of interest">
               <option value="">Which service are you interested in?</option>
+              <option>Azure Cloud &amp; Business Automation</option>
               <option>Automobile Infotainment System</option>
               <option>Aerial Event Photography &amp; Video</option>
               <option>Real Estate Aerial Photography</option>
@@ -920,6 +1015,7 @@
               <option>Other / General Inquiry</option>
             </select>
             <textarea name="message" class="form-control" placeholder="Tell us a bit about your project..." required aria-label="Message"></textarea>
+            <!-- Update 25: blue submit button -->
             <button type="submit" class="btn-submit">Send Message &nbsp;<i class="fa-solid fa-paper-plane"></i></button>
           </form>
         </div>
@@ -930,16 +1026,19 @@
 
 <!-- ================================================
      FOOTER
+     Updates 26, 27, 28
      ================================================ -->
 <footer id="site-footer">
   <div class="container">
     <div class="row">
       <div class="col-lg-4 mb-4">
         <div class="footer-brand">
-          <img src="assets/images/logo-transparent-1-122x122.png" alt="Bright Future Technologies LLC">
+          <img src="assets/images/bft-logo.png" alt="Bright Future Technologies LLC">
           Bright Future Technologies
         </div>
-        <p class="footer-tagline">Technology solutions for your home &amp; business — Atlanta, GA</p>
+        <!-- Update 27: "& cloud" added to tagline -->
+        <p class="footer-tagline">Technology solutions for your home, business &amp; cloud — Atlanta, GA</p>
+        <!-- Update 28: social hover color = blue (in CSS) -->
         <div class="social-links">
           <a href="https://www.instagram.com/brightfuturetechllc" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <i class="fa-brands fa-instagram"></i>
@@ -958,6 +1057,8 @@
       <div class="col-lg-4 mb-4">
         <h6>Services</h6>
         <ul class="footer-links">
+          <!-- Update 26: Azure added to footer services list -->
+          <li><a href="#services">Azure Cloud &amp; Business Automation</a></li>
           <li><a href="#services">Automobile Infotainment</a></li>
           <li><a href="#services">Aerial Event Photography &amp; Video</a></li>
           <li><a href="#services">Real Estate Aerial Photography</a></li>
@@ -983,7 +1084,6 @@
   </div>
 </footer>
 
-<!-- Scripts (Bootstrap only — removed unused Mobirise scripts) -->
 <script src="assets/web/assets/jquery/jquery.min.js"></script>
 <script src="assets/popper/popper.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
