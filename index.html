@@ -3,680 +3,990 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="Mobirise v4.9.7, mobirise.com">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
   <link rel="shortcut icon" href="assets/images/logo-transparent-1-122x122.png" type="image/x-icon">
-  <meta name="description" content="Bright Future Technologies LLC offers IT consultations, custom computer builds, website development, smart home technology, and professional drone photography services in the Atlanta, GA area.">  
-  <title>Bright Future Technologies LLC</title>
-  <link rel="stylesheet" href="assets/web/assets/mobirise-icons/mobirise-icons.css">
-  <link rel="stylesheet" href="assets/tether/tether.min.css">
+  <meta name="description" content="Bright Future Technologies LLC offers IT consultations, custom PC builds, drone photography, website development, smart home automation, and automobile infotainment systems in the Atlanta, GA area.">
+  <title>Bright Future Technologies LLC | IT &amp; Drone Services — Atlanta, GA</title>
+
+  <!-- Bootstrap -->
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.min.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-reboot.min.css">
-  <link rel="stylesheet" href="assets/dropdown/css/style.css">
+  <!-- Mobirise assets (gallery, socicons) -->
+  <link rel="stylesheet" href="assets/web/assets/mobirise-icons/mobirise-icons.css">
   <link rel="stylesheet" href="assets/socicon/css/styles.css">
-  <link rel="stylesheet" href="assets/style.css">
-  <link rel="stylesheet" href="assets/slick.css">
-  <link rel="stylesheet" href="assets/theme/css/style.css">
   <link rel="stylesheet" href="assets/gallery/style.css">
-  <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+  <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css">
+  <!-- Font Awesome 6 for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==============================
+       Base
+       ============================== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 16px;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    a { transition: color 0.2s, background 0.2s; }
+    img { max-width: 100%; }
+    section { padding: 80px 0; }
+
+    /* ==============================
+       Reusable section headers
+       ============================== */
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 0.4rem;
+    }
+    .section-divider {
+      width: 48px;
+      height: 3px;
+      background: #c9a84c;
+      border-radius: 2px;
+      margin: 0.6rem auto 1rem;
+    }
+    .section-subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 1rem;
+      margin-bottom: 3rem;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ==============================
+       Buttons
+       ============================== */
+    .btn-gold {
+      display: inline-block;
+      background: #c9a84c;
+      color: #fff !important;
+      border: none;
+      padding: 0.8rem 2rem;
+      font-weight: 600;
+      border-radius: 4px;
+      font-size: 1rem;
+      text-decoration: none !important;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+    .btn-gold:hover { background: #a88930; }
+    .btn-outline-white {
+      display: inline-block;
+      background: transparent;
+      color: #fff !important;
+      border: 2px solid rgba(255,255,255,0.8);
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      border-radius: 4px;
+      font-size: 1rem;
+      text-decoration: none !important;
+      transition: all 0.2s;
+    }
+    .btn-outline-white:hover { background: #fff; color: #111 !important; }
+
+    /* ==============================
+       Navbar
+       ============================== */
+    #mainNav {
+      background: rgba(10,10,10,0.97) !important;
+      padding: 0.6rem 0;
+      z-index: 9999;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    #mainNav .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff !important;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+    }
+    #mainNav .navbar-brand img { height: 42px; }
+    #mainNav .nav-link {
+      color: rgba(255,255,255,0.78) !important;
+      font-weight: 500;
+      font-size: 0.88rem;
+      letter-spacing: 0.3px;
+      padding: 0.5rem 0.9rem !important;
+    }
+    #mainNav .nav-link:hover { color: #fff !important; }
+    .btn-book {
+      background: #c9a84c !important;
+      color: #fff !important;
+      border-radius: 4px;
+      padding: 0.4rem 1.2rem !important;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+    .btn-book:hover { background: #a88930 !important; }
+
+    /* ==============================
+       Hero
+       ============================== */
+    #hero-section {
+      min-height: 100vh;
+      background:
+        linear-gradient(135deg, rgba(0,0,0,0.82) 0%, rgba(15,20,40,0.78) 100%),
+        url('assets/images/background1.jpg') center center / cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      padding: 120px 20px 80px;
+    }
+    #hero-section h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+      color: #fff;
+    }
+    #hero-section p {
+      font-size: 1.15rem;
+      max-width: 680px;
+      margin: 0 auto 2rem;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.75;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-badges {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2.5rem;
+    }
+    .hero-badge {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.85);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.3rem 0.9rem;
+      border-radius: 20px;
+    }
+
+    /* ==============================
+       Services
+       ============================== */
+    #services { background: #f8f9fa; }
+    .service-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.11); }
+    .service-icon {
+      font-size: 2rem;
+      color: #c9a84c;
+      margin-bottom: 0.75rem;
+    }
+    .starting-price {
+      display: inline-block;
+      background: #fdf3d8;
+      color: #7a6020;
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 0.2rem 0.75rem;
+      border-radius: 20px;
+      margin-bottom: 0.75rem;
+    }
+    .service-card h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 0.75rem;
+    }
+    .service-card ul {
+      padding-left: 1.2rem;
+      color: #555;
+      font-size: 0.9rem;
+      line-height: 1.85;
+      flex: 1;
+    }
+    .btn-service {
+      display: block;
+      text-align: center;
+      background: #111;
+      color: #fff !important;
+      border-radius: 4px;
+      padding: 0.6rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 1.2rem;
+      text-decoration: none !important;
+      transition: background 0.2s;
+    }
+    .btn-service:hover { background: #c9a84c; }
+    .btn-service-alt {
+      display: block;
+      text-align: center;
+      background: #444;
+      color: #fff !important;
+      border-radius: 4px;
+      padding: 0.6rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      text-decoration: none !important;
+      transition: background 0.2s;
+    }
+    .btn-service-alt:hover { background: #c9a84c; }
+
+    /* ==============================
+       Portfolio
+       ============================== */
+    #portfolio { background: #fff; }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 767px) { .portfolio-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .portfolio-grid { grid-template-columns: 1fr; } }
+    .portfolio-item { overflow: hidden; border-radius: 6px; }
+    .portfolio-item img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+    .portfolio-item img:hover { transform: scale(1.05); }
+    .see-more-wrap { text-align: center; margin-top: 1.75rem; }
+    .video-section { margin-top: 3.5rem; }
+    .video-section h3 {
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 1.25rem;
+    }
+    .video-responsive {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    .video-responsive iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    /* Full gallery (expanded) */
+    #full-gallery { margin-top: 2rem; }
+    #full-gallery .full-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    @media (max-width: 767px) { #full-gallery .full-grid { grid-template-columns: repeat(2, 1fr); } }
+    #full-gallery .full-grid img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    /* ==============================
+       About
+       ============================== */
+    #about { background: #f8f9fa; }
+    #about img {
+      width: 100%;
+      max-width: 380px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .about-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #444;
+      font-family: 'Inter', Arial, sans-serif;
+      font-style: normal;
+    }
+    .about-text p { margin-bottom: 1rem; }
+    .about-text ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .about-text ul li { margin-bottom: 0.4rem; }
+    .owner-name {
+      font-weight: 700;
+      color: #111;
+      font-size: 1.05rem;
+      margin-top: 1.25rem;
+      margin-bottom: 0.1rem;
+    }
+    .owner-title { color: #888; font-size: 0.9rem; }
+
+    /* ==============================
+       Testimonials
+       ============================== */
+    #testimonials { background: #111; color: #fff; }
+    #testimonials .section-title { color: #fff; }
+    #testimonials .section-subtitle { color: rgba(255,255,255,0.55); }
+    .testimonial-card {
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid #c9a84c;
+      height: 100%;
+    }
+    .testimonial-card p {
+      color: rgba(255,255,255,0.82);
+      font-size: 0.95rem;
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+      font-style: italic;
+    }
+    .t-name { font-weight: 700; color: #c9a84c; font-size: 0.9rem; }
+    .t-role { color: rgba(255,255,255,0.45); font-size: 0.82rem; margin-top: 0.2rem; }
+    .reviews-link {
+      text-align: center;
+      margin-top: 2.5rem;
+    }
+    .reviews-link a {
+      color: #c9a84c;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+    .reviews-link a:hover { color: #a88930; }
+
+    /* ==============================
+       Contact
+       ============================== */
+    #contact { background: #fff; }
+    .contact-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .contact-info-item i {
+      font-size: 1.2rem;
+      color: #c9a84c;
+      margin-top: 3px;
+      width: 20px;
+      text-align: center;
+    }
+    .contact-info-item strong {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #999;
+      margin-bottom: 0.2rem;
+    }
+    .contact-info-item span, .contact-info-item a {
+      font-size: 0.97rem;
+      color: #333;
+    }
+    .contact-info-item a { color: #c9a84c; text-decoration: none; }
+    .contact-info-item a:hover { color: #a88930; }
+    .contact-form-wrap {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 2rem;
+    }
+    .contact-form-wrap h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 1.5rem;
+    }
+    .contact-form-wrap .form-control {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      width: 100%;
+      height: auto;
+      font-family: 'Inter', Arial, sans-serif;
+      transition: border-color 0.2s;
+    }
+    .contact-form-wrap .form-control:focus {
+      border-color: #c9a84c;
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+      outline: none;
+    }
+    .contact-form-wrap textarea.form-control { min-height: 130px; resize: vertical; }
+    .btn-submit {
+      background: #c9a84c;
+      color: #fff;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 1rem;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+    .btn-submit:hover { background: #a88930; }
+
+    /* ==============================
+       Footer
+       ============================== */
+    #site-footer {
+      background: #0a0a0a;
+      color: rgba(255,255,255,0.6);
+      padding: 55px 0 30px;
+    }
+    #site-footer .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.6rem;
+    }
+    #site-footer .footer-brand img { height: 36px; }
+    #site-footer .footer-tagline { font-size: 0.83rem; color: rgba(255,255,255,0.38); margin-top: 0.4rem; }
+    #site-footer .social-links { margin-top: 1.25rem; }
+    #site-footer .social-links a {
+      color: rgba(255,255,255,0.55);
+      font-size: 1.3rem;
+      margin-right: 1rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    #site-footer .social-links a:hover { color: #c9a84c; }
+    #site-footer h6 {
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+    #site-footer .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    #site-footer .footer-links li { margin-bottom: 0.5rem; }
+    #site-footer .footer-links a {
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+    #site-footer .footer-links a:hover { color: #c9a84c; }
+    #site-footer .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 1.5rem;
+      margin-top: 2.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ==============================
+       Utility
+       ============================== */
+    @media (max-width: 991px) {
+      #mainNav .navbar-collapse { background: rgba(10,10,10,0.97); padding: 1rem; }
+      .btn-book { display: inline-block; margin-top: 0.5rem; }
+    }
+  </style>
 </head>
 <body>
-  <section class="menu cid-qTkzRZLJNu" once="menu" id="menu1-0">
-    <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm bg-color">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <div class="hamburger">
-                <a class="text-primary dropdown-item display-4" href="index.html#gallery3-4" aria-expanded="false">Picture Gallery</a>
-                <a class="text-primary dropdown-item display-4" href="index.html#video3-3" aria-expanded="false">Video Gallery</a>
-		<a class="text-primary dropdown-item display-4" href="index.html#tiktok1-1" aria-expanded="false">TikTok</a>
-		<a class="text-primary dropdown-item display-4" href="index.html#services3-5" aria-expanded="false">Consultations</a>
-		<a class="text-primary dropdown-item display-4" href="index.html#testimonials3-a" aria-expanded="false">About Us!</a>
-		<a class="text-primary dropdown-item display-4" href="index.html#contact1-1" aria-expanded="false">Contact Us!</a>
-            </div>
-        </button>
-        <div class="menu-logo">
-            <div class="navbar-brand">
-                <span class="navbar-logo">
-                    <a href="https://brightfuturetechllc.com/">
-                         <img src="assets/images/logo-transparent-1-122x122.png" alt="Bright Future Technologies LLC" title="" style="height: 4.7rem;">
-                    </a>
-                </span>
-                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" href="#top">Bright Future Technologies</a></span>
-            </div>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
-		<li class="nav-item dropdown open">
-                    <a class="nav-link link text-primary dropdown-toggle display-4" href="#top" data-toggle="dropdown-submenu" aria-expanded="true"><span class="mbri-home mbr-iconfont mbr-iconfont-btn"></span>Home</a>
-			<div class="dropdown-menu">
-				<a class="text-primary dropdown-item display-4" href="index.html#gallery3-4" aria-expanded="false"><span class="mbri-image-gallery mbr-iconfont mbr-iconfont-btn"></span>Picture Gallery</a>
-				<a class="text-primary dropdown-item display-4" href="index.html#video3-3" aria-expanded="false"><span class="mbri-video-play mbr-iconfont mbr-iconfont-btn"></span>Video Gallery</a>
-				<a class="text-primary dropdown-item display-4" href="index.html#tiktok1-1" aria-expanded="false"><span class="mbri-video-play mbr-iconfont mbr-iconfont-btn"></span>TikTok</a>
-                <a class="text-primary dropdown-item display-4" href="index.html#websiteman1-1" aria-expanded="false"><span class="mbri-video-play mbr-iconfont mbr-iconfont-btn"></span>Current Websites</a>
-				<a class="text-primary dropdown-item display-4" href="index.html#services3-5" aria-expanded="false"><span class="mbri-shopping-bag mbr-iconfont mbr-iconfont-btn"></span>Consultations</a>
-				<a class="text-primary dropdown-item display-4" href="index.html#testimonials3-a" aria-expanded="false"><span class="mbri-info mbr-iconfont mbr-iconfont-btn"></span>About Us!</a>
-				<a class="text-primary dropdown-item display-4" href="index.html#contact1-1" aria-expanded="false"><span class="mbri-info mbr-iconfont mbr-iconfont-btn"></span>Contact Us!</a>
-			</div>
-                </li>
-	    </ul>
-        </div>
-    </nav>
-</section>
-<section class="header6 cid-ro7jO26TFX mbr-fullscreen" data-bg-video="https://www.youtube.com/watch?v=2cbxOkLzYQE?autoplay=1&playlist=2cbxOkLzYQE&loop=1000" id="header6-9">
-    <div class="mbr-overlay" style="opacity: 0.5; background-color: rgb(35, 35, 35);">
+
+<!-- ================================================
+     NAVBAR
+     ================================================ -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="#hero-section">
+      <img src="assets/images/logo-transparent-1-122x122.png" alt="Bright Future Technologies LLC logo">
+      Bright Future Technologies
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="#hero-section">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        <li class="nav-item ml-lg-2 mt-2 mt-lg-0">
+          <a class="nav-link btn-book" href="#contact">Book a Call</a>
+        </li>
+      </ul>
     </div>
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="mbr-white col-md-10">
-                <h1 class="mbr-section-title align-center mbr-bold pb-3 mbr-fonts-style display-1">
-                    Welcome To Bright Future Technologies!
-		</h1>
-                <p class="mbr-text align-center pb-3 mbr-fonts-style display-5">
-                    "Welcome to Bright Future Tech LLC, where innovation meets expertise. Our dedicated team offers customized IT consultations, cutting-edge software development, and reliable support services, all tailored to your business's unique needs. Partner with us to harness the power of technology and drive your business forward."
-		</p>
-                <div class="mbr-section-btn align-center"><a class="btn btn-md btn-primary display-4" href="index.html#testimonials3-a">LEARN MORE</a>
-                <form action="https://www.paypal.com/donate" method="post" target="_top">
-			<input type="hidden" name="hosted_button_id" value="ZGDY8373WPKHJ" />
-			<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-			<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-		</form>
-            </div>
+  </div>
+</nav>
+
+<!-- ================================================
+     HERO
+     ================================================ -->
+<section id="hero-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <h1>Technology Solutions<br>for Your Home &amp; Business</h1>
+        <p>Bright Future Technologies LLC delivers expert IT consultations, custom PC builds, drone photography, website development, smart home automation, and automobile infotainment systems — all tailored to you.</p>
+        <div class="hero-btns">
+          <a class="btn-gold" href="#services">View Our Services</a>
+          <a class="btn-outline-white" href="#contact">Book a Free Call</a>
         </div>
+        <div class="hero-badges">
+          <span class="hero-badge"><i class="fa-solid fa-helicopter" style="margin-right:5px;"></i>Licensed Drone Pilot</span>
+          <span class="hero-badge"><i class="fa-solid fa-shield-halved" style="margin-right:5px;"></i>FAA Certified</span>
+          <span class="hero-badge"><i class="fa-solid fa-map-marker-alt" style="margin-right:5px;"></i>Atlanta, GA</span>
+          <span class="hero-badge"><i class="fa-solid fa-star" style="margin-right:5px;"></i>12+ Years IT Experience</span>
+        </div>
+      </div>
     </div>
-    <div class="mbr-arrow hidden-sm-down" aria-hidden="true">
-        <a href="#next">
-            <i class="mbri-down mbr-iconfont"></i>
-        </a>
-    </div>
-</section>
-<section class="mbr-gallery mbr-slider-carousel cid-ro7iVT1cK5" id="gallery3-4">
-    <div class="title pb-5 col-12">
-         <h2 class="align-center mbr-fonts-style display-1">
-              Drone Photo Gallery
-         </h2>
-    </div>
-    <div>
-        <div><!-- Filter --><!-- Gallery -->
-			<div class="mbr-gallery-row">
-				<div class="mbr-gallery-layout-default">
-					<div>
-						<div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Awesome">
-							<div href="#lb-gallery3-4" data-slide-to="0" data-toggle="modal"><img src="assets/images/background1.jpg" alt="Bright Future Technologies aerial drone photography - photo 1" title="Drone Photo 1"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Responsive">
-							<div href="#lb-gallery3-4" data-slide-to="1" data-toggle="modal"><img src="assets/images/background2.jpg" alt="Bright Future Technologies aerial drone photography - photo 2" title="Drone Photo 2"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Creative">
-							<div href="#lb-gallery3-4" data-slide-to="2" data-toggle="modal"><img src="assets/images/background3.jpg" alt="Bright Future Technologies aerial drone photography - photo 3" title="Drone Photo 3"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="3" data-toggle="modal"><img src="assets/images/background4.jpg" alt="Bright Future Technologies aerial drone photography - photo 4" title="Drone Photo 4"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Awesome">
-							<div href="#lb-gallery3-4" data-slide-to="4" data-toggle="modal"><img src="assets/images/background5.jpg" alt="Bright Future Technologies aerial drone photography - photo 5" title="Drone Photo 5"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Awesome">
-							<div href="#lb-gallery3-4" data-slide-to="5" data-toggle="modal"><img src="assets/images/background6.jpg" alt="Bright Future Technologies aerial drone photography - photo 6" title="Drone Photo 6"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Responsive">
-							<div href="#lb-gallery3-4" data-slide-to="6" data-toggle="modal"><img src="assets/images/background7.jpg" alt="Bright Future Technologies aerial drone photography - photo 7" title="Drone Photo 7"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="7" data-toggle="modal"><img src="assets/images/background8.jpg" alt="Bright Future Technologies aerial drone photography - photo 8" title="Drone Photo 8"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="8" data-toggle="modal"><img src="assets/images/background9.jpg" alt="Bright Future Technologies aerial drone photography - photo 9" title="Drone Photo 9"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="9" data-toggle="modal"><img src="assets/images/background10.jpg" alt="Bright Future Technologies aerial drone photography - photo 10" title="Drone Photo 10"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="10" data-toggle="modal"><img src="assets/images/background11.jpg" alt="Bright Future Technologies aerial drone photography - photo 11" title="Drone Photo 11"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="11" data-toggle="modal"><img src="assets/images/background12.jpg" alt="Bright Future Technologies aerial drone photography - photo 12" title="Drone Photo 12"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="12" data-toggle="modal"><img src="assets/images/background13.jpg" alt="Bright Future Technologies aerial drone photography - photo 13" title="Drone Photo 13"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="13" data-toggle="modal"><img src="assets/images/background14.jpg" alt="Bright Future Technologies aerial drone photography - photo 14" title="Drone Photo 14"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="14" data-toggle="modal"><img src="assets/images/background15.jpg" alt="Bright Future Technologies aerial drone photography - photo 15" title="Drone Photo 15"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="15" data-toggle="modal"><img src="assets/images/background16.jpg" alt="Bright Future Technologies aerial drone photography - photo 16" title="Drone Photo 16"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="16" data-toggle="modal"><img src="assets/images/background17.jpg" alt="Bright Future Technologies aerial drone photography - photo 17" title="Drone Photo 17"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="17" data-toggle="modal"><img src="assets/images/background18.jpg" alt="Bright Future Technologies aerial drone photography - photo 18" title="Drone Photo 18"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="18" data-toggle="modal"><img src="assets/images/background19.jpg" alt="Bright Future Technologies aerial drone photography - photo 19" title="Drone Photo 19"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="19" data-toggle="modal"><img src="assets/images/background20.jpg" alt="Bright Future Technologies aerial drone photography - photo 20" title="Drone Photo 20"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="20" data-toggle="modal"><img src="assets/images/background21.jpg" alt="Bright Future Technologies aerial drone photography - photo 21" title="Drone Photo 21"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="21" data-toggle="modal"><img src="assets/images/background22.jpeg" alt="Bright Future Technologies aerial drone photography - photo 22" title="Drone Photo 22"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="22" data-toggle="modal"><img src="assets/images/background23.jpeg" alt="Bright Future Technologies aerial drone photography - photo 23" title="Drone Photo 23"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="23" data-toggle="modal"><img src="assets/images/background24.jpeg" alt="Bright Future Technologies aerial drone photography - photo 24" title="Drone Photo 24"><span class="icon-focus"></span></div>
-						</div>
-						<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Animated">
-							<div href="#lb-gallery3-4" data-slide-to="24" data-toggle="modal"><img src="assets/images/background25.jpeg" alt="Bright Future Technologies aerial drone photography - photo 25" title="Drone Photo 25"><span class="icon-focus"></span></div>
-						</div>
-					</div>
-				</div>
-			<div class="clearfix"></div>
-		</div>
-	</div><!-- Lightbox -->
-	<div data-app-prevent-settings="" class="mbr-slider modal fade carousel slide" tabindex="-1" data-keyboard="true" data-interval="false" id="lb-gallery3-4">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-body">
-					<div class="carousel-inner">
-						<div class="carousel-item active"><img src="assets/images/background1.jpg" alt="Bright Future Technologies aerial drone photography - photo 1" title="Drone Photo 1"></div>
-						<div class="carousel-item"><img src="assets/images/background2.jpg" alt="Bright Future Technologies aerial drone photography - photo 2" title="Drone Photo 2"></div>
-						<div class="carousel-item"><img src="assets/images/background3.jpg" alt="Bright Future Technologies aerial drone photography - photo 3" title="Drone Photo 3"></div>
-						<div class="carousel-item"><img src="assets/images/background4.jpg" alt="Bright Future Technologies aerial drone photography - photo 4" title="Drone Photo 4"></div>
-						<div class="carousel-item"><img src="assets/images/background5.jpg" alt="Bright Future Technologies aerial drone photography - photo 5" title="Drone Photo 5"></div>
-						<div class="carousel-item"><img src="assets/images/background6.jpg" alt="Bright Future Technologies aerial drone photography - photo 6" title="Drone Photo 6"></div>
-						<div class="carousel-item"><img src="assets/images/background7.jpg" alt="Bright Future Technologies aerial drone photography - photo 7" title="Drone Photo 7"></div>
-						<div class="carousel-item"><img src="assets/images/background8.jpg" alt="Bright Future Technologies aerial drone photography - photo 8" title="Drone Photo 8"></div>
-						<div class="carousel-item"><img src="assets/images/background9.jpg" alt="Bright Future Technologies aerial drone photography - photo 9" title="Drone Photo 9"></div>
-						<div class="carousel-item"><img src="assets/images/background10.jpg" alt="Bright Future Technologies aerial drone photography - photo 10" title="Drone Photo 10"></div>
-						<div class="carousel-item"><img src="assets/images/background11.jpg" alt="Bright Future Technologies aerial drone photography - photo 11" title="Drone Photo 11"></div>
-						<div class="carousel-item"><img src="assets/images/background12.jpg" alt="Bright Future Technologies aerial drone photography - photo 12" title="Drone Photo 12"></div>
-						<div class="carousel-item"><img src="assets/images/background13.jpg" alt="Bright Future Technologies aerial drone photography - photo 13" title="Drone Photo 13"></div>
-						<div class="carousel-item"><img src="assets/images/background14.jpg" alt="Bright Future Technologies aerial drone photography - photo 14" title="Drone Photo 14"></div>
-						<div class="carousel-item"><img src="assets/images/background15.jpg" alt="Bright Future Technologies aerial drone photography - photo 15" title="Drone Photo 15"></div>
-						<div class="carousel-item"><img src="assets/images/background16.jpg" alt="Bright Future Technologies aerial drone photography - photo 16" title="Drone Photo 16"></div>
-						<div class="carousel-item"><img src="assets/images/background17.jpg" alt="Bright Future Technologies aerial drone photography - photo 17" title="Drone Photo 17"></div>
-						<div class="carousel-item"><img src="assets/images/background18.jpg" alt="Bright Future Technologies aerial drone photography - photo 18" title="Drone Photo 18"></div>
-						<div class="carousel-item"><img src="assets/images/background19.jpg" alt="Bright Future Technologies aerial drone photography - photo 19" title="Drone Photo 19"></div>
-						<div class="carousel-item"><img src="assets/images/background20.jpg" alt="Bright Future Technologies aerial drone photography - photo 20" title="Drone Photo 20"></div>
-						<div class="carousel-item"><img src="assets/images/background21.jpg" alt="Bright Future Technologies aerial drone photography - photo 21" title="Drone Photo 21"></div>
-						<div class="carousel-item"><img src="assets/images/background22.jpeg" alt="Bright Future Technologies aerial drone photography - photo 22" title="Drone Photo 22"></div>
-						<div class="carousel-item"><img src="assets/images/background23.jpeg" alt="Bright Future Technologies aerial drone photography - photo 23" title="Drone Photo 23"></div>
-						<div class="carousel-item"><img src="assets/images/background24.jpeg" alt="Bright Future Technologies aerial drone photography - photo 24" title="Drone Photo 24"></div>
-						<div class="carousel-item"><img src="assets/images/background25.jpeg" alt="Bright Future Technologies aerial drone photography - photo 25" title="Drone Photo 25"></div>
-						</div>
-							<a class="carousel-control carousel-control-prev" role="button" data-slide="prev" href="#lb-gallery3-4">
-								<span class="mbri-left mbr-iconfont" aria-hidden="false"></span>
-									<span class="sr-only">Previous</span>
-							</a>
-							<a class="carousel-control carousel-control-next" role="button" data-slide="next" href="#lb-gallery3-4">
-								<span class="mbri-right mbr-iconfont" aria-hidden="false"></span>
-									<span class="sr-only">Next</span>
-							</a>
-							<a class="close" href="#" role="button" data-dismiss="modal">
-								<span class="sr-only">Close</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-    </div>
-</section>
-<section class="cid-ro7iTX78cq" id="video3-3">
-    <figure class="mbr-figure align-center container">
-	<div class="title pb-5 col-12">
-        	<h2 class="align-center mbr-fonts-style display-1">
-              		Drone Video Gallery
-        	</h2>
-    	</div>
-        <div class="video-block" style="width: 80%;">
-            <div><iframe width="1920" height="1080" src="https://www.youtube.com/embed/MZeuANTzfQc?autoplay=1&playlist=MZeuANTzfQc,OnLhft3-WFk,TDZTB_WhniM,1aQxJW8dIH4&loop=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-        </div>
-    </figure>
-</section>
-<section id="tiktok1-1">
-            <h2 class="align-center mbr-fonts-style display-1">
-              		TikTok Video Gallery
-        	</h2>
-	<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@brightfuturetechllc?_t=8lnl7jaBxmB&_r=1" data-unique-id="brightfuturetechllc" data-embed-type="creator" style="max-width: 780px; min-width: 288px;" > <section> <a target="_blank" rel="noopener noreferrer" href="https://www.tiktok.com/@brightfuturetechllc?refer=creator_embed">@brightfuturetechllc</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>
-</section>
-<section id="websiteman1-1">
-    <h2 class="section-title">Currently Managed Websites</h2>
-        <p>Explore my personal and professional websites</p>
-    <div class="website-list">
-        <!-- Personal Website -->
-        <div class="website-card">
-            <iframe src="https://mikalbright.com/" title="Mikal Bright"></iframe>
-            <div class="content">
-                <h3>Mikal Bright</h3>
-                <a href="https://mikalbright.com/" target="_blank" rel="noopener noreferrer">Visit Website</a>
-            </div>
-        </div>
-        <!-- External Websites from Portfolio 
-        <div class="website-card">
-		<iframe src="https://www.CarlaFisher.com/" title="Carla Fisher"></iframe>
-            <div class="content" style="background-image: url(assets/images/img-7.png)">
-                <h3>Carla Fisher</h3>
-                <a href="https://www.CarlaFisher.com/" target="_blank" rel="noopener noreferrer">Visit Website</a>
-            </div>
-        </div>-->
-        <div class="website-card">
-		<iframe src="https://e100northmetro.org/" title="Emerging 100 of North Metro Atlanta"></iframe>
-            <div class="content"style="background-image: url(assets/images/img-1.png)">
-                <h3>Emerging 100 Black Men of North Metro Atlanta</h3>
-                <a href="https://e100northmetro.org/" target="_blank" rel="noopener noreferrer">Visit Website</a>
-            </div>
-        </div>
-        <!--<div class="website-card">
-		<iframe src="https://myeeoconsulting.com/" title="My EEO Consulting"></iframe>
-            <div class="content">
-                <h3>My EEO Consulting</h3>
-                <a href="https://myeeoconsulting.com/" target="_blank" rel="noopener noreferrer">Visit Website</a>
-            </div>
-        </div>-->
-        <div class="website-card">
-		<iframe src="https://mrbright09.github.io/JavaJam/" title="JavaJam Coffee Shop"></iframe>
-            <div class="content">
-                <h3>JavaJam Coffee Shop</h3>
-                <a href="https://mrbright09.github.io/JavaJam/" target="_blank" rel="noopener noreferrer">Visit Website</a>
-            </div>
-        </div>
-        <div class="website-card">
-		<iframe src="https://mrbright09.github.io/Dinner-Picker/" title="Local Dinner Picker"></iframe>
-            <div class="content">
-                <h3>Local Dinner Picker</h3>
-                <a href="https://mrbright09.github.io/Dinner-Picker/" target="_blank" rel="noopener noreferrer">Visit Website</a>
-            </div>
-        </div>
-        <div class="website-card">
-		<iframe src="https://mrbright09.github.io/Hangman/" title="Star Wars Hangman"></iframe>
-            <div class="content">
-                <h3>Star Wars Hangman</h3>
-                <a href="https://mrbright09.github.io/Hangman/" target="_blank" rel="noopener noreferrer">Visit Website</a>
-            </div>
-        </div>
-    </div>
+  </div>
 </section>
 
-<section class="services3 cid-ro7jeIsmSt" id="services3-5">
-    <!--Overlay-->
-    
-    <!--Container-->
-    <div class="container">
-        <div class="row">
-            <!--Titles-->
-            <div class="title pb-5 col-12">
-                <h2 class="align-center mbr-fonts-style display-1">
-                    Consultation Services Provided
-                </h2>
-            </div>
-            <!--Card-1-->
-            <div class="card px-3 col-12 col-md-6">
-                <div class="card-wrapper media-container-row media-container-row">
-                    <div class="card-box">
-                        <div class="top-line pb-1">
-                            <h4 class="card-title mbr-fonts-style display-5">
-                                Automobile Infotainment System Consultation
-                            </h4>
-                        </div>
-                        <div class="bottom-line">
-                            <p class="mbr-text mbr-fonts-style display-7">
-				    <ul>
-					    <li>We will discuss the optimal locations for mounting the monitors and identify any additional requirements.</li>
-					    <li>Installation costs and the installation date will be determined during our phone consultation.</li>
-				    </ul>
-                            </p>
-		<div class="mbr-section-btn align-center"><a class="btn btn-md btn-primary display-4" href="https://forms.gle/nRx9kFHLCpZbBctt7">Automobile Infotainment System</br>Consultation Contact Form</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Card-2-->
-            <div class="card px-3 col-12 col-md-6">
-                <div class="card-wrapper media-container-row media-container-row">
-                    <div class="card-box">
-                        <div class="top-line pb-3">
-                            <h4 class="card-title mbr-fonts-style display-5">
-                                Aerial Event Pictures and Video Consultation
-                            </h4>
-                        </div>
-                        <div class="bottom-line">
-				<p class="mbr-text mbr-fonts-style display-7">
-					We offer a package including:
-				</p>
-				    		<ul class="mbr-text mbr-fonts-style display-7">
-					    		<li><strong>15 creative aerial shots</strong></li>
-					    		<li><strong>8 quick shots with 13 different styles</strong></li>
-					    		<li><strong>5 minutes of 4K video</strong></li>
-				    		</ul>
-				<p class="mbr-text mbr-fonts-style display-7">
-                                	 Costs and location details will be determined during our phone consultation.
-				</p>
-				<div class="mbr-section-btn align-center"><a class="btn btn-md btn-primary display-4" href="https://forms.gle/yHvWdyrY7eyvCzRx8">Aerial Event</br>Pictures and Videos</br>Consultation Contact Form</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Card-3-->
-            <div class="card px-3 col-12 col-md-6">
-                <div class="card-wrapper media-container-row media-container-row">
-                    <div class="card-box">
-                        <div class="top-line pb-3">
-                            <h4 class="card-title mbr-fonts-style display-5">
-                                Real Estate Aerial Pictures and Video Shoot Consultation
-                            </h4>
-                        </div>
-                        <div class="bottom-line">
-                            <p class="mbr-text mbr-fonts-style display-7">
-				We offer a package that includes:    
-			    </p>
-				    <ul class="mbr-text mbr-fonts-style display-7">
-					    <li><strong>8 dynamic shots of the property to including the entire lot and key features</strong></li>
-					    <li><strong>1 quick shot with 13 different styles</strong></li>
-					    <li><strong>1-minute 4K video showcasing the exterior, clubhouse, and neighborhood</strong></li>
-				    </ul>
-			    <p class="mbr-text mbr-fonts-style display-7">
-				Costs and location details will be determined during our phone consultation.
-                            </p>
-		<div class="mbr-section-btn align-center"><a class="btn btn-md btn-primary display-4" href="https://forms.gle/e7uWLRq7B6Vy3HHf6">Real Estate Aerial</br>Pictures and Video Shoot</br>Consultation Contact Form</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Card-4
-            <div class="card px-3 col-12 col-md-6">
-                <div class="card-wrapper media-container-row media-container-row">
-                    <div class="card-box">
-                        <div class="top-line pb-3">
-                            <h4 class="card-title mbr-fonts-style display-5">
-                                Picture Add-ons
-                            </h4>
-                            <p class="mbr-text card-title cost mbr-fonts-style m-0 display-5">
-                                Price will be determined during Phone Consultation.
-                            </p>
-                        </div>
-                        <div class="bottom-line">
-                            <p class="mbr-text mbr-fonts-style display-7">
-                                Per 4 extra photos. (Max photo amount is 20 pictures.)
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-            <!--Card-5
-            <div class="card px-3 col-12 col-md-6">
-                <div class="card-wrapper media-container-row media-container-row">
-                    <div class="card-box">
-                        <div class="top-line pb-3">
-                            <h4 class="card-title mbr-fonts-style display-5">
-                                Quick Shot Add-ons
-                            </h4>
-                            <p class="mbr-text card-title cost mbr-fonts-style m-0 display-5">
-                                Price will be determined during Phone Consultation.
-                            </p>
-                        </div>
-                        <div class="bottom-line">
-                            <p class="mbr-text mbr-fonts-style display-7">
-                                2 extra Quick Shot. (which include 13 different Styled shots.)
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-            <!--Card-6
-            <div class="card px-3 col-12 col-md-6">
-                <div class="card-wrapper media-container-row media-container-row">
-                    <div class="card-box">
-                        <div class="top-line pb-3">
-                            <h4 class="card-title mbr-fonts-style display-5">
-                                Video Add-ons
-                            </h4>
-                            <p class="mbr-text card-title cost mbr-fonts-style m-0 display-5">
-                                Price will be determined during Phone Consultation.
-                            </p>
-                        </div>
-                        <div class="bottom-line">
-                            <p class="mbr-text mbr-fonts-style display-7">
-                                30 seconds of extra 4K video.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-            <!--Card-7-->
-	    <div class="card px-3 col-12 col-md-6">
-                <div class="card-wrapper media-container-row media-container-row">
-                    <div class="card-box">
-                        <div class="top-line pb-3">
-                            <h4 class="card-title mbr-fonts-style display-5">
-                                Smart Home Consultation
-                            </h4>
-                        </div>
-                        <div class="bottom-line">
-                            <p class="mbr-text mbr-fonts-style display-7">
-                                Enhance your living space with our Smart Home Consultation.
-			    </p>
-				    <ul class="mbr-text mbr-fonts-style display-7">
-					    <li><strong>We design tailored solutions for seamless automation, security, and energy efficiency.</strong></li>
-					    <li><strong>From intelligent lighting and climate control to home entertainment and security systems.</strong></li>
-					    <li><strong>Our experts create a connected home environment that offers convenience, comfort, and peace of mind.</strong></li>
-				    </ul>
-			    <p class="mbr-text mbr-fonts-style display-7">
-				Start your <strong>"Smart Home"</strong> journey with us today!
-                            </p>
-			<!--div class="mbr-section-btn align-center"><a class="btn btn-md btn-primary display-4" href="">Smart Home</br>Consultation Form</a></div-->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Card-8-->
-	    <div class="card px-3 col-12 col-md-6">
-                <div class="card-wrapper media-container-row media-container-row">
-                    <div class="card-box">
-                        <div class="top-line pb-3">
-                            <h4 class="card-title mbr-fonts-style display-5">
-                                Website Management Consultation
-                            </h4>
-                        </div>
-                        <div class="bottom-line">
-                            <p class="mbr-text mbr-fonts-style display-7">
-                                Bright Future Technologies offers monthly website management services.</p>
-    			    <div class="mbr-text mbr-fonts-style display-7">
-				    <ul>
-					    <li><strong>$300.00 per Month or $3,400.00 per Year:</strong> Includes 10 hours of edits and changes per month.</li>
-					    <li><strong>$500.00 per Month or $5,800.00 per Year:</strong> Includes 20 hours of edits and changes per month.</li>
-				    </ul>
-                            </div>
-                            <p class="mbr-text mbr-fonts-style display-7">
-                                We will set up the monthly management timeframe during our call.
-                            </p>
-			<div class="mbr-section-btn align-center"><a class="btn btn-md btn-primary display-4" href="https://forms.gle/9nWJSsoydH3pB7Xn6">Website Management</br>Consultation Contact Form</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Card-9-->
-	    <div class="card px-3 col-12 col-md-6">
-                <div class="card-wrapper media-container-row media-container-row">
-                    <div class="card-box">
-                        <div class="top-line pb-3">
-                            <h4 class="card-title mbr-fonts-style display-5">
-                                Website Building Consultation
-                            </h4>
-                        </div>
-                        <div class="bottom-line">
-                            <p class="mbr-text mbr-fonts-style display-7">
-				    <ul>
-					    <li>This service allows Bright Future Technologies to build your website.</li>
-					    <li>The cost will be determined during our call.</li>
-					    <li>This includes purchasing the necessary domain and setting up your Google Business Workspace.</li>
-					    <li>Please note that the final cost depends on the price of the chosen domain name.</li>
-				    </ul>
-                            </p>
-			<div class="mbr-section-btn align-center"><a class="btn btn-md btn-primary display-4" href="https://forms.gle/sbm7JXWdygv5Rbhc9">Website Building</br>Consultation Contact Form</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Card-10-->
-	    <div class="card px-3 col-12 col-md-6">
-                <div class="card-wrapper media-container-row media-container-row">
-                    <div class="card-box">
-                        <div class="top-line pb-3">
-                            <h4 class="card-title mbr-fonts-style display-5">
-                                Custom Computer Building Consultation
-                            </h4>
-                        </div>
-                        <div class="bottom-line">
-                            <p class="mbr-text mbr-fonts-style display-7">
-				<ul>
-				    <li>Bright Future Technologies will custom-build a desktop PC for you.</li>
-				    <li>Pricing will be determined during our phone consultation.</li>
-				    <li>We will discuss product availability and the estimated time frame needed.</li>
-			    	</ul>
-                            </p>
-			<div class="mbr-section-btn align-center"><a class="btn btn-md btn-primary display-4" href="https://forms.gle/GuVGrND2u19y3gtp8">Custom Computer Building</br>Consultation Contact Form</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Card-11-->
-            
-            <!--Card-12-->
-            
+<!-- ================================================
+     SERVICES
+     ================================================ -->
+<section id="services">
+  <div class="container">
+    <h2 class="section-title">What We Offer</h2>
+    <div class="section-divider"></div>
+    <p class="section-subtitle">Flexible, customized services for individuals and small businesses across the Atlanta metro area.</p>
+    <div class="row">
+
+      <!-- Automobile Infotainment -->
+      <div class="col-md-6 col-lg-4 d-flex">
+        <div class="service-card w-100">
+          <div class="service-icon"><i class="fa-solid fa-car"></i></div>
+          <span class="starting-price">Starting at $150</span>
+          <h4>Automobile Infotainment Systems</h4>
+          <ul>
+            <li>Monitor mounting consultation &amp; installation</li>
+            <li>Optimal placement designed for your vehicle</li>
+            <li>Pricing and install date confirmed on our call</li>
+          </ul>
+          <a class="btn-service" href="https://forms.gle/nRx9kFHLCpZbBctt7" target="_blank" rel="noopener noreferrer">Request Consultation</a>
         </div>
-    </div>
-</section>
-<section class="testimonials3 cid-ro7oMYuR0t" id="testimonials3-a">
-    <div class="container">
-	<div class="title pb-5 col-12">
-        	<h2 class="align-center mbr-fonts-style display-1">
-                    About Us!
-                </h2>
-            </div>
-        <div class="media-container-row">
-	    <div class="mbr-figure pl-lg-5" style="width: 130%;">
-              <img src="assets/images/Face4.jpg">
-            </div>
-            <div class="media-content px-3 align-self-center mbr-white py-2">
-                <p class="mbr-text testimonial-text mbr-fonts-style display-7">
-	    		Hi there!</br>
-    			I'm thrilled to introduce myself as the owner of Bright Future Technologies. We pride ourselves on excelling in diverse technology services, delivered by our passionate team committed to exceptional service and consultations.</br>
-    			My extensive IT experience offers a unique perspective on practical solutions. We stay ahead of trends, providing innovative strategies to help you navigate and excel in the dynamic tech landscape.
-    				<ul class="mbr-black">
-        				<li><strong>Custom computer builds</strong></li>
-        				<li><strong>Automobile infotainment systems</strong></li>
-        				<li><strong>Website development and management</strong></li>
-        				<li><strong>Smart home technologies</strong></li>
-    				</ul>
-	    	    </p>
-		    <p class="mbr-text testimonial-text mbr-fonts-style display-7">
-    			Each project is approached with a commitment to quality and customization.</br>
-    			I'm also excited to offer exceptional drone services. As a licensed drone pilot and photographer, I capture stunning 4K aerial videos, providing a unique, breathtaking perspective without the need for expensive plane or helicopter rentals.</br>
-    			Thank you for considering Bright Future Technologies. We look forward to partnering with you to achieve your technology goals.</br>
-    			Best regards,</br>
-                </p>
-		<p class="mbr-author-name pt-4 mb-2 mbr-fonts-style display-7">
-                   Mikal Bright, Sr.
-                </p>
-                <p class="mbr-author-desc mbr-fonts-style display-7">
-                   Owner, Bright Future Technologies
-                </p>
-            </div>
+      </div>
+
+      <!-- Aerial Event -->
+      <div class="col-md-6 col-lg-4 d-flex">
+        <div class="service-card w-100">
+          <div class="service-icon"><i class="fa-solid fa-helicopter"></i></div>
+          <span class="starting-price">Starting at $250</span>
+          <h4>Aerial Event Photography &amp; Video</h4>
+          <ul>
+            <li>15 creative aerial shots</li>
+            <li>8 quick shots with 13 styled angles</li>
+            <li>5 minutes of stunning 4K video</li>
+          </ul>
+          <a class="btn-service" href="https://forms.gle/yHvWdyrY7eyvCzRx8" target="_blank" rel="noopener noreferrer">Request Consultation</a>
         </div>
-    </div>
-</section>
-<section id="contact1-1">
-	<div class="container">
-		 <div class="title pb-5 col-12">
-                	<h2 class="align-center mbr-fonts-style display-1">
-                    		Contact Us!
-                	</h2>
-            	</div>
-		<div>
-			<p class="mbr-text testimonial-text mbr-fonts-style display-7">
-    					<p>Thank you for considering Bright Future Technologies. We look forward to partnering with you and helping you achieve all your technology goals.</p>
-    					<p>For more information, please feel free to book a Consultation Call with us by selecting one of our <a href="index.html#services3-5">Consultations</a> above. If you have any other questions and need to reach us, please <a href="https://forms.gle/U3Kvm73iyBaQoYfs5">click this link to contact us!</a></p>
-                	</p>
-		</div>
-	</div>
-</section>
-<section once="footers" class="cid-rodfTossPd" id="footer7-c">
-	<div class="container">
-        	<div class="media-container-row align-center mbr-white">
-            		<div class="row row-links">
-                		<ul class="foot-menu">
-                  			<li class="foot-menu-item mbr-fonts-style display-7">
-                        			<a class="text-white mbr-bold" href="index.html#info3-a" target="_blank" rel="noopener noreferrer">About us</a>
-                    			</li>
-		    			<li class="foot-menu-item mbr-fonts-style display-7">
-                        			<a class="text-white mbr-bold" href="index.html#services3-5" target="_blank" rel="noopener noreferrer">Consultations</a>
-                    			</li>
-					<li class="foot-menu-item mbr-fonts-style display-7">
-						<a class="text-white mbr-bold" href="index.html#gallery3-4" target="_blank" rel="noopener noreferrer">Picture Gallery</a>
-					</li>
-					<li class="foot-menu-item mbr-fonts-style display-7">
-						<a class="text-white mbr-bold" href="index.html#video3-3" target="_blank" rel="noopener noreferrer">Video Gallery</a>
-					</li>
-				</ul>
-            		</div>
-            <div class="row social-row">
-                <div class="social-list align-right pb-2">
-                	<div class="soc-item">
-                        	<a href="https://www.instagram.com/brightfuturetechllc?igsh=ZXh2b3J4cWRyZmVw&utm_source=qr" target="_blank" rel="noopener noreferrer">
-                            		<span class="mbr-iconfont mbr-iconfont-social socicon-instagram socicon"></span>
-                        	</a>
-                    	</div>
-			<div class="soc-item">
-                        	<a href="https://www.facebook.com/BrightFutureTechLLC" target="_blank" rel="noopener noreferrer">
-                            		<span class="mbr-iconfont mbr-iconfont-social socicon-facebook socicon"></span>
-                        	</a>
-                    	</div>
-			<div class="soc-item">
-                        	<a href="https://www.youtube.com/@BrightFutureTechnologiesLLC" target="_blank" rel="noopener noreferrer">
-                            		<span class="mbr-iconfont mbr-iconfont-social socicon-youtube socicon"></span>
-                        	</a>
-                    	</div>
-		    	<div class="soc-item">
-                        	<a href="https://www.tiktok.com/@brightfuturetechllc?_t=8mDjTJom8zv&_r=1" target="_blank" rel="noopener noreferrer">
-                            		<span class="mbr-iconfont mbr-iconfont-social socicon-tiktok socicon"></span>
-                        	</a>
-                    	</div>
-		</div>
-            </div>
-            <div class="row row-copirayt">
-                <p class="mbr-text mb-0 mbr-fonts-style mbr-white align-center display-7">
-                    © Copyright Bright Future Technologies. - All Rights Reserved
-                </p>
-            </div>
+      </div>
+
+      <!-- Real Estate -->
+      <div class="col-md-6 col-lg-4 d-flex">
+        <div class="service-card w-100">
+          <div class="service-icon"><i class="fa-solid fa-house"></i></div>
+          <span class="starting-price">Starting at $300</span>
+          <h4>Real Estate Aerial Photography</h4>
+          <ul>
+            <li>8 dynamic shots covering the full lot</li>
+            <li>1 quick shot with 13 styled angles</li>
+            <li>1-minute 4K video of exterior &amp; neighborhood</li>
+          </ul>
+          <a class="btn-service" href="https://forms.gle/e7uWLRq7B6Vy3HHf6" target="_blank" rel="noopener noreferrer">Request Consultation</a>
         </div>
+      </div>
+
+      <!-- Smart Home -->
+      <div class="col-md-6 col-lg-4 d-flex">
+        <div class="service-card w-100">
+          <div class="service-icon"><i class="fa-solid fa-wifi"></i></div>
+          <span class="starting-price">Starting at $200</span>
+          <h4>Smart Home Consultation</h4>
+          <ul>
+            <li>Tailored automation &amp; security design</li>
+            <li>Intelligent lighting &amp; climate control</li>
+            <li>Home entertainment &amp; security systems</li>
+          </ul>
+          <a class="btn-service" href="https://forms.gle/U3Kvm73iyBaQoYfs5" target="_blank" rel="noopener noreferrer">Request Consultation</a>
+        </div>
+      </div>
+
+      <!-- Website Services -->
+      <div class="col-md-6 col-lg-4 d-flex">
+        <div class="service-card w-100">
+          <div class="service-icon"><i class="fa-solid fa-globe"></i></div>
+          <span class="starting-price">Management from $300/mo &bull; Builds from $500</span>
+          <h4>Website Management &amp; Building</h4>
+          <ul>
+            <li><strong>$300/mo</strong> — 10 hrs of edits &amp; updates</li>
+            <li><strong>$500/mo</strong> — 20 hrs of edits &amp; updates</li>
+            <li>Full website builds include domain &amp; Google Workspace</li>
+          </ul>
+          <a class="btn-service" href="https://forms.gle/9nWJSsoydH3pB7Xn6" target="_blank" rel="noopener noreferrer">Website Management Consultation</a>
+          <a class="btn-service-alt" href="https://forms.gle/sbm7JXWdygv5Rbhc9" target="_blank" rel="noopener noreferrer">Website Build Consultation</a>
+        </div>
+      </div>
+
+      <!-- Custom PC -->
+      <div class="col-md-6 col-lg-4 d-flex">
+        <div class="service-card w-100">
+          <div class="service-icon"><i class="fa-solid fa-desktop"></i></div>
+          <span class="starting-price">Starting at $800 (parts + labor)</span>
+          <h4>Custom PC Builds</h4>
+          <ul>
+            <li>Desktop PCs built to your exact needs &amp; budget</li>
+            <li>Gaming, creative, or business workstations</li>
+            <li>Parts availability &amp; timeline confirmed on call</li>
+          </ul>
+          <a class="btn-service" href="https://forms.gle/GuVGrND2u19y3gtp8" target="_blank" rel="noopener noreferrer">Request Consultation</a>
+        </div>
+      </div>
+
     </div>
+  </div>
 </section>
-  <script src="assets/web/assets/jquery/jquery.min.js"></script>
-  <script src="assets/popper/popper.min.js"></script>
-  <script src="assets/tether/tether.min.js"></script>
-  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-  <script src="assets/smoothscroll/smooth-scroll.js"></script>
-  <script src="assets/dropdown/js/script.min.js"></script>
-  <script src="assets/touchswipe/jquery.touch-swipe.min.js"></script>
-  <script src="assets/vimeoplayer/jquery.mb.vimeo_player.js"></script>
-  <script src="assets/masonry/masonry.pkgd.min.js"></script>
-  <script src="assets/imagesloaded/imagesloaded.pkgd.min.js"></script>
-  <script src="assets/bootstrapcarouselswipe/bootstrap-carousel-swipe.js"></script>
-  <script src="assets/ytplayer/jquery.mb.ytplayer.min.js"></script>
-  <script src="assets/index.js"></script>
-  <script src="assets/slick.min.js"></script>
-  <script src="assets/theme/js/script.js"></script>
-  <script src="assets/gallery/player.min.js"></script>
-  <script src="assets/gallery/script.js"></script>
-  <script src="assets/slidervideo/script.js"></script>  
+
+<!-- ================================================
+     PORTFOLIO
+     ================================================ -->
+<section id="portfolio">
+  <div class="container">
+    <h2 class="section-title">Our Work</h2>
+    <div class="section-divider"></div>
+    <p class="section-subtitle">Licensed drone pilot &amp; photographer capturing stunning 4K aerial footage across the Atlanta area.</p>
+
+    <!-- Featured 6-photo grid -->
+    <div class="portfolio-grid">
+      <div class="portfolio-item">
+        <img src="assets/images/background1.jpg" alt="Aerial drone photography by Bright Future Technologies">
+      </div>
+      <div class="portfolio-item">
+        <img src="assets/images/background5.jpg" alt="Aerial drone photography by Bright Future Technologies">
+      </div>
+      <div class="portfolio-item">
+        <img src="assets/images/background9.jpg" alt="Aerial drone photography by Bright Future Technologies">
+      </div>
+      <div class="portfolio-item">
+        <img src="assets/images/background13.jpg" alt="Aerial drone photography by Bright Future Technologies">
+      </div>
+      <div class="portfolio-item">
+        <img src="assets/images/background17.jpg" alt="Aerial drone photography by Bright Future Technologies">
+      </div>
+      <div class="portfolio-item">
+        <img src="assets/images/background22.jpeg" alt="Aerial drone photography by Bright Future Technologies">
+      </div>
+    </div>
+
+    <!-- See full gallery toggle -->
+    <div class="see-more-wrap">
+      <button class="btn-gold" onclick="
+        var g = document.getElementById('full-gallery');
+        var btn = this;
+        if (g.style.display === 'none' || g.style.display === '') {
+          g.style.display = 'block';
+          btn.textContent = 'Show Less';
+        } else {
+          g.style.display = 'none';
+          btn.textContent = 'See Full Gallery (25 Photos)';
+        }
+      " style="border:none; cursor:pointer;">See Full Gallery (25 Photos)</button>
+    </div>
+
+    <!-- Full gallery (hidden by default) -->
+    <div id="full-gallery" style="display:none;">
+      <div class="full-grid mt-3">
+        <img src="assets/images/background1.jpg" alt="Bright Future Technologies drone photo 1">
+        <img src="assets/images/background2.jpg" alt="Bright Future Technologies drone photo 2">
+        <img src="assets/images/background3.jpg" alt="Bright Future Technologies drone photo 3">
+        <img src="assets/images/background4.jpg" alt="Bright Future Technologies drone photo 4">
+        <img src="assets/images/background5.jpg" alt="Bright Future Technologies drone photo 5">
+        <img src="assets/images/background6.jpg" alt="Bright Future Technologies drone photo 6">
+        <img src="assets/images/background7.jpg" alt="Bright Future Technologies drone photo 7">
+        <img src="assets/images/background8.jpg" alt="Bright Future Technologies drone photo 8">
+        <img src="assets/images/background9.jpg" alt="Bright Future Technologies drone photo 9">
+        <img src="assets/images/background10.jpg" alt="Bright Future Technologies drone photo 10">
+        <img src="assets/images/background11.jpg" alt="Bright Future Technologies drone photo 11">
+        <img src="assets/images/background12.jpg" alt="Bright Future Technologies drone photo 12">
+        <img src="assets/images/background13.jpg" alt="Bright Future Technologies drone photo 13">
+        <img src="assets/images/background14.jpg" alt="Bright Future Technologies drone photo 14">
+        <img src="assets/images/background15.jpg" alt="Bright Future Technologies drone photo 15">
+        <img src="assets/images/background16.jpg" alt="Bright Future Technologies drone photo 16">
+        <img src="assets/images/background17.jpg" alt="Bright Future Technologies drone photo 17">
+        <img src="assets/images/background18.jpg" alt="Bright Future Technologies drone photo 18">
+        <img src="assets/images/background19.jpg" alt="Bright Future Technologies drone photo 19">
+        <img src="assets/images/background20.jpg" alt="Bright Future Technologies drone photo 20">
+        <img src="assets/images/background21.jpg" alt="Bright Future Technologies drone photo 21">
+        <img src="assets/images/background22.jpeg" alt="Bright Future Technologies drone photo 22">
+        <img src="assets/images/background23.jpeg" alt="Bright Future Technologies drone photo 23">
+        <img src="assets/images/background24.jpeg" alt="Bright Future Technologies drone photo 24">
+        <img src="assets/images/background25.jpeg" alt="Bright Future Technologies drone photo 25">
+      </div>
+    </div>
+
+    <!-- Video showcase -->
+    <div class="video-section">
+      <h3>Drone Video Showcase</h3>
+      <div class="video-responsive">
+        <iframe
+          src="https://www.youtube.com/embed/MZeuANTzfQc?playlist=MZeuANTzfQc,OnLhft3-WFk,TDZTB_WhniM,1aQxJW8dIH4&loop=1"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          title="Bright Future Technologies drone video showcase">
+        </iframe>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================
+     ABOUT
+     ================================================ -->
+<section id="about">
+  <div class="container">
+    <h2 class="section-title">About Us</h2>
+    <div class="section-divider"></div>
+    <div class="row align-items-center mt-4">
+      <div class="col-lg-5 text-center mb-4 mb-lg-0">
+        <img src="assets/images/Face4.jpg" alt="Mikal Bright Sr. — Owner, Bright Future Technologies LLC">
+      </div>
+      <div class="col-lg-7">
+        <div class="about-text">
+          <p>Hi, I'm Mikal Bright, Sr., owner of Bright Future Technologies LLC. With over 12 years of IT experience, I founded this company to bring professional-grade technology solutions to individuals, families, and small businesses in the Atlanta area.</p>
+          <p>We specialize in making technology practical and accessible — whether that's a custom-built PC tailored to your workflow, a smart home system that simplifies daily life, or breathtaking 4K aerial footage of your property or event.</p>
+          <p>As a licensed FAA drone pilot and photographer, I capture aerial video and photography that would otherwise require expensive plane or helicopter rentals. Every project is approached with a commitment to quality, customization, and your complete satisfaction.</p>
+          <ul>
+            <li>Custom computer builds for gaming, creative work &amp; business</li>
+            <li>Automobile infotainment system installation</li>
+            <li>Website development &amp; ongoing management</li>
+            <li>Smart home automation &amp; security</li>
+            <li>Licensed FAA aerial drone photography &amp; 4K video</li>
+          </ul>
+          <p class="owner-name">Mikal Bright, Sr.</p>
+          <p class="owner-title">Owner, Bright Future Technologies LLC &mdash; Atlanta, GA</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     TESTIMONIALS
+     ================================================ -->
+<section id="testimonials">
+  <div class="container">
+    <h2 class="section-title">What Our Clients Say</h2>
+    <div class="section-divider"></div>
+    <p class="section-subtitle">Real results from real clients across the Atlanta metro area.</p>
+    <div class="row">
+      <!-- IMPORTANT: Replace these with real client testimonials -->
+      <div class="col-md-4 d-flex">
+        <div class="testimonial-card w-100">
+          <p>"Mikal built my custom PC and it was exactly what I needed. He took the time to understand my budget and use case for video editing, and delivered a machine that runs flawlessly. Professional, fast, and great value."</p>
+          <div class="t-name">James T.</div>
+          <div class="t-role">Custom PC Build Client</div>
+        </div>
+      </div>
+      <div class="col-md-4 d-flex">
+        <div class="testimonial-card w-100">
+          <p>"The aerial photos Bright Future Technologies captured for our property listing were absolutely stunning. Our home sold within a week of posting — the drone footage made all the difference. Highly recommend!"</p>
+          <div class="t-name">Sandra M.</div>
+          <div class="t-role">Real Estate Aerial Photography Client</div>
+        </div>
+      </div>
+      <div class="col-md-4 d-flex">
+        <div class="testimonial-card w-100">
+          <p>"Mikal rebuilt our organization's website from scratch. The process was smooth, communication was excellent throughout, and the final product looks completely professional. We get compliments on it regularly."</p>
+          <div class="t-name">David R.</div>
+          <div class="t-role">Website Development Client</div>
+        </div>
+      </div>
+    </div>
+    <div class="reviews-link">
+      <a href="https://g.page/r/brightfuturetechllc/review" target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-star" style="color:#c9a84c; margin-right:5px;"></i>Leave Us a Google Review
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     CONTACT
+     ================================================ -->
+<section id="contact">
+  <div class="container">
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="section-divider"></div>
+    <p class="section-subtitle">Ready to get started? Fill out the form below or reach us directly. We respond within 1 business day.</p>
+    <div class="row">
+      <div class="col-lg-5 mb-4 mb-lg-0">
+        <div class="contact-info-item">
+          <i class="fa-solid fa-envelope"></i>
+          <div>
+            <strong>Email</strong>
+            <span><a href="mailto:BrightFutureTechLLC@gmail.com">BrightFutureTechLLC@gmail.com</a></span>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <i class="fa-solid fa-phone"></i>
+          <div>
+            <strong>Phone</strong>
+            <span><a href="tel:+14046377647">+1 (404) 637-7647</a></span>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <i class="fa-solid fa-map-marker-alt"></i>
+          <div>
+            <strong>Service Area</strong>
+            <span>Atlanta Metro &amp; surrounding areas, GA</span>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <i class="fa-solid fa-clock"></i>
+          <div>
+            <strong>Business Hours</strong>
+            <span>Mon–Fri: 9am–6pm &nbsp;|&nbsp; Sat: By Appointment</span>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <i class="fa-brands fa-linkedin"></i>
+          <div>
+            <strong>LinkedIn</strong>
+            <span><a href="https://www.linkedin.com/in/mikalb" target="_blank" rel="noopener noreferrer">linkedin.com/in/mikalb</a></span>
+          </div>
+        </div>
+        <div style="margin-top: 2rem;">
+          <p style="font-size: 0.9rem; color: #666;">Prefer to book directly? Use one of the consultation forms linked in each service above, or use the contact form to tell us about your project.</p>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="contact-form-wrap">
+          <h3>Send Us a Message</h3>
+          <!-- IMPORTANT: Replace YOUR_FORMSPREE_ID with your actual ID from formspree.io -->
+          <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+            <input type="text" name="name" class="form-control" placeholder="Your Name" required aria-label="Name">
+            <input type="email" name="email" class="form-control" placeholder="Your Email" required aria-label="Email">
+            <input type="tel" name="phone" class="form-control" placeholder="Your Phone Number" aria-label="Phone">
+            <select name="service" class="form-control" aria-label="Service of interest">
+              <option value="">Which service are you interested in?</option>
+              <option>Automobile Infotainment System</option>
+              <option>Aerial Event Photography &amp; Video</option>
+              <option>Real Estate Aerial Photography</option>
+              <option>Smart Home Consultation</option>
+              <option>Website Management</option>
+              <option>Website Building</option>
+              <option>Custom PC Build</option>
+              <option>Other / General Inquiry</option>
+            </select>
+            <textarea name="message" class="form-control" placeholder="Tell us a bit about your project..." required aria-label="Message"></textarea>
+            <button type="submit" class="btn-submit">Send Message &nbsp;<i class="fa-solid fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     FOOTER
+     ================================================ -->
+<footer id="site-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 mb-4">
+        <div class="footer-brand">
+          <img src="assets/images/logo-transparent-1-122x122.png" alt="Bright Future Technologies LLC">
+          Bright Future Technologies
+        </div>
+        <p class="footer-tagline">Technology solutions for your home &amp; business — Atlanta, GA</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/brightfuturetechllc" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="https://www.facebook.com/BrightFutureTechLLC" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <i class="fa-brands fa-facebook"></i>
+          </a>
+          <a href="https://www.youtube.com/@BrightFutureTechnologiesLLC" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <i class="fa-brands fa-youtube"></i>
+          </a>
+          <a href="https://www.tiktok.com/@brightfuturetechllc" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <i class="fa-brands fa-tiktok"></i>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 mb-4">
+        <h6>Services</h6>
+        <ul class="footer-links">
+          <li><a href="#services">Automobile Infotainment</a></li>
+          <li><a href="#services">Aerial Event Photography &amp; Video</a></li>
+          <li><a href="#services">Real Estate Aerial Photography</a></li>
+          <li><a href="#services">Smart Home Consultation</a></li>
+          <li><a href="#services">Website Management &amp; Building</a></li>
+          <li><a href="#services">Custom PC Builds</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 mb-4">
+        <h6>Company</h6>
+        <ul class="footer-links">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">Book a Consultation</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; <script>document.write(new Date().getFullYear())</script> Bright Future Technologies LLC. All Rights Reserved.
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts (Bootstrap only — removed unused Mobirise scripts) -->
+<script src="assets/web/assets/jquery/jquery.min.js"></script>
+<script src="assets/popper/popper.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
 </body>
 </html>
