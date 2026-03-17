@@ -8,6 +8,75 @@
   <meta name="description" content="Bright Future Technologies LLC — Enterprise IT consulting, Microsoft Azure cloud solutions, FAA-certified drone photography, custom PC builds, smart home automation, and website development in Atlanta, GA.">
   <title>Bright Future Technologies LLC | IT, Azure &amp; Drone Services — Atlanta, GA</title>
 
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brightfuturetechllc.com/">
+  <meta property="og:title" content="Bright Future Technologies LLC | IT, Azure &amp; Drone Services — Atlanta, GA">
+  <meta property="og:description" content="Precision technology solutions for Atlanta businesses and homes. Microsoft Azure cloud, FAA-certified drone photography, smart home automation, custom PCs, and website development.">
+  <meta property="og:image" content="https://brightfuturetechllc.com/assets/images/background1.jpg">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Bright Future Technologies LLC">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bright Future Technologies LLC | Atlanta IT &amp; Drone Services">
+  <meta name="twitter:description" content="Azure cloud, FAA drone photography, smart home automation, custom PCs, and web development — Atlanta, GA.">
+  <meta name="twitter:image" content="https://brightfuturetechllc.com/assets/images/background1.jpg">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://brightfuturetechllc.com/">
+
+  <!-- Schema.org LocalBusiness JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Bright Future Technologies LLC",
+    "description": "Enterprise IT consulting, Microsoft Azure cloud solutions, FAA-certified drone photography, custom PC builds, smart home automation, and website development in Atlanta, GA.",
+    "url": "https://brightfuturetechllc.com",
+    "telephone": "+16785615302",
+    "email": "Mikal.Bright@brightfuturetechllc.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Atlanta",
+      "addressRegion": "GA",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 33.749,
+      "longitude": -84.388
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/company/bright-future-technologies-llc/",
+      "https://www.instagram.com/brightfuturetechllc/",
+      "https://www.facebook.com/BrightFutureTechLLC",
+      "https://www.tiktok.com/@brightfuturetechllc",
+      "https://www.youtube.com/@BrightFutureTechnologiesLLC"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Technology Services",
+      "itemListElement": [
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Azure Cloud & Business Automation"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "IT Consultation & Support"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "FAA-Certified Drone Photography"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Smart Home Consultation"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Custom PC Builds"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Website Development & Management"}}
+      ]
+    }
+  }
+  </script>
+
   <!-- Bootstrap -->
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.min.css">
@@ -461,6 +530,118 @@
       transition: transform 0.3s ease;
     }
     .portfolio-item:hover .portfolio-caption { transform: translateY(0); }
+
+    /* ---- Portfolio Filter Tabs ---- */
+    .pf-filter-tabs {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      justify-content: center; margin-bottom: 1.75rem;
+    }
+    .pf-filter-btn {
+      padding: 0.45rem 1.1rem; border-radius: 50px;
+      border: 1.5px solid #ddd; background: #fff;
+      font-size: 0.82rem; font-weight: 600; color: #555;
+      cursor: pointer; transition: all 0.2s ease;
+    }
+    .pf-filter-btn:hover { border-color: var(--blue); color: var(--blue); }
+    .pf-filter-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .portfolio-item.hidden { display: none; }
+
+    /* ---- CSS-only Portfolio Cards (IT / Web / Smart Home) ---- */
+    .portfolio-card {
+      border-radius: 8px; position: relative;
+      overflow: hidden; cursor: pointer;
+      height: 210px; display: flex;
+      align-items: center; justify-content: center;
+      flex-direction: column; text-align: center;
+      padding: 1.5rem;
+    }
+    .portfolio-card:hover .portfolio-caption { transform: translateY(0); }
+    .portfolio-card-it {
+      background: linear-gradient(135deg, #040c1e 0%, #0a1a3a 50%, #061428 100%);
+      border: 1px solid rgba(0,102,255,0.25);
+    }
+    .portfolio-card-web {
+      background: linear-gradient(135deg, #0d0d1a 0%, #1a0d2e 50%, #0d0a1e 100%);
+      border: 1px solid rgba(100,60,200,0.25);
+    }
+    .portfolio-card-home {
+      background: linear-gradient(135deg, #051a10 0%, #0a2d1c 50%, #051510 100%);
+      border: 1px solid rgba(0,180,80,0.25);
+    }
+    .portfolio-card-icon {
+      font-size: 2.2rem; margin-bottom: 0.6rem;
+    }
+    .portfolio-card-it .portfolio-card-icon { color: #3a8cff; }
+    .portfolio-card-web .portfolio-card-icon { color: #9b6dff; }
+    .portfolio-card-home .portfolio-card-icon { color: #3dd68c; }
+    .portfolio-card-title {
+      font-size: 0.9rem; font-weight: 700; color: #fff;
+      line-height: 1.3; margin-bottom: 0.3rem;
+    }
+    .portfolio-card-sub {
+      font-size: 0.72rem; color: rgba(255,255,255,0.55);
+      font-weight: 500;
+    }
+    .portfolio-card-tags {
+      display: flex; flex-wrap: wrap; gap: 0.3rem;
+      justify-content: center; margin-top: 0.6rem;
+    }
+    .portfolio-card-tag {
+      font-size: 0.64rem; padding: 0.15rem 0.55rem;
+      border-radius: 50px; font-weight: 600;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* ---- Google Rating Badge ---- */
+    .google-rating-badge {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: #fff; border: 1.5px solid #e8e8e8;
+      border-radius: 50px; padding: 0.55rem 1.2rem;
+      margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      text-decoration: none; transition: box-shadow 0.2s ease;
+    }
+    .google-rating-badge:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.13); }
+    .google-rating-badge .g-logo {
+      font-size: 1.1rem; font-weight: 800;
+      background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05, #EA4335);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .google-rating-badge .g-stars { color: #FBBC05; font-size: 0.85rem; letter-spacing: 1px; }
+    .google-rating-badge .g-text { font-size: 0.8rem; font-weight: 600; color: #444; }
+
+    /* ---- Floating CTA ---- */
+    #float-cta {
+      position: fixed; bottom: 1.6rem; right: 1.6rem;
+      background: var(--blue); color: #fff;
+      border: none; border-radius: 50px;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.88rem; font-weight: 700;
+      box-shadow: 0 4px 20px rgba(0,102,255,0.45);
+      cursor: pointer; z-index: 9000;
+      display: flex; align-items: center; gap: 0.5rem;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    #float-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(0,102,255,0.55);
+      color: #fff;
+    }
+    @media (max-width: 480px) {
+      #float-cta { padding: 0.65rem 1.1rem; font-size: 0.82rem; bottom: 1rem; right: 1rem; }
+    }
+
+    /* ---- Mobile UX polish ---- */
+    @media (max-width: 576px) {
+      .hero-eyebrow { font-size: 0.65rem; }
+      h1 { font-size: 2rem; }
+      #stats-bar { flex-wrap: wrap; }
+      .stat-item { flex: 1 1 45%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 1rem 0.5rem; }
+      .service-card { padding: 1.4rem 1rem; }
+      .why-item { padding: 1.5rem 1rem; }
+    }
 
     .see-more-wrap { text-align: center; margin-top: 1.75rem; }
     .video-section { margin-top: 3.5rem; }
@@ -1093,30 +1274,90 @@
     <div class="section-divider"></div>
     <p class="section-subtitle">From cinematic 4K aerial footage to enterprise cloud solutions — a look at what we deliver.</p>
 
-    <div class="portfolio-grid">
-      <div class="portfolio-item">
-        <img src="assets/images/background1.jpg" alt="Atlanta aerial view — Bright Future Technologies drone photography">
+    <!-- Portfolio Filter Tabs -->
+    <div class="pf-filter-tabs">
+      <button class="pf-filter-btn active" data-filter="all">All Work</button>
+      <button class="pf-filter-btn" data-filter="aerial">Aerial Photography</button>
+      <button class="pf-filter-btn" data-filter="it-cloud">IT &amp; Cloud</button>
+      <button class="pf-filter-btn" data-filter="web">Web &amp; Apps</button>
+      <button class="pf-filter-btn" data-filter="smart-home">Smart Home</button>
+    </div>
+
+    <div class="portfolio-grid" id="portfolio-grid">
+      <!-- Aerial shots -->
+      <div class="portfolio-item" data-category="aerial">
+        <img src="assets/images/background1.jpg" alt="Atlanta aerial view — Bright Future Technologies drone photography" loading="lazy">
         <div class="portfolio-caption">Atlanta Skyline &nbsp;&bull;&nbsp; Aerial Photography</div>
       </div>
-      <div class="portfolio-item">
-        <img src="assets/images/background5.jpg" alt="Evening cityscape — Bright Future Technologies drone footage">
+      <div class="portfolio-item" data-category="aerial">
+        <img src="assets/images/background5.jpg" alt="Evening cityscape — Bright Future Technologies drone footage" loading="lazy">
         <div class="portfolio-caption">Evening Cityscape &nbsp;&bull;&nbsp; 4K Drone Footage</div>
       </div>
-      <div class="portfolio-item">
-        <img src="assets/images/background9.jpg" alt="Aerial sunset — Bright Future Technologies drone photography">
+      <div class="portfolio-item" data-category="aerial">
+        <img src="assets/images/background9.jpg" alt="Aerial sunset — Bright Future Technologies drone photography" loading="lazy">
         <div class="portfolio-caption">Sunset Series &nbsp;&bull;&nbsp; Aerial Photography</div>
       </div>
-      <div class="portfolio-item">
-        <img src="assets/images/background13.jpg" alt="Aerial neighborhood — Bright Future Technologies real estate drone">
+      <div class="portfolio-item" data-category="aerial">
+        <img src="assets/images/background13.jpg" alt="Aerial neighborhood — Bright Future Technologies real estate drone" loading="lazy">
         <div class="portfolio-caption">Residential Overview &nbsp;&bull;&nbsp; Real Estate Drone</div>
       </div>
-      <div class="portfolio-item">
-        <img src="assets/images/background17.jpg" alt="Aerial landscape — Bright Future Technologies 4K video">
+      <div class="portfolio-item" data-category="aerial">
+        <img src="assets/images/background17.jpg" alt="Aerial landscape — Bright Future Technologies 4K video" loading="lazy">
         <div class="portfolio-caption">Landscape Aerial &nbsp;&bull;&nbsp; 4K Video Production</div>
       </div>
-      <div class="portfolio-item">
-        <img src="assets/images/background21.jpg" alt="Property aerial overview — Bright Future Technologies">
+      <div class="portfolio-item" data-category="aerial">
+        <img src="assets/images/background21.jpg" alt="Property aerial overview — Bright Future Technologies" loading="lazy">
         <div class="portfolio-caption">Property Overview &nbsp;&bull;&nbsp; Real Estate Photography</div>
+      </div>
+
+      <!-- IT & Cloud card -->
+      <div class="portfolio-item portfolio-card portfolio-card-it" data-category="it-cloud">
+        <div class="portfolio-card-icon"><i class="fa-brands fa-microsoft"></i></div>
+        <div class="portfolio-card-title">Azure Cloud Migration</div>
+        <div class="portfolio-card-sub">Enterprise IT Infrastructure</div>
+        <div class="portfolio-card-tags">
+          <span class="portfolio-card-tag">Microsoft Azure</span>
+          <span class="portfolio-card-tag">Power Automate</span>
+          <span class="portfolio-card-tag">M365</span>
+        </div>
+        <div class="portfolio-caption">Azure Cloud &nbsp;&bull;&nbsp; Business Automation</div>
+      </div>
+      <div class="portfolio-item portfolio-card portfolio-card-it" data-category="it-cloud">
+        <div class="portfolio-card-icon"><i class="fa-solid fa-server"></i></div>
+        <div class="portfolio-card-title">IT Systems Architecture</div>
+        <div class="portfolio-card-sub">Security &amp; Network Design</div>
+        <div class="portfolio-card-tags">
+          <span class="portfolio-card-tag">12+ Years</span>
+          <span class="portfolio-card-tag">Enterprise</span>
+          <span class="portfolio-card-tag">Security</span>
+        </div>
+        <div class="portfolio-caption">IT Architecture &nbsp;&bull;&nbsp; Enterprise Systems</div>
+      </div>
+
+      <!-- Web & Apps card -->
+      <div class="portfolio-item portfolio-card portfolio-card-web" data-category="web">
+        <div class="portfolio-card-icon"><i class="fa-solid fa-display"></i></div>
+        <div class="portfolio-card-title">Professional Website Builds</div>
+        <div class="portfolio-card-sub">Custom Design &amp; Development</div>
+        <div class="portfolio-card-tags">
+          <span class="portfolio-card-tag">HTML/CSS/JS</span>
+          <span class="portfolio-card-tag">WordPress</span>
+          <span class="portfolio-card-tag">Responsive</span>
+        </div>
+        <div class="portfolio-caption">Web Development &nbsp;&bull;&nbsp; Custom Design</div>
+      </div>
+
+      <!-- Smart Home card -->
+      <div class="portfolio-item portfolio-card portfolio-card-home" data-category="smart-home">
+        <div class="portfolio-card-icon"><i class="fa-solid fa-house-signal"></i></div>
+        <div class="portfolio-card-title">Smart Home Automation</div>
+        <div class="portfolio-card-sub">Intelligent Home Systems</div>
+        <div class="portfolio-card-tags">
+          <span class="portfolio-card-tag">Automation</span>
+          <span class="portfolio-card-tag">Voice Control</span>
+          <span class="portfolio-card-tag">Security</span>
+        </div>
+        <div class="portfolio-caption">Smart Home &nbsp;&bull;&nbsp; Home Automation</div>
       </div>
     </div>
 
@@ -1137,31 +1378,31 @@
     <!-- Full gallery (hidden by default) -->
     <div id="full-gallery" style="display:none;">
       <div class="full-grid mt-3">
-        <img src="assets/images/background1.jpg"  alt="Drone photo 1">
-        <img src="assets/images/background2.jpg"  alt="Drone photo 2">
-        <img src="assets/images/background3.jpg"  alt="Drone photo 3">
-        <img src="assets/images/background4.jpg"  alt="Drone photo 4">
-        <img src="assets/images/background5.jpg"  alt="Drone photo 5">
-        <img src="assets/images/background6.jpg"  alt="Drone photo 6">
-        <img src="assets/images/background7.jpg"  alt="Drone photo 7">
-        <img src="assets/images/background8.jpg"  alt="Drone photo 8">
-        <img src="assets/images/background9.jpg"  alt="Drone photo 9">
-        <img src="assets/images/background10.jpg" alt="Drone photo 10">
-        <img src="assets/images/background11.jpg" alt="Drone photo 11">
-        <img src="assets/images/background12.jpg" alt="Drone photo 12">
-        <img src="assets/images/background13.jpg" alt="Drone photo 13">
-        <img src="assets/images/background14.jpg" alt="Drone photo 14">
-        <img src="assets/images/background15.jpg" alt="Drone photo 15">
-        <img src="assets/images/background16.jpg" alt="Drone photo 16">
-        <img src="assets/images/background17.jpg" alt="Drone photo 17">
-        <img src="assets/images/background18.jpg" alt="Drone photo 18">
-        <img src="assets/images/background19.jpg" alt="Drone photo 19">
-        <img src="assets/images/background20.jpg" alt="Drone photo 20">
-        <img src="assets/images/background21.jpg" alt="Drone photo 21">
-        <img src="assets/images/background22.jpeg" alt="Drone photo 22">
-        <img src="assets/images/background23.jpeg" alt="Drone photo 23">
-        <img src="assets/images/background24.jpeg" alt="Drone photo 24">
-        <img src="assets/images/background25.jpeg" alt="Drone photo 25">
+        <img src="assets/images/background1.jpg"  alt="Drone photo 1" loading="lazy">
+        <img src="assets/images/background2.jpg"  alt="Drone photo 2" loading="lazy">
+        <img src="assets/images/background3.jpg"  alt="Drone photo 3" loading="lazy">
+        <img src="assets/images/background4.jpg"  alt="Drone photo 4" loading="lazy">
+        <img src="assets/images/background5.jpg"  alt="Drone photo 5" loading="lazy">
+        <img src="assets/images/background6.jpg"  alt="Drone photo 6" loading="lazy">
+        <img src="assets/images/background7.jpg"  alt="Drone photo 7" loading="lazy">
+        <img src="assets/images/background8.jpg"  alt="Drone photo 8" loading="lazy">
+        <img src="assets/images/background9.jpg"  alt="Drone photo 9" loading="lazy">
+        <img src="assets/images/background10.jpg" alt="Drone photo 10" loading="lazy">
+        <img src="assets/images/background11.jpg" alt="Drone photo 11" loading="lazy">
+        <img src="assets/images/background12.jpg" alt="Drone photo 12" loading="lazy">
+        <img src="assets/images/background13.jpg" alt="Drone photo 13" loading="lazy">
+        <img src="assets/images/background14.jpg" alt="Drone photo 14" loading="lazy">
+        <img src="assets/images/background15.jpg" alt="Drone photo 15" loading="lazy">
+        <img src="assets/images/background16.jpg" alt="Drone photo 16" loading="lazy">
+        <img src="assets/images/background17.jpg" alt="Drone photo 17" loading="lazy">
+        <img src="assets/images/background18.jpg" alt="Drone photo 18" loading="lazy">
+        <img src="assets/images/background19.jpg" alt="Drone photo 19" loading="lazy">
+        <img src="assets/images/background20.jpg" alt="Drone photo 20" loading="lazy">
+        <img src="assets/images/background21.jpg" alt="Drone photo 21" loading="lazy">
+        <img src="assets/images/background22.jpeg" alt="Drone photo 22" loading="lazy">
+        <img src="assets/images/background23.jpeg" alt="Drone photo 23" loading="lazy">
+        <img src="assets/images/background24.jpeg" alt="Drone photo 24" loading="lazy">
+        <img src="assets/images/background25.jpeg" alt="Drone photo 25" loading="lazy">
       </div>
     </div>
 
@@ -1226,6 +1467,13 @@
     <h2 class="section-title">What Our Clients Say</h2>
     <div class="section-divider"></div>
     <p class="section-subtitle">Real results from real clients across the Atlanta metro area.</p>
+    <div style="text-align:center; margin-bottom: 1.5rem;">
+      <a href="https://maps.app.goo.gl/vGSrPn9w3Xst3xS79" class="google-rating-badge" target="_blank" rel="noopener noreferrer">
+        <span class="g-logo">G</span>
+        <span class="g-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="g-text">5.0 &nbsp;·&nbsp; Rated on Google &nbsp;·&nbsp; View Reviews</span>
+      </a>
+    </div>
     <div class="row">
       <div class="col-md-4 d-flex">
         <div class="testimonial-card w-100">
@@ -1494,6 +1742,11 @@
   </div>
 </div>
 
+<!-- Floating CTA -->
+<a id="float-cta" href="#contact">
+  <i class="fa-solid fa-calendar-check"></i> Book a Free Call
+</a>
+
 <!-- FAQ accordion script -->
 <script>
 function toggleFaq(btn) {
@@ -1506,6 +1759,28 @@ function toggleFaq(btn) {
     btn.classList.add('open');
   }
 }
+</script>
+
+<!-- Portfolio filter script -->
+<script>
+(function() {
+  var tabs = document.querySelectorAll('.pf-filter-btn');
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      var filter = this.getAttribute('data-filter');
+      var items = document.querySelectorAll('#portfolio-grid .portfolio-item');
+      items.forEach(function(item) {
+        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    });
+  });
+})();
 </script>
 
 <script src="assets/web/assets/jquery/jquery.min.js"></script>
