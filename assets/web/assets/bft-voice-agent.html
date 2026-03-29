@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BFT — Onyx Voice Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:#05060e;--bg2:#0a0c1a;--bg3:#0f1120;--panel:rgba(10,12,28,0.9);
+  --accent:#00c2ff;--accent2:#0077bb;--glow:rgba(0,194,255,0.18);
+  --green:#00e87a;--red:#ff3d5a;--orange:#ffaa00;
+  --text:#c8d6ee;--text2:#6a7a99;--text3:#2a3450;
+  --border:rgba(0,194,255,0.15);--border2:rgba(0,194,255,0.35);
+  --font-hd:'Rajdhani',sans-serif;--font-mono:'Share Tech Mono',monospace;--font-body:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font-body);overflow:hidden;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px);pointer-events:none;z-index:1000;}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,194,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,194,255,0.025) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0;}
+.app{position:relative;z-index:1;height:100vh;display:flex;flex-direction:column;max-width:840px;margin:0 auto;padding:18px;gap:12px;}
+
+/* HEADER */
+.header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--panel);border:1px solid var(--border);border-radius:8px;backdrop-filter:blur(12px);}
+.header-left{display:flex;align-items:center;gap:12px;}
+.logo-mark{width:36px;height:36px;border:1.5px solid var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--font-hd);font-size:13px;font-weight:700;color:var(--accent);letter-spacing:1px;box-shadow:0 0 14px rgba(0,194,255,0.2),inset 0 0 10px rgba(0,194,255,0.05);}
+.header-title{font-family:var(--font-hd);font-size:21px;font-weight:700;color:#fff;letter-spacing:2.5px;text-transform:uppercase;}
+.header-sub{font-family:var(--font-mono);font-size:9px;color:var(--text2);letter-spacing:2px;margin-top:1px;}
+.status-row{display:flex;align-items:center;gap:16px;}
+.status-dot{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;color:var(--text2);letter-spacing:1px;}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--text3);}
+.dot.idle{background:var(--text3);}
+.dot.listening{background:var(--accent);box-shadow:0 0 8px var(--accent);animation:pdot 1s ease-in-out infinite;}
+.dot.thinking{background:var(--green);box-shadow:0 0 8px var(--green);animation:pdot 0.6s ease-in-out infinite;}
+.dot.speaking{background:var(--orange);box-shadow:0 0 8px var(--orange);animation:pdot 0.8s ease-in-out infinite;}
+@keyframes pdot{0%,100%{opacity:1}50%{opacity:0.3}}
+.mode-badge{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;padding:3px 10px;border-radius:3px;border:1px solid var(--border);color:var(--text2);text-transform:uppercase;}
+
+/* MID ROW */
+.mid-row{display:flex;gap:14px;align-items:flex-start;}
+.viz-col{display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;}
+.viz-wrapper{position:relative;width:154px;height:154px;}
+#ring-canvas{position:absolute;inset:0;}
+.orb-core{position:absolute;inset:26px;border-radius:50%;background:radial-gradient(circle at 38% 38%,rgba(0,194,255,0.15),rgba(0,194,255,0.03));border:1.5px solid rgba(0,194,255,0.22);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s;user-select:none;}
+.orb-core:hover{border-color:rgba(0,194,255,0.55);background:radial-gradient(circle at 38% 38%,rgba(0,194,255,0.25),rgba(0,194,255,0.07));}
+.orb-core.active{border-color:var(--accent);box-shadow:0 0 28px rgba(0,194,255,0.3),inset 0 0 18px rgba(0,194,255,0.08);}
+.orb-icon{font-size:26px;line-height:1;transition:transform 0.15s;}
+.orb-core:active .orb-icon{transform:scale(0.88);}
+.viz-label{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--text2);text-transform:uppercase;}
+#wave-canvas{width:154px;height:32px;}
+
+/* CONTROLS SIDE */
+.ctrl-col{flex:1;display:flex;flex-direction:column;gap:10px;padding-top:2px;}
+.ctx-bar{display:flex;align-items:center;gap:8px;padding:7px 14px;background:rgba(0,194,255,0.04);border:1px solid var(--border);border-radius:6px;}
+.ctx-label{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;color:var(--accent2);text-transform:uppercase;white-space:nowrap;}
+.ctx-select{background:transparent;border:none;outline:none;color:var(--text);font-family:var(--font-mono);font-size:11px;cursor:pointer;flex:1;}
+.ctx-select option{background:#0a0c1a;color:var(--text);}
+.vdiv{width:1px;height:15px;background:var(--border);}
+.quick-btns{display:flex;gap:6px;flex-wrap:wrap;}
+.qbtn{padding:5px 11px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text2);font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;}
+.qbtn:hover{border-color:var(--accent);color:var(--accent);box-shadow:0 0 8px rgba(0,194,255,0.1);}
+.toggle-row{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;color:var(--text2);text-transform:uppercase;margin-top:auto;}
+.tog{position:relative;width:30px;height:16px;cursor:pointer;flex-shrink:0;}
+.tog input{opacity:0;width:0;height:0;}
+.tog-slider{position:absolute;inset:0;background:var(--text3);border-radius:16px;transition:0.25s;}
+.tog-slider::before{content:'';position:absolute;left:2px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--text2);transition:0.25s;}
+.tog input:checked+.tog-slider{background:rgba(0,194,255,0.2);border:1px solid rgba(0,194,255,0.35);}
+.tog input:checked+.tog-slider::before{transform:translateX(14px);background:var(--accent);box-shadow:0 0 5px var(--accent);}
+
+/* TRANSCRIPT */
+.transcript{flex:1;min-height:0;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:11px;backdrop-filter:blur(8px);}
+.transcript::-webkit-scrollbar{width:3px;}
+.transcript::-webkit-scrollbar-track{background:transparent;}
+.transcript::-webkit-scrollbar-thumb{background:var(--text3);border-radius:2px;}
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text2);}
+.empty-icon{font-size:34px;opacity:0.25;}
+.empty-text{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-align:center;opacity:0.45;text-transform:uppercase;line-height:2.2;}
+
+.msg{display:flex;gap:9px;animation:min 0.22s ease-out;}
+@keyframes min{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.msg.user{flex-direction:row-reverse;}
+.msg-av{width:28px;height:28px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--font-hd);font-weight:700;font-size:10px;letter-spacing:1px;color:var(--accent);background:rgba(0,194,255,0.07);border:1px solid var(--border);flex-shrink:0;}
+.msg.user .msg-av{background:rgba(0,232,122,0.06);border-color:rgba(0,232,122,0.2);color:var(--green);}
+.msg-bubble{max-width:74%;padding:8px 12px;border-radius:6px;font-size:13px;line-height:1.65;color:var(--text);background:rgba(255,255,255,0.025);border:1px solid var(--border);}
+.msg.user .msg-bubble{background:rgba(0,232,122,0.04);border-color:rgba(0,232,122,0.14);text-align:right;}
+.msg-src{font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;}
+.msg.user .msg-src{text-align:right;color:rgba(0,232,122,0.45);}
+.thinking-dots span{display:inline-block;width:5px;height:5px;margin:0 2px;border-radius:50%;background:var(--accent);animation:blink 1.2s ease-in-out infinite;}
+.thinking-dots span:nth-child(2){animation-delay:.2s;}
+.thinking-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes blink{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+
+/* INPUT ROW */
+.input-row{display:flex;gap:8px;padding:9px 13px;background:var(--panel);border:1px solid var(--border);border-radius:8px;backdrop-filter:blur(8px);align-items:center;}
+.txt-input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--font-body);font-size:13px;}
+.txt-input::placeholder{color:var(--text2);}
+.btn{padding:7px 15px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--text2);font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;cursor:pointer;transition:all 0.18s;text-transform:uppercase;white-space:nowrap;}
+.btn:hover{border-color:var(--accent);color:var(--accent);box-shadow:0 0 9px rgba(0,194,255,0.1);}
+.btn-mic{width:34px;height:34px;padding:0;display:flex;align-items:center;justify-content:center;font-size:15px;border-radius:50%;flex-shrink:0;}
+.btn-mic.active{border-color:var(--red);color:var(--red);box-shadow:0 0 14px rgba(255,61,90,0.25);animation:mpulse 1s ease-in-out infinite;}
+@keyframes mpulse{0%,100%{box-shadow:0 0 8px rgba(255,61,90,0.2)}50%{box-shadow:0 0 22px rgba(255,61,90,0.5)}}
+.btn-send{border-color:rgba(0,194,255,0.28);color:var(--accent);}
+.btn-send:hover{background:rgba(0,194,255,0.07);}
+
+/* BOTTOM */
+.bot-bar{display:flex;align-items:center;justify-content:space-between;padding:4px 2px;}
+.bot-info{font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo-mark">BFT</div>
+      <div>
+        <div class="header-title">ONYX</div>
+        <div class="header-sub">VOICE OPERATIONS AGENT // CLAUDE SONNET</div>
+      </div>
+    </div>
+    <div class="status-row">
+      <div class="status-dot">
+        <div class="dot idle" id="sdot"></div>
+        <span id="slabel">READY</span>
+      </div>
+      <div class="vdiv"></div>
+      <div class="mode-badge" id="mbadge">STANDBY</div>
+    </div>
+  </div>
+
+  <!-- MID ROW -->
+  <div class="mid-row">
+    <div class="viz-col">
+      <div class="viz-wrapper">
+        <canvas id="ring-canvas" width="154" height="154"></canvas>
+        <div class="orb-core" id="orb" onclick="toggleListen()">
+          <span class="orb-icon" id="orb-icon">🎙️</span>
+        </div>
+      </div>
+      <div class="viz-label" id="orb-lbl">TAP TO SPEAK</div>
+      <canvas id="wave-canvas" width="154" height="32"></canvas>
+    </div>
+
+    <div class="ctrl-col">
+      <div class="ctx-bar">
+        <span class="ctx-label">Mode</span>
+        <select class="ctx-select" id="ctx-sel" onchange="updateCtx()">
+          <option value="general">General Assistant</option>
+          <option value="tow">Tow Operations</option>
+          <option value="freight">Freight Operations</option>
+          <option value="health">Health Assistant</option>
+          <option value="demo">BFT Demo Guide</option>
+        </select>
+        <div class="vdiv"></div>
+        <span class="ctx-label" style="cursor:pointer" onclick="clearChat()">CLR</span>
+      </div>
+
+      <div class="quick-btns">
+        <button class="qbtn" onclick="qs('What can you do?')">Capabilities</button>
+        <button class="qbtn" onclick="qs('Give me a status report')">Status</button>
+        <button class="qbtn" onclick="qs('Tell me about BFT Services')">About BFT</button>
+        <button class="qbtn" onclick="qs('What are the three BFT modules?')">Modules</button>
+      </div>
+
+      <div class="toggle-row">
+        <label class="tog"><input type="checkbox" id="voice-tog" checked><span class="tog-slider"></span></label>
+        <span>Voice response</span>
+        <div class="vdiv"></div>
+        <label class="tog"><input type="checkbox" id="auto-tog"><span class="tog-slider"></span></label>
+        <span>Auto-listen</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSCRIPT -->
+  <div class="transcript" id="transcript">
+    <div class="empty-state" id="empty-st">
+      <div class="empty-icon">◈</div>
+      <div class="empty-text">ONYX ONLINE<br/>TAP ORB OR TYPE BELOW<br/>VOICE + TEXT + AI ENABLED</div>
+    </div>
+  </div>
+
+  <!-- INPUT -->
+  <div class="input-row">
+    <button class="btn btn-mic" id="mic-btn" onclick="toggleListen()">🎙️</button>
+    <input class="txt-input" id="txt-in" type="text" placeholder="Type or tap the mic to speak..." onkeydown="hkey(event)" autocomplete="off"/>
+    <button class="btn btn-send" onclick="sendTxt()">SEND ↑</button>
+  </div>
+
+  <div class="bot-bar">
+    <div class="bot-info">BFT SERVICES // ONYX AGENT</div>
+    <div class="bot-info" id="mcnt">MESSAGES: 0</div>
+  </div>
+
+</div>
+
+<script>
+// STATE
+let curState = 'idle';
+let isListening = false;
+let recognition = null;
+let synth = window.speechSynthesis;
+let msgCount = 0;
+let audioCtx = null, analyser = null, dataArray = null;
+let history = [];
+let currentCtx = 'general';
+
+const CTXS = {
+  general: `You are Onyx, the AI operations assistant for BFT Services. You speak with calm authority — direct, structured, never wasteful with words. Think of yourself as a highly competent system engineer AI. Keep responses concise — under 3 sentences unless the user needs detail. When asked about BFT Services, describe it as an AI Operations Platform with three modules: Tow, Freight, and Health.`,
+  tow: `You are Onyx in Tow Operations mode for BFT Services. You assist with dispatch, driver coordination, GPS tracking, job queues, and towing operations. Be fast and operational. BFT's Tow module handles job assignment, live GPS, driver status, and incident triage.`,
+  freight: `You are Onyx in Freight Operations mode for BFT Services. You assist with load management, carrier coordination, weight compliance, and delivery scheduling. Be direct. BFT's Freight module manages jobs, weight checkpoints, driver assignments, and load docs.`,
+  health: `You are Onyx in Health Assistant mode for BFT Services. You support patient triage, intake coordination, appointment management, and health record queries. Be professional and calm. BFT's Health module handles patient queues, pain assessment, priority triage, and appointment tracking.`,
+  demo: `You are Onyx, the AI demo guide for BFT Services. Your job is to enthusiastically walk potential clients through what BFT Services does. Key highlights: (1) Three modules — Tow, Freight, Health; (2) AI-powered dispatch and triage; (3) real-time GPS tracking; (4) offline CSV fallback mode; (5) cross-database support (SQL Server, MySQL, PostgreSQL, SQLite, Oracle, MongoDB); (6) mobile MAUI driver app. Keep it engaging and focused on business value.`
+};
+
+// CANVAS
+const rc = document.getElementById('ring-canvas');
+const rx = rc.getContext('2d');
+const wc = document.getElementById('wave-canvas');
+const wx = wc.getContext('2d');
+let rBars = new Array(48).fill(0);
+let rAngle = 0;
+
+function drawRing() {
+  const w=154, h=154, cx=77, cy=77, r=68;
+  rx.clearRect(0,0,w,h);
+  const n = rBars.length, t = Date.now()/1000;
+  for(let i=0;i<n;i++){
+    const a = (i/n)*Math.PI*2 - Math.PI/2 + rAngle;
+    let amp=0;
+    if(curState==='listening' && analyser && dataArray){
+      analyser.getByteFrequencyData(dataArray);
+      amp = (dataArray[Math.floor((i/n)*dataArray.length)]/255)*26;
+    } else if(curState==='thinking'){
+      amp = Math.sin(t*3.5+i*0.35)*7+5;
+    } else if(curState==='speaking'){
+      amp = Math.abs(Math.sin(t*5+i*0.5))*13+3;
+    } else {
+      amp = Math.sin(t*0.5+i*0.2)*1.5+1.5;
+    }
+    rBars[i] = rBars[i]*0.72 + amp*0.28;
+    const i1=r+1, o1=r+1+rBars[i];
+    const x1=cx+Math.cos(a)*i1, y1=cy+Math.sin(a)*i1;
+    const x2=cx+Math.cos(a)*o1, y2=cy+Math.sin(a)*o1;
+    const al = 0.45 + (rBars[i]/28)*0.55;
+    if(curState==='listening'){ rx.strokeStyle=`rgba(0,194,255,${al})`; rx.shadowColor='#00c2ff'; rx.shadowBlur=rBars[i]>5?7:0; }
+    else if(curState==='thinking'){ rx.strokeStyle=`rgba(0,232,122,${al*.9})`; rx.shadowColor='#00e87a'; rx.shadowBlur=4; }
+    else if(curState==='speaking'){ rx.strokeStyle=`rgba(255,170,0,${al})`; rx.shadowColor='#ffaa00'; rx.shadowBlur=5; }
+    else { rx.strokeStyle=`rgba(0,194,255,${0.12+al*0.08})`; rx.shadowBlur=0; }
+    rx.lineWidth=2.5; rx.lineCap='round';
+    rx.beginPath(); rx.moveTo(x1,y1); rx.lineTo(x2,y2); rx.stroke();
+  }
+  rx.shadowBlur=0;
+  rx.strokeStyle='rgba(0,194,255,0.09)'; rx.lineWidth=0.5;
+  rx.beginPath(); rx.arc(cx,cy,r,0,Math.PI*2); rx.stroke();
+  if(curState!=='idle') rAngle+=0.005;
+  requestAnimationFrame(drawRing);
+}
+
+function drawWave() {
+  const w=154, h=32; wx.clearRect(0,0,w,h);
+  if(analyser && dataArray && curState==='listening'){
+    analyser.getByteTimeDomainData(dataArray);
+    wx.strokeStyle='rgba(0,194,255,0.75)'; wx.lineWidth=1.5;
+    wx.beginPath();
+    for(let i=0;i<dataArray.length;i++){
+      const y=(dataArray[i]/128)*h/2;
+      i===0?wx.moveTo(0,y):wx.lineTo(i*(w/dataArray.length),y);
+    }
+    wx.stroke();
+  } else {
+    const t=Date.now()/1000;
+    wx.strokeStyle='rgba(0,194,255,0.13)'; wx.lineWidth=1;
+    wx.beginPath();
+    for(let x=0;x<w;x++){
+      const y=h/2+Math.sin(x*0.09+t*(curState==='speaking'?4:0.7))*(curState==='speaking'?5:1.5);
+      x===0?wx.moveTo(x,y):wx.lineTo(x,y);
+    }
+    wx.stroke();
+  }
+  requestAnimationFrame(drawWave);
+}
+drawRing(); drawWave();
+
+function setState(s){
+  curState=s;
+  const dot=document.getElementById('sdot');
+  const lbl=document.getElementById('slabel');
+  const badge=document.getElementById('mbadge');
+  const ol=document.getElementById('orb-lbl');
+  const oi=document.getElementById('orb-icon');
+  const orb=document.getElementById('orb');
+  const mb=document.getElementById('mic-btn');
+  dot.className='dot '+s;
+  if(s==='idle'){lbl.textContent='READY';badge.textContent='STANDBY';ol.textContent='TAP TO SPEAK';oi.textContent='🎙️';orb.classList.remove('active');mb.classList.remove('active');mb.textContent='🎙️';}
+  else if(s==='listening'){lbl.textContent='LISTENING';badge.textContent='ACTIVE';ol.textContent='LISTENING...';oi.textContent='🔴';orb.classList.add('active');mb.classList.add('active');mb.textContent='⏹️';}
+  else if(s==='thinking'){lbl.textContent='PROCESSING';badge.textContent='THINKING';ol.textContent='PROCESSING...';oi.textContent='⚡';orb.classList.add('active');mb.classList.remove('active');mb.textContent='🎙️';}
+  else if(s==='speaking'){lbl.textContent='SPEAKING';badge.textContent='OUTPUT';ol.textContent='RESPONDING...';oi.textContent='🔊';orb.classList.add('active');}
+}
+
+async function initMic(){
+  if(audioCtx) return;
+  try{
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    const src=audioCtx.createMediaStreamSource(stream);
+    analyser=audioCtx.createAnalyser();
+    analyser.fftSize=256;
+    src.connect(analyser);
+    dataArray=new Uint8Array(analyser.frequencyBinCount);
+  }catch(e){console.warn('Mic:',e);}
+}
+
+function setupRec(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR) return null;
+  const rec=new SR();
+  rec.continuous=false; rec.interimResults=true; rec.lang='en-US';
+  rec.onstart=()=>{isListening=true;setState('listening');};
+  rec.onresult=(e)=>{
+    let f='',it='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal)f+=e.results[i][0].transcript;
+      else it+=e.results[i][0].transcript;
+    }
+    document.getElementById('txt-in').value=f||it;
+  };
+  rec.onend=()=>{
+    isListening=false;
+    const t=document.getElementById('txt-in').value.trim();
+    if(t) sendTxt(); else setState('idle');
+  };
+  rec.onerror=(e)=>{
+    isListening=false; setState('idle');
+    if(e.error==='not-allowed') addMsg('system','Mic access denied. Please allow microphone access or use text input.');
+  };
+  return rec;
+}
+
+async function toggleListen(){
+  if(curState==='thinking'||curState==='speaking') return;
+  if(isListening){recognition?.stop();return;}
+  await initMic();
+  recognition=setupRec();
+  if(!recognition){addMsg('system','Speech recognition requires Chrome or Edge. Text input works in all browsers.');return;}
+  synth.cancel();
+  document.getElementById('txt-in').value='';
+  recognition.start();
+}
+
+function speak(text){
+  if(!document.getElementById('voice-tog').checked||!synth) return;
+  synth.cancel();
+  const clean=text.replace(/[*_#`]/g,'').replace(/\n/g,' ');
+  const u=new SpeechSynthesisUtterance(clean);
+  const vs=synth.getVoices();
+  const pref=vs.find(v=>v.name.includes('Google US English')||v.name.includes('Daniel')||v.name.includes('Alex'))||(vs.find(v=>v.lang==='en-US'));
+  if(pref)u.voice=pref;
+  u.rate=0.95;u.pitch=0.88;u.volume=0.9;
+  setState('speaking');
+  u.onend=()=>{setState('idle');if(document.getElementById('auto-tog').checked)setTimeout(toggleListen,700);};
+  u.onerror=()=>setState('idle');
+  synth.speak(u);
+}
+
+async function callClaude(msg){
+  setState('thinking');
+  const tid=addMsg('onyx',null,true);
+  history.push({role:'user',content:msg});
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:CTXS[currentCtx],
+        messages:history.slice(-14)
+      })
+    });
+    if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||`HTTP ${res.status}`);}
+    const d=await res.json();
+    const reply=d.content?.[0]?.text||'No response received.';
+    history.push({role:'assistant',content:reply});
+    removeThink(tid);
+    addMsg('onyx',reply);
+    speak(reply);
+  }catch(e){
+    removeThink(tid);
+    const em=e.message.includes('401')?'API authentication error — API key required.'
+      :e.message.includes('fetch')?'Network error — ensure this runs with proper API access.'
+      :`Error: ${e.message}`;
+    addMsg('system',em);
+    setState('idle');
+  }
+}
+
+let tc=0;
+function addMsg(role,text,thinking=false){
+  const es=document.getElementById('empty-st');
+  if(es)es.remove();
+  const tr=document.getElementById('transcript');
+  const id='m'+(Date.now())+(tc++);
+  const av={onyx:'OX',user:'YOU',system:'!!'};
+  const d=document.createElement('div');
+  d.className='msg'+(role==='user'?' user':'');
+  d.id=id;
+  d.innerHTML=`<div class="msg-av">${av[role]||'SYS'}</div><div class="msg-bubble"><div class="msg-src">${role==='user'?'// OPERATOR':role==='onyx'?'// ONYX':'// SYSTEM'}</div>${thinking?'<div class="thinking-dots"><span></span><span></span><span></span></div>':`<div>${esc(text)}</div>`}</div>`;
+  tr.appendChild(d);
+  tr.scrollTop=tr.scrollHeight;
+  if(role!=='system'){msgCount++;document.getElementById('mcnt').textContent='MESSAGES: '+msgCount;}
+  return id;
+}
+
+function removeThink(id){const e=document.getElementById(id);if(e)e.remove();}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br/>');}
+
+function sendTxt(){
+  const inp=document.getElementById('txt-in');
+  const t=inp.value.trim();
+  if(!t||curState==='thinking')return;
+  inp.value='';
+  addMsg('user',t);
+  callClaude(t);
+}
+
+function qs(t){addMsg('user',t);callClaude(t);}
+function hkey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendTxt();}}
+
+function updateCtx(){
+  currentCtx=document.getElementById('ctx-sel').value;
+  history=[];
+  const m={general:'GENERAL MODE',tow:'TOW OPS MODE',freight:'FREIGHT MODE',health:'HEALTH MODE',demo:'DEMO GUIDE MODE'};
+  addMsg('system','Context → '+m[currentCtx]+'. History cleared.');
+}
+
+function clearChat(){
+  const tr=document.getElementById('transcript');
+  tr.innerHTML=`<div class="empty-state" id="empty-st"><div class="empty-icon">◈</div><div class="empty-text">ONYX ONLINE<br/>TAP ORB OR TYPE BELOW<br/>VOICE + TEXT + AI ENABLED</div></div>`;
+  history=[];msgCount=0;
+  document.getElementById('mcnt').textContent='MESSAGES: 0';
+  synth.cancel();setState('idle');
+}
+
+if(synth){synth.getVoices();synth.onvoiceschanged=()=>synth.getVoices();}
+setState('idle');
+</script>
+</body>
+</html>
