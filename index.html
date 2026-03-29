@@ -565,6 +565,20 @@
       background: linear-gradient(135deg, #0d0d1a 0%, #1a0d2e 50%, #0d0a1e 100%);
       border: 1px solid rgba(100,60,200,0.25);
     }
+    .portfolio-card-web-featured {
+      background: linear-gradient(135deg, #040c1e 0%, #0a1540 50%, #050e28 100%);
+      border: 2px solid rgba(0,120,255,0.55);
+      box-shadow: 0 0 18px rgba(0,120,255,0.18);
+    }
+    .portfolio-card-web-featured .portfolio-card-icon { color: #3a8cff; }
+    .portfolio-card-web-featured a { color: #5aacff; text-decoration: none; }
+    .portfolio-card-web-featured a:hover { text-decoration: underline; }
+    .portfolio-card-featured-badge {
+      display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; background: rgba(0,120,255,0.2); color: #5aacff;
+      border: 1px solid rgba(0,120,255,0.4); border-radius: 4px;
+      padding: 2px 7px; margin-bottom: 0.4rem;
+    }
     .portfolio-card-home {
       background: linear-gradient(135deg, #051a10 0%, #0a2d1c 50%, #051510 100%);
       border: 1px solid rgba(0,180,80,0.25);
@@ -1356,17 +1370,62 @@
         <div class="portfolio-caption">IT Architecture &nbsp;&bull;&nbsp; Enterprise Systems</div>
       </div>
 
-      <!-- Web & Apps card -->
-      <div class="portfolio-item portfolio-card portfolio-card-web" data-category="web">
-        <div class="portfolio-card-icon"><i class="fa-solid fa-display"></i></div>
-        <div class="portfolio-card-title">Professional Website Builds</div>
-        <div class="portfolio-card-sub">Custom Design &amp; Development</div>
+      <!-- Web & Apps cards -->
+      <div class="portfolio-item portfolio-card portfolio-card-web portfolio-card-web-featured" data-category="web">
+        <div class="portfolio-card-featured-badge">Featured &mdash; Live &amp; Actively Updated</div>
+        <div class="portfolio-card-icon"><i class="fa-solid fa-user-astronaut"></i></div>
+        <div class="portfolio-card-title"><a href="https://mikalbright.com" target="_blank" rel="noopener">mikalbright.com</a></div>
+        <div class="portfolio-card-sub">Personal Portfolio &mdash; Designer &amp; Architect</div>
         <div class="portfolio-card-tags">
           <span class="portfolio-card-tag">HTML/CSS/JS</span>
-          <span class="portfolio-card-tag">WordPress</span>
           <span class="portfolio-card-tag">Responsive</span>
+          <span class="portfolio-card-tag">Live Site</span>
         </div>
-        <div class="portfolio-caption">Web Development &nbsp;&bull;&nbsp; Custom Design</div>
+        <div class="portfolio-caption">Personal Portfolio &nbsp;&bull;&nbsp; mikalbright.com</div>
+      </div>
+      <div class="portfolio-item portfolio-card portfolio-card-web" data-category="web">
+        <div class="portfolio-card-icon"><i class="fa-solid fa-church"></i></div>
+        <div class="portfolio-card-title"><a href="https://e100northmetro.org" target="_blank" rel="noopener">E100 North Metro Atlanta</a></div>
+        <div class="portfolio-card-sub">Faith Community Web Presence</div>
+        <div class="portfolio-card-tags">
+          <span class="portfolio-card-tag">HTML/CSS</span>
+          <span class="portfolio-card-tag">Responsive</span>
+          <span class="portfolio-card-tag">Live Site</span>
+        </div>
+        <div class="portfolio-caption">Client Site &nbsp;&bull;&nbsp; e100northmetro.org</div>
+      </div>
+      <div class="portfolio-item portfolio-card portfolio-card-web" data-category="web">
+        <div class="portfolio-card-icon"><i class="fa-solid fa-mug-hot"></i></div>
+        <div class="portfolio-card-title">JavaJam Coffee Shop</div>
+        <div class="portfolio-card-sub">Café &amp; Music Venue Website</div>
+        <div class="portfolio-card-tags">
+          <span class="portfolio-card-tag">HTML/CSS</span>
+          <span class="portfolio-card-tag">Responsive</span>
+          <span class="portfolio-card-tag">Web Design</span>
+        </div>
+        <div class="portfolio-caption">Web Design &nbsp;&bull;&nbsp; JavaJam Coffee Shop</div>
+      </div>
+      <div class="portfolio-item portfolio-card portfolio-card-web" data-category="web">
+        <div class="portfolio-card-icon"><i class="fa-solid fa-utensils"></i></div>
+        <div class="portfolio-card-title">Local Dinner Picker</div>
+        <div class="portfolio-card-sub">Interactive Restaurant Decision App</div>
+        <div class="portfolio-card-tags">
+          <span class="portfolio-card-tag">JavaScript</span>
+          <span class="portfolio-card-tag">Interactive</span>
+          <span class="portfolio-card-tag">Web App</span>
+        </div>
+        <div class="portfolio-caption">Web App &nbsp;&bull;&nbsp; Local Dinner Picker</div>
+      </div>
+      <div class="portfolio-item portfolio-card portfolio-card-web" data-category="web">
+        <div class="portfolio-card-icon"><i class="fa-solid fa-jedi"></i></div>
+        <div class="portfolio-card-title">Star Wars Hangman</div>
+        <div class="portfolio-card-sub">Browser-Based Word Game</div>
+        <div class="portfolio-card-tags">
+          <span class="portfolio-card-tag">JavaScript</span>
+          <span class="portfolio-card-tag">Game Dev</span>
+          <span class="portfolio-card-tag">Web App</span>
+        </div>
+        <div class="portfolio-caption">Web Game &nbsp;&bull;&nbsp; Star Wars Hangman</div>
       </div>
 
       <!-- Smart Home card -->
