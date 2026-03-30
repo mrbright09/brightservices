@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BFT Services — Operations Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#060810;--bg2:#0a0c16;--bg3:#0f1120;--bg4:#141628;
+  --accent:#00b4ff;--accent2:rgba(0,180,255,.12);--glow:rgba(0,180,255,.2);
+  --green:#00e676;--green2:rgba(0,230,118,.12);
+  --orange:#ff9500;--orange2:rgba(255,149,0,.12);
+  --red:#ff3d57;--red2:rgba(255,61,87,.12);
+  --purple:#9c6fff;--purple2:rgba(156,111,255,.12);
+  --text:#e2e8f4;--text2:#8899bb;--text3:#3d4a62;
+  --border:rgba(0,180,255,.1);--border2:rgba(0,180,255,.06);
+  --sidebar:200px;--topbar:54px;
+  --font-head:'Rajdhani',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font-body);}
+
+/* LAYOUT */
+#app{display:grid;grid-template-columns:var(--sidebar) 1fr;grid-template-rows:var(--topbar) 1fr;height:100vh;}
+
+/* TOPBAR */
+#topbar{
+  grid-column:1/-1;
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:16px;
+}
+.top-logo{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--font-head);font-size:20px;font-weight:700;
+  color:var(--accent);letter-spacing:1px;
+  border-right:1px solid var(--border);padding-right:16px;
+}
+.top-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);}
+.top-subtitle{font-size:12px;color:var(--text2);font-family:var(--font-body);font-weight:400;letter-spacing:.5px;}
+.top-spacer{flex:1;}
+.top-badge{
+  display:flex;align-items:center;gap:6px;
+  padding:4px 12px;border-radius:20px;
+  background:var(--green2);border:1px solid rgba(0,230,118,.2);
+  font-size:11px;color:var(--green);font-weight:500;
+}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,230,118,.4)}50%{opacity:.8;box-shadow:0 0 0 4px rgba(0,230,118,0)}}
+.top-time{font-family:var(--font-mono);font-size:12px;color:var(--text2);}
+.top-user{
+  display:flex;align-items:center;gap:8px;
+  padding:4px 10px;border-radius:8px;
+  border:1px solid var(--border);
+  background:var(--bg3);cursor:pointer;
+  font-size:13px;color:var(--text2);
+}
+.avatar{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,#00b4ff,#0070cc);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+
+/* SIDEBAR */
+#sidebar{
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  padding:16px 0;
+  display:flex;flex-direction:column;gap:2px;overflow-y:auto;
+}
+.nav-section{
+  padding:8px 16px 4px;
+  font-size:10px;font-weight:600;
+  color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;
+  font-family:var(--font-head);
+}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 16px;cursor:pointer;
+  font-size:13px;color:var(--text2);
+  transition:all .15s;border-left:2px solid transparent;
+  position:relative;
+}
+.nav-item:hover{background:var(--bg3);color:var(--text);}
+.nav-item.active{
+  background:var(--accent2);color:var(--accent);
+  border-left-color:var(--accent);
+}
+.nav-icon{width:16px;height:16px;opacity:.7;flex-shrink:0;}
+.nav-item.active .nav-icon{opacity:1;}
+.nav-badge{
+  margin-left:auto;min-width:18px;height:18px;
+  border-radius:9px;padding:0 5px;
+  background:var(--red2);border:1px solid rgba(255,61,87,.25);
+  font-size:10px;color:var(--red);font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* MAIN CONTENT */
+#main{
+  background:var(--bg);
+  overflow-y:auto;
+  padding:24px;
+  scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+}
+#main::-webkit-scrollbar{width:4px;}
+#main::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+
+/* VIEWS */
+.view{display:none;}
+.view.active{display:block;}
+
+/* PAGE HEADER */
+.page-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;
+}
+.page-title{font-family:var(--font-head);font-size:26px;font-weight:700;color:var(--text);}
+.page-sub{font-size:13px;color:var(--text2);margin-top:2px;}
+.header-actions{display:flex;gap:10px;}
+
+/* BUTTONS */
+.btn{
+  padding:8px 16px;border-radius:8px;
+  font-size:13px;font-family:var(--font-body);font-weight:500;
+  cursor:pointer;transition:all .15s;border:1px solid var(--border);
+  background:var(--bg3);color:var(--text2);
+}
+.btn:hover{color:var(--text);border-color:rgba(0,180,255,.25);}
+.btn.primary{
+  background:var(--accent2);border-color:rgba(0,180,255,.3);
+  color:var(--accent);
+}
+.btn.primary:hover{background:rgba(0,180,255,.2);}
+.btn.success{background:var(--green2);border-color:rgba(0,230,118,.25);color:var(--green);}
+.btn.danger{background:var(--red2);border-color:rgba(255,61,87,.25);color:var(--red);}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.stat-card{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:12px;padding:18px 20px;
+  position:relative;overflow:hidden;
+  transition:border-color .2s;cursor:default;
+}
+.stat-card:hover{border-color:var(--border);}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--accent-line,var(--accent));opacity:.5;
+}
+.stat-label{font-size:11px;color:var(--text2);letter-spacing:.5px;text-transform:uppercase;font-weight:500;margin-bottom:8px;}
+.stat-val{font-family:var(--font-head);font-size:32px;font-weight:700;color:var(--text);line-height:1;}
+.stat-delta{font-size:12px;color:var(--text2);margin-top:6px;}
+.stat-delta.up{color:var(--green);}
+.stat-delta.down{color:var(--red);}
+
+/* DATA TABLE */
+.table-card{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:12px;overflow:hidden;margin-bottom:20px;
+}
+.table-toolbar{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 20px;border-bottom:1px solid var(--border2);
+}
+.table-title{font-family:var(--font-head);font-size:16px;font-weight:600;color:var(--text);flex:1;}
+.search-input{
+  padding:7px 12px;background:var(--bg3);
+  border:1px solid var(--border2);border-radius:7px;
+  font-size:12px;font-family:var(--font-body);color:var(--text);
+  outline:none;width:180px;transition:border-color .2s;
+}
+.search-input:focus{border-color:rgba(0,180,255,.3);}
+.search-input::placeholder{color:var(--text3);}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:var(--bg3);}
+th{
+  padding:10px 16px;text-align:left;
+  font-size:10px;font-weight:600;color:var(--text2);
+  letter-spacing:.8px;text-transform:uppercase;
+  border-bottom:1px solid var(--border2);
+  font-family:var(--font-head);
+}
+td{
+  padding:12px 16px;font-size:13px;color:var(--text);
+  border-bottom:1px solid var(--border2);
+  transition:background .1s;
+}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover td{background:var(--bg3);}
+tbody tr{cursor:pointer;}
+
+/* STATUS PILLS */
+.pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:12px;
+  font-size:11px;font-weight:500;white-space:nowrap;
+}
+.pill-dot{width:5px;height:5px;border-radius:50%;}
+.pill.enroute{background:var(--accent2);border:1px solid rgba(0,180,255,.2);color:var(--accent);}
+.pill.enroute .pill-dot{background:var(--accent);}
+.pill.active{background:var(--green2);border:1px solid rgba(0,230,118,.2);color:var(--green);}
+.pill.active .pill-dot{background:var(--green);}
+.pill.waiting{background:var(--orange2);border:1px solid rgba(255,149,0,.2);color:var(--orange);}
+.pill.waiting .pill-dot{background:var(--orange);}
+.pill.critical{background:var(--red2);border:1px solid rgba(255,61,87,.25);color:var(--red);}
+.pill.critical .pill-dot{background:var(--red);}
+.pill.complete{background:rgba(100,100,120,.15);border:1px solid rgba(100,100,120,.2);color:var(--text2);}
+.pill.complete .pill-dot{background:var(--text2);}
+.pill.high{background:var(--orange2);border:1px solid rgba(255,149,0,.2);color:var(--orange);}
+.pill.high .pill-dot{background:var(--orange);}
+.pill.medium{background:var(--purple2);border:1px solid rgba(156,111,255,.2);color:var(--purple);}
+.pill.medium .pill-dot{background:var(--purple);}
+.pill.low{background:var(--green2);border:1px solid rgba(0,230,118,.15);color:var(--green);}
+.pill.low .pill-dot{background:var(--green);}
+
+/* MAP PLACEHOLDER */
+.map-card{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:12px;overflow:hidden;margin-bottom:20px;height:280px;
+  position:relative;display:flex;align-items:center;justify-content:center;
+}
+.map-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,180,255,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,180,255,.04) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.map-label{font-family:var(--font-head);font-size:18px;font-weight:600;color:var(--text2);z-index:1;}
+.map-dot{
+  position:absolute;width:12px;height:12px;border-radius:50%;
+  border:2px solid;cursor:pointer;
+  transition:transform .2s;z-index:2;
+}
+.map-dot:hover{transform:scale(1.4);}
+.map-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid currentColor;opacity:.3;animation:ping 2s ease-out infinite;}
+@keyframes ping{0%{transform:scale(1);opacity:.3}100%{transform:scale(2);opacity:0}}
+.map-dot.driver{background:var(--accent);border-color:var(--accent);color:var(--accent);}
+.map-dot.incident{background:var(--red);border-color:var(--red);color:var(--red);}
+.map-dot.hospital{background:var(--green);border-color:var(--green);color:var(--green);}
+
+/* MODAL */
+#modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.7);z-index:1000;
+  align-items:center;justify-content:center;
+}
+#modal-overlay.open{display:flex;}
+.modal{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:16px;padding:28px;width:480px;max-width:90vw;
+  max-height:80vh;overflow-y:auto;
+}
+.modal-title{font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--text);margin-bottom:20px;}
+.form-group{margin-bottom:16px;}
+.form-label{font-size:11px;font-weight:600;color:var(--text2);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:6px;}
+.form-input,.form-select{
+  width:100%;padding:10px 14px;background:var(--bg3);
+  border:1px solid var(--border);border-radius:8px;
+  font-size:13px;font-family:var(--font-body);color:var(--text);
+  outline:none;transition:border-color .2s;
+}
+.form-input:focus,.form-select:focus{border-color:rgba(0,180,255,.4);}
+.form-select option{background:var(--bg3);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:24px;}
+
+/* TOAST */
+#toast{
+  position:fixed;bottom:24px;right:24px;z-index:2000;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;padding:12px 18px;
+  font-size:13px;color:var(--text);
+  transform:translateY(80px);opacity:0;
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);
+  display:flex;align-items:center;gap:10px;
+  max-width:320px;
+}
+#toast.show{transform:translateY(0);opacity:1;}
+#toast .t-icon{font-size:16px;}
+
+/* PRIORITY GAUGE */
+.priority-row{display:flex;gap:6px;margin-bottom:6px;}
+.prio-bar{height:6px;flex:1;border-radius:3px;background:var(--bg3);}
+.prio-bar.filled.critical{background:var(--red);}
+.prio-bar.filled.high{background:var(--orange);}
+.prio-bar.filled.medium{background:var(--purple);}
+.prio-bar.filled.low{background:var(--green);}
+
+/* FREIGHT CALC */
+.calc-card{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:12px;padding:20px;margin-bottom:20px;
+}
+.calc-title{font-family:var(--font-head);font-size:16px;font-weight:600;color:var(--text);margin-bottom:16px;}
+.calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.calc-result{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;background:var(--accent2);
+  border:1px solid rgba(0,180,255,.2);border-radius:8px;
+}
+.calc-result-label{font-size:12px;color:var(--accent);font-weight:500;}
+.calc-result-val{font-family:var(--font-head);font-size:24px;font-weight:700;color:var(--accent);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+
+/* PAIN SCALE */
+.pain-scale{display:flex;gap:4px;margin-top:8px;}
+.pain-btn{
+  flex:1;height:32px;border-radius:6px;border:1px solid var(--border);
+  background:var(--bg3);cursor:pointer;
+  font-size:12px;font-weight:600;color:var(--text2);
+  transition:all .15s;font-family:var(--font-head);
+}
+.pain-btn.sel{color:#fff;}
+.pain-btn[data-v="1"].sel,.pain-btn[data-v="2"].sel,.pain-btn[data-v="3"].sel{background:#00e676;border-color:#00e676;}
+.pain-btn[data-v="4"].sel,.pain-btn[data-v="5"].sel,.pain-btn[data-v="6"].sel{background:#ff9500;border-color:#ff9500;}
+.pain-btn[data-v="7"].sel,.pain-btn[data-v="8"].sel{background:#ff6b35;border-color:#ff6b35;}
+.pain-btn[data-v="9"].sel,.pain-btn[data-v="10"].sel{background:#ff3d57;border-color:#ff3d57;}
+
+/* DEMO BANNER */
+.demo-banner{
+  background:rgba(156,111,255,.08);border:1px solid rgba(156,111,255,.2);
+  border-radius:8px;padding:10px 16px;margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+  font-size:12px;color:var(--purple);
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div class="top-logo">
+    <div class="top-logo-dot"></div>
+    BFT SERVICES
+    <span class="top-subtitle">Operations Platform</span>
+  </div>
+  <div class="top-badge"><div class="live-dot"></div>LIVE DEMO</div>
+  <div class="top-spacer"></div>
+  <div class="top-time" id="clock">00:00:00</div>
+  <div class="top-user">
+    <div class="avatar">MB</div>
+    Dispatcher
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+  <div class="nav-section">Operations</div>
+  <div class="nav-item active" onclick="nav('tow')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 3h15v13H1zM16 8h4l3 4v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    Tow Dispatch
+    <div class="nav-badge" id="tow-badge">3</div>
+  </div>
+  <div class="nav-item" onclick="nav('freight')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 4v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    Freight
+  </div>
+  <div class="nav-item" onclick="nav('health')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    Health Triage
+    <div class="nav-badge" id="health-badge" style="background:var(--red2);border-color:rgba(255,61,87,.25);color:var(--red)">2</div>
+  </div>
+  <div class="nav-section">Management</div>
+  <div class="nav-item" onclick="nav('drivers')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Drivers
+  </div>
+  <div class="nav-item" onclick="nav('reports')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+    Reports
+  </div>
+  <div class="nav-section">System</div>
+  <div class="nav-item" onclick="nav('settings')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+    Settings
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+<!-- TOW DISPATCH -->
+<div class="view active" id="view-tow">
+  <div class="demo-banner">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    Interactive demo — all data is simulated. No real database or backend.
+  </div>
+  <div class="page-header">
+    <div>
+      <div class="page-title">Tow Dispatch Console</div>
+      <div class="page-sub">Real-time job management &amp; driver tracking</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" onclick="refreshTow()">Refresh</button>
+      <button class="btn primary" onclick="openModal('new-job')">+ New Job</button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card" style="--accent-line:var(--orange)">
+      <div class="stat-label">Active Jobs</div>
+      <div class="stat-val" id="tow-active">7</div>
+      <div class="stat-delta up">+2 from yesterday</div>
+    </div>
+    <div class="stat-card" style="--accent-line:var(--accent)">
+      <div class="stat-label">Drivers Online</div>
+      <div class="stat-val" id="tow-drivers">12</div>
+      <div class="stat-delta">of 15 total</div>
+    </div>
+    <div class="stat-card" style="--accent-line:var(--green)">
+      <div class="stat-label">Completed Today</div>
+      <div class="stat-val">23</div>
+      <div class="stat-delta up">94% on-time rate</div>
+    </div>
+    <div class="stat-card" style="--accent-line:var(--red)">
+      <div class="stat-label">Avg Response</div>
+      <div class="stat-val">8<span style="font-size:18px;color:var(--text2)">min</span></div>
+      <div class="stat-delta up">-1.2min this week</div>
+    </div>
+  </div>
+
+  <div class="map-card">
+    <div class="map-grid"></div>
+    <div class="map-dot driver" style="left:22%;top:35%" title="D-04 Marcus"></div>
+    <div class="map-dot driver" style="left:55%;top:50%" title="D-07 James"></div>
+    <div class="map-dot driver" style="left:70%;top:28%" title="D-11 Derek"></div>
+    <div class="map-dot incident" style="left:38%;top:45%" title="Job #1042"></div>
+    <div class="map-dot incident" style="left:62%;top:65%" title="Job #1043"></div>
+    <div class="map-dot hospital" style="left:45%;top:22%" title="Regional Medical"></div>
+    <div class="map-label">Live Dispatch Map — Atlanta Metro</div>
+  </div>
+
+  <div class="table-card">
+    <div class="table-toolbar">
+      <div class="table-title">Active Jobs</div>
+      <input class="search-input" placeholder="Search jobs..." oninput="filterTable(this,'tow-tbody')"/>
+      <button class="btn" style="font-size:12px">Filter</button>
+    </div>
+    <table>
+      <thead><tr>
+        <th>Job ID</th><th>Type</th><th>Customer</th><th>Location</th>
+        <th>Driver</th><th>Status</th><th>Priority</th><th>ETA</th>
+      </tr></thead>
+      <tbody id="tow-tbody">
+        <tr onclick="openDetail('TOW-1041','Lock-out service','Michael Thompson','2847 Peachtree Rd NE','D-04 Marcus Hill','En Route','High','8 min')">
+          <td><span style="font-family:var(--font-mono);font-size:12px;color:var(--accent)">#1041</span></td>
+          <td>Lock-out</td><td>Michael Thompson</td><td>2847 Peachtree Rd NE</td>
+          <td>D-04 Marcus Hill</td>
+          <td><span class="pill enroute"><span class="pill-dot"></span>En Route</span></td>
+          <td><span class="pill high"><span class="pill-dot"></span>High</span></td>
+          <td><span style="font-family:var(--font-mono);color:var(--orange)">8 min</span></td>
+        </tr>
+        <tr onclick="openDetail('TOW-1042','Flat tire','Sandra Williams','I-285 & Exit 29','D-07 James Carter','Active','Medium','Onsite')">
+          <td><span style="font-family:var(--font-mono);font-size:12px;color:var(--accent)">#1042</span></td>
+          <td>Flat Tire</td><td>Sandra Williams</td><td>I-285 &amp; Exit 29</td>
+          <td>D-07 James Carter</td>
+          <td><span class="pill active"><span class="pill-dot"></span>Onsite</span></td>
+          <td><span class="pill medium"><span class="pill-dot"></span>Medium</span></td>
+          <td><span style="font-family:var(--font-mono);color:var(--green)">Onsite</span></td>
+        </tr>
+        <tr onclick="openDetail('TOW-1043','Accident tow','David Kim','SR-400 MM 14','Unassigned','Waiting','Critical','Pending')">
+          <td><span style="font-family:var(--font-mono);font-size:12px;color:var(--accent)">#1043</span></td>
+          <td>Accident Tow</td><td>David Kim</td><td>SR-400 MM 14</td>
+          <td style="color:var(--text2)">Unassigned</td>
+          <td><span class="pill waiting"><span class="pill-dot"></span>Waiting</span></td>
+          <td><span class="pill critical"><span class="pill-dot"></span>Critical</span></td>
+          <td><span style="font-family:var(--font-mono);color:var(--red)">Pending</span></td>
+        </tr>
+        <tr onclick="openDetail('TOW-1044','Battery jump','Keisha Brown','345 Lenox Rd NE','D-11 Derek Jones','En Route','Low','12 min')">
+          <td><span style="font-family:var(--font-mono);font-size:12px;color:var(--accent)">#1044</span></td>
+          <td>Battery Jump</td><td>Keisha Brown</td><td>345 Lenox Rd NE</td>
+          <td>D-11 Derek Jones</td>
+          <td><span class="pill enroute"><span class="pill-dot"></span>En Route</span></td>
+          <td><span class="pill low"><span class="pill-dot"></span>Low</span></td>
+          <td><span style="font-family:var(--font-mono);color:var(--accent)">12 min</span></td>
+        </tr>
+        <tr onclick="openDetail('TOW-1040','Engine failure','Robert Davis','Buckhead Ave & Pharr','D-02 Tony Wallace','Active','High','Onsite')">
+          <td><span style="font-family:var(--font-mono);font-size:12px;color:var(--accent)">#1040</span></td>
+          <td>Engine Failure</td><td>Robert Davis</td><td>Buckhead Ave &amp; Pharr</td>
+          <td>D-02 Tony Wallace</td>
+          <td><span class="pill active"><span class="pill-dot"></span>Onsite</span></td>
+          <td><span class="pill high"><span class="pill-dot"></span>High</span></td>
+          <td><span style="font-family:var(--font-mono);color:var(--green)">Onsite</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FREIGHT -->
+<div class="view" id="view-freight">
+  <div class="demo-banner">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    Interactive demo — all data is simulated. No real database or backend.
+  </div>
+  <div class="page-header">
+    <div>
+      <div class="page-title">Freight Operations</div>
+      <div class="page-sub">Load tracking, routing &amp; cost management</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn primary" onclick="openModal('new-freight')">+ New Load</button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card" style="--accent-line:var(--accent)">
+      <div class="stat-label">Active Loads</div>
+      <div class="stat-val">14</div>
+      <div class="stat-delta">across 3 routes</div>
+    </div>
+    <div class="stat-card" style="--accent-line:var(--green)">
+      <div class="stat-label">Revenue Today</div>
+      <div class="stat-val">$18<span style="font-size:18px;color:var(--text2)">.4k</span></div>
+      <div class="stat-delta up">+12% vs last week</div>
+    </div>
+    <div class="stat-card" style="--accent-line:var(--orange)">
+      <div class="stat-label">Total Miles</div>
+      <div class="stat-val">2,847</div>
+      <div class="stat-delta">dispatched today</div>
+    </div>
+    <div class="stat-card" style="--accent-line:var(--purple)">
+      <div class="stat-label">Avg Load Weight</div>
+      <div class="stat-val">28<span style="font-size:18px;color:var(--text2)">t</span></div>
+      <div class="stat-delta">within 45t limit</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="calc-card">
+        <div class="calc-title">Freight Cost Calculator</div>
+        <div class="calc-grid">
+          <div class="form-group">
+            <label class="form-label">Distance (mi)</label>
+            <input class="form-input" id="calc-dist" type="number" value="280" oninput="calcFreight()"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Weight (tons)</label>
+            <input class="form-input" id="calc-wt" type="number" value="22" oninput="calcFreight()"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fuel Rate ($/mi)</label>
+            <input class="form-input" id="calc-fuel" type="number" value="0.68" step="0.01" oninput="calcFreight()"/>
+          </div>
+        </div>
+        <div class="calc-result">
+          <span class="calc-result-label">Estimated Total Cost</span>
+          <span class="calc-result-val" id="calc-out">$2,841</span>
+        </div>
+      </div>
+    </div>
+    <div class="table-card" style="margin-bottom:0">
+      <div class="table-toolbar">
+        <div class="table-title">Weight Checkpoints</div>
+      </div>
+      <table>
+        <thead><tr><th>Load</th><th>Driver</th><th>Scale Station</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><span style="font-family:var(--font-mono);font-size:12px;color:var(--accent)">#F-088</span></td><td>T. Harris</td><td>US-78 MM 42</td><td><span class="pill active"><span class="pill-dot"></span>Passed</span></td></tr>
+          <tr><td><span style="font-family:var(--font-mono);font-size:12px;color:var(--accent)">#F-089</span></td><td>D. Monroe</td><td>I-20 Eastbound</td><td><span class="pill waiting"><span class="pill-dot"></span>Pending</span></td></tr>
+          <tr><td><span style="font-family:var(--font-mono);font-size:12px;color:var(--accent)">#F-090</span></td><td>R. Simmons</td><td>I-75 North</td><td><span class="pill enroute"><span class="pill-dot"></span>En Route</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="table-card">
+    <div class="table-toolbar">
+      <div class="table-title">Active Loads</div>
+      <input class="search-input" placeholder="Search loads..." oninput="filterTable(this,'freight-tbody')"/>
+    </div>
+    <table>
+      <thead><tr>
+        <th>Load ID</th><th>Driver</th><th>Origin</th><th>Destination</th>
+        <th>Weight</th><th>Miles</th><th>Status</th><th>ETA</th>
+      </tr></thead>
+      <tbody id="freight-tbody">
+        <tr><td><span style="font-family:var(--font-mono);font-size:12px;color:var(--accent)">#F-087</span></td><td>T. Harris</td><td>Atlanta, GA</td><td>Birmingham, AL</td><td>24.5t</td><td>147mi</td><td><span class="pill enroute"><span class="pill-dot"></span>In Transit</span></td><td style="font-family:var(--font-mono);color:var(--orange)">2h 14m</td></tr>
+        <tr><td><span style="font-family:var(--font-mono);font-size:12px;color:var(--accent)">#F-088</span></td><td>D. Monroe</td><td>Columbus, GA</td><td>Montgomery, AL</td><td>31.2t</td><td>98mi</td><td><span class="pill active"><span class="pill-dot"></span>Onsite</span></td><td style="font-family:var(--font-mono);color:var(--green)">Loading</td></tr>
+        <tr><td><span style="font-family:var(--font-mono);font-size:12px;color:var(--accent)">#F-089</span></td><td>R. Simmons</td><td>Macon, GA</td><td>Savannah, GA</td><td>18.8t</td><td>165mi</td><td><span class="pill waiting"><span class="pill-dot"></span>Staged</span></td><td style="font-family:var(--font-mono);color:var(--text2)">—</td></tr>
+        <tr><td><span style="font-family:var(--font-mono);font-size:12px;color:var(--accent)">#F-090</span></td><td>C. Fields</td><td>Augusta, GA</td><td>Charlotte, NC</td><td>27.0t</td><td>221mi</td><td><span class="pill enroute"><span class="pill-dot"></span>In Transit</span></td><td style="font-family:var(--font-mono);color:var(--orange)">4h 02m</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- HEALTH TRIAGE -->
+<div class="view" id="view-health">
+  <div class="demo-banner">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    Interactive demo — all data is simulated. No real database or backend.
+  </div>
+  <div class="page-header">
+    <div>
+      <div class="page-title">Health Triage</div>
+      <div class="page-sub">Patient intake, priority assessment &amp; escalation</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn danger" onclick="openModal('new-patient')">+ New Patient</button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card" style="--accent-line:var(--red)">
+      <div class="stat-label">Critical</div>
+      <div class="stat-val" style="color:var(--red)">2</div>
+      <div class="stat-delta down">Immediate attention</div>
+    </div>
+    <div class="stat-card" style="--accent-line:var(--orange)">
+      <div class="stat-label">High Priority</div>
+      <div class="stat-val" style="color:var(--orange)">5</div>
+      <div class="stat-delta">Avg wait: 4 min</div>
+    </div>
+    <div class="stat-card" style="--accent-line:var(--purple)">
+      <div class="stat-label">Medium</div>
+      <div class="stat-val" style="color:var(--purple)">9</div>
+      <div class="stat-delta">Avg wait: 18 min</div>
+    </div>
+    <div class="stat-card" style="--accent-line:var(--green)">
+      <div class="stat-label">Discharged Today</div>
+      <div class="stat-val">31</div>
+      <div class="stat-delta up">Avg stay: 2.4h</div>
+    </div>
+  </div>
+
+  <div class="table-card">
+    <div class="table-toolbar">
+      <div class="table-title">Active Patients</div>
+      <input class="search-input" placeholder="Search patients..." oninput="filterTable(this,'health-tbody')"/>
+    </div>
+    <table>
+      <thead><tr>
+        <th>Patient ID</th><th>Name</th><th>Chief Complaint</th><th>Pain</th>
+        <th>Priority</th><th>Wait</th><th>Provider</th><th>Status</th>
+      </tr></thead>
+      <tbody id="health-tbody">
+        <tr onclick="openHealthDetail('P-2241','James Okafor','Chest pain, shortness of breath',9,'Critical')">
+          <td><span style="font-family:var(--font-mono);font-size:12px;color:var(--red)">P-2241</span></td>
+          <td>James Okafor</td><td>Chest pain, SOB</td>
+          <td><span style="font-family:var(--font-mono);font-size:13px;color:var(--red);font-weight:600">9/10</span></td>
+          <td><span class="pill critical"><span class="pill-dot"></span>Critical</span></td>
+          <td style="color:var(--red);font-family:var(--font-mono)">0 min</td>
+          <td>Dr. Reeves</td>
+          <td><span class="pill active"><span class="pill-dot"></span>In Treatment</span></td>
+        </tr>
+        <tr onclick="openHealthDetail('P-2242','Maria Santos','Severe abdominal pain',8,'Critical')">
+          <td><span style="font-family:var(--font-mono);font-size:12px;color:var(--red)">P-2242</span></td>
+          <td>Maria Santos</td><td>Severe abdominal pain</td>
+          <td><span style="font-family:var(--font-mono);font-size:13px;color:var(--red);font-weight:600">8/10</span></td>
+          <td><span class="pill critical"><span class="pill-dot"></span>Critical</span></td>
+          <td style="color:var(--orange);font-family:var(--font-mono)">3 min</td>
+          <td>Dr. Nguyen</td>
+          <td><span class="pill enroute"><span class="pill-dot"></span>Awaiting</span></td>
+        </tr>
+        <tr onclick="openHealthDetail('P-2239','DeShawn Powell','Laceration, right forearm',6,'High')">
+          <td><span style="font-family:var(--font-mono);font-size:12px;color:var(--orange)">P-2239</span></td>
+          <td>DeShawn Powell</td><td>Laceration, right forearm</td>
+          <td><span style="font-family:var(--font-mono);font-size:13px;color:var(--orange);font-weight:600">6/10</span></td>
+          <td><span class="pill high"><span class="pill-dot"></span>High</span></td>
+          <td style="color:var(--text2);font-family:var(--font-mono)">11 min</td>
+          <td>Nurse Fields</td>
+          <td><span class="pill waiting"><span class="pill-dot"></span>Intake</span></td>
+        </tr>
+        <tr onclick="openHealthDetail('P-2238','Patricia Coleman','Migraine, nausea',5,'Medium')">
+          <td><span style="font-family:var(--font-mono);font-size:12px;color:var(--purple)">P-2238</span></td>
+          <td>Patricia Coleman</td><td>Migraine, nausea</td>
+          <td><span style="font-family:var(--font-mono);font-size:13px;color:var(--purple);font-weight:600">5/10</span></td>
+          <td><span class="pill medium"><span class="pill-dot"></span>Medium</span></td>
+          <td style="color:var(--text2);font-family:var(--font-mono)">22 min</td>
+          <td>—</td>
+          <td><span class="pill waiting"><span class="pill-dot"></span>Waiting</span></td>
+        </tr>
+        <tr onclick="openHealthDetail('P-2236','Kevin Zhang','Sprained ankle',3,'Low')">
+          <td><span style="font-family:var(--font-mono);font-size:12px;color:var(--green)">P-2236</span></td>
+          <td>Kevin Zhang</td><td>Sprained ankle</td>
+          <td><span style="font-family:var(--font-mono);font-size:13px;color:var(--green);font-weight:600">3/10</span></td>
+          <td><span class="pill low"><span class="pill-dot"></span>Low</span></td>
+          <td style="color:var(--text2);font-family:var(--font-mono)">38 min</td>
+          <td>—</td>
+          <td><span class="pill waiting"><span class="pill-dot"></span>Waiting</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- DRIVERS VIEW -->
+<div class="view" id="view-drivers">
+  <div class="page-header">
+    <div><div class="page-title">Driver Management</div><div class="page-sub">Fleet status &amp; performance</div></div>
+    <div class="header-actions"><button class="btn primary">+ Add Driver</button></div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card" style="--accent-line:var(--green)"><div class="stat-label">Online Now</div><div class="stat-val">12</div><div class="stat-delta up">80% availability</div></div>
+    <div class="stat-card" style="--accent-line:var(--accent)"><div class="stat-label">On Job</div><div class="stat-val">7</div><div class="stat-delta">3 tow · 4 freight</div></div>
+    <div class="stat-card" style="--accent-line:var(--orange)"><div class="stat-label">Avg Rating</div><div class="stat-val">4.8</div><div class="stat-delta up">from 142 reviews</div></div>
+    <div class="stat-card" style="--accent-line:var(--purple)"><div class="stat-label">Miles Today</div><div class="stat-val">1,847</div><div class="stat-delta">fleet total</div></div>
+  </div>
+  <div class="table-card">
+    <div class="table-toolbar"><div class="table-title">Driver Roster</div><input class="search-input" placeholder="Search drivers..."/></div>
+    <table><thead><tr><th>ID</th><th>Name</th><th>Vehicle</th><th>Module</th><th>Status</th><th>Jobs Today</th><th>Rating</th></tr></thead>
+    <tbody>
+      <tr><td style="font-family:var(--font-mono);color:var(--accent)">D-02</td><td>Tony Wallace</td><td>F-550 Flatbed</td><td>Tow</td><td><span class="pill active"><span class="pill-dot"></span>On Job</span></td><td>5</td><td style="color:var(--green)">4.9</td></tr>
+      <tr><td style="font-family:var(--font-mono);color:var(--accent)">D-04</td><td>Marcus Hill</td><td>Ram 3500 Wrecker</td><td>Tow</td><td><span class="pill enroute"><span class="pill-dot"></span>En Route</span></td><td>4</td><td style="color:var(--green)">4.7</td></tr>
+      <tr><td style="font-family:var(--font-mono);color:var(--accent)">D-07</td><td>James Carter</td><td>Peterbilt 379</td><td>Freight</td><td><span class="pill active"><span class="pill-dot"></span>On Job</span></td><td>2</td><td style="color:var(--green)">4.8</td></tr>
+      <tr><td style="font-family:var(--font-mono);color:var(--accent)">D-11</td><td>Derek Jones</td><td>F-350 Rollback</td><td>Tow</td><td><span class="pill enroute"><span class="pill-dot"></span>En Route</span></td><td>3</td><td style="color:var(--orange)">4.5</td></tr>
+      <tr><td style="font-family:var(--font-mono);color:var(--text2)">D-06</td><td>Andre Washington</td><td>Kenworth T680</td><td>Freight</td><td><span class="pill complete"><span class="pill-dot"></span>Offline</span></td><td>6</td><td style="color:var(--green)">5.0</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- REPORTS -->
+<div class="view" id="view-reports">
+  <div class="page-header">
+    <div><div class="page-title">Reports &amp; Analytics</div><div class="page-sub">Operational insights &amp; performance data</div></div>
+    <div class="header-actions"><button class="btn">Export CSV</button><button class="btn primary">Generate Report</button></div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card" style="--accent-line:var(--green)"><div class="stat-label">Week Revenue</div><div class="stat-val">$94k</div><div class="stat-delta up">+8.3% vs prior week</div></div>
+    <div class="stat-card" style="--accent-line:var(--accent)"><div class="stat-label">Jobs Completed</div><div class="stat-val">187</div><div class="stat-delta">this week</div></div>
+    <div class="stat-card" style="--accent-line:var(--orange)"><div class="stat-label">Customer Sat.</div><div class="stat-val">96<span style="font-size:18px;color:var(--text2)">%</span></div><div class="stat-delta up">+2% vs last month</div></div>
+    <div class="stat-card" style="--accent-line:var(--purple)"><div class="stat-label">Fuel Cost</div><div class="stat-val">$3.2k</div><div class="stat-delta down">+$180 vs last week</div></div>
+  </div>
+  <div class="table-card">
+    <div class="table-toolbar"><div class="table-title">Weekly Summary</div></div>
+    <table><thead><tr><th>Day</th><th>Tow Jobs</th><th>Freight Loads</th><th>Health Patients</th><th>Revenue</th><th>Satisfaction</th></tr></thead>
+    <tbody>
+      <tr><td>Monday</td><td>28</td><td>12</td><td>44</td><td>$18.2k</td><td style="color:var(--green)">97%</td></tr>
+      <tr><td>Tuesday</td><td>31</td><td>14</td><td>38</td><td>$19.8k</td><td style="color:var(--green)">95%</td></tr>
+      <tr><td>Wednesday</td><td>24</td><td>11</td><td>51</td><td>$16.1k</td><td style="color:var(--green)">98%</td></tr>
+      <tr><td>Thursday</td><td>35</td><td>16</td><td>47</td><td>$22.4k</td><td style="color:var(--green)">96%</td></tr>
+      <tr><td style="color:var(--orange)">Today (Fri)</td><td style="color:var(--orange)">23</td><td style="color:var(--orange)">14</td><td style="color:var(--orange)">16</td><td style="color:var(--orange)">$18.4k</td><td style="color:var(--orange)">Live</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="view" id="view-settings">
+  <div class="page-header">
+    <div><div class="page-title">Settings</div><div class="page-sub">Platform configuration</div></div>
+    <div class="header-actions"><button class="btn primary">Save Changes</button></div>
+  </div>
+  <div style="max-width:560px">
+    <div class="calc-card">
+      <div class="calc-title">Database Connection</div>
+      <div class="form-group"><label class="form-label">Database Type</label>
+        <select class="form-select"><option>SQL Server</option><option>PostgreSQL</option><option>MySQL</option><option>SQLite (local)</option><option>Azure SQL</option><option>MongoDB</option><option>Oracle</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Connection String</label><input class="form-input" value="Server=.;Database=BFTServices;Trusted_Connection=true;" type="password"/></div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn success" onclick="showToast('success','Database connection verified')">Test Connection</button>
+        <button class="btn">Reset</button>
+      </div>
+    </div>
+    <div class="calc-card">
+      <div class="calc-title">Offline / CSV Mode</div>
+      <div class="form-group"><label class="form-label">Auto-create CSV when offline</label>
+        <select class="form-select"><option selected>Enabled — password protected</option><option>Enabled — unencrypted</option><option>Disabled</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Sync on reconnect</label>
+        <select class="form-select"><option selected>Auto-sync</option><option>Manual only</option></select>
+      </div>
+    </div>
+    <div class="calc-card">
+      <div class="calc-title">Voice AI</div>
+      <div class="form-group"><label class="form-label">Provider</label>
+        <select class="form-select"><option selected>Azure Speech SDK</option><option>ElevenLabs</option><option>Web Speech API (free)</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">API Key</label><input class="form-input" type="password" placeholder="••••••••••••••••"/></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- MODALS -->
+<div id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title" id="modal-title">New Job</div>
+    <div id="modal-body"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn primary" id="modal-confirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"><span class="t-icon" id="toast-icon">✓</span><span id="toast-msg">Saved</span></div>
+
+<script>
+// CLOCK
+function updateClock(){
+  const now=new Date();
+  document.getElementById('clock').textContent=
+    now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+updateClock();setInterval(updateClock,1000);
+
+// NAV
+function nav(id){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('view-'+id).classList.add('active');
+}
+
+// FILTER TABLE
+function filterTable(input,tbodyId){
+  const q=input.value.toLowerCase();
+  document.querySelectorAll('#'+tbodyId+' tr').forEach(row=>{
+    row.style.display=row.textContent.toLowerCase().includes(q)?'':'none';
+  });
+}
+
+// FREIGHT CALC
+function calcFreight(){
+  const d=parseFloat(document.getElementById('calc-dist').value)||0;
+  const w=parseFloat(document.getElementById('calc-wt').value)||0;
+  const f=parseFloat(document.getElementById('calc-fuel').value)||0;
+  const base=d*f;
+  const weight_fee=w>20?(w-20)*12:0;
+  const total=base+weight_fee+240;
+  document.getElementById('calc-out').textContent='$'+Math.round(total).toLocaleString();
+}
+
+// TOAST
+function showToast(type,msg){
+  const t=document.getElementById('toast');
+  const icons={success:'✓',error:'✕',info:'ℹ',warning:'⚠'};
+  document.getElementById('toast-icon').textContent=icons[type]||'✓';
+  document.getElementById('toast-msg').textContent=msg;
+  t.style.borderColor=type==='success'?'rgba(0,230,118,.3)':type==='error'?'rgba(255,61,87,.3)':'rgba(0,180,255,.3)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// MODAL FORMS
+const forms={
+  'new-job':{
+    title:'New Tow Job',
+    html:`<div class="form-row">
+      <div class="form-group"><label class="form-label">Customer Name</label><input class="form-input" placeholder="Full name"/></div>
+      <div class="form-group"><label class="form-label">Phone</label><input class="form-input" placeholder="(555) 000-0000"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Location</label><input class="form-input" placeholder="Address or cross-street"/></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Service Type</label><select class="form-select"><option>Lock-out</option><option>Flat Tire</option><option>Battery Jump</option><option>Tow / Recovery</option><option>Accident</option><option>Engine Failure</option></select></div>
+      <div class="form-group"><label class="form-label">Priority</label><select class="form-select"><option>Low</option><option selected>Medium</option><option>High</option><option>Critical</option></select></div>
+    </div>
+    <div class="form-group"><label class="form-label">Assign Driver</label><select class="form-select"><option>— Auto-assign —</option><option>D-04 Marcus Hill</option><option>D-07 James Carter</option><option>D-11 Derek Jones</option><option>D-02 Tony Wallace</option></select></div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-input" rows="2" placeholder="Optional notes..."></textarea></div>`,
+    confirm:'Create Job',
+    onConfirm:()=>showToast('success','Job created and dispatched')
+  },
+  'new-freight':{
+    title:'New Freight Load',
+    html:`<div class="form-row">
+      <div class="form-group"><label class="form-label">Origin</label><input class="form-input" placeholder="City, State"/></div>
+      <div class="form-group"><label class="form-label">Destination</label><input class="form-input" placeholder="City, State"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Weight (tons)</label><input class="form-input" type="number" placeholder="0.0"/></div>
+      <div class="form-group"><label class="form-label">Distance (mi)</label><input class="form-input" type="number" placeholder="0"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Assign Driver</label><select class="form-select"><option>— Select driver —</option><option>D-07 James Carter</option><option>D-09 T. Harris</option><option>D-12 D. Monroe</option></select></div>`,
+    confirm:'Create Load',
+    onConfirm:()=>showToast('success','Freight load created')
+  },
+  'new-patient':{
+    title:'New Patient Intake',
+    html:`<div class="form-row">
+      <div class="form-group"><label class="form-label">Patient Name</label><input class="form-input" placeholder="Full name"/></div>
+      <div class="form-group"><label class="form-label">DOB</label><input class="form-input" type="date"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Chief Complaint</label><input class="form-input" placeholder="Primary reason for visit"/></div>
+    <div class="form-group"><label class="form-label">Pain Scale (1–10)</label>
+      <div class="pain-scale" id="pain-select">
+        ${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="pain-btn" data-v="${n}" onclick="selPain(${n})">${n}</button>`).join('')}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Priority</label><select class="form-select"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
+      <div class="form-group"><label class="form-label">Assign Provider</label><select class="form-select"><option>— Triage only —</option><option>Dr. Reeves</option><option>Dr. Nguyen</option><option>Nurse Fields</option></select></div>
+    </div>`,
+    confirm:'Admit Patient',
+    onConfirm:()=>showToast('success','Patient admitted to triage queue')
+  },
+  'job-detail':{title:'',html:'',confirm:'Close Job',onConfirm:()=>showToast('success','Job status updated')}
+};
+
+let curConfirm=null;
+
+function openModal(id,data){
+  const f=forms[id];
+  if(!f)return;
+  document.getElementById('modal-title').textContent=data?.title||f.title;
+  document.getElementById('modal-body').innerHTML=data?.html||f.html;
+  document.getElementById('modal-confirm').textContent=f.confirm;
+  curConfirm=f.onConfirm;
+  document.getElementById('modal-confirm').onclick=()=>{if(curConfirm)curConfirm();closeModal();};
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal(e){
+  if(!e||e.target===document.getElementById('modal-overlay'))
+    document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function openDetail(id,type,customer,loc,driver,status,priority,eta){
+  const html=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+      <div class="form-group"><label class="form-label">Job ID</label><div style="font-family:var(--font-mono);color:var(--accent);padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px">${id}</div></div>
+      <div class="form-group"><label class="form-label">Status</label><div style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px">${status}</div></div>
+      <div class="form-group"><label class="form-label">Service Type</label><div style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px">${type}</div></div>
+      <div class="form-group"><label class="form-label">Priority</label><div style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px">${priority}</div></div>
+      <div class="form-group" style="grid-column:1/-1"><label class="form-label">Customer</label><div style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px">${customer}</div></div>
+      <div class="form-group" style="grid-column:1/-1"><label class="form-label">Location</label><div style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px">${loc}</div></div>
+      <div class="form-group"><label class="form-label">Driver</label><div style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px">${driver}</div></div>
+      <div class="form-group"><label class="form-label">ETA</label><div style="font-family:var(--font-mono);padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px">${eta}</div></div>
+    </div>
+    <div class="form-group"><label class="form-label">Update Status</label>
+      <select class="form-select"><option>En Route</option><option>Onsite</option><option>In Progress</option><option>Completed</option><option>Cancelled</option></select>
+    </div>`;
+  openModal('job-detail',{title:'Job Detail — '+id,html});
+}
+
+function openHealthDetail(id,name,complaint,pain,priority){
+  const col=priority==='Critical'?'var(--red)':priority==='High'?'var(--orange)':'var(--purple)';
+  const html=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+      <div class="form-group"><label class="form-label">Patient ID</label><div style="font-family:var(--font-mono);color:${col};padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px">${id}</div></div>
+      <div class="form-group"><label class="form-label">Priority</label><div style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:${col}">${priority}</div></div>
+      <div class="form-group" style="grid-column:1/-1"><label class="form-label">Patient Name</label><div style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px">${name}</div></div>
+      <div class="form-group" style="grid-column:1/-1"><label class="form-label">Chief Complaint</label><div style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px">${complaint}</div></div>
+      <div class="form-group"><label class="form-label">Pain Score</label><div style="font-family:var(--font-mono);font-size:22px;font-weight:700;color:${col};padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px">${pain}/10</div></div>
+      <div class="form-group"><label class="form-label">Escalate To</label><select class="form-select"><option>— Select —</option><option>Emergency</option><option>ICU</option><option>Surgery</option><option>Cardiology</option></select></div>
+    </div>
+    <div class="form-group"><label class="form-label">Provider Notes</label><textarea class="form-input" rows="2" placeholder="Add clinical notes..."></textarea></div>`;
+  openModal('job-detail',{title:'Patient — '+id,html});
+  document.getElementById('modal-confirm').textContent='Update Patient';
+  document.getElementById('modal-confirm').onclick=()=>{showToast('success','Patient record updated');closeModal();};
+}
+
+function selPain(v){
+  document.querySelectorAll('.pain-btn').forEach(b=>{
+    b.classList.toggle('sel',parseInt(b.dataset.v)<=v);
+  });
+}
+
+function refreshTow(){
+  const a=document.getElementById('tow-active');
+  const c=parseInt(a.textContent);
+  a.textContent=c+(Math.random()>.5?1:-1);
+  showToast('info','Dispatch data refreshed');
+}
+
+// Simulate live updates
+setInterval(()=>{
+  const badge=document.getElementById('tow-badge');
+  if(Math.random()>.85&&parseInt(badge.textContent)<8)
+    badge.textContent=parseInt(badge.textContent)+1;
+},15000);
+</script>
+</body>
+</html>
