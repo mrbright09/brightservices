@@ -459,20 +459,159 @@ transition:transform .2s,box-shadow .2s;
 #toast{position:fixed;bottom:20px;right:20px;z-index:600;background:var(–card);border:1px solid var(–border);border-radius:10px;padding:11px 16px;font-size:13px;color:var(–text);transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.4,.64,1);display:flex;align-items:center;gap:9px;max-width:300px;box-shadow:var(–shadow);}
 #toast.on{transform:translateY(0);opacity:1;}
 
-/* Responsive */
-@media(max-width:768px){
+/* ═══════════════════════════════════════════
+RESPONSIVE — 6 BREAKPOINTS
+Phone:      ≤480px
+Phablet:    481–600px
+Tablet:     601–900px
+Laptop:     901–1280px  (baseline — built for this)
+Desktop:    1281–1920px
+4K / TV:    >1920px
+═══════════════════════════════════════════ */
+
+/* ── Tablet + below: slide sidebar ── */
+@media(max-width:900px){
 #ham{display:flex;}
-#sidebar{position:fixed;top:54px;left:0;bottom:0;transform:translateX(-100%);}
+#sidebar{
+position:fixed;top:54px;left:0;bottom:0;
+transform:translateX(-100%);z-index:80;
+width:220px;box-shadow:4px 0 24px rgba(0,0,0,.4);
+}
 #sidebar.open{transform:translateX(0);}
 #sov.on{display:block;}
-#main{padding:14px;}
-.sg{grid-template-columns:1fr 1fr!important;}
+#main{padding:16px;}
+.sg{grid-template-columns:repeat(2,1fr)!important;}
 .twoc{grid-template-columns:1fr!important;}
+.fr2{grid-template-columns:1fr!important;}
+.map-grid{grid-template-columns:repeat(2,1fr)!important;}
+.mc{height:220px;}
+.pt{font-size:20px;}
 }
+
+/* ── Phablet 481–600px ── */
+@media(min-width:481px) and (max-width:600px){
+.sg{grid-template-columns:repeat(2,1fr)!important;}
+.sc{padding:12px 14px;}
+.sv{font-size:26px;}
+td,th{padding:9px 10px;}
+}
+
+/* ── Phone ≤480px ── */
 @media(max-width:480px){
+/* Layout */
+#topbar{padding:0 10px;gap:7px;}
+#tclock{display:none;}
+#main{padding:10px;}
+
+/* Stats: single column */
 .sg{grid-template-columns:1fr!important;}
+.sc{padding:12px 14px;}
+.sv{font-size:26px;}
+
+/* Hide non-essential table columns */
 .hm{display:none!important;}
-#agent-panel{border-radius:0;}
+
+/* Tables: horizontal scroll container */
+.tc{overflow:hidden;}
+.tc table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+td,th{padding:9px 10px;white-space:nowrap;}
+
+/* Modal: full-screen on phone */
+#mo{padding:0;align-items:flex-end;}
+.modal{
+border-radius:16px 16px 0 0;max-width:100%;
+max-height:88vh;padding:20px 16px;
+}
+.mt{font-size:17px;}
+
+/* Agent panel: full width, no rounded top */
+#agent-panel{border-radius:0;max-height:92vh;}
+#agent-module-tabs{flex-wrap:wrap;gap:4px;}
+.amt{font-size:10px;padding:3px 8px;}
+
+/* Key modal: full width */
+.km-box{border-radius:16px 16px 0 0;max-width:100%;}
+#key-modal-main{align-items:flex-end;padding:0;}
+
+/* DB mapper: single column */
+.map-grid{grid-template-columns:1fr!important;}
+.dbc-tabs{gap:4px;}
+.dbc-tab{font-size:11px;padding:5px 10px;}
+
+/* Role view cards: tighten padding */
+.job-card,.pt-card,.track-card{padding:12px;}
+.jc-btn{font-size:11px;padding:8px 6px;}
+
+/* Asset tabs */
+.atab{font-size:11px;padding:5px 10px;}
+
+/* Page headers */
+.pt{font-size:18px;}
+.ph{margin-bottom:14px;}
+.ha{width:100%;}
+.ha .btn{flex:1;text-align:center;}
+
+/* Freight calc */
+.calc-grid,.fr2{grid-template-columns:1fr!important;}
+
+/* Settings */
+.ai-key-row{flex-direction:column;}
+.ib-form{flex-direction:column;}
+.ib-inp{width:100%;}
+
+/* Map */
+.mc{height:180px;}
+.map-key-input{width:100%;}
+
+/* Toast: full width bottom */
+#toast{left:10px;right:10px;max-width:none;bottom:12px;}
+
+/* FAB: slightly smaller, above toast */
+#ai-fab{bottom:72px;width:46px;height:46px;font-size:20px;}
+
+/* Two-col role header badge */
+.role-badge{font-size:10px;padding:3px 8px;}
+}
+
+/* ── Landscape phone (height ≤ 500px) ── */
+@media(max-height:500px) and (max-width:900px){
+.sg{
+display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;
+gap:10px;padding-bottom:4px;
+}
+.sc{min-width:140px;flex-shrink:0;padding:10px 12px;}
+.sv{font-size:22px;}
+.mc{height:150px;}
+#agent-panel{max-height:96vh;}
+}
+
+/* ── Large desktop 1281–1920px: constrain content ── */
+@media(min-width:1281px){
+#main{padding:24px 32px;}
+.sg{gap:16px;}
+td,th{padding:12px 16px;}
+.pt{font-size:26px;}
+}
+
+/* ── 4K / TV >1920px: cap width, scale up ── */
+@media(min-width:1921px){
+#sidebar{width:240px;}
+#main{padding:32px 48px;max-width:1800px;}
+body{font-size:16px;}
+.pt{font-size:32px;}
+.sv{font-size:38px;}
+.sl{font-size:12px;}
+td{font-size:15px;}
+th{font-size:12px;}
+.sc{padding:22px 24px;border-radius:14px;}
+.btn{padding:10px 18px;font-size:14px;}
+.ni{padding:11px 16px;font-size:14px;}
+.ni svg{width:17px;height:17px;}
+#ai-fab{width:60px;height:60px;font-size:26px;bottom:28px;right:28px;}
+.mc{height:380px;}
+#agent-panel{max-width:780px;}
+.modal{max-width:580px;}
+.ac-msg{font-size:15px;}
 }
 
 /* ═══ ASSET MANAGER ═══ */
@@ -663,6 +802,107 @@ background:var(–gx);border:1px solid rgba(0,200,100,.2);color:var(–green);
 margin-left:10px;opacity:0;transition:opacity .3s;
 }
 .saved-badge.show{opacity:1;}
+/* ═══ AI PROMPT PANEL ═══ */
+#a-prompt-toggle{
+padding:3px 10px;border-radius:6px;border:1px solid var(–border);
+background:transparent;color:var(–text2);font-size:11px;cursor:pointer;
+transition:all .2s;font-family:‘DM Sans’,sans-serif;white-space:nowrap;
+}
+#a-prompt-toggle:hover{border-color:var(–ag);color:var(–accent);}
+#a-prompt-toggle.on{background:var(–ax);border-color:var(–ag);color:var(–accent);}
+#a-prompt-panel{
+display:none;padding:12px 18px;border-bottom:1px solid var(–border2);
+background:var(–surf);
+}
+#a-prompt-panel.on{display:block;}
+.ap-section{margin-bottom:10px;}
+.ap-label{font-size:10px;font-weight:600;color:var(–text2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px;}
+.ap-live{
+padding:8px 10px;background:var(–bg);border:1px solid var(–border2);border-radius:6px;
+font-family:‘JetBrains Mono’,monospace;font-size:10px;color:var(–text2);
+line-height:1.6;max-height:80px;overflow-y:auto;word-break:break-word;
+}
+.ap-custom{
+width:100%;padding:8px 10px;background:var(–bg);border:1px solid var(–border);
+border-radius:6px;font-size:12px;font-family:‘DM Sans’,sans-serif;color:var(–text);
+outline:none;resize:vertical;min-height:56px;transition:border-color .2s;
+line-height:1.6;
+}
+.ap-custom:focus{border-color:var(–ag);}
+.ap-custom::placeholder{color:var(–text3);}
+.ap-save{
+padding:5px 12px;border-radius:5px;border:1px solid var(–ag);
+background:var(–ax);color:var(–accent);font-size:11px;cursor:pointer;
+font-family:‘DM Sans’,sans-serif;transition:all .2s;margin-top:6px;
+}
+.ap-save:hover{background:rgba(0,180,255,.2);}
+/* Settings prompt cards */
+.prompt-card{
+background:var(–surf);border:1px solid var(–border2);border-radius:8px;
+padding:14px;margin-bottom:10px;
+}
+.prompt-card-head{
+display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer;
+user-select:none;
+}
+.prompt-card-head:hover .prompt-card-title{color:var(–accent);}
+.prompt-card-emoji{font-size:16px;}
+.prompt-card-title{font-family:‘Rajdhani’,sans-serif;font-size:14px;font-weight:600;color:var(–text);flex:1;}
+.prompt-card-chevron{font-size:11px;color:var(–text2);transition:transform .2s;}
+.prompt-card-chevron.open{transform:rotate(180deg);}
+.prompt-card-body{display:none;}
+.prompt-card-body.open{display:block;}
+/* ═══ SPLASH SKIP ═══ */
+#splash-skip{
+position:absolute;bottom:28px;right:28px;z-index:10;
+padding:8px 20px;border-radius:20px;
+background:rgba(0,0,0,.5);border:1px solid rgba(0,194,255,.3);
+color:rgba(200,220,255,.7);font-size:12px;font-family:‘DM Sans’,sans-serif;
+cursor:pointer;transition:all .25s;letter-spacing:.5px;
+animation:skipIn 1s ease 2s both;
+}
+#splash-skip:hover{background:rgba(0,194,255,.15);border-color:rgba(0,194,255,.6);color:#fff;}
+@keyframes skipIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ═══ COLLAPSIBLE SIDEBAR ═══ */
+.ns{
+display:flex;align-items:center;justify-content:space-between;
+padding:8px 14px 3px;font-size:10px;font-weight:600;
+color:var(–text3);letter-spacing:1.5px;text-transform:uppercase;
+font-family:‘Rajdhani’,sans-serif;cursor:pointer;user-select:none;
+transition:color .2s;
+}
+.ns:hover{color:var(–text2);}
+.ns-chevron{font-size:10px;transition:transform .2s;opacity:.5;}
+.ns-chevron.collapsed{transform:rotate(-90deg);}
+.ns-group{overflow:hidden;transition:max-height .25s ease;}
+.ns-group.collapsed{max-height:0!important;}
+
+/* ═══ KEY MODAL (standalone for main app) ═══ */
+#key-modal-main{
+display:none;position:fixed;inset:0;z-index:800;
+background:rgba(0,0,0,.75);backdrop-filter:blur(4px);
+align-items:center;justify-content:center;padding:20px;
+}
+#key-modal-main.on{display:flex;animation:mfade .25s ease both;}
+.km-box{background:var(–card);border:1px solid var(–border2);border-radius:14px;padding:28px;max-width:460px;width:100%;display:flex;flex-direction:column;gap:14px;box-shadow:0 0 60px rgba(0,0,0,.5);}
+.km-title{font-family:‘Rajdhani’,sans-serif;font-size:20px;font-weight:700;color:var(–text);text-align:center;letter-spacing:1px;}
+.km-body{font-size:13px;color:var(–text2);line-height:1.7;text-align:center;}
+.km-body strong{color:var(–accent);}
+.km-body a{color:var(–accent);text-decoration:none;}
+.km-body a:hover{text-decoration:underline;}
+.km-input{width:100%;padding:10px 14px;background:var(–surf);border:1px solid var(–border);border-radius:7px;font-size:13px;font-family:‘JetBrains Mono’,monospace;color:var(–text);outline:none;transition:border-color .2s;}
+.km-input:focus{border-color:var(–ag);}
+.km-input::placeholder{color:var(–text3);}
+.km-row{display:flex;gap:10px;}
+.km-btn{flex:1;padding:10px;border-radius:7px;font-family:‘DM Sans’,sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;}
+.km-btn.pri{background:var(–ax);border:1px solid var(–ag);color:var(–accent);}
+.km-btn.pri:hover{background:rgba(0,180,255,.2);}
+.km-btn.sec{background:transparent;border:1px solid var(–border);color:var(–text2);}
+.km-btn.sec:hover{border-color:var(–ag);color:var(–accent);}
+.km-divider{display:flex;align-items:center;gap:10px;color:var(–text3);font-size:11px;}
+.km-divider::before,.km-divider::after{content:’’;flex:1;height:1px;background:var(–border);}
+.km-note{font-size:10px;color:var(–text3);text-align:center;letter-spacing:.5px;font-family:‘JetBrains Mono’,monospace;}
 </style>
 
 </head>
@@ -694,8 +934,31 @@ margin-left:10px;opacity:0;transition:opacity .3s;
     <div class="scanline"></div>
   </div>
 </div>
+<button id="splash-skip" onclick="dismissSplash()">Skip ›</button>
 ```
 
+  </div>
+</div>
+
+<!-- KEY MODAL — shown when AI FAB tapped without key -->
+
+<div id="key-modal-main">
+  <div class="km-box">
+    <div style="font-size:32px;text-align:center">🤖</div>
+    <div class="km-title">CONNECT ONYX AI</div>
+    <div class="km-body">Onyx requires an <strong>Anthropic API key</strong> to power AI responses.<br/>Get one free at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> — new accounts receive free credits.</div>
+    <input class="km-input" type="password" id="km-main-key" placeholder="sk-ant-..." autocomplete="off"/>
+    <div class="km-row">
+      <button class="km-btn pri" onclick="saveKeyFromModal()">Connect Agent</button>
+      <button class="km-btn sec" onclick="closeKeyModal()">Cancel</button>
+    </div>
+    <div class="km-divider">or</div>
+    <div class="km-body" style="font-size:12px">Interested in BFT Services for your business?<br/><span id="km-interest-msg">Leave your email and we'll reach out when it launches.</span></div>
+    <div class="km-row" id="km-interest-row">
+      <input class="km-input" type="email" id="km-main-email" placeholder="your@email.com" style="flex:1;font-family:'DM Sans',sans-serif"/>
+      <button class="km-btn pri" style="flex:0;white-space:nowrap;padding:10px 16px" onclick="captureKeyModalInterest()">Notify Me</button>
+    </div>
+    <div class="km-note">Key stored in session only · Never shared or persisted</div>
   </div>
 </div>
 
@@ -721,57 +984,68 @@ margin-left:10px;opacity:0;transition:opacity .3s;
 <!-- SIDEBAR -->
 
 <div id="sidebar">
-  <div class="ns">Operations</div>
-  <div class="ni on" onclick="navTo('tow',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 4v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-    Tow Dispatch<div class="nbadge" id="tb">3</div>
+  <div class="ns" onclick="toggleSideGroup('ops')">Operations <span class="ns-chevron" id="ns-ops">▾</span></div>
+  <div class="ns-group" id="nsg-ops">
+    <div class="ni on" onclick="navTo('tow',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 4v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      Tow Dispatch<div class="nbadge" id="tb">3</div>
+    </div>
+    <div class="ni" onclick="navTo('freight',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="13" height="11"/><path d="M14 7h5l3 3v5h-8V7z"/><circle cx="4.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+      Freight
+    </div>
+    <div class="ni" onclick="navTo('health',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      Health Triage<div class="nbadge" id="hb">2</div>
+    </div>
   </div>
-  <div class="ni" onclick="navTo('freight',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="13" height="11"/><path d="M14 7h5l3 3v5h-8V7z"/><circle cx="4.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
-    Freight
+
+  <div class="ns" onclick="toggleSideGroup('mgmt')">Management <span class="ns-chevron" id="ns-mgmt">▾</span></div>
+  <div class="ns-group" id="nsg-mgmt">
+    <div class="ni" onclick="navTo('drivers',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      Drivers
+    </div>
+    <div class="ni" onclick="navTo('assets',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+      Asset Manager<div class="nbadge" id="ab" style="display:none"></div>
+    </div>
+    <div class="ni" onclick="navTo('reports',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      Reports
+    </div>
   </div>
-  <div class="ni" onclick="navTo('health',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-    Health Triage<div class="nbadge" id="hb">2</div>
+
+  <div class="ns" onclick="toggleSideGroup('roles')">Role Views <span class="ns-chevron collapsed" id="ns-roles">▾</span></div>
+  <div class="ns-group collapsed" id="nsg-roles" style="max-height:0">
+    <div class="ni" onclick="navTo('role-driver',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Driver View
+    </div>
+    <div class="ni" onclick="navTo('role-nurse',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/><circle cx="19" cy="5" r="2"/></svg>
+      Nurse / Triage
+    </div>
+    <div class="ni" onclick="navTo('role-tracker',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Asset Tracker
+    </div>
   </div>
-  <div class="ns">Management</div>
-  <div class="ni" onclick="navTo('drivers',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-    Drivers
-  </div>
-  <div class="ni" onclick="navTo('assets',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
-    Asset Manager<div class="nbadge" id="ab" style="display:none"></div>
-  </div>
-  <div class="ni" onclick="navTo('reports',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-    Reports
-  </div>
-  <div class="ns">Role Views</div>
-  <div class="ni" onclick="navTo('role-driver',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    Driver View
-  </div>
-  <div class="ni" onclick="navTo('role-nurse',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/><circle cx="19" cy="5" r="2"/></svg>
-    Nurse / Triage
-  </div>
-  <div class="ni" onclick="navTo('role-tracker',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-    Asset Tracker
-  </div>
-  <div class="ns">System</div>
-  <div class="ni" onclick="navTo('dbmap',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-    DB Connections
-  </div>
-  <div class="ni" onclick="navTo('interest',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-    Interest List
-  </div>
-  <div class="ni" onclick="navTo('settings',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-    Settings
+
+  <div class="ns" onclick="toggleSideGroup('sys')">System <span class="ns-chevron collapsed" id="ns-sys">▾</span></div>
+  <div class="ns-group collapsed" id="nsg-sys" style="max-height:0">
+    <div class="ni" onclick="navTo('dbmap',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      DB Connections
+    </div>
+    <div class="ni" onclick="navTo('interest',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      Interest List
+    </div>
+    <div class="ni" onclick="navTo('settings',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      Settings
+    </div>
   </div>
 </div>
 
@@ -1148,6 +1422,17 @@ margin-left:10px;opacity:0;transition:opacity .3s;
     </div>
   </div>
 
+  <!-- AI PROMPT EDITOR (Option 2) -->
+
+  <div class="scard" id="ai-prompt-editor" style="display:none">
+    <div class="scard-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      AI Module Prompts
+    </div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.6">Add custom business rules to each module's AI. The live context (active jobs, patients, assets) is always injected automatically — your instructions layer on top.</p>
+    <div id="settings-prompt-cards"></div>
+  </div>
+
   <!-- GOOGLE MAPS -->
 
   <div class="maps-key-card">
@@ -1196,12 +1481,28 @@ margin-left:10px;opacity:0;transition:opacity .3s;
       <div class="a-avatar" id="a-avatar">🤖</div>
       <div class="a-name-block"><h4 id="a-name">BFT Dispatch AI</h4><p id="a-sub">Front desk assistant</p></div>
       <div id="a-waves"><span></span><span></span><span></span><span></span><span></span></div>
+      <button id="a-prompt-toggle" onclick="togglePromptPanel()" title="View live prompt">⚙ Prompt</button>
       <button id="a-close" onclick="closeAgent()">✕ Close</button>
     </div>
     <div id="agent-module-tabs">
       <button class="amt on" onclick="setAgentMod('tow',this)">🚛 Tow</button>
       <button class="amt" onclick="setAgentMod('freight',this)">🚚 Freight</button>
       <button class="amt" onclick="setAgentMod('health',this)">🏥 Health</button>
+      <button class="amt" onclick="setAgentMod('assets',this)">📦 Assets</button>
+      <button class="amt" onclick="setAgentMod('driver',this)">🚗 Driver</button>
+      <button class="amt" onclick="setAgentMod('nurse',this)">🩺 Nurse</button>
+    </div>
+    <!-- PROMPT PANEL (Option 4) -->
+    <div id="a-prompt-panel">
+      <div class="ap-section">
+        <div class="ap-label">Live Context — injected automatically</div>
+        <div class="ap-live" id="ap-live-text">Loading...</div>
+      </div>
+      <div class="ap-section">
+        <div class="ap-label">Custom Instructions — your business rules</div>
+        <textarea class="ap-custom" id="ap-custom-input" placeholder="e.g. Always prioritize drivers rated above 4.5. Our shift ends at 10pm. Escalate anything Critical immediately..."></textarea>
+        <button class="ap-save" onclick="saveCustomPrompt()">Save Instructions</button>
+      </div>
     </div>
     <div id="agent-chat"></div>
     <div id="agent-tbar">Tap mic or type to speak with the agent...</div>
@@ -1462,7 +1763,84 @@ setTimeout(() => {
   }, 800);
 }, 10000);
 
-/* ══════════ CLOCK ══════════ */
+/* ══════════ SPLASH SKIP ══════════ */
+function dismissSplash(){
+  document.getElementById('splash').classList.add('out');
+  setTimeout(()=>{
+    document.getElementById('splash').style.display='none';
+    document.getElementById('app').classList.add('vis');
+    renderAll();
+  },800);
+}
+
+/* ══════════ COLLAPSIBLE SIDEBAR ══════════ */
+function toggleSideGroup(id){
+  const group=document.getElementById('nsg-'+id);
+  const chev=document.getElementById('ns-'+id);
+  if(!group||!chev)return;
+  const isCollapsed=group.classList.contains('collapsed');
+  if(isCollapsed){
+    group.classList.remove('collapsed');
+    group.style.maxHeight=group.scrollHeight+'px';
+    chev.classList.remove('collapsed');
+  } else {
+    group.style.maxHeight=group.scrollHeight+'px';
+    requestAnimationFrame(()=>{
+      group.style.maxHeight='0';
+      group.classList.add('collapsed');
+      chev.classList.add('collapsed');
+    });
+  }
+}
+// Set initial max-height for open groups so animation works
+setTimeout(()=>{
+  ['ops','mgmt'].forEach(id=>{
+    const g=document.getElementById('nsg-'+id);
+    if(g&&!g.classList.contains('collapsed')) g.style.maxHeight=g.scrollHeight+'px';
+  });
+},200);
+
+/* ══════════ KEY MODAL ══════════ */
+function openKeyModal(){document.getElementById('key-modal-main').classList.add('on');}
+function closeKeyModal(){document.getElementById('key-modal-main').classList.remove('on');}
+
+function saveKeyFromModal(){
+  const k=document.getElementById('km-main-key').value.trim();
+  if(!k.startsWith('sk-')){
+    const inp=document.getElementById('km-main-key');
+    inp.style.borderColor='var(--red)';
+    setTimeout(()=>inp.style.borderColor='',1500);
+    return;
+  }
+  S.apiKey=k;
+  closeKeyModal();
+  document.getElementById('ai-fab').classList.add('show');
+  // Also update settings badge
+  const badge=document.getElementById('ai-status-badge');
+  if(badge){badge.className='connected';badge.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> AI Agent connected';}
+  initSpeech();
+  showToast('ok','Onyx AI connected — tap the robot to begin');
+  openAgent();
+}
+
+function captureKeyModalInterest(){
+  const emailEl=document.getElementById('km-main-email');
+  const email=emailEl.value.trim();
+  if(!email||!email.includes('@')){
+    emailEl.style.borderColor='var(--red)';
+    setTimeout(()=>emailEl.style.borderColor='',1500);
+    return;
+  }
+  if(S.interest.find(i=>i.email===email)){
+    document.getElementById('km-interest-msg').textContent='Already registered — we\'ll be in touch!';
+    emailEl.value='';return;
+  }
+  S.interest.push({email,date:new Date().toLocaleDateString()});
+  renderInterest();
+  document.getElementById('km-interest-row').innerHTML='<div style="flex:1;padding:10px;font-size:12px;color:var(--green);text-align:center;font-weight:500">&#10003; Registered — we\'ll be in touch!</div>';
+  document.getElementById('km-interest-msg').textContent='Thank you for your interest in BFT Services.';
+  setTimeout(closeKeyModal,2200);
+}
 function tick(){document.getElementById('tclock').textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
 tick();setInterval(tick,1000);
 
@@ -2568,8 +2946,10 @@ function openPatientDetail(id){
 function toggleAIAgent(enabled){
   S.aiEnabled=enabled;
   document.getElementById('ai-key-section').style.display=enabled?'block':'none';
+  document.getElementById('ai-prompt-editor').style.display=enabled?'block':'none';
   if(!enabled){document.getElementById('ai-fab').classList.remove('show');closeAgent();}
   if(enabled&&S.apiKey){document.getElementById('ai-fab').classList.add('show');}
+  if(enabled) buildSettingsPromptCards();
 }
 
 function saveAIKey(){
@@ -2586,125 +2966,251 @@ function saveAIKey(){
 /* ══════════ AI CONFIGS ══════════ */
 const AI={
   tow:{name:'BFT Dispatch AI',sub:'Tow operations assistant',emoji:'🚛',
-    sys:()=>`You are the BFT Tow Dispatch AI. Active jobs: ${S.tow.filter(j=>!['Completed','Cancelled'].includes(j.status)).map(j=>`${j.id} (${j.type}, ${j.customer}, ${j.priority}, ${j.status})`).join('; ')||'none'}. Help dispatchers assign drivers, update status, assess priorities. Under 3 sentences. No markdown.`},
+    sys:()=>{
+      const base=`You are the BFT Tow Dispatch AI. Active jobs: ${S.tow.filter(j=>!['Completed','Cancelled'].includes(j.status)).map(j=>`${j.id} (${j.type}, ${j.customer}, ${j.priority}, ${j.status})`).join('; ')||'none'}. Help dispatchers assign drivers, update status, assess priorities. Under 3 sentences. No markdown.`;
+      const custom=customPrompts.tow;
+      return custom?base+' Additional instructions: '+custom:base;
+    }},
   freight:{name:'BFT Freight AI',sub:'Logistics operations assistant',emoji:'🚚',
-    sys:()=>`You are the BFT Freight AI. Active loads: ${S.freight.map(l=>`#${l.id} ${l.origin}→${l.dest} ${l.weight}t ${l.status}`).join('; ')||'none'}. Help with load management, routing, costs. Under 3 sentences. No markdown.`},
+    sys:()=>{
+      const base=`You are the BFT Freight AI. Active loads: ${S.freight.map(l=>`#${l.id} ${l.origin}→${l.dest} ${l.weight}t ${l.status}${l.po?' PO:'+l.po:''}`).join('; ')||'none'}. Help with load management, routing, and cost decisions. Under 3 sentences. No markdown.`;
+      const custom=customPrompts.freight;
+      return custom?base+' Additional instructions: '+custom:base;
+    }},
   health:{name:'BFT Triage AI',sub:'Health triage assistant',emoji:'🏥',
-    sys:()=>`You are the BFT Health Triage AI. Active patients: ${S.health.filter(p=>p.status!=='Discharged').map(p=>`${p.id} ${p.name} pain ${p.pain}/10 ${p.priority} ${p.status}`).join('; ')||'none'}. Help with triage and coordination. Always recommend real medical professionals for actual care. Under 3 sentences. No markdown.`}
+    sys:()=>{
+      const base=`You are the BFT Health Triage AI. Active patients: ${S.health.filter(p=>p.status!=='Discharged').map(p=>`${p.id} ${p.name} pain ${p.pain}/10 ${p.priority} ${p.status}`).join('; ')||'none'}. Help with triage prioritization and coordination. Always recommend real medical professionals for actual care. Under 3 sentences. No markdown.`;
+      const custom=customPrompts.health;
+      return custom?base+' Additional instructions: '+custom:base;
+    }},
+  assets:{name:'BFT Asset AI',sub:'Asset management assistant',emoji:'📦',
+    sys:()=>{
+      const base=`You are the BFT Asset Management AI. Current registry: ${S.assets.map(a=>`${a.id} ${a.name} (${catLabel(a.cat)}, ${a.status}, assigned to ${a.assigned})`).join('; ')||'none'}. Help track assignments, flag items needing service, and manage fleet inventory. Under 3 sentences. No markdown.`;
+      const custom=customPrompts.assets;
+      return custom?base+' Additional instructions: '+custom:base;
+    }},
+  driver:{name:'BFT Driver AI',sub:'Field driver assistant',emoji:'🚗',
+    sys:()=>{
+      const myJobs=S.tow.filter(j=>j.driver==='D-04 Marcus Hill'&&!['Completed','Cancelled'].includes(j.status));
+      const base=`You are the BFT Driver Assistant for D-04 Marcus Hill. Current jobs: ${myJobs.map(j=>`${j.id} ${j.type} at ${j.loc} status:${j.status} ETA:${j.eta}`).join('; ')||'none'}. Help with navigation, job status updates, customer communication, and safety. Be brief and practical — this driver is on the road. Under 2 sentences. No markdown.`;
+      const custom=customPrompts.driver;
+      return custom?base+' Additional instructions: '+custom:base;
+    }},
+  nurse:{name:'BFT Triage AI',sub:'Nurse triage assistant',emoji:'🩺',
+    sys:()=>{
+      const myPts=S.health.filter(p=>p.status!=='Discharged');
+      const base=`You are the BFT Nurse Triage Assistant for Nurse Fields. Patient queue: ${myPts.map(p=>`${p.id} ${p.name} pain ${p.pain}/10 ${p.priority} ${p.status} provider:${p.provider}`).join('; ')||'none'}. Help prioritize patients, suggest escalations, and guide intake. Always defer to physicians for diagnosis and treatment. Under 2 sentences. No markdown.`;
+      const custom=customPrompts.nurse;
+      return custom?base+' Additional instructions: '+custom:base;
+    }}
 };
 
+/* ══════════ CUSTOM PROMPTS ══════════ */
+const customPrompts={tow:'',freight:'',health:'',assets:'',driver:'',nurse:''};
+
+const PROMPT_META={
+  tow:    {emoji:'🚛',label:'Tow Dispatch',    hint:'e.g. Always assign the closest available driver. Escalate Critical jobs immediately.'},
+  freight:{emoji:'🚚',label:'Freight Ops',     hint:'e.g. Flag any load over 40 tons for compliance review. Prefer I-85 routing.'},
+  health: {emoji:'🏥',label:'Health Triage',   hint:'e.g. Follow ESI triage protocol. Alert charge nurse for any pain score 9+.'},
+  assets: {emoji:'📦',label:'Asset Manager',   hint:'e.g. Flag any asset not checked in for 30+ days. Government assets need weekly verification.'},
+  driver: {emoji:'🚗',label:'Driver View',     hint:'e.g. Always confirm customer identity before starting service. Photo required for accidents.'},
+  nurse:  {emoji:'🩺',label:'Nurse / Triage',  hint:'e.g. Our facility uses ESI Level 1-5. Always document pain reassessment every 30 minutes.'}
+};
+
+function togglePromptPanel(){
+  const panel=document.getElementById('a-prompt-panel');
+  const btn=document.getElementById('a-prompt-toggle');
+  const isOpen=panel.classList.toggle('on');
+  btn.classList.toggle('on',isOpen);
+  if(isOpen) refreshPromptPanel();
+}
+
+function refreshPromptPanel(){
+  const mod=S.agentMod;
+  const liveText=AI[mod].sys();
+  // Show just the base context part (before "Additional instructions")
+  const baseOnly=liveText.split(' Additional instructions:')[0];
+  document.getElementById('ap-live-text').textContent=baseOnly;
+  document.getElementById('ap-custom-input').value=customPrompts[mod]||'';
+  document.getElementById('ap-custom-input').placeholder=PROMPT_META[mod]?PROMPT_META[mod].hint:'Add custom instructions...';
+}
+
+function saveCustomPrompt(){
+  const mod=S.agentMod;
+  customPrompts[mod]=document.getElementById('ap-custom-input').value.trim();
+  // Also update settings card if visible
+  const settingsInput=document.getElementById('sp-'+mod);
+  if(settingsInput) settingsInput.value=customPrompts[mod];
+  showToast('ok','Custom instructions saved for '+PROMPT_META[mod].label);
+  refreshPromptPanel();
+}
+
+function buildSettingsPromptCards(){
+  const card=document.getElementById('settings-prompt-cards');
+  if(!card) return;
+  card.innerHTML=Object.entries(PROMPT_META).map(([mod,meta])=>`
+    <div class="prompt-card">
+      <div class="prompt-card-head" onclick="togglePromptCard('${mod}')">
+        <span class="prompt-card-emoji">${meta.emoji}</span>
+        <span class="prompt-card-title">${meta.label}</span>
+        <span class="prompt-card-chevron" id="pcc-${mod}">▾</span>
+      </div>
+      <div class="prompt-card-body" id="pcb-${mod}">
+        <div style="font-size:10px;font-weight:600;color:var(--text2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px">Live Context Preview</div>
+        <div class="ap-live" style="margin-bottom:10px;font-size:10px" id="sp-live-${mod}"></div>
+        <div style="font-size:10px;font-weight:600;color:var(--text2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px">Custom Instructions</div>
+        <textarea class="ap-custom" id="sp-${mod}" placeholder="${meta.hint}" oninput="customPrompts['${mod}']=this.value">${customPrompts[mod]}</textarea>
+
+```
+    <div style="display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap">
+      <button class="ap-save" onclick="saveSettingsPrompt('${mod}')">Save</button>
+      <button class="btn" style="font-size:11px;padding:4px 10px" onclick="clearSettingsPrompt('${mod}')">Clear</button>
+      <span style="font-size:11px;color:var(--text3)">Custom instructions are appended to the live AI context</span>
+    </div>
+  </div>
+</div>`).join('');
+```
+
+}
+
+function togglePromptCard(mod){
+const body=document.getElementById(‘pcb-’+mod);
+const chev=document.getElementById(‘pcc-’+mod);
+const isOpen=body.classList.toggle(‘open’);
+chev.classList.toggle(‘open’,isOpen);
+if(isOpen){
+const liveEl=document.getElementById(‘sp-live-’+mod);
+if(liveEl) liveEl.textContent=AI[mod].sys().split(’ Additional instructions:’)[0];
+}
+}
+
+function saveSettingsPrompt(mod){
+const inp=document.getElementById(‘sp-’+mod);
+if(inp) customPrompts[mod]=inp.value.trim();
+showToast(‘ok’,PROMPT_META[mod].label+’ instructions saved’);
+}
+
+function clearSettingsPrompt(mod){
+customPrompts[mod]=’’;
+const inp=document.getElementById(‘sp-’+mod);
+if(inp) inp.value=’’;
+showToast(‘info’,PROMPT_META[mod].label+’ instructions cleared’);
+}
+
 function setAgentMod(mod,el){
-  S.agentMod=mod;S.agentHistory=[];
-  document.querySelectorAll('.amt').forEach(t=>t.classList.remove('on'));el.classList.add('on');
-  const cfg=AI[mod];
-  document.getElementById('a-name').textContent=cfg.name;
-  document.getElementById('a-sub').textContent=cfg.sub;
-  document.getElementById('a-avatar').textContent=cfg.emoji;
-  document.getElementById('agent-chat').innerHTML='';
-  addAMsg('a',`${cfg.emoji} ${cfg.name} active. Ask me about ${mod} operations.`);
+S.agentMod=mod;S.agentHistory=[];
+document.querySelectorAll(’.amt’).forEach(t=>t.classList.remove(‘on’));el.classList.add(‘on’);
+const cfg=AI[mod];
+document.getElementById(‘a-name’).textContent=cfg.name;
+document.getElementById(‘a-sub’).textContent=cfg.sub;
+document.getElementById(‘a-avatar’).textContent=cfg.emoji;
+document.getElementById(‘agent-chat’).innerHTML=’’;
+addAMsg(‘a’,`${cfg.emoji} ${cfg.name} active. Ask me about ${mod} operations.`);
+// Refresh prompt panel if open
+if(document.getElementById(‘a-prompt-panel’).classList.contains(‘on’)) refreshPromptPanel();
 }
 
 function openAgent(){
-  if(!S.apiKey){navTo('settings',document.querySelector('.ni:last-child'));showToast('info','Enable AI Agent in Settings first');return;}
-  const m=document.getElementById('agent-modal');m.classList.add('on');
-  if(document.getElementById('agent-chat').children.length===0){
-    addAMsg('a',`${AI[S.agentMod].emoji} ${AI[S.agentMod].name} online. Ask me about ${S.agentMod} operations.`);
-  }
+if(!S.apiKey){openKeyModal();return;}
+const m=document.getElementById(‘agent-modal’);m.classList.add(‘on’);
+if(document.getElementById(‘agent-chat’).children.length===0){
+addAMsg(‘a’,`${AI[S.agentMod].emoji} ${AI[S.agentMod].name} online. Ask me about ${S.agentMod} operations.`);
 }
-function closeAgent(){document.getElementById('agent-modal').classList.remove('on');}
-function closeAgentOutside(e){if(e.target===document.getElementById('agent-modal'))closeAgent();}
+}
+function closeAgent(){document.getElementById(‘agent-modal’).classList.remove(‘on’);}
+function closeAgentOutside(e){if(e.target===document.getElementById(‘agent-modal’))closeAgent();}
 
 function addAMsg(role,text){
-  const chat=document.getElementById('agent-chat');
-  const d=document.createElement('div');d.className='ac-msg '+role;d.textContent=text;
-  chat.appendChild(d);chat.scrollTop=chat.scrollHeight;
+const chat=document.getElementById(‘agent-chat’);
+const d=document.createElement(‘div’);d.className=‘ac-msg ‘+role;d.textContent=text;
+chat.appendChild(d);chat.scrollTop=chat.scrollHeight;
 }
 function addAThink(){
-  const chat=document.getElementById('agent-chat');
-  const d=document.createElement('div');d.className='ac-think';d.innerHTML='<span></span><span></span><span></span>';
-  chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d;
+const chat=document.getElementById(‘agent-chat’);
+const d=document.createElement(‘div’);d.className=‘ac-think’;d.innerHTML=’<span></span><span></span><span></span>’;
+chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d;
 }
 
 /* TTS — fixed */
 async function agentSpeak(text){
-  if(!window.speechSynthesis)return;
-  try{
-    speechSynthesis.cancel();
-    await new Promise(r=>setTimeout(r,80));
-    const voices=await new Promise(res=>{
-      const vs=speechSynthesis.getVoices();
-      if(vs.length)res(vs);
-      else{speechSynthesis.onvoiceschanged=()=>res(speechSynthesis.getVoices());setTimeout(()=>res(speechSynthesis.getVoices()),2000);}
-    });
-    const u=new SpeechSynthesisUtterance(text.replace(/[*_#`]/g,''));
-    u.rate=0.93;u.pitch=0.85;u.volume=1;
-    const pick=voices.find(v=>v.name.includes('Google')&&v.lang.startsWith('en')&&v.name.toLowerCase().includes('male'))
-      ||voices.find(v=>v.lang==='en-US'&&!v.name.toLowerCase().includes('female'))
-      ||voices.find(v=>v.lang.startsWith('en'))||voices[0];
-    if(pick)u.voice=pick;
-    S.speaking=true;setAWaves(true);
-    u.onend=u.onerror=()=>{S.speaking=false;setAWaves(false);};
-    speechSynthesis.speak(u);
-    setTimeout(()=>{if(S.speaking&&!speechSynthesis.speaking){S.speaking=false;setAWaves(false);}},600);
-  }catch(e){S.speaking=false;setAWaves(false);}
+if(!window.speechSynthesis)return;
+try{
+speechSynthesis.cancel();
+await new Promise(r=>setTimeout(r,80));
+const voices=await new Promise(res=>{
+const vs=speechSynthesis.getVoices();
+if(vs.length)res(vs);
+else{speechSynthesis.onvoiceschanged=()=>res(speechSynthesis.getVoices());setTimeout(()=>res(speechSynthesis.getVoices()),2000);}
+});
+const u=new SpeechSynthesisUtterance(text.replace(/[*_#`]/g,’’));
+u.rate=0.93;u.pitch=0.85;u.volume=1;
+const pick=voices.find(v=>v.name.includes(‘Google’)&&v.lang.startsWith(‘en’)&&v.name.toLowerCase().includes(‘male’))
+||voices.find(v=>v.lang===‘en-US’&&!v.name.toLowerCase().includes(‘female’))
+||voices.find(v=>v.lang.startsWith(‘en’))||voices[0];
+if(pick)u.voice=pick;
+S.speaking=true;setAWaves(true);
+u.onend=u.onerror=()=>{S.speaking=false;setAWaves(false);};
+speechSynthesis.speak(u);
+setTimeout(()=>{if(S.speaking&&!speechSynthesis.speaking){S.speaking=false;setAWaves(false);}},600);
+}catch(e){S.speaking=false;setAWaves(false);}
 }
 
 function setAWaves(on){
-  const w=document.getElementById('a-waves');
-  if(w)w.className=on?'on':'';
+const w=document.getElementById(‘a-waves’);
+if(w)w.className=on?‘on’:’’;
 }
 
 async function askAgent(text){
-  if(!text.trim()||!S.apiKey)return;
-  if(S.speaking){speechSynthesis.cancel();S.speaking=false;setAWaves(false);}
-  addAMsg('u',text);
-  S.agentHistory.push({role:'user',content:text});
-  const th=addAThink();
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':S.apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system:AI[S.agentMod].sys(),messages:S.agentHistory})
-    });
-    const d=await res.json();th.remove();
-    if(d.error){showToast('error',d.error.message||'API error');return;}
-    const reply=(d.content&&d.content.find(b=>b.type==='text')&&d.content.find(b=>b.type==='text').text)||'No response.';
-    S.agentHistory.push({role:'assistant',content:reply});
-    addAMsg('a',reply);
-    agentSpeak(reply);
-  }catch(e){th.remove();showToast('error','Connection error');}
+if(!text.trim()||!S.apiKey)return;
+if(S.speaking){speechSynthesis.cancel();S.speaking=false;setAWaves(false);}
+addAMsg(‘u’,text);
+S.agentHistory.push({role:‘user’,content:text});
+const th=addAThink();
+try{
+const res=await fetch(‘https://api.anthropic.com/v1/messages’,{
+method:‘POST’,
+headers:{‘Content-Type’:‘application/json’,‘x-api-key’:S.apiKey,‘anthropic-version’:‘2023-06-01’,‘anthropic-dangerous-direct-browser-access’:‘true’},
+body:JSON.stringify({model:‘claude-sonnet-4-5’,max_tokens:1000,system:AI[S.agentMod].sys(),messages:S.agentHistory})
+});
+const d=await res.json();th.remove();
+if(d.error){showToast(‘error’,d.error.message||‘API error’);return;}
+const reply=(d.content&&d.content.find(b=>b.type===‘text’)&&d.content.find(b=>b.type===‘text’).text)||‘No response.’;
+S.agentHistory.push({role:‘assistant’,content:reply});
+addAMsg(‘a’,reply);
+agentSpeak(reply);
+}catch(e){th.remove();showToast(‘error’,‘Connection error’);}
 }
 
 /* Speech recognition */
 function initSpeech(){
-  if(S.recog)return;
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  const mic=document.getElementById('a-mic');
-  if(!SR){if(mic){mic.style.opacity='.3';mic.style.cursor='not-allowed';}return;}
-  S.recog=new SR();S.recog.continuous=false;S.recog.interimResults=true;S.recog.lang='en-US';
-  const tbar=document.getElementById('agent-tbar');
-  S.recog.onstart=()=>{S.listening=true;if(mic)mic.classList.add('rec');tbar.textContent='';tbar.classList.add('on');};
-  S.recog.onresult=e=>{let i='',f='';for(let x=e.resultIndex;x<e.results.length;x++){if(e.results[x].isFinal)f+=e.results[x][0].transcript;else i+=e.results[x][0].transcript;}tbar.textContent=f||i;};
-  S.recog.onend=()=>{
-    S.listening=false;if(mic)mic.classList.remove('rec');tbar.classList.remove('on');
-    const said=tbar.textContent.trim();
-    if(said){askAgent(said);tbar.textContent='Tap mic or type to speak with the agent...';}
-    else{tbar.textContent='Tap mic or type to speak with the agent...';}
-  };
-  S.recog.onerror=e=>{S.listening=false;if(mic)mic.classList.remove('rec');tbar.classList.remove('on');if(e.error!=='no-speech'&&e.error!=='aborted')showToast('error','Mic: '+e.error);};
+if(S.recog)return;
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const mic=document.getElementById(‘a-mic’);
+if(!SR){if(mic){mic.style.opacity=’.3’;mic.style.cursor=‘not-allowed’;}return;}
+S.recog=new SR();S.recog.continuous=false;S.recog.interimResults=true;S.recog.lang=‘en-US’;
+const tbar=document.getElementById(‘agent-tbar’);
+S.recog.onstart=()=>{S.listening=true;if(mic)mic.classList.add(‘rec’);tbar.textContent=’’;tbar.classList.add(‘on’);};
+S.recog.onresult=e=>{let i=’’,f=’’;for(let x=e.resultIndex;x<e.results.length;x++){if(e.results[x].isFinal)f+=e.results[x][0].transcript;else i+=e.results[x][0].transcript;}tbar.textContent=f||i;};
+S.recog.onend=()=>{
+S.listening=false;if(mic)mic.classList.remove(‘rec’);tbar.classList.remove(‘on’);
+const said=tbar.textContent.trim();
+if(said){askAgent(said);tbar.textContent=‘Tap mic or type to speak with the agent…’;}
+else{tbar.textContent=‘Tap mic or type to speak with the agent…’;}
+};
+S.recog.onerror=e=>{S.listening=false;if(mic)mic.classList.remove(‘rec’);tbar.classList.remove(‘on’);if(e.error!==‘no-speech’&&e.error!==‘aborted’)showToast(‘error’,’Mic: ’+e.error);};
 }
 
 function toggleMic(){
-  if(!S.recog||!S.apiKey)return;
-  if(S.speaking){speechSynthesis.cancel();S.speaking=false;setAWaves(false);}
-  if(S.listening)try{S.recog.stop();}catch(e){}
-  else try{S.recog.start();}catch(e){}
+if(!S.recog||!S.apiKey)return;
+if(S.speaking){speechSynthesis.cancel();S.speaking=false;setAWaves(false);}
+if(S.listening)try{S.recog.stop();}catch(e){}
+else try{S.recog.start();}catch(e){}
 }
 
-document.getElementById('a-send').addEventListener('click',()=>{const t=document.getElementById('a-tf').value.trim();if(!t)return;document.getElementById('a-tf').value='';askAgent(t);});
-document.getElementById('a-tf').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('a-send').click();});
+document.getElementById(‘a-send’).addEventListener(‘click’,()=>{const t=document.getElementById(‘a-tf’).value.trim();if(!t)return;document.getElementById(‘a-tf’).value=’’;askAgent(t);});
+document.getElementById(‘a-tf’).addEventListener(‘keydown’,e=>{if(e.key===‘Enter’)document.getElementById(‘a-send’).click();});
 speechSynthesis.onvoiceschanged=()=>{};
-window.addEventListener('resize',()=>{if(S.mapsKey){loadMap('tow');loadMap('freight');}});
+window.addEventListener(‘resize’,()=>{if(S.mapsKey){loadMap(‘tow’);loadMap(‘freight’);}});
 </script>
 
 </body>
