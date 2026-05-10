@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BFT — Health Triage Demo</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}:root{--blue:#0066ff;--dark:#050d1a;--accent:#00d4ff;--green:#00c896;--orange:#ff6b35;--red:#ff4757;--purple:#a855f7;--text:#e8f0fe}body{background:var(--dark);color:var(--text);font-family:'Inter',-apple-system,sans-serif}header{background:#08101e;border-bottom:1px solid rgba(255,71,87,.18);padding:.85rem 2rem;display:flex;align-items:center;gap:1rem}.back{color:rgba(232,240,254,.5);text-decoration:none;font-size:.78rem}.module-badge{padding:.3rem .9rem;border-radius:50px;background:rgba(255,71,87,.1);border:1px solid rgba(255,71,87,.25);font-size:.68rem;font-weight:700;color:var(--red);letter-spacing:.06em}h1{font-size:1rem;font-weight:700}.main{max-width:1000px;margin:2rem auto;padding:0 1.5rem}.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}.sc{border-radius:10px;padding:1.25rem 1rem}.sv{font-size:1.8rem;font-weight:800;letter-spacing:-.04em}.sl{font-size:.72rem;color:rgba(232,240,254,.45);margin-top:.2rem}.sd{font-size:.68rem;font-weight:600;margin-top:.3rem}.ai-card{background:linear-gradient(135deg,rgba(255,71,87,.07),rgba(255,107,53,.04));border:1px solid rgba(255,71,87,.2);border-radius:10px;padding:1.25rem;margin-bottom:1.25rem;display:flex;gap:1rem}.ai-icon{width:40px;height:40px;border-radius:10px;background:rgba(255,71,87,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem}.ai-label{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:.3rem}.ai-text{font-size:.82rem;color:rgba(232,240,254,.8);line-height:1.6}.panel{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:1.25rem;margin-bottom:1.25rem}.panel-title{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,240,254,.45);margin-bottom:1rem}.pt-row{display:flex;align-items:center;gap:1rem;padding:.75rem;border-radius:8px;margin-bottom:.5rem;border-left:3px solid transparent}.pri-crit{background:rgba(255,71,87,.06);border-color:var(--red)}.pri-high{background:rgba(255,107,53,.06);border-color:var(--orange)}.pri-med{background:rgba(168,85,247,.06);border-color:var(--purple)}.pri-low{background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.15)}.pt-label{font-size:.65rem;font-weight:700;width:32px;flex-shrink:0}.pt-name{flex:1;font-size:.8rem;font-weight:600}.pt-detail{font-size:.7rem;color:rgba(232,240,254,.5)}.pt-wait{font-size:.72rem;font-weight:700}.pt-time{font-size:.65rem;color:rgba(232,240,254,.4)}.badge{padding:3px 9px;border-radius:50px;font-size:.6rem;font-weight:700}.back-link{display:inline-flex;align-items:center;gap:.4rem;color:rgba(232,240,254,.45);font-size:.75rem;text-decoration:none;margin-bottom:1.5rem}.back-link:hover{color:var(--red)}@media(max-width:600px){.stat-row{grid-template-columns:1fr 1fr}}</style></head>
+<body>
+<header><a class="back" href="bft-services-demo.html">← Back to Platform</a><div class="module-badge">MODULE 03</div><h1>Health Triage</h1></header>
+<div class="main">
+  <a class="back-link" href="bft-services-demo.html">← Platform Overview</a>
+  <div class="ai-card"><div class="ai-icon">🤖</div><div><div class="ai-label">AI Triage Agent — Live</div><div class="ai-text">⚠️ ALERT: P. Martinez (Room 3A) — vitals deteriorating. Escalating to critical. Bay 2 now available for J. Thompson. Current wait time for medium priority: 18 min. Recommend dispatching Nurse Chen to triage bay immediately.</div></div></div>
+  <div class="stat-row">
+    <div class="sc" style="background:rgba(255,71,87,.08);border:1px solid rgba(255,71,87,.2)"><div class="sv" style="color:var(--red)" id="v-crit">3</div><div class="sl">Critical</div><div class="sd" style="color:var(--red)">Immediate</div></div>
+    <div class="sc" style="background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.2)"><div class="sv" style="color:var(--orange)" id="v-high">7</div><div class="sl">High Priority</div><div class="sd" style="color:var(--orange)">Avg 4 min</div></div>
+    <div class="sc" style="background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.2)"><div class="sv" style="color:var(--purple)">12</div><div class="sl">Medium</div><div class="sd" style="color:var(--purple)">Avg 18 min</div></div>
+    <div class="sc" style="background:rgba(0,200,150,.08);border:1px solid rgba(0,200,150,.2)"><div class="sv" style="color:var(--green)">42</div><div class="sl">Discharged</div><div class="sd" style="color:var(--green)">today</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Patient Queue</div>
+    <div id="queue"></div>
+  </div>
+</div>
+<script>
+const pts=[
+  {p:'pri-crit',lc:'var(--red)',l:'CRIT',name:'P. Martinez',age:'58M',c:'Chest Pain / Arrhythmia',wait:'NOW',wc:'var(--red)',t:'2m ago'},
+  {p:'pri-crit',lc:'var(--red)',l:'CRIT',name:'A. Johnson',age:'71F',c:'Stroke Symptoms',wait:'NOW',wc:'var(--red)',t:'4m ago'},
+  {p:'pri-crit',lc:'var(--red)',l:'CRIT',name:'M. Torres',age:'44M',c:'Severe Bleeding',wait:'NOW',wc:'var(--red)',t:'6m ago'},
+  {p:'pri-high',lc:'var(--orange)',l:'HIGH',name:'J. Thompson',age:'34F',c:'Head Injury / Concussion',wait:'4 min',wc:'var(--orange)',t:'8m ago'},
+  {p:'pri-high',lc:'var(--orange)',l:'HIGH',name:'B. Williams',age:'29M',c:'Suspected Fracture',wait:'6 min',wc:'var(--orange)',t:'10m ago'},
+  {p:'pri-med',lc:'var(--purple)',l:'MED',name:'R. Davis',age:'27M',c:'Wrist Fracture',wait:'18 min',wc:'var(--purple)',t:'12m ago'},
+  {p:'pri-low',lc:'rgba(232,240,254,.4)',l:'LOW',name:'S. Kim',age:'45F',c:'Ankle Sprain',wait:'35 min',wc:'rgba(232,240,254,.5)',t:'18m ago'},
+];
+document.getElementById('queue').innerHTML=pts.map(p=>
+  `<div class="pt-row ${p.p}"><span class="pt-label" style="color:${p.lc}">${p.l}</span><div style="flex:1"><div class="pt-name">${p.name} <span style="font-size:.65rem;color:rgba(232,240,254,.4)">${p.age}</span></div><div class="pt-detail">${p.c}</div></div><div style="text-align:right"><div class="pt-wait" style="color:${p.wc}">${p.wait}</div><div class="pt-time">${p.t}</div></div></div>`
+).join('');
+</script>
+</body></html>

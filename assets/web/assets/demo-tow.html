@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BFT — Tow Dispatch Demo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--blue:#0066ff;--dark:#050d1a;--accent:#00d4ff;--green:#00c896;--orange:#ff6b35;--red:#ff4757;--purple:#a855f7;--text:#e8f0fe}
+body{background:var(--dark);color:var(--text);font-family:'Inter',-apple-system,sans-serif;min-height:100vh}
+header{background:#08101e;border-bottom:1px solid rgba(0,102,255,.18);padding:.85rem 2rem;display:flex;align-items:center;gap:1rem}
+.back{color:rgba(232,240,254,.5);text-decoration:none;font-size:.78rem;transition:color .2s}.back:hover{color:var(--accent)}
+.module-badge{padding:.3rem .9rem;border-radius:50px;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.25);font-size:.68rem;font-weight:700;color:var(--accent);letter-spacing:.06em}
+h1{font-size:1rem;font-weight:700}
+.main{max-width:1100px;margin:2rem auto;padding:0 1.5rem}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+.sc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:1.25rem 1rem}
+.sc .sv{font-size:1.8rem;font-weight:800;letter-spacing:-.04em}
+.sc .sl{font-size:.72rem;color:rgba(232,240,254,.45);margin-top:.2rem}
+.sc .sd{font-size:.68rem;font-weight:600;margin-top:.3rem}
+.up{color:var(--green)}.dn{color:var(--red)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem}
+.panel{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:1.25rem}
+.panel-title{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,240,254,.45);margin-bottom:1rem}
+.map-ph{height:260px;background:linear-gradient(135deg,#0a1628,#0d1f3c);border-radius:8px;border:1px solid rgba(0,102,255,.14);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.mgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,102,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,102,255,.06) 1px,transparent 1px);background-size:28px 28px}
+.mdot{width:10px;height:10px;border-radius:50%;position:absolute;cursor:pointer;transition:transform .2s}
+.mdot:hover{transform:scale(1.5)}
+.pulse{animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 currentColor}50%{box-shadow:0 0 0 6px transparent}}
+.map-legend{position:absolute;bottom:10px;left:12px;display:flex;gap:.75rem;font-size:.6rem}
+.leg{display:flex;align-items:center;gap:.3rem;color:rgba(232,240,254,.5)}
+.leg-dot{width:8px;height:8px;border-radius:50%}
+table{width:100%;border-collapse:collapse}
+th{font-size:.62rem;font-weight:600;color:rgba(232,240,254,.4);text-align:left;padding:.5rem .75rem;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.06em}
+td{font-size:.75rem;padding:.65rem .75rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+tr:last-child td{border:none}
+.badge{padding:3px 9px;border-radius:50px;font-size:.6rem;font-weight:700}
+.b-green{background:rgba(0,200,150,.15);color:var(--green)}
+.b-orange{background:rgba(255,107,53,.15);color:var(--orange)}
+.b-dim{background:rgba(255,255,255,.08);color:rgba(232,240,254,.45)}
+.b-blue{background:rgba(0,102,255,.15);color:#6fa3ff}
+.ai-card{background:linear-gradient(135deg,rgba(0,102,255,.08),rgba(0,212,255,.04));border:1px solid rgba(0,212,255,.2);border-radius:10px;padding:1.25rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:1rem}
+.ai-icon{width:40px;height:40px;border-radius:10px;background:rgba(0,212,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem}
+.ai-label{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.3rem}
+.ai-text{font-size:.82rem;color:rgba(232,240,254,.8);line-height:1.6}
+.back-link{display:inline-flex;align-items:center;gap:.4rem;color:rgba(232,240,254,.45);font-size:.75rem;text-decoration:none;margin-bottom:1.5rem;transition:color .2s}
+.back-link:hover{color:var(--accent)}
+@media(max-width:700px){.stat-row,.grid2{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="bft-services-demo.html">← Back to Platform</a>
+  <div class="module-badge">MODULE 01</div>
+  <h1>Tow Dispatch</h1>
+</header>
+<div class="main">
+  <a class="back-link" href="bft-services-demo.html">← Platform Overview</a>
+
+  <div class="ai-card">
+    <div class="ai-icon">🤖</div>
+    <div>
+      <div class="ai-label">AI Dispatch Agent — Live</div>
+      <div class="ai-text">Optimal routing calculated. Driver #D-003 (J. Mitchell) assigned to T-0041 — ETA 4.2 min. 3 active alerts detected on I-285 corridor. Recommending reroute for T-0040 via Langford Pkwy.</div>
+    </div>
+  </div>
+
+  <div class="stat-row" id="stats"></div>
+
+  <div class="grid2">
+    <div class="panel">
+      <div class="panel-title">Live Map</div>
+      <div class="map-ph">
+        <div class="mgrid"></div>
+        <div class="mdot pulse" style="top:28%;left:22%;background:var(--accent);color:var(--accent)" title="T-0041"></div>
+        <div class="mdot pulse" style="top:52%;left:60%;background:var(--accent);color:var(--accent)" title="T-0042"></div>
+        <div class="mdot" style="top:40%;left:74%;background:var(--orange);color:var(--orange)" title="T-0040 En Route"></div>
+        <div class="mdot" style="top:68%;left:38%;background:var(--green);color:var(--green)" title="T-0039 Done"></div>
+        <div class="mdot pulse" style="top:20%;left:55%;background:var(--red);color:var(--red)" title="T-0043 New"></div>
+        <div class="map-legend">
+          <div class="leg"><div class="leg-dot" style="background:var(--accent)"></div>Active</div>
+          <div class="leg"><div class="leg-dot" style="background:var(--orange)"></div>En Route</div>
+          <div class="leg"><div class="leg-dot" style="background:var(--green)"></div>Done</div>
+          <div class="leg"><div class="leg-dot" style="background:var(--red)"></div>New</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Active Jobs</div>
+      <table>
+        <thead><tr><th>Job #</th><th>Location</th><th>Driver</th><th>Status</th><th>ETA</th></tr></thead>
+        <tbody id="job-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+const stats = [
+  {v:'12',l:'Active Jobs',d:'↑ 3 new',cls:'up',c:'var(--accent)'},
+  {v:'47',l:'Completed',d:'today',cls:'',c:'var(--green)'},
+  {v:'4.2m',l:'Avg Response',d:'↓ 0.8m faster',cls:'up',c:'var(--orange)'},
+  {v:'98%',l:'Completion',d:'30-day avg',cls:'',c:'var(--purple)'},
+];
+document.getElementById('stats').innerHTML = stats.map(s =>
+  `<div class="sc"><div class="sv" style="color:${s.c}">${s.v}</div><div class="sl">${s.l}</div><div class="sd ${s.cls}">${s.d}</div></div>`
+).join('');
+
+const jobs = [
+  {id:'T-0041',loc:'2847 Peachtree Rd NW',driver:'J. Mitchell',status:'ACTIVE',scls:'b-green',eta:'4.2m'},
+  {id:'T-0042',loc:'Northside Dr & 17th',driver:'T. Robinson',status:'ACTIVE',scls:'b-green',eta:'7.1m'},
+  {id:'T-0043',loc:'I-85 N Exit 32',driver:'Unassigned',status:'NEW',scls:'b-blue',eta:'—'},
+  {id:'T-0040',loc:'I-285 W at Exit 20',driver:'D. Washington',status:'EN ROUTE',scls:'b-orange',eta:'12m'},
+  {id:'T-0039',loc:'Buckhead Plaza Lot B',driver:'J. Mitchell',status:'DONE',scls:'b-dim',eta:'✓'},
+];
+document.getElementById('job-body').innerHTML = jobs.map(j =>
+  `<tr><td style="color:var(--accent);font-weight:600">${j.id}</td><td>${j.loc}</td><td>${j.driver}</td><td><span class="badge ${j.scls}">${j.status}</span></td><td style="color:rgba(232,240,254,.55)">${j.eta}</td></tr>`
+).join('');
+
+let active = 12;
+setInterval(() => {
+  const delta = Math.random() > .7 ? 1 : 0;
+  active = Math.max(10, Math.min(15, active + (Math.random() > .5 ? delta : -delta)));
+  const el = document.querySelector('#stats .sc:first-child .sv');
+  if (el) el.textContent = active;
+}, 4000);
+</script>
+</body>
+</html>

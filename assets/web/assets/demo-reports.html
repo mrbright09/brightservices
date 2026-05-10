@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BFT — Reports Demo</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}:root{--blue:#0066ff;--dark:#050d1a;--accent:#00d4ff;--green:#00c896;--orange:#ff6b35;--red:#ff4757;--purple:#a855f7;--text:#e8f0fe}body{background:var(--dark);color:var(--text);font-family:'Inter',-apple-system,sans-serif}header{background:#08101e;border-bottom:1px solid rgba(255,107,53,.18);padding:.85rem 2rem;display:flex;align-items:center;gap:1rem}.back{color:rgba(232,240,254,.5);text-decoration:none;font-size:.78rem}.module-badge{padding:.3rem .9rem;border-radius:50px;background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.25);font-size:.68rem;font-weight:700;color:var(--orange);letter-spacing:.06em}h1{font-size:1rem;font-weight:700}.main{max-width:1100px;margin:2rem auto;padding:0 1.5rem}.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}.sc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:1.25rem 1rem}.sv{font-size:1.8rem;font-weight:800;letter-spacing:-.04em}.sl{font-size:.72rem;color:rgba(232,240,254,.45);margin-top:.2rem}.sd{font-size:.72rem;font-weight:600;margin-top:.3rem;color:var(--green)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem}.panel{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:1.25rem}.panel-title{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,240,254,.45);margin-bottom:1rem}.bar-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem}.bar-label{font-size:.65rem;color:rgba(232,240,254,.45);width:32px;flex-shrink:0}.bar-track{flex:1;height:9px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}.bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--accent));transition:width 1s ease}.bar-val{font-size:.65rem;font-weight:600;color:var(--accent);width:42px;text-align:right}.ai-card{background:linear-gradient(135deg,rgba(255,107,53,.07),rgba(0,102,255,.04));border:1px solid rgba(255,107,53,.2);border-radius:10px;padding:1.25rem;margin-bottom:1.25rem;display:flex;gap:1rem}.ai-icon{width:40px;height:40px;border-radius:10px;background:rgba(255,107,53,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem}.ai-label{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);margin-bottom:.3rem}.ai-text{font-size:.82rem;color:rgba(232,240,254,.8);line-height:1.6}table{width:100%;border-collapse:collapse}th{font-size:.62rem;font-weight:600;color:rgba(232,240,254,.4);text-align:left;padding:.5rem .75rem;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.06em}td{font-size:.75rem;padding:.65rem .75rem;border-bottom:1px solid rgba(255,255,255,.04)}tr:last-child td{border:none}.back-link{display:inline-flex;align-items:center;gap:.4rem;color:rgba(232,240,254,.45);font-size:.75rem;text-decoration:none;margin-bottom:1.5rem}.back-link:hover{color:var(--orange)}@media(max-width:700px){.stat-row,.grid2{grid-template-columns:1fr 1fr}}</style></head>
+<body>
+<header><a class="back" href="bft-services-demo.html">← Back to Platform</a><div class="module-badge">MODULE 05</div><h1>Operations Reports</h1></header>
+<div class="main">
+  <a class="back-link" href="bft-services-demo.html">← Platform Overview</a>
+  <div class="ai-card"><div class="ai-icon">🤖</div><div><div class="ai-label">AI Analytics Agent — Live</div><div class="ai-text">Weekly revenue up 12% vs last period. Thursday was the strongest day ($14.8K). Freight module leading growth at +18%. Tow dispatch response times improved 16% after Tuesday routing update. Recommend expanding freight capacity for ATL→NYC corridor.</div></div></div>
+  <div class="stat-row">
+    <div class="sc"><div class="sv" style="color:var(--orange)">$84.2K</div><div class="sl">Weekly Revenue</div><div class="sd">↑ 12% vs last wk</div></div>
+    <div class="sc"><div class="sv" style="color:var(--accent)">312</div><div class="sl">Total Jobs</div><div class="sd">↑ 8%</div></div>
+    <div class="sc"><div class="sv" style="color:var(--green)">98.2%</div><div class="sl">Completion Rate</div><div class="sd">↑ 0.4%</div></div>
+    <div class="sc"><div class="sv" style="color:var(--purple)">4.2m</div><div class="sl">Avg Response</div><div class="sd">↓ 0.8m faster</div></div>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <div class="panel-title">Revenue by Day</div>
+      <div id="bars"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Revenue by Module</div>
+      <table><thead><tr><th>Module</th><th>Revenue</th><th>Jobs</th><th>vs LW</th></tr></thead>
+      <tbody>
+        <tr><td>Freight</td><td style="color:var(--green)">$38.1K</td><td>86</td><td style="color:var(--green)">↑ 18%</td></tr>
+        <tr><td>Tow Dispatch</td><td style="color:var(--green)">$28.4K</td><td>147</td><td style="color:var(--green)">↑ 9%</td></tr>
+        <tr><td>Health Triage</td><td style="color:var(--green)">$11.2K</td><td>62</td><td style="color:var(--green)">↑ 4%</td></tr>
+        <tr><td>Drivers</td><td style="color:var(--green)">$6.5K</td><td>17</td><td style="color:var(--red)">↓ 2%</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+<script>
+const days=[['Mon','72','$11.2K'],['Tue','88','$13.7K'],['Wed','60','$9.4K'],['Thu','95','$14.8K'],['Fri','78','$12.1K'],['Sat','82','$12.8K'],['Sun','66','$10.2K']];
+document.getElementById('bars').innerHTML=days.map(([l,w,v])=>
+  `<div class="bar-row"><div class="bar-label">${l}</div><div class="bar-track"><div class="bar-fill" style="width:0%" data-w="${w}%"></div></div><div class="bar-val">${v}</div></div>`
+).join('');
+setTimeout(()=>{document.querySelectorAll('.bar-fill').forEach(b=>{b.style.width=b.dataset.w;});},100);
+</script>
+</body></html>

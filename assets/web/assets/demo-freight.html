@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BFT — Freight Demo</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}:root{--blue:#0066ff;--dark:#050d1a;--accent:#00d4ff;--green:#00c896;--orange:#ff6b35;--red:#ff4757;--purple:#a855f7;--text:#e8f0fe}body{background:var(--dark);color:var(--text);font-family:'Inter',-apple-system,sans-serif}header{background:#08101e;border-bottom:1px solid rgba(168,85,247,.2);padding:.85rem 2rem;display:flex;align-items:center;gap:1rem}.back{color:rgba(232,240,254,.5);text-decoration:none;font-size:.78rem}.back:hover{color:var(--purple)}.module-badge{padding:.3rem .9rem;border-radius:50px;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.25);font-size:.68rem;font-weight:700;color:var(--purple);letter-spacing:.06em}h1{font-size:1rem;font-weight:700}.main{max-width:1100px;margin:2rem auto;padding:0 1.5rem}.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}.sc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:1.25rem 1rem}.sc .sv{font-size:1.8rem;font-weight:800;letter-spacing:-.04em}.sc .sl{font-size:.72rem;color:rgba(232,240,254,.45);margin-top:.2rem}.sc .sd{font-size:.68rem;font-weight:600;margin-top:.3rem;color:var(--green)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem}.panel{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:1.25rem}.panel-title{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,240,254,.45);margin-bottom:1rem}table{width:100%;border-collapse:collapse}th{font-size:.62rem;font-weight:600;color:rgba(232,240,254,.4);text-align:left;padding:.5rem .75rem;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.06em}td{font-size:.75rem;padding:.65rem .75rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}tr:last-child td{border:none}.badge{padding:3px 9px;border-radius:50px;font-size:.6rem;font-weight:700}.b-green{background:rgba(0,200,150,.15);color:var(--green)}.b-orange{background:rgba(255,107,53,.15);color:var(--orange)}.b-dim{background:rgba(255,255,255,.08);color:rgba(232,240,254,.45)}.b-purple{background:rgba(168,85,247,.15);color:var(--purple)}.ai-card{background:linear-gradient(135deg,rgba(168,85,247,.08),rgba(0,102,255,.04));border:1px solid rgba(168,85,247,.22);border-radius:10px;padding:1.25rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:1rem}.ai-icon{width:40px;height:40px;border-radius:10px;background:rgba(168,85,247,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem}.ai-label{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);margin-bottom:.3rem}.ai-text{font-size:.82rem;color:rgba(232,240,254,.8);line-height:1.6}.calc{background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.16);border-radius:9px;padding:1rem;margin-top:1rem}.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem}.fg label{font-size:.65rem;color:rgba(232,240,254,.45);display:block;margin-bottom:.25rem}.fi{background:rgba(255,255,255,.05);border:1px solid rgba(168,85,247,.2);border-radius:6px;padding:.4rem .6rem;color:var(--text);font-size:.78rem;width:100%}.cr{display:flex;justify-content:space-between;align-items:center;background:rgba(0,200,150,.07);border:1px solid rgba(0,200,150,.15);border-radius:6px;padding:.5rem .75rem;margin-top:.5rem}.crl{font-size:.72rem;color:rgba(232,240,254,.55)}.crv{font-size:1.2rem;font-weight:800;color:var(--green)}.back-link{display:inline-flex;align-items:center;gap:.4rem;color:rgba(232,240,254,.45);font-size:.75rem;text-decoration:none;margin-bottom:1.5rem;transition:color .2s}.back-link:hover{color:var(--purple)}@media(max-width:700px){.stat-row,.grid2{grid-template-columns:1fr 1fr}}</style></head>
+<body>
+<header><a class="back" href="bft-services-demo.html">← Back to Platform</a><div class="module-badge">MODULE 02</div><h1>Freight Command</h1></header>
+<div class="main">
+  <a class="back-link" href="bft-services-demo.html">← Platform Overview</a>
+  <div class="ai-card"><div class="ai-icon">🤖</div><div><div class="ai-label">AI Freight Agent — Live</div><div class="ai-text">Market rates elevated on ATL→NYC corridor (+8%). Recommend holding 3 pending loads for 6h. Load ATL→CHI approaching weight limit — flagging for compliance review. Revenue projection: $84.2K this week (+12% vs last).</div></div></div>
+  <div class="stat-row" id="stats"></div>
+  <div class="grid2">
+    <div class="panel">
+      <div class="panel-title">Active Loads</div>
+      <table><thead><tr><th>Route</th><th>Cargo</th><th>Weight</th><th>Status</th><th>Revenue</th></tr></thead><tbody id="load-body"></tbody></table>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Cost Calculator</div>
+      <div class="calc">
+        <div class="calc-grid">
+          <div class="fg"><label>Distance (mi)</label><input class="fi" id="cd" type="number" value="280" oninput="calc()"></div>
+          <div class="fg"><label>Weight (tons)</label><input class="fi" id="cw" type="number" value="22" oninput="calc()"></div>
+          <div class="fg"><label>Fuel Rate ($/mi)</label><input class="fi" id="cf" type="number" value="0.68" step="0.01" oninput="calc()"></div>
+          <div class="fg"><label>Driver Rate ($/mi)</label><input class="fi" id="dr" type="number" value="0.55" step="0.01" oninput="calc()"></div>
+        </div>
+        <div class="cr"><span class="crl">Estimated Cost</span><span class="crv" id="co">$2,841</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const stats=[{v:'24',l:'Active Loads',c:'var(--purple)'},{v:'$18.4K',l:'Revenue Today',c:'var(--green)'},{v:'312mi',l:'Avg Haul',c:'var(--orange)'},{v:'22t',l:'Avg Weight',c:'var(--accent)'}];
+document.getElementById('stats').innerHTML=stats.map(s=>`<div class="sc"><div class="sv" style="color:${s.c}">${s.v}</div><div class="sl">${s.l}</div><div class="sd">live</div></div>`).join('');
+const loads=[{r:'ATL→CHI',c:'Steel Coils',w:'22t',s:'IN TRANSIT',sc:'b-orange',v:'$3,200'},{r:'DAL→MIA',c:'Electronics',w:'18t',s:'LOADING',sc:'b-green',v:'$2,800'},{r:'ATL→NYC',c:'Auto Parts',w:'14t',s:'PENDING',sc:'b-dim',v:'$4,100'},{r:'HOU→ATL',c:'Chemicals',w:'20t',s:'IN TRANSIT',sc:'b-orange',v:'$2,950'},{r:'CHI→ATL',c:'Appliances',w:'16t',s:'DELIVERED',sc:'b-dim',v:'$3,400'}];
+document.getElementById('load-body').innerHTML=loads.map(l=>`<tr><td style="color:var(--purple);font-weight:600">${l.r}</td><td>${l.c}</td><td>${l.w}</td><td><span class="badge ${l.sc}">${l.s}</span></td><td style="color:var(--green)">${l.v}</td></tr>`).join('');
+function calc(){const d=+document.getElementById('cd').value||0,f=+document.getElementById('cf').value||0,dr=+document.getElementById('dr').value||0;document.getElementById('co').textContent='$'+((d*(f+dr))*1.15).toLocaleString('en',{maximumFractionDigits:0});}
+calc();
+</script>
+</body></html>
