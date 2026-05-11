@@ -79,7 +79,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.9rem 3rem;display:f
 .device-body{padding:.7rem}
 
 /* DEPTH FLOAT CARDS */
-.float-card{position:absolute;padding:.6rem .85rem;background:rgba(13,20,37,.9);border:1px solid rgba(0,102,255,.2);border-radius:9px;backdrop-filter:blur(8px);font-size:.65rem;z-index:-1;pointer-events:none}
+.float-card{position:absolute;padding:.6rem .85rem;background:rgba(13,20,37,.9);border:1px solid rgba(0,102,255,.2);border-radius:9px;backdrop-filter:blur(8px);font-size:.65rem;z-index:10;pointer-events:none}
 
 /* SEPARATOR */
 .sep{position:relative;z-index:1;height:160px;display:flex;align-items:center;justify-content:center}
@@ -219,71 +219,7 @@ select.cf-field option{background:#0d1425}
 <div class="sep"><div class="sep-line"></div></div>
 
 <!-- MODULE 01 — TOW DISPATCH -->
-<section class="scene" id="scene-tow" style="flex-direction:column;gap:2rem">
-  <div class="vehicle-banner-wrap">
-    <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 520" role="img" aria-labelledby="title desc">
-<title id="twv_title">BFT black electric blue heavy duty tow truck</title>
-<desc id="twv_desc">A realistic vector-style black heavy duty tow truck with electric blue accents and BFT branding.</desc>
-<defs>
-  <linearGradient id="twv_bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#020817"/><stop offset="1" stop-color="#061b32"/></linearGradient>
-  <linearGradient id="twv_body" x1="0" x2="1"><stop stop-color="#05070c"/><stop offset=".45" stop-color="#151b24"/><stop offset="1" stop-color="#020409"/></linearGradient>
-  <linearGradient id="twv_blue" x1="0" x2="1"><stop stop-color="#00b7ff"/><stop offset=".45" stop-color="#0078ff"/><stop offset="1" stop-color="#003bff"/></linearGradient>
-  <linearGradient id="twv_chrome" x1="0" x2="1"><stop stop-color="#d8e4ee"/><stop offset=".35" stop-color="#6d7b86"/><stop offset=".65" stop-color="#f7fbff"/><stop offset="1" stop-color="#36424d"/></linearGradient>
-  <filter id="twv_glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  <filter id="twv_softShadow"><feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#000" flood-opacity=".55"/></filter>
-</defs>
-<rect width="1400" height="520" rx="34" fill="url(#twv_bg)"/>
-<g opacity=".18" stroke="#0d8dff" stroke-width="1"><path d="M60 84H1320M60 154H1320M60 224H1320M60 294H1320M60 364H1320"/><path d="M120 52V462M240 52V462M360 52V462M480 52V462M600 52V462M720 52V462M840 52V462M960 52V462M1080 52V462M1200 52V462"/></g>
-<ellipse cx="760" cy="448" rx="560" ry="34" fill="#001c3a" opacity=".8" filter="url(#twv_glow)"/>
-<g filter="url(#twv_softShadow)">
-  <!-- rear body -->
-  <path d="M560 208h525c42 0 74 34 74 76v116H506V260c0-29 24-52 54-52z" fill="url(#twv_body)" stroke="#38536d" stroke-width="3"/>
-  <path d="M674 182h205l68 58H641z" fill="#0b111a" stroke="#2b4055" stroke-width="3"/>
-  <path d="M938 229h202c25 0 46 20 46 46v125H913z" fill="#070b12" stroke="#30485f" stroke-width="3"/>
-  <!-- cab -->
-  <path d="M173 237c25-94 111-154 219-154h117c73 0 122 53 128 127l18 188H97l11-58c8-45 28-80 65-103z" fill="url(#twv_body)" stroke="#42586b" stroke-width="4"/>
-  <path d="M290 117h171c54 0 91 38 98 93l8 58H220c18-84 58-130 70-151z" fill="#0d1824" stroke="#55708a" stroke-width="3"/>
-  <path d="M322 129h101c31 0 59 24 65 57l10 56H267c12-52 28-89 55-113z" fill="#0b2638" stroke="#122f47" stroke-width="3"/>
-  <path d="M510 138c28 18 43 44 49 81l4 23h-61l-13-68c-3-16 5-31 21-36z" fill="#081722" stroke="#234963" stroke-width="3"/>
-  <!-- hood/grille -->
-  <path d="M102 315h185c35 0 63 27 63 62v24H92z" fill="#07090f" stroke="#394d5e" stroke-width="3"/>
-  <rect x="128" y="250" width="86" height="120" rx="20" fill="url(#twv_chrome)"/>
-  <rect x="143" y="263" width="56" height="96" rx="14" fill="#070a0f" stroke="#a9bac8" stroke-width="4"/>
-  <path d="M147 263v96M171 263v96M195 263v96" stroke="#cbd8e2" stroke-width="3" opacity=".65"/>
-  <path d="M225 304l98-7 29 29-129 12z" fill="#0a1b2b" stroke="#41637f" stroke-width="3"/>
-  <path d="M241 310l81-5 18 17-95 9z" fill="#e8faff" opacity=".88"/>
-  <path d="M242 331h105" stroke="url(#twv_blue)" stroke-width="6" filter="url(#twv_glow)"/>
-  <!-- blue stripe -->
-  <path d="M500 297c150-54 272 13 414 42 91 19 170 4 242-34v35c-104 56-217 42-331 13-116-29-210-54-325 5z" fill="url(#twv_blue)" opacity=".96"/>
-  <path d="M514 344c126-35 222 3 328 27 116 26 207 17 319-39" fill="none" stroke="#33c9ff" stroke-width="5" opacity=".8" filter="url(#twv_glow)"/>
-  <!-- utility compartments -->
-  <g fill="none" stroke="#61758a" stroke-width="2.5" opacity=".9">
-    <rect x="593" y="250" width="82" height="126" rx="8"/><rect x="694" y="250" width="82" height="126" rx="8"/><rect x="795" y="250" width="82" height="126" rx="8"/><rect x="962" y="267" width="82" height="109" rx="8"/><rect x="1061" y="267" width="82" height="109" rx="8"/>
-  </g>
-  <g fill="#cbd8e2"><circle cx="655" cy="315" r="5"/><circle cx="756" cy="315" r="5"/><circle cx="857" cy="315" r="5"/><circle cx="1023" cy="323" r="5"/><circle cx="1122" cy="323" r="5"/></g>
-  <!-- boom -->
-  <path d="M858 157l374-69 22 42-355 92z" fill="#07101a" stroke="#385673" stroke-width="5"/>
-  <path d="M899 192l356-86" stroke="url(#twv_blue)" stroke-width="11" filter="url(#twv_glow)"/>
-  <path d="M1218 86h55c20 0 36 16 36 36v8h-78z" fill="#091321" stroke="#375873" stroke-width="4"/>
-  <path d="M1260 130v82" stroke="#70869a" stroke-width="5"/><path d="M1260 212c-18 12-14 39 9 43 20-8 19-36-9-43z" fill="none" stroke="#9fb2c3" stroke-width="6"/>
-  <!-- lights -->
-  <g filter="url(#twv_glow)"><rect x="703" y="170" width="168" height="16" rx="8" fill="url(#twv_blue)"/><rect x="982" y="220" width="148" height="12" rx="6" fill="url(#twv_blue)"/><rect x="214" y="250" width="26" height="18" rx="8" fill="#ff9d00"/><rect x="344" y="70" width="138" height="18" rx="9" fill="url(#twv_blue)"/></g>
-  <!-- wheels -->
-  <g>
-    <circle cx="298" cy="402" r="78" fill="#020409"/><circle cx="298" cy="402" r="52" fill="url(#twv_chrome)"/><circle cx="298" cy="402" r="28" fill="#0c1117"/>
-    <circle cx="882" cy="402" r="72" fill="#020409"/><circle cx="882" cy="402" r="48" fill="url(#twv_chrome)"/><circle cx="882" cy="402" r="25" fill="#0c1117"/>
-    <circle cx="1010" cy="402" r="72" fill="#020409"/><circle cx="1010" cy="402" r="48" fill="url(#twv_chrome)"/><circle cx="1010" cy="402" r="25" fill="#0c1117"/>
-    <g fill="#101820"><circle cx="298" cy="402" r="9"/><circle cx="882" cy="402" r="8"/><circle cx="1010" cy="402" r="8"/></g>
-  </g>
-  <!-- branding -->
-  <text x="430" y="257" font-family="Arial Black,Arial,sans-serif" font-size="56" fill="#0b87ff" font-weight="900">BFT</text>
-  <text x="434" y="286" font-family="Arial,sans-serif" font-size="17" fill="#e9f4ff" font-weight="700">TOWING &amp; RECOVERY</text>
-  <text x="710" y="351" font-family="Arial Black,Arial,sans-serif" font-size="30" fill="#dfeeff">HEAVY DUTY</text>
-  <text x="710" y="383" font-family="Arial Black,Arial,sans-serif" font-size="30" fill="#dfeeff">RECOVERY</text>
-</g>
-<rect x="18" y="18" width="1364" height="484" rx="28" fill="none" stroke="#125f9d" opacity=".6"/>
-</svg>
-  </div>
+<section class="scene" id="scene-tow">
   <div class="scene-inner">
     <div class="scene-text">
       <span class="pain-stmt">Drivers sitting idle costs you $180/hr.</span>
@@ -315,59 +251,7 @@ select.cf-field option{background:#0d1425}
 <div class="sep"><div class="sep-line"></div></div>
 
 <!-- MODULE 02 — FREIGHT -->
-<section class="scene" id="scene-freight" style="flex-direction:column;gap:2rem">
-  <div class="vehicle-banner-wrap">
-    <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 520" role="img" aria-labelledby="title desc">
-<title id="whl_title">BFT black electric blue 18 wheeler freight truck</title>
-<desc id="whl_desc">A realistic vector-style black 18 wheeler with electric blue BFT branding on the trailer.</desc>
-<defs>
-  <linearGradient id="whl_bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#020817"/><stop offset="1" stop-color="#061b32"/></linearGradient>
-  <linearGradient id="whl_black" x1="0" x2="1"><stop stop-color="#03050a"/><stop offset=".5" stop-color="#161d28"/><stop offset="1" stop-color="#05070c"/></linearGradient>
-  <linearGradient id="whl_blue" x1="0" x2="1"><stop stop-color="#00c8ff"/><stop offset=".5" stop-color="#0078ff"/><stop offset="1" stop-color="#003bff"/></linearGradient>
-  <linearGradient id="whl_chrome" x1="0" x2="1"><stop stop-color="#f8fbff"/><stop offset=".35" stop-color="#6d7a83"/><stop offset=".75" stop-color="#dbe6ef"/><stop offset="1" stop-color="#303b45"/></linearGradient>
-  <filter id="whl_glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  <filter id="whl_shadow"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#000" flood-opacity=".6"/></filter>
-</defs>
-<rect width="1400" height="520" rx="34" fill="url(#whl_bg)"/>
-<g opacity=".17" stroke="#0d8dff" stroke-width="1"><path d="M70 90H1330M70 170H1330M70 250H1330M70 330H1330M70 410H1330"/><path d="M160 55V455M300 55V455M440 55V455M580 55V455M720 55V455M860 55V455M1000 55V455M1140 55V455M1280 55V455"/></g>
-<ellipse cx="735" cy="433" rx="560" ry="34" fill="#001c3a" opacity=".86" filter="url(#whl_glow)"/>
-<g filter="url(#whl_shadow)">
-  <!-- trailer -->
-  <path d="M568 120h674c37 0 68 30 68 68v198H536V156c0-20 14-36 32-36z" fill="url(#whl_black)" stroke="#40566d" stroke-width="4"/>
-  <path d="M592 145h642c21 0 38 17 38 38v169H592z" fill="#090f18" stroke="#1d334c" stroke-width="3"/>
-  <g opacity=".2" stroke="#86b7dd"><path d="M650 151v200M730 151v200M810 151v200M890 151v200M970 151v200M1050 151v200M1130 151v200M1210 151v200"/></g>
-  <path d="M612 310h650" stroke="url(#whl_blue)" stroke-width="15" filter="url(#whl_glow)"/>
-  <path d="M617 303c148-60 309-64 472-20 65 17 116 29 173 20v44c-96 10-169-18-257-42-139-38-257-30-388 25z" fill="url(#whl_blue)" opacity=".9"/>
-  <path d="M702 197h92l-73 124h-94z" fill="url(#whl_blue)" opacity=".92"/>
-  <text x="815" y="258" font-family="Arial Black,Arial,sans-serif" font-size="94" fill="#0b87ff" font-weight="900">BFT</text>
-  <text x="823" y="300" font-family="Arial,sans-serif" font-size="29" fill="#e9f4ff" font-weight="800">FREIGHT SOLUTIONS</text>
-  <g fill="#dbe6ef" opacity=".9"><rect x="617" y="371" width="25" height="6"/><rect x="701" y="371" width="25" height="6"/><rect x="785" y="371" width="25" height="6"/><rect x="869" y="371" width="25" height="6"/><rect x="953" y="371" width="25" height="6"/><rect x="1037" y="371" width="25" height="6"/><rect x="1121" y="371" width="25" height="6"/><rect x="1205" y="371" width="25" height="6"/></g>
-  <!-- tractor cab -->
-  <path d="M126 322c7-71 48-151 130-190 46-22 122-24 207-10 45 8 80 41 91 85l36 147H83c8-13 21-24 43-32z" fill="url(#whl_black)" stroke="#40566d" stroke-width="4"/>
-  <path d="M255 150c48-22 140-20 184-10 40 9 66 41 77 88H197c14-38 31-65 58-78z" fill="#081522" stroke="#55708a" stroke-width="3"/>
-  <path d="M287 154h118c35 0 62 23 75 61l8 28H232c14-45 31-75 55-89z" fill="#092538" stroke="#11344f" stroke-width="3"/>
-  <path d="M93 322h188c43 0 78 35 78 78H82z" fill="#05070c" stroke="#344d65" stroke-width="3"/>
-  <rect x="116" y="270" width="92" height="114" rx="18" fill="url(#whl_chrome)"/>
-  <rect x="131" y="284" width="62" height="86" rx="12" fill="#05070c" stroke="#dbe6ef" stroke-width="3"/>
-  <path d="M139 284v86M162 284v86M186 284v86" stroke="#e6f3ff" stroke-width="3" opacity=".75"/>
-  <path d="M230 315l130-10 33 31-164 12z" fill="#0a1c2d" stroke="#3b607e" stroke-width="3"/>
-  <path d="M248 320l105-7 22 18-125 10z" fill="#e9fbff" opacity=".9"/>
-  <path d="M247 342h134" stroke="url(#whl_blue)" stroke-width="7" filter="url(#whl_glow)"/>
-  <path d="M411 265h120" stroke="url(#whl_blue)" stroke-width="12" filter="url(#whl_glow)"/>
-  <path d="M89 386h505" stroke="#151b22" stroke-width="28"/>
-  <!-- wheels -->
-  <g>
-    <circle cx="272" cy="395" r="71" fill="#020409"/><circle cx="272" cy="395" r="47" fill="url(#whl_chrome)"/><circle cx="272" cy="395" r="24" fill="#0c1117"/>
-    <circle cx="460" cy="397" r="65" fill="#020409"/><circle cx="460" cy="397" r="42" fill="url(#whl_chrome)"/><circle cx="460" cy="397" r="22" fill="#0c1117"/>
-    <circle cx="555" cy="397" r="65" fill="#020409"/><circle cx="555" cy="397" r="42" fill="url(#whl_chrome)"/><circle cx="555" cy="397" r="22" fill="#0c1117"/>
-    <circle cx="1105" cy="397" r="62" fill="#020409"/><circle cx="1105" cy="397" r="39" fill="url(#whl_chrome)"/><circle cx="1105" cy="397" r="20" fill="#0c1117"/>
-    <circle cx="1192" cy="397" r="62" fill="#020409"/><circle cx="1192" cy="397" r="39" fill="url(#whl_chrome)"/><circle cx="1192" cy="397" r="20" fill="#0c1117"/>
-  </g>
-  <g filter="url(#whl_glow)"><rect x="250" y="103" width="126" height="12" rx="6" fill="url(#whl_blue)"/><rect x="1220" y="128" width="32" height="8" rx="4" fill="#ff9d00"/><rect x="1280" y="208" width="9" height="42" rx="4" fill="url(#whl_blue)"/></g>
-</g>
-<rect x="18" y="18" width="1364" height="484" rx="28" fill="none" stroke="#125f9d" opacity=".6"/>
-</svg>
-  </div>
+<section class="scene" id="scene-freight">
   <div class="scene-inner rev">
     <div class="scene-text">
       <span class="pain-stmt">Paper logs and phone calls lose $3K per haul.</span>
@@ -399,59 +283,7 @@ select.cf-field option{background:#0d1425}
 <div class="sep"><div class="sep-line"></div></div>
 
 <!-- MODULE 03 — HEALTH TRIAGE -->
-<section class="scene" id="scene-health" style="flex-direction:column;gap:2rem">
-  <div class="vehicle-banner-wrap">
-    <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 520" role="img" aria-labelledby="title desc">
-<title id="amb_title">BFT black electric blue health triage ambulance</title>
-<desc id="amb_desc">A realistic vector-style black ambulance with electric blue accents, BFT branding, and health triage markings.</desc>
-<defs>
-  <linearGradient id="amb_bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#020817"/><stop offset="1" stop-color="#061b32"/></linearGradient>
-  <linearGradient id="amb_black" x1="0" x2="1"><stop stop-color="#03050a"/><stop offset=".55" stop-color="#161d28"/><stop offset="1" stop-color="#05070c"/></linearGradient>
-  <linearGradient id="amb_blue" x1="0" x2="1"><stop stop-color="#00c8ff"/><stop offset=".5" stop-color="#0078ff"/><stop offset="1" stop-color="#003bff"/></linearGradient>
-  <linearGradient id="amb_chrome" x1="0" x2="1"><stop stop-color="#f8fbff"/><stop offset=".35" stop-color="#6d7a83"/><stop offset=".75" stop-color="#dbe6ef"/><stop offset="1" stop-color="#303b45"/></linearGradient>
-  <filter id="amb_glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  <filter id="amb_shadow"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#000" flood-opacity=".6"/></filter>
-</defs>
-<rect width="1400" height="520" rx="34" fill="url(#amb_bg)"/>
-<g opacity=".16" stroke="#0d8dff" stroke-width="1"><path d="M60 92H1340M60 174H1340M60 256H1340M60 338H1340M60 420H1340"/><path d="M150 58V458M290 58V458M430 58V458M570 58V458M710 58V458M850 58V458M990 58V458M1130 58V458M1270 58V458"/></g>
-<ellipse cx="730" cy="425" rx="530" ry="34" fill="#001c3a" opacity=".85" filter="url(#amb_glow)"/>
-<g filter="url(#amb_shadow)">
-  <!-- rear ambulance box -->
-  <path d="M512 125h610c47 0 85 38 85 85v178H471V166c0-23 18-41 41-41z" fill="url(#amb_black)" stroke="#40566d" stroke-width="4"/>
-  <path d="M546 154h541c34 0 62 28 62 62v137H546z" fill="#09111b" stroke="#223a54" stroke-width="3"/>
-  <rect x="617" y="183" width="128" height="130" rx="13" fill="#081522" stroke="#4f6e8a" stroke-width="3"/>
-  <rect x="784" y="183" width="128" height="130" rx="13" fill="#081522" stroke="#4f6e8a" stroke-width="3"/>
-  <path d="M555 292h594" stroke="url(#amb_blue)" stroke-width="15" filter="url(#amb_glow)"/>
-  <path d="M555 293c102-47 235-44 367-7 74 21 148 29 227 2v39c-90 29-173 21-269-5-119-32-209-28-325 18z" fill="url(#amb_blue)" opacity=".84"/>
-  <!-- heartbeat line -->
-  <path d="M545 335h120l24-44 38 83 38-63 28 24h350" fill="none" stroke="#13c8ff" stroke-width="6" filter="url(#amb_glow)"/>
-  <!-- cab -->
-  <path d="M148 314c8-75 43-143 108-175 43-22 131-23 196-9 50 11 86 51 94 103l24 158H91c9-38 26-63 57-77z" fill="url(#amb_black)" stroke="#40566d" stroke-width="4"/>
-  <path d="M268 156h142c45 0 78 32 89 83l8 39H203c14-56 36-99 65-122z" fill="#081522" stroke="#55708a" stroke-width="3"/>
-  <path d="M295 165h93c34 0 64 25 72 62l7 33H242c11-45 27-78 53-95z" fill="#092538" stroke="#11344f" stroke-width="3"/>
-  <path d="M96 329h179c44 0 80 35 80 80H85z" fill="#05070c" stroke="#344d65" stroke-width="3"/>
-  <rect x="117" y="277" width="92" height="104" rx="16" fill="url(#amb_chrome)"/>
-  <rect x="133" y="291" width="60" height="75" rx="10" fill="#05070c" stroke="#dbe6ef" stroke-width="3"/>
-  <path d="M139 291v75M162 291v75M186 291v75" stroke="#e6f3ff" stroke-width="3" opacity=".75"/>
-  <path d="M229 318l113-8 31 30-144 11z" fill="#0a1c2d" stroke="#3b607e" stroke-width="3"/>
-  <path d="M245 323l91-6 20 17-110 9z" fill="#e9fbff" opacity=".9"/>
-  <!-- lights -->
-  <g filter="url(#amb_glow)"><rect x="301" y="107" width="156" height="23" rx="9" fill="url(#amb_blue)"/><rect x="319" y="110" width="25" height="17" rx="4" fill="#ff3030"/><rect x="362" y="110" width="25" height="17" rx="4" fill="#e7f9ff"/><rect x="406" y="110" width="25" height="17" rx="4" fill="#0b87ff"/><rect x="1041" y="142" width="45" height="19" rx="7" fill="#ff3030"/><rect x="989" y="142" width="45" height="19" rx="7" fill="#0b87ff"/><path d="M241 342h120" stroke="url(#amb_blue)" stroke-width="7"/></g>
-  <!-- medical branding -->
-  <g transform="translate(955 195)"><path d="M41 0v32l27-21 15 20-28 21 28 21-15 20-27-21v32H16V72l-28 21-15-20 28-21-28-21 15-20 28 21V0z" fill="url(#amb_blue)" filter="url(#amb_glow)"/></g>
-  <text x="1017" y="247" font-family="Arial Black,Arial,sans-serif" font-size="74" fill="#0b87ff" font-weight="900">BFT</text>
-  <text x="1022" y="283" font-family="Arial,sans-serif" font-size="25" fill="#e9f4ff" font-weight="800">HEALTH TRIAGE</text>
-  <text x="600" y="243" font-family="Arial Black,Arial,sans-serif" font-size="48" fill="#dfeeff">AI TRIAGE</text>
-  <text x="600" y="273" font-family="Arial,sans-serif" font-size="22" fill="#8db9dd">PATIENT ASSESSMENT • PRIORITY ROUTING</text>
-  <!-- wheels -->
-  <g>
-    <circle cx="282" cy="397" r="70" fill="#020409"/><circle cx="282" cy="397" r="46" fill="url(#amb_chrome)"/><circle cx="282" cy="397" r="24" fill="#0c1117"/>
-    <circle cx="1010" cy="397" r="70" fill="#020409"/><circle cx="1010" cy="397" r="46" fill="url(#amb_chrome)"/><circle cx="1010" cy="397" r="24" fill="#0c1117"/>
-  </g>
-</g>
-<rect x="18" y="18" width="1364" height="484" rx="28" fill="none" stroke="#125f9d" opacity=".6"/>
-</svg>
-  </div>
+<section class="scene" id="scene-health">
   <div class="scene-inner">
     <div class="scene-text">
       <span class="pain-stmt">Manual triage delays cost lives — and lawsuits.</span>
