@@ -126,6 +126,7 @@ select.cf-field option{background:#0d1425}
 .cf-submit:hover{background:#0051cc;transform:translateY(-1px)}
 .cf-confirm{display:none;padding:1.2rem;background:rgba(0,200,150,.08);border:1px solid rgba(0,200,150,.28);border-radius:10px;color:var(--green);text-align:center;font-size:.9rem;line-height:1.6}
 
+.vehicle-banner-wrap{width:100%;max-width:1100px;margin:0 auto;border-radius:14px;overflow:hidden;display:block}
 /* KEYFRAMES */
 @keyframes chev{0%,100%{opacity:.2;transform:translateY(-4px)}50%{opacity:1;transform:translateY(5px)}}
 @keyframes pulse-light{0%,100%{opacity:.25}50%{opacity:1}}
@@ -218,7 +219,71 @@ select.cf-field option{background:#0d1425}
 <div class="sep"><div class="sep-line"></div></div>
 
 <!-- MODULE 01 — TOW DISPATCH -->
-<section class="scene" id="scene-tow">
+<section class="scene" id="scene-tow" style="flex-direction:column;gap:2rem">
+  <div class="vehicle-banner-wrap">
+    <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 520" role="img" aria-labelledby="title desc">
+<title id="twv_title">BFT black electric blue heavy duty tow truck</title>
+<desc id="twv_desc">A realistic vector-style black heavy duty tow truck with electric blue accents and BFT branding.</desc>
+<defs>
+  <linearGradient id="twv_bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#020817"/><stop offset="1" stop-color="#061b32"/></linearGradient>
+  <linearGradient id="twv_body" x1="0" x2="1"><stop stop-color="#05070c"/><stop offset=".45" stop-color="#151b24"/><stop offset="1" stop-color="#020409"/></linearGradient>
+  <linearGradient id="twv_blue" x1="0" x2="1"><stop stop-color="#00b7ff"/><stop offset=".45" stop-color="#0078ff"/><stop offset="1" stop-color="#003bff"/></linearGradient>
+  <linearGradient id="twv_chrome" x1="0" x2="1"><stop stop-color="#d8e4ee"/><stop offset=".35" stop-color="#6d7b86"/><stop offset=".65" stop-color="#f7fbff"/><stop offset="1" stop-color="#36424d"/></linearGradient>
+  <filter id="twv_glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="twv_softShadow"><feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#000" flood-opacity=".55"/></filter>
+</defs>
+<rect width="1400" height="520" rx="34" fill="url(#twv_bg)"/>
+<g opacity=".18" stroke="#0d8dff" stroke-width="1"><path d="M60 84H1320M60 154H1320M60 224H1320M60 294H1320M60 364H1320"/><path d="M120 52V462M240 52V462M360 52V462M480 52V462M600 52V462M720 52V462M840 52V462M960 52V462M1080 52V462M1200 52V462"/></g>
+<ellipse cx="760" cy="448" rx="560" ry="34" fill="#001c3a" opacity=".8" filter="url(#twv_glow)"/>
+<g filter="url(#twv_softShadow)">
+  <!-- rear body -->
+  <path d="M560 208h525c42 0 74 34 74 76v116H506V260c0-29 24-52 54-52z" fill="url(#twv_body)" stroke="#38536d" stroke-width="3"/>
+  <path d="M674 182h205l68 58H641z" fill="#0b111a" stroke="#2b4055" stroke-width="3"/>
+  <path d="M938 229h202c25 0 46 20 46 46v125H913z" fill="#070b12" stroke="#30485f" stroke-width="3"/>
+  <!-- cab -->
+  <path d="M173 237c25-94 111-154 219-154h117c73 0 122 53 128 127l18 188H97l11-58c8-45 28-80 65-103z" fill="url(#twv_body)" stroke="#42586b" stroke-width="4"/>
+  <path d="M290 117h171c54 0 91 38 98 93l8 58H220c18-84 58-130 70-151z" fill="#0d1824" stroke="#55708a" stroke-width="3"/>
+  <path d="M322 129h101c31 0 59 24 65 57l10 56H267c12-52 28-89 55-113z" fill="#0b2638" stroke="#122f47" stroke-width="3"/>
+  <path d="M510 138c28 18 43 44 49 81l4 23h-61l-13-68c-3-16 5-31 21-36z" fill="#081722" stroke="#234963" stroke-width="3"/>
+  <!-- hood/grille -->
+  <path d="M102 315h185c35 0 63 27 63 62v24H92z" fill="#07090f" stroke="#394d5e" stroke-width="3"/>
+  <rect x="128" y="250" width="86" height="120" rx="20" fill="url(#twv_chrome)"/>
+  <rect x="143" y="263" width="56" height="96" rx="14" fill="#070a0f" stroke="#a9bac8" stroke-width="4"/>
+  <path d="M147 263v96M171 263v96M195 263v96" stroke="#cbd8e2" stroke-width="3" opacity=".65"/>
+  <path d="M225 304l98-7 29 29-129 12z" fill="#0a1b2b" stroke="#41637f" stroke-width="3"/>
+  <path d="M241 310l81-5 18 17-95 9z" fill="#e8faff" opacity=".88"/>
+  <path d="M242 331h105" stroke="url(#twv_blue)" stroke-width="6" filter="url(#twv_glow)"/>
+  <!-- blue stripe -->
+  <path d="M500 297c150-54 272 13 414 42 91 19 170 4 242-34v35c-104 56-217 42-331 13-116-29-210-54-325 5z" fill="url(#twv_blue)" opacity=".96"/>
+  <path d="M514 344c126-35 222 3 328 27 116 26 207 17 319-39" fill="none" stroke="#33c9ff" stroke-width="5" opacity=".8" filter="url(#twv_glow)"/>
+  <!-- utility compartments -->
+  <g fill="none" stroke="#61758a" stroke-width="2.5" opacity=".9">
+    <rect x="593" y="250" width="82" height="126" rx="8"/><rect x="694" y="250" width="82" height="126" rx="8"/><rect x="795" y="250" width="82" height="126" rx="8"/><rect x="962" y="267" width="82" height="109" rx="8"/><rect x="1061" y="267" width="82" height="109" rx="8"/>
+  </g>
+  <g fill="#cbd8e2"><circle cx="655" cy="315" r="5"/><circle cx="756" cy="315" r="5"/><circle cx="857" cy="315" r="5"/><circle cx="1023" cy="323" r="5"/><circle cx="1122" cy="323" r="5"/></g>
+  <!-- boom -->
+  <path d="M858 157l374-69 22 42-355 92z" fill="#07101a" stroke="#385673" stroke-width="5"/>
+  <path d="M899 192l356-86" stroke="url(#twv_blue)" stroke-width="11" filter="url(#twv_glow)"/>
+  <path d="M1218 86h55c20 0 36 16 36 36v8h-78z" fill="#091321" stroke="#375873" stroke-width="4"/>
+  <path d="M1260 130v82" stroke="#70869a" stroke-width="5"/><path d="M1260 212c-18 12-14 39 9 43 20-8 19-36-9-43z" fill="none" stroke="#9fb2c3" stroke-width="6"/>
+  <!-- lights -->
+  <g filter="url(#twv_glow)"><rect x="703" y="170" width="168" height="16" rx="8" fill="url(#twv_blue)"/><rect x="982" y="220" width="148" height="12" rx="6" fill="url(#twv_blue)"/><rect x="214" y="250" width="26" height="18" rx="8" fill="#ff9d00"/><rect x="344" y="70" width="138" height="18" rx="9" fill="url(#twv_blue)"/></g>
+  <!-- wheels -->
+  <g>
+    <circle cx="298" cy="402" r="78" fill="#020409"/><circle cx="298" cy="402" r="52" fill="url(#twv_chrome)"/><circle cx="298" cy="402" r="28" fill="#0c1117"/>
+    <circle cx="882" cy="402" r="72" fill="#020409"/><circle cx="882" cy="402" r="48" fill="url(#twv_chrome)"/><circle cx="882" cy="402" r="25" fill="#0c1117"/>
+    <circle cx="1010" cy="402" r="72" fill="#020409"/><circle cx="1010" cy="402" r="48" fill="url(#twv_chrome)"/><circle cx="1010" cy="402" r="25" fill="#0c1117"/>
+    <g fill="#101820"><circle cx="298" cy="402" r="9"/><circle cx="882" cy="402" r="8"/><circle cx="1010" cy="402" r="8"/></g>
+  </g>
+  <!-- branding -->
+  <text x="430" y="257" font-family="Arial Black,Arial,sans-serif" font-size="56" fill="#0b87ff" font-weight="900">BFT</text>
+  <text x="434" y="286" font-family="Arial,sans-serif" font-size="17" fill="#e9f4ff" font-weight="700">TOWING &amp; RECOVERY</text>
+  <text x="710" y="351" font-family="Arial Black,Arial,sans-serif" font-size="30" fill="#dfeeff">HEAVY DUTY</text>
+  <text x="710" y="383" font-family="Arial Black,Arial,sans-serif" font-size="30" fill="#dfeeff">RECOVERY</text>
+</g>
+<rect x="18" y="18" width="1364" height="484" rx="28" fill="none" stroke="#125f9d" opacity=".6"/>
+</svg>
+  </div>
   <div class="scene-inner">
     <div class="scene-text">
       <span class="pain-stmt">Drivers sitting idle costs you $180/hr.</span>
@@ -236,157 +301,29 @@ select.cf-field option{background:#0d1425}
       <div class="device">
         <div class="device-bar"><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="device-url">bft-platform / tow-dispatch</div></div>
         <div class="device-body">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 220" width="100%" height="auto" style="display:block">
-            <defs>
-              <linearGradient id="tow_body" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="rgba(0,180,255,0.18)"/>
-                <stop offset="60%" stop-color="rgba(0,180,255,0.09)"/>
-                <stop offset="100%" stop-color="rgba(0,180,255,0.04)"/>
-              </linearGradient>
-              <linearGradient id="tow_hood" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stop-color="rgba(0,180,255,0.15)"/>
-                <stop offset="100%" stop-color="rgba(0,180,255,0.06)"/>
-              </linearGradient>
-              <linearGradient id="tow_rearbox" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="rgba(0,180,255,0.12)"/>
-                <stop offset="100%" stop-color="rgba(0,180,255,0.04)"/>
-              </linearGradient>
-              <linearGradient id="tow_tire" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="rgba(0,50,80,0.95)"/>
-                <stop offset="100%" stop-color="rgba(0,15,30,0.98)"/>
-              </linearGradient>
-              <radialGradient id="tow_hub" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="rgba(0,180,255,0.7)"/>
-                <stop offset="100%" stop-color="rgba(0,90,160,0.4)"/>
-              </radialGradient>
-            </defs>
-            <!-- Background grid -->
-            <g opacity="0.06" stroke="#00b4ff" stroke-width="0.5">
-              <line x1="0" y1="40" x2="520" y2="40"/><line x1="0" y1="80" x2="520" y2="80"/>
-              <line x1="0" y1="120" x2="520" y2="120"/><line x1="0" y1="160" x2="520" y2="160"/>
-              <line x1="0" y1="200" x2="520" y2="200"/>
-              <line x1="65" y1="0" x2="65" y2="220"/><line x1="130" y1="0" x2="130" y2="220"/>
-              <line x1="195" y1="0" x2="195" y2="220"/><line x1="260" y1="0" x2="260" y2="220"/>
-              <line x1="325" y1="0" x2="325" y2="220"/><line x1="390" y1="0" x2="390" y2="220"/>
-              <line x1="455" y1="0" x2="455" y2="220"/>
-            </g>
-            <!-- Ground line and shadow -->
-            <line x1="15" y1="198" x2="505" y2="198" stroke="#00b4ff" stroke-width="1" opacity="0.25"/>
-            <ellipse cx="265" cy="203" rx="215" ry="5" fill="rgba(0,180,255,0.07)"/>
-            <!-- Chassis frame rails -->
-            <rect x="35" y="176" width="448" height="7" rx="1" fill="url(#tow_body)" stroke="#00b4ff" stroke-width="1"/>
-            <rect x="35" y="184" width="448" height="3" rx="1" fill="rgba(0,180,255,0.04)" stroke="rgba(0,180,255,0.22)" stroke-width="0.5"/>
-            <!-- REAR SERVICE BODY -->
-            <rect x="38" y="122" width="302" height="55" rx="2" fill="url(#tow_rearbox)" stroke="#00b4ff" stroke-width="1.5"/>
-            <rect x="38" y="118" width="302" height="7" rx="2" fill="rgba(0,180,255,0.18)" stroke="#00b4ff" stroke-width="1"/>
-            <!-- Tool compartment doors (3) -->
-            <rect x="46" y="128" width="62" height="45" rx="1" fill="rgba(0,180,255,0.04)" stroke="rgba(0,180,255,0.45)" stroke-width="1"/>
-            <line x1="77" y1="128" x2="77" y2="173" stroke="rgba(0,180,255,0.2)" stroke-width="0.5"/>
-            <circle cx="68" cy="151" r="2" fill="rgba(0,180,255,0.6)" stroke="#00b4ff" stroke-width="0.5"/>
-            <rect x="114" y="128" width="62" height="45" rx="1" fill="rgba(0,180,255,0.04)" stroke="rgba(0,180,255,0.45)" stroke-width="1"/>
-            <line x1="145" y1="128" x2="145" y2="173" stroke="rgba(0,180,255,0.2)" stroke-width="0.5"/>
-            <circle cx="136" cy="151" r="2" fill="rgba(0,180,255,0.6)" stroke="#00b4ff" stroke-width="0.5"/>
-            <rect x="182" y="128" width="62" height="45" rx="1" fill="rgba(0,180,255,0.04)" stroke="rgba(0,180,255,0.45)" stroke-width="1"/>
-            <line x1="213" y1="128" x2="213" y2="173" stroke="rgba(0,180,255,0.2)" stroke-width="0.5"/>
-            <circle cx="204" cy="151" r="2" fill="rgba(0,180,255,0.6)" stroke="#00b4ff" stroke-width="0.5"/>
-            <!-- HYDRAULIC BOOM ARM -->
-            <line x1="128" y1="174" x2="312" y2="68" stroke="#00b4ff" stroke-width="3.5" stroke-linecap="round"/>
-            <line x1="153" y1="174" x2="318" y2="74" stroke="rgba(0,180,255,0.35)" stroke-width="1.5" stroke-linecap="round"/>
-            <rect x="184" y="146" width="10" height="30" rx="3" fill="rgba(0,180,255,0.12)" stroke="#00b4ff" stroke-width="1" transform="rotate(-31 189 161)"/>
-            <!-- Pulley wheel -->
-            <circle cx="313" cy="67" r="9" fill="rgba(5,15,35,0.95)" stroke="#00b4ff" stroke-width="1.5"/>
-            <circle cx="313" cy="67" r="5" fill="none" stroke="rgba(0,180,255,0.5)" stroke-width="1"/>
-            <line x1="313" y1="58" x2="313" y2="62" stroke="rgba(0,180,255,0.4)" stroke-width="1"/>
-            <line x1="313" y1="72" x2="313" y2="76" stroke="rgba(0,180,255,0.4)" stroke-width="1"/>
-            <line x1="304" y1="67" x2="308" y2="67" stroke="rgba(0,180,255,0.4)" stroke-width="1"/>
-            <line x1="318" y1="67" x2="322" y2="67" stroke="rgba(0,180,255,0.4)" stroke-width="1"/>
-            <!-- Cable and J-hook -->
-            <line x1="313" y1="76" x2="313" y2="110" stroke="rgba(0,180,255,0.65)" stroke-width="1.5" stroke-dasharray="3,2"/>
-            <path d="M313,110 Q313,122 304,122 Q296,122 296,114" fill="none" stroke="#00b4ff" stroke-width="2.5" stroke-linecap="round"/>
-            <!-- Wheel lift crossbar at rear -->
-            <rect x="22" y="167" width="20" height="9" rx="2" fill="rgba(0,180,255,0.08)" stroke="#00b4ff" stroke-width="1.5"/>
-            <rect x="18" y="162" width="8" height="20" rx="2" fill="rgba(0,180,255,0.06)" stroke="#00b4ff" stroke-width="1"/>
-            <rect x="36" y="162" width="8" height="20" rx="2" fill="rgba(0,180,255,0.06)" stroke="#00b4ff" stroke-width="1"/>
-            <rect x="14" y="179" width="16" height="4" rx="1" fill="rgba(0,180,255,0.2)" stroke="#00b4ff" stroke-width="0.5"/>
-            <rect x="34" y="179" width="16" height="4" rx="1" fill="rgba(0,180,255,0.2)" stroke="#00b4ff" stroke-width="0.5"/>
-            <!-- MEDIUM-DUTY CAB -->
-            <rect x="336" y="96" width="146" height="81" rx="3" fill="url(#tow_body)" stroke="#00b4ff" stroke-width="2"/>
-            <path d="M340,96 L478,96 L478,92 Q452,81 382,81 Q354,81 340,92 Z" fill="rgba(0,180,255,0.14)" stroke="#00b4ff" stroke-width="1.5"/>
-            <!-- Hood / engine compartment nose -->
-            <path d="M478,96 L502,110 L502,160 L478,160 Z" fill="url(#tow_hood)" stroke="#00b4ff" stroke-width="1.5"/>
-            <path d="M478,96 L502,110 L478,110 Z" fill="rgba(0,180,255,0.12)" stroke="#00b4ff" stroke-width="1"/>
-            <!-- Large windshield -->
-            <rect x="382" y="100" width="96" height="52" rx="2" fill="rgba(0,180,255,0.20)" stroke="#00b4ff" stroke-width="1.5"/>
-            <line x1="430" y1="100" x2="430" y2="152" stroke="#00b4ff" stroke-width="1.5" opacity="0.4"/>
-            <line x1="390" y1="148" x2="424" y2="106" stroke="rgba(0,180,255,0.18)" stroke-width="1"/>
-            <line x1="438" y1="106" x2="470" y2="148" stroke="rgba(0,180,255,0.18)" stroke-width="1"/>
-            <!-- Cab door -->
-            <rect x="339" y="100" width="43" height="71" rx="2" fill="rgba(0,180,255,0.04)" stroke="rgba(0,180,255,0.35)" stroke-width="1"/>
-            <rect x="342" y="103" width="37" height="28" rx="2" fill="rgba(0,180,255,0.14)" stroke="rgba(0,180,255,0.4)" stroke-width="0.8"/>
-            <rect x="370" y="141" width="10" height="2.5" rx="1" fill="rgba(0,180,255,0.8)" stroke="#00b4ff" stroke-width="0.5"/>
-            <!-- Clearance lights -->
-            <circle cx="356" cy="83" r="3" fill="#00b4ff" opacity="0.7"><animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/></circle>
-            <circle cx="372" cy="82" r="2.5" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="408" cy="82" r="2.5" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="444" cy="82" r="2.5" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="462" cy="83" r="3" fill="#00b4ff" opacity="0.7"/>
-            <!-- Side mirror -->
-            <rect x="326" y="107" width="13" height="9" rx="1" fill="rgba(0,180,255,0.12)" stroke="#00b4ff" stroke-width="1"/>
-            <line x1="332" y1="116" x2="339" y2="118" stroke="#00b4ff" stroke-width="1" opacity="0.5"/>
-            <!-- Grille -->
-            <rect x="498" y="113" width="16" height="38" rx="2" fill="rgba(0,180,255,0.06)" stroke="#00b4ff" stroke-width="1.5"/>
-            <line x1="498" y1="121" x2="514" y2="121" stroke="#00b4ff" stroke-width="0.8" opacity="0.5"/>
-            <line x1="498" y1="129" x2="514" y2="129" stroke="#00b4ff" stroke-width="0.8" opacity="0.5"/>
-            <line x1="498" y1="137" x2="514" y2="137" stroke="#00b4ff" stroke-width="0.8" opacity="0.5"/>
-            <line x1="498" y1="145" x2="514" y2="145" stroke="#00b4ff" stroke-width="0.8" opacity="0.5"/>
-            <!-- Headlight assembly with DRL -->
-            <rect x="498" y="96" width="16" height="18" rx="2" fill="rgba(0,180,255,0.12)" stroke="#00b4ff" stroke-width="1.5"/>
-            <line x1="498" y1="97" x2="514" y2="97" stroke="#00b4ff" stroke-width="2" opacity="0.9"/>
-            <ellipse cx="506" cy="108" rx="6" ry="5" fill="rgba(0,180,255,0.35)" stroke="#00b4ff" stroke-width="1"/>
-            <!-- Front bumper -->
-            <rect x="495" y="153" width="20" height="12" rx="2" fill="rgba(0,180,255,0.1)" stroke="#00b4ff" stroke-width="1.5"/>
-            <rect x="492" y="162" width="24" height="5" rx="1" fill="rgba(0,180,255,0.18)" stroke="#00b4ff" stroke-width="1"/>
-            <!-- FRONT STEER WHEEL (cx=390 cy=183) -->
-            <circle cx="390" cy="183" r="23" fill="url(#tow_tire)" stroke="#00b4ff" stroke-width="2"/>
-            <circle cx="390" cy="183" r="17" fill="none" stroke="rgba(0,180,255,0.15)" stroke-width="1"/>
-            <circle cx="390" cy="183" r="9" fill="url(#tow_hub)" stroke="#00b4ff" stroke-width="1.5"/>
-            <line x1="390" y1="174" x2="390" y2="161" stroke="#00b4ff" stroke-width="1.5" opacity="0.7"/>
-            <line x1="398" y1="176" x2="405" y2="165" stroke="#00b4ff" stroke-width="1.5" opacity="0.7"/>
-            <line x1="398" y1="190" x2="405" y2="201" stroke="#00b4ff" stroke-width="1.5" opacity="0.7"/>
-            <line x1="390" y1="192" x2="390" y2="205" stroke="#00b4ff" stroke-width="1.5" opacity="0.7"/>
-            <line x1="382" y1="190" x2="375" y2="201" stroke="#00b4ff" stroke-width="1.5" opacity="0.7"/>
-            <line x1="382" y1="176" x2="375" y2="165" stroke="#00b4ff" stroke-width="1.5" opacity="0.7"/>
-            <circle cx="390" cy="162" r="1.8" fill="#00b4ff" opacity="0.8"/>
-            <circle cx="404" cy="170" r="1.8" fill="#00b4ff" opacity="0.8"/>
-            <circle cx="404" cy="196" r="1.8" fill="#00b4ff" opacity="0.8"/>
-            <circle cx="390" cy="204" r="1.8" fill="#00b4ff" opacity="0.8"/>
-            <circle cx="376" cy="196" r="1.8" fill="#00b4ff" opacity="0.8"/>
-            <circle cx="376" cy="170" r="1.8" fill="#00b4ff" opacity="0.8"/>
-            <!-- REAR DUAL WHEELS (outer cx=236, inner cx=250, cy=183) -->
-            <circle cx="236" cy="183" r="23" fill="url(#tow_tire)" stroke="#00b4ff" stroke-width="2"/>
-            <circle cx="236" cy="183" r="17" fill="none" stroke="rgba(0,180,255,0.12)" stroke-width="1"/>
-            <circle cx="250" cy="183" r="21" fill="url(#tow_tire)" stroke="rgba(0,180,255,0.5)" stroke-width="1.5"/>
-            <circle cx="250" cy="183" r="15" fill="none" stroke="rgba(0,180,255,0.1)" stroke-width="1"/>
-            <circle cx="243" cy="183" r="8" fill="url(#tow_hub)" stroke="#00b4ff" stroke-width="1.5"/>
-            <line x1="236" y1="174" x2="236" y2="161" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="244" y1="176" x2="251" y2="165" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="244" y1="190" x2="251" y2="201" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="236" y1="192" x2="236" y2="205" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="228" y1="190" x2="221" y2="201" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="228" y1="176" x2="221" y2="165" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <circle cx="236" cy="162" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="249" cy="169" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="249" cy="197" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="236" cy="204" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="223" cy="197" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="223" cy="169" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <!-- STATUS BADGE -->
-            <rect x="14" y="8" width="128" height="22" rx="4" fill="rgba(0,180,255,0.08)" stroke="#00b4ff" stroke-width="1.5"/>
-            <circle cx="27" cy="19" r="4" fill="#00c896"><animate attributeName="opacity" values="1;0.25;1" dur="1.5s" repeatCount="indefinite"/></circle>
-            <text x="36" y="23" font-family="monospace" font-size="8" fill="#00c896" font-weight="700">DISPATCH ACTIVE</text>
-            <!-- HEAVY RECOVERY UNIT label -->
-            <text x="190" y="113" font-family="monospace" font-size="6.5" fill="rgba(0,180,255,0.4)" font-weight="700" text-anchor="middle" letter-spacing="1">HEAVY RECOVERY UNIT</text>
-          </svg>
+          <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-labelledby="title desc">
+<title id="twd_title">BFT Tow Dispatch Command Center</title><desc id="twd_desc">Dark futuristic dispatch dashboard with live map, tow truck route, job cards, and AI routing panel.</desc>
+<defs>
+<linearGradient id="twd_bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#020611"/></linearGradient>
+<linearGradient id="twd_cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#2563eb"/></linearGradient>
+<linearGradient id="twd_amber" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbbf24"/><stop offset="1" stop-color="#f97316"/></linearGradient>
+<filter id="twd_glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="900" height="520" rx="34" fill="url(#twd_bg)"/>
+<rect x="26" y="24" width="848" height="472" rx="26" fill="#071827" stroke="#164e63" stroke-width="2"/>
+<g opacity=".22" stroke="#38bdf8" stroke-width="1"><path d="M70 110H830M70 170H830M70 230H830M70 290H830M70 350H830M70 410H830"/><path d="M120 70V450M210 70V450M300 70V450M390 70V450M480 70V450M570 70V450M660 70V450M750 70V450"/></g>
+<text x="60" y="68" fill="#e0f2fe" font-family="Inter,Arial" font-size="24" font-weight="700">BFT DISPATCH ACTIVE</text>
+<text x="60" y="96" fill="#67e8f9" font-family="Inter,Arial" font-size="13" letter-spacing="3">LIVE GPS · HEAVY RECOVERY · AI ROUTING</text>
+<rect x="598" y="48" width="216" height="48" rx="14" fill="#052e3d" stroke="#22d3ee"/>
+<circle cx="622" cy="72" r="7" fill="#22c55e" filter="url(#twd_glow)"/><text x="640" y="77" fill="#dffaff" font-family="Inter,Arial" font-size="15" font-weight="700">12 ACTIVE JOBS</text>
+<path d="M104 394 C178 312 198 260 286 276 C378 292 392 196 478 206 C568 216 580 142 706 132" fill="none" stroke="#22d3ee" stroke-width="6" stroke-linecap="round" filter="url(#twd_glow)"/>
+<path d="M106 394 C174 330 214 314 286 276" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="8 10"/>
+<g fill="#22d3ee" filter="url(#twd_glow)"><circle cx="104" cy="394" r="9"/><circle cx="286" cy="276" r="8"/><circle cx="478" cy="206" r="8"/><circle cx="706" cy="132" r="10"/></g>
+<g transform="translate(640 122)"><rect width="170" height="104" rx="18" fill="#081d2c" stroke="#164e63"/><text x="18" y="32" fill="#f8fafc" font-family="Inter,Arial" font-size="15" font-weight="700">AI ROUTING</text><text x="18" y="60" fill="#67e8f9" font-family="Inter,Arial" font-size="28" font-weight="800">4.2 min</text><text x="18" y="84" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Optimal ETA</text></g>
+<g transform="translate(82 322)"><rect x="0" y="0" width="214" height="86" rx="18" fill="#0a2133" stroke="#38bdf8"/><text x="18" y="28" fill="#e0f2fe" font-family="Inter,Arial" font-size="15" font-weight="700">HEAVY RECOVERY UNIT</text><text x="18" y="54" fill="#94a3b8" font-family="Inter,Arial" font-size="13">I-85 North · Exit 104</text><text x="18" y="74" fill="#22c55e" font-family="Inter,Arial" font-size="12" font-weight="700">DISPATCHED · DRIVER EN ROUTE</text></g>
+<g transform="translate(385 250)"><rect x="0" y="0" width="132" height="62" rx="10" fill="url(#twd_amber)"/><rect x="20" y="38" width="25" height="25" rx="12" fill="#020617"/><rect x="88" y="38" width="25" height="25" rx="12" fill="#020617"/><path d="M18 38h100l-18-24H50L36 28H18z" fill="#111827" opacity=".78"/><path d="M12 22h32v16H12z" fill="#0f172a"/><circle cx="32" cy="50" r="7" fill="#e5e7eb"/><circle cx="100" cy="50" r="7" fill="#e5e7eb"/></g>
+<g transform="translate(584 312)"><rect width="230" height="102" rx="18" fill="#081d2c" stroke="#164e63"/><text x="18" y="30" fill="#e0f2fe" font-family="Inter,Arial" font-size="14" font-weight="700">QUEUE HEALTH</text><text x="18" y="62" fill="#f8fafc" font-family="Inter,Arial" font-size="30" font-weight="800">98%</text><text x="80" y="60" fill="#94a3b8" font-family="Inter,Arial" font-size="13">completion</text><rect x="18" y="78" width="192" height="9" rx="5" fill="#123047"/><rect x="18" y="78" width="188" height="9" rx="5" fill="url(#twd_cyan)"/></g>
+</svg>
         </div>
       </div>
       <div class="float-card" style="top:-18px;right:-28px;transform:scale(.88) rotate(-1deg)">
@@ -400,7 +337,59 @@ select.cf-field option{background:#0d1425}
 <div class="sep"><div class="sep-line"></div></div>
 
 <!-- MODULE 02 — FREIGHT -->
-<section class="scene" id="scene-freight">
+<section class="scene" id="scene-freight" style="flex-direction:column;gap:2rem">
+  <div class="vehicle-banner-wrap">
+    <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 520" role="img" aria-labelledby="title desc">
+<title id="whl_title">BFT black electric blue 18 wheeler freight truck</title>
+<desc id="whl_desc">A realistic vector-style black 18 wheeler with electric blue BFT branding on the trailer.</desc>
+<defs>
+  <linearGradient id="whl_bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#020817"/><stop offset="1" stop-color="#061b32"/></linearGradient>
+  <linearGradient id="whl_black" x1="0" x2="1"><stop stop-color="#03050a"/><stop offset=".5" stop-color="#161d28"/><stop offset="1" stop-color="#05070c"/></linearGradient>
+  <linearGradient id="whl_blue" x1="0" x2="1"><stop stop-color="#00c8ff"/><stop offset=".5" stop-color="#0078ff"/><stop offset="1" stop-color="#003bff"/></linearGradient>
+  <linearGradient id="whl_chrome" x1="0" x2="1"><stop stop-color="#f8fbff"/><stop offset=".35" stop-color="#6d7a83"/><stop offset=".75" stop-color="#dbe6ef"/><stop offset="1" stop-color="#303b45"/></linearGradient>
+  <filter id="whl_glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="whl_shadow"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#000" flood-opacity=".6"/></filter>
+</defs>
+<rect width="1400" height="520" rx="34" fill="url(#whl_bg)"/>
+<g opacity=".17" stroke="#0d8dff" stroke-width="1"><path d="M70 90H1330M70 170H1330M70 250H1330M70 330H1330M70 410H1330"/><path d="M160 55V455M300 55V455M440 55V455M580 55V455M720 55V455M860 55V455M1000 55V455M1140 55V455M1280 55V455"/></g>
+<ellipse cx="735" cy="433" rx="560" ry="34" fill="#001c3a" opacity=".86" filter="url(#whl_glow)"/>
+<g filter="url(#whl_shadow)">
+  <!-- trailer -->
+  <path d="M568 120h674c37 0 68 30 68 68v198H536V156c0-20 14-36 32-36z" fill="url(#whl_black)" stroke="#40566d" stroke-width="4"/>
+  <path d="M592 145h642c21 0 38 17 38 38v169H592z" fill="#090f18" stroke="#1d334c" stroke-width="3"/>
+  <g opacity=".2" stroke="#86b7dd"><path d="M650 151v200M730 151v200M810 151v200M890 151v200M970 151v200M1050 151v200M1130 151v200M1210 151v200"/></g>
+  <path d="M612 310h650" stroke="url(#whl_blue)" stroke-width="15" filter="url(#whl_glow)"/>
+  <path d="M617 303c148-60 309-64 472-20 65 17 116 29 173 20v44c-96 10-169-18-257-42-139-38-257-30-388 25z" fill="url(#whl_blue)" opacity=".9"/>
+  <path d="M702 197h92l-73 124h-94z" fill="url(#whl_blue)" opacity=".92"/>
+  <text x="815" y="258" font-family="Arial Black,Arial,sans-serif" font-size="94" fill="#0b87ff" font-weight="900">BFT</text>
+  <text x="823" y="300" font-family="Arial,sans-serif" font-size="29" fill="#e9f4ff" font-weight="800">FREIGHT SOLUTIONS</text>
+  <g fill="#dbe6ef" opacity=".9"><rect x="617" y="371" width="25" height="6"/><rect x="701" y="371" width="25" height="6"/><rect x="785" y="371" width="25" height="6"/><rect x="869" y="371" width="25" height="6"/><rect x="953" y="371" width="25" height="6"/><rect x="1037" y="371" width="25" height="6"/><rect x="1121" y="371" width="25" height="6"/><rect x="1205" y="371" width="25" height="6"/></g>
+  <!-- tractor cab -->
+  <path d="M126 322c7-71 48-151 130-190 46-22 122-24 207-10 45 8 80 41 91 85l36 147H83c8-13 21-24 43-32z" fill="url(#whl_black)" stroke="#40566d" stroke-width="4"/>
+  <path d="M255 150c48-22 140-20 184-10 40 9 66 41 77 88H197c14-38 31-65 58-78z" fill="#081522" stroke="#55708a" stroke-width="3"/>
+  <path d="M287 154h118c35 0 62 23 75 61l8 28H232c14-45 31-75 55-89z" fill="#092538" stroke="#11344f" stroke-width="3"/>
+  <path d="M93 322h188c43 0 78 35 78 78H82z" fill="#05070c" stroke="#344d65" stroke-width="3"/>
+  <rect x="116" y="270" width="92" height="114" rx="18" fill="url(#whl_chrome)"/>
+  <rect x="131" y="284" width="62" height="86" rx="12" fill="#05070c" stroke="#dbe6ef" stroke-width="3"/>
+  <path d="M139 284v86M162 284v86M186 284v86" stroke="#e6f3ff" stroke-width="3" opacity=".75"/>
+  <path d="M230 315l130-10 33 31-164 12z" fill="#0a1c2d" stroke="#3b607e" stroke-width="3"/>
+  <path d="M248 320l105-7 22 18-125 10z" fill="#e9fbff" opacity=".9"/>
+  <path d="M247 342h134" stroke="url(#whl_blue)" stroke-width="7" filter="url(#whl_glow)"/>
+  <path d="M411 265h120" stroke="url(#whl_blue)" stroke-width="12" filter="url(#whl_glow)"/>
+  <path d="M89 386h505" stroke="#151b22" stroke-width="28"/>
+  <!-- wheels -->
+  <g>
+    <circle cx="272" cy="395" r="71" fill="#020409"/><circle cx="272" cy="395" r="47" fill="url(#whl_chrome)"/><circle cx="272" cy="395" r="24" fill="#0c1117"/>
+    <circle cx="460" cy="397" r="65" fill="#020409"/><circle cx="460" cy="397" r="42" fill="url(#whl_chrome)"/><circle cx="460" cy="397" r="22" fill="#0c1117"/>
+    <circle cx="555" cy="397" r="65" fill="#020409"/><circle cx="555" cy="397" r="42" fill="url(#whl_chrome)"/><circle cx="555" cy="397" r="22" fill="#0c1117"/>
+    <circle cx="1105" cy="397" r="62" fill="#020409"/><circle cx="1105" cy="397" r="39" fill="url(#whl_chrome)"/><circle cx="1105" cy="397" r="20" fill="#0c1117"/>
+    <circle cx="1192" cy="397" r="62" fill="#020409"/><circle cx="1192" cy="397" r="39" fill="url(#whl_chrome)"/><circle cx="1192" cy="397" r="20" fill="#0c1117"/>
+  </g>
+  <g filter="url(#whl_glow)"><rect x="250" y="103" width="126" height="12" rx="6" fill="url(#whl_blue)"/><rect x="1220" y="128" width="32" height="8" rx="4" fill="#ff9d00"/><rect x="1280" y="208" width="9" height="42" rx="4" fill="url(#whl_blue)"/></g>
+</g>
+<rect x="18" y="18" width="1364" height="484" rx="28" fill="none" stroke="#125f9d" opacity=".6"/>
+</svg>
+  </div>
   <div class="scene-inner rev">
     <div class="scene-text">
       <span class="pain-stmt">Paper logs and phone calls lose $3K per haul.</span>
@@ -418,190 +407,18 @@ select.cf-field option{background:#0d1425}
       <div class="device">
         <div class="device-bar"><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="device-url">bft-platform / freight</div></div>
         <div class="device-body">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 220" width="100%" height="auto" style="display:block">
-            <defs>
-              <linearGradient id="semi_cab" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="rgba(0,180,255,0.22)"/>
-                <stop offset="60%" stop-color="rgba(0,180,255,0.10)"/>
-                <stop offset="100%" stop-color="rgba(0,180,255,0.05)"/>
-              </linearGradient>
-              <linearGradient id="semi_trailer" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="rgba(0,180,255,0.12)"/>
-                <stop offset="100%" stop-color="rgba(0,180,255,0.04)"/>
-              </linearGradient>
-              <linearGradient id="semi_fairing" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stop-color="rgba(0,180,255,0.06)"/>
-                <stop offset="100%" stop-color="rgba(0,180,255,0.22)"/>
-              </linearGradient>
-              <linearGradient id="semi_tire" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="rgba(0,50,80,0.95)"/>
-                <stop offset="100%" stop-color="rgba(0,15,30,0.98)"/>
-              </linearGradient>
-              <radialGradient id="semi_hub" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="rgba(0,180,255,0.7)"/>
-                <stop offset="100%" stop-color="rgba(0,90,160,0.4)"/>
-              </radialGradient>
-            </defs>
-            <!-- Background grid -->
-            <g opacity="0.05" stroke="#00b4ff" stroke-width="0.5">
-              <line x1="0" y1="40" x2="580" y2="40"/><line x1="0" y1="80" x2="580" y2="80"/>
-              <line x1="0" y1="120" x2="580" y2="120"/><line x1="0" y1="160" x2="580" y2="160"/>
-              <line x1="0" y1="200" x2="580" y2="200"/>
-              <line x1="72" y1="0" x2="72" y2="220"/><line x1="144" y1="0" x2="144" y2="220"/>
-              <line x1="216" y1="0" x2="216" y2="220"/><line x1="288" y1="0" x2="288" y2="220"/>
-              <line x1="360" y1="0" x2="360" y2="220"/><line x1="432" y1="0" x2="432" y2="220"/>
-              <line x1="504" y1="0" x2="504" y2="220"/>
-            </g>
-            <!-- Ground line and shadow -->
-            <line x1="12" y1="202" x2="568" y2="202" stroke="#00b4ff" stroke-width="1" opacity="0.22"/>
-            <ellipse cx="300" cy="206" rx="255" ry="5" fill="rgba(0,180,255,0.07)"/>
-            <!-- 53-FOOT TRAILER -->
-            <rect x="18" y="60" width="290" height="128" rx="2" fill="url(#semi_trailer)" stroke="#00b4ff" stroke-width="1.5"/>
-            <rect x="18" y="56" width="290" height="7" rx="1" fill="rgba(0,180,255,0.18)" stroke="#00b4ff" stroke-width="1"/>
-            <rect x="18" y="186" width="290" height="5" rx="1" fill="rgba(0,180,255,0.12)" stroke="#00b4ff" stroke-width="1"/>
-            <!-- Structural ribs -->
-            <g stroke="rgba(0,180,255,0.2)" stroke-width="0.8">
-              <line x1="58" y1="60" x2="58" y2="191"/><line x1="98" y1="60" x2="98" y2="191"/>
-              <line x1="138" y1="60" x2="138" y2="191"/><line x1="178" y1="60" x2="178" y2="191"/>
-              <line x1="218" y1="60" x2="218" y2="191"/><line x1="258" y1="60" x2="258" y2="191"/>
-              <line x1="298" y1="60" x2="298" y2="191"/>
-            </g>
-            <!-- BFT FREIGHT branding -->
-            <text x="155" y="133" font-family="monospace" font-size="11" fill="rgba(0,180,255,0.4)" font-weight="700" text-anchor="middle" letter-spacing="2">BFT FREIGHT</text>
-            <text x="155" y="147" font-family="monospace" font-size="7" fill="rgba(0,180,255,0.22)" text-anchor="middle" letter-spacing="1">FLATBED &#xB7; 22T &#xB7; 53FT</text>
-            <!-- DOT reflective amber tape -->
-            <line x1="18" y1="77" x2="308" y2="77" stroke="#00b4ff" stroke-width="2.5" stroke-dasharray="8,6" opacity="0.4"/>
-            <line x1="18" y1="184" x2="308" y2="184" stroke="#fbbf24" stroke-width="2" stroke-dasharray="8,6" opacity="0.3"/>
-            <!-- Rear door with hinges -->
-            <rect x="18" y="64" width="9" height="122" rx="1" fill="rgba(0,180,255,0.06)" stroke="#00b4ff" stroke-width="1.5"/>
-            <rect x="16" y="82" width="13" height="5" rx="1" fill="rgba(0,180,255,0.3)" stroke="#00b4ff" stroke-width="0.8"/>
-            <rect x="16" y="112" width="13" height="5" rx="1" fill="rgba(0,180,255,0.3)" stroke="#00b4ff" stroke-width="0.8"/>
-            <rect x="16" y="142" width="13" height="5" rx="1" fill="rgba(0,180,255,0.3)" stroke="#00b4ff" stroke-width="0.8"/>
-            <rect x="16" y="167" width="13" height="5" rx="1" fill="rgba(0,180,255,0.3)" stroke="#00b4ff" stroke-width="0.8"/>
-            <line x1="22" y1="64" x2="22" y2="186" stroke="#00b4ff" stroke-width="1" opacity="0.4"/>
-            <!-- Landing gear -->
-            <rect x="245" y="188" width="8" height="16" rx="1" fill="rgba(0,180,255,0.1)" stroke="#00b4ff" stroke-width="1"/>
-            <rect x="260" y="188" width="8" height="16" rx="1" fill="rgba(0,180,255,0.1)" stroke="#00b4ff" stroke-width="1"/>
-            <rect x="241" y="201" width="16" height="4" rx="1" fill="rgba(0,180,255,0.15)" stroke="#00b4ff" stroke-width="0.8"/>
-            <rect x="256" y="201" width="16" height="4" rx="1" fill="rgba(0,180,255,0.15)" stroke="#00b4ff" stroke-width="0.8"/>
-            <!-- Fifth wheel coupling -->
-            <rect x="297" y="186" width="32" height="5" rx="1" fill="rgba(0,180,255,0.18)" stroke="#00b4ff" stroke-width="1"/>
-            <path d="M302,186 Q308,179 317,181 Q323,183 320,186 Z" fill="rgba(0,180,255,0.12)" stroke="#00b4ff" stroke-width="1.5"/>
-            <!-- Mud flap -->
-            <rect x="9" y="172" width="6" height="24" rx="1" fill="rgba(0,180,255,0.06)" stroke="rgba(0,180,255,0.3)" stroke-width="0.8"/>
-            <!-- AERODYNAMIC SLEEPER CAB -->
-            <rect x="310" y="68" width="222" height="121" rx="3" fill="url(#semi_cab)" stroke="#00b4ff" stroke-width="2"/>
-            <!-- Roof fairing -->
-            <path d="M314,68 L528,68 L528,60 Q498,46 420,48 Q360,49 314,60 Z" fill="url(#semi_fairing)" stroke="#00b4ff" stroke-width="1.5"/>
-            <!-- Side fairing -->
-            <path d="M308,70 Q300,82 302,170 L310,170 L310,70 Z" fill="rgba(0,180,255,0.06)" stroke="#00b4ff" stroke-width="1"/>
-            <!-- Sun visor -->
-            <rect x="424" y="66" width="98" height="8" rx="2" fill="rgba(0,180,255,0.2)" stroke="#00b4ff" stroke-width="1"/>
-            <!-- Windshield (large panoramic) -->
-            <rect x="426" y="74" width="96" height="70" rx="3" fill="rgba(0,180,255,0.20)" stroke="#00b4ff" stroke-width="1.5"/>
-            <line x1="474" y1="74" x2="474" y2="144" stroke="#00b4ff" stroke-width="2" opacity="0.45"/>
-            <line x1="434" y1="140" x2="466" y2="80" stroke="rgba(0,180,255,0.18)" stroke-width="1"/>
-            <line x1="482" y1="80" x2="514" y2="140" stroke="rgba(0,180,255,0.18)" stroke-width="1"/>
-            <!-- Sleeper berth window -->
-            <rect x="314" y="78" width="55" height="38" rx="2" fill="rgba(0,180,255,0.14)" stroke="rgba(0,180,255,0.4)" stroke-width="1"/>
-            <!-- Cab door window and panel -->
-            <rect x="376" y="78" width="48" height="40" rx="2" fill="rgba(0,180,255,0.14)" stroke="rgba(0,180,255,0.4)" stroke-width="1"/>
-            <rect x="376" y="118" width="48" height="52" rx="1" fill="rgba(0,180,255,0.03)" stroke="rgba(0,180,255,0.22)" stroke-width="0.8"/>
-            <rect x="406" y="148" width="12" height="3" rx="1.5" fill="rgba(0,180,255,0.7)" stroke="#00b4ff" stroke-width="0.5"/>
-            <!-- Roof clearance lights -->
-            <circle cx="330" cy="63" r="2.5" fill="#00b4ff" opacity="0.75"/>
-            <circle cx="362" cy="60" r="2.5" fill="#00b4ff" opacity="0.75"/>
-            <circle cx="422" cy="57" r="2.5" fill="#00b4ff" opacity="0.75"/>
-            <circle cx="482" cy="57" r="2.5" fill="#00b4ff" opacity="0.75"/>
-            <circle cx="518" cy="58" r="2.5" fill="#00b4ff" opacity="0.75"><animate attributeName="opacity" values="0.75;1;0.75" dur="1.8s" repeatCount="indefinite"/></circle>
-            <!-- Dual exhaust stacks -->
-            <rect x="315" y="30" width="8" height="40" rx="3" fill="rgba(0,180,255,0.10)" stroke="#00b4ff" stroke-width="1.5"/>
-            <rect x="326" y="32" width="8" height="38" rx="3" fill="rgba(0,180,255,0.08)" stroke="#00b4ff" stroke-width="1.5"/>
-            <path d="M319,30 Q317,20 320,12 Q322,5 319,0" fill="none" stroke="rgba(0,180,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M330,30 Q332,20 329,12 Q327,5 330,0" fill="none" stroke="rgba(0,180,255,0.2)" stroke-width="1" stroke-linecap="round"/>
-            <!-- Side mirror -->
-            <rect x="418" y="82" width="8" height="12" rx="1" fill="rgba(0,180,255,0.12)" stroke="#00b4ff" stroke-width="1"/>
-            <line x1="422" y1="94" x2="426" y2="102" stroke="#00b4ff" stroke-width="1" opacity="0.5"/>
-            <!-- Twin grille openings with slats -->
-            <rect x="524" y="90" width="28" height="24" rx="2" fill="rgba(0,180,255,0.06)" stroke="#00b4ff" stroke-width="1.5"/>
-            <line x1="524" y1="97" x2="552" y2="97" stroke="#00b4ff" stroke-width="0.8" opacity="0.5"/>
-            <line x1="524" y1="104" x2="552" y2="104" stroke="#00b4ff" stroke-width="0.8" opacity="0.5"/>
-            <line x1="524" y1="108" x2="552" y2="108" stroke="#00b4ff" stroke-width="0.8" opacity="0.5"/>
-            <rect x="524" y="120" width="28" height="22" rx="2" fill="rgba(0,180,255,0.06)" stroke="#00b4ff" stroke-width="1.5"/>
-            <line x1="524" y1="127" x2="552" y2="127" stroke="#00b4ff" stroke-width="0.8" opacity="0.5"/>
-            <line x1="524" y1="133" x2="552" y2="133" stroke="#00b4ff" stroke-width="0.8" opacity="0.5"/>
-            <line x1="524" y1="138" x2="552" y2="138" stroke="#00b4ff" stroke-width="0.8" opacity="0.5"/>
-            <!-- Multi-element headlights with DRL strip -->
-            <rect x="520" y="70" width="44" height="12" rx="2" fill="rgba(0,180,255,0.15)" stroke="#00b4ff" stroke-width="1.5"/>
-            <line x1="520" y1="70" x2="564" y2="70" stroke="#00b4ff" stroke-width="2.5" opacity="0.85"/>
-            <rect x="520" y="82" width="44" height="20" rx="2" fill="rgba(0,180,255,0.12)" stroke="#00b4ff" stroke-width="1.5"/>
-            <ellipse cx="536" cy="92" rx="10" ry="7" fill="rgba(0,180,255,0.35)" stroke="#00b4ff" stroke-width="1"/>
-            <ellipse cx="554" cy="92" rx="8" ry="7" fill="rgba(0,180,255,0.25)" stroke="#00b4ff" stroke-width="1"/>
-            <!-- Chrome bumper -->
-            <rect x="520" y="150" width="48" height="14" rx="3" fill="rgba(0,180,255,0.15)" stroke="#00b4ff" stroke-width="1.5"/>
-            <rect x="516" y="160" width="56" height="6" rx="2" fill="rgba(0,180,255,0.20)" stroke="#00b4ff" stroke-width="1"/>
-            <line x1="520" y1="154" x2="568" y2="154" stroke="#00b4ff" stroke-width="0.8" opacity="0.5"/>
-            <line x1="520" y1="158" x2="568" y2="158" stroke="#00b4ff" stroke-width="0.8" opacity="0.5"/>
-            <!-- STEER AXLE WHEEL (cx=462 cy=187) -->
-            <circle cx="462" cy="187" r="24" fill="url(#semi_tire)" stroke="#00b4ff" stroke-width="2"/>
-            <circle cx="462" cy="187" r="18" fill="none" stroke="rgba(0,180,255,0.12)" stroke-width="1"/>
-            <circle cx="462" cy="187" r="10" fill="url(#semi_hub)" stroke="#00b4ff" stroke-width="1.5"/>
-            <line x1="462" y1="177" x2="462" y2="164" stroke="#00b4ff" stroke-width="1.5" opacity="0.7"/>
-            <line x1="471" y1="180" x2="478" y2="168" stroke="#00b4ff" stroke-width="1.5" opacity="0.7"/>
-            <line x1="471" y1="194" x2="478" y2="206" stroke="#00b4ff" stroke-width="1.5" opacity="0.7"/>
-            <line x1="462" y1="197" x2="462" y2="210" stroke="#00b4ff" stroke-width="1.5" opacity="0.7"/>
-            <line x1="453" y1="194" x2="446" y2="206" stroke="#00b4ff" stroke-width="1.5" opacity="0.7"/>
-            <line x1="453" y1="180" x2="446" y2="168" stroke="#00b4ff" stroke-width="1.5" opacity="0.7"/>
-            <circle cx="462" cy="165" r="2" fill="#00b4ff" opacity="0.8"/>
-            <circle cx="476" cy="173" r="2" fill="#00b4ff" opacity="0.8"/>
-            <circle cx="476" cy="201" r="2" fill="#00b4ff" opacity="0.8"/>
-            <circle cx="462" cy="209" r="2" fill="#00b4ff" opacity="0.8"/>
-            <circle cx="448" cy="201" r="2" fill="#00b4ff" opacity="0.8"/>
-            <circle cx="448" cy="173" r="2" fill="#00b4ff" opacity="0.8"/>
-            <!-- DRIVE TANDEM DUAL WHEELS (outer cx=330, inner cx=356) -->
-            <circle cx="330" cy="187" r="23" fill="url(#semi_tire)" stroke="#00b4ff" stroke-width="2"/>
-            <circle cx="330" cy="187" r="17" fill="none" stroke="rgba(0,180,255,0.12)" stroke-width="1"/>
-            <circle cx="356" cy="187" r="21" fill="url(#semi_tire)" stroke="rgba(0,180,255,0.5)" stroke-width="1.5"/>
-            <circle cx="356" cy="187" r="15" fill="none" stroke="rgba(0,180,255,0.1)" stroke-width="1"/>
-            <circle cx="343" cy="187" r="9" fill="url(#semi_hub)" stroke="#00b4ff" stroke-width="1.5"/>
-            <line x1="330" y1="178" x2="330" y2="165" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="338" y1="180" x2="345" y2="168" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="338" y1="194" x2="345" y2="206" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="330" y1="196" x2="330" y2="209" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="322" y1="194" x2="315" y2="206" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="322" y1="180" x2="315" y2="168" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <circle cx="330" cy="166" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="343" cy="173" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="343" cy="201" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="330" cy="208" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="317" cy="201" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="317" cy="173" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <!-- TRAILER TANDEM DUAL WHEELS (outer cx=130, inner cx=155) -->
-            <circle cx="130" cy="187" r="23" fill="url(#semi_tire)" stroke="#00b4ff" stroke-width="2"/>
-            <circle cx="130" cy="187" r="17" fill="none" stroke="rgba(0,180,255,0.12)" stroke-width="1"/>
-            <circle cx="155" cy="187" r="21" fill="url(#semi_tire)" stroke="rgba(0,180,255,0.5)" stroke-width="1.5"/>
-            <circle cx="155" cy="187" r="15" fill="none" stroke="rgba(0,180,255,0.1)" stroke-width="1"/>
-            <circle cx="142" cy="187" r="9" fill="url(#semi_hub)" stroke="#00b4ff" stroke-width="1.5"/>
-            <line x1="130" y1="178" x2="130" y2="165" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="138" y1="180" x2="145" y2="168" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="138" y1="194" x2="145" y2="206" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="130" y1="196" x2="130" y2="209" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="122" y1="194" x2="115" y2="206" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <line x1="122" y1="180" x2="115" y2="168" stroke="#00b4ff" stroke-width="1.3" opacity="0.65"/>
-            <circle cx="130" cy="166" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="143" cy="173" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="143" cy="201" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="130" cy="208" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="117" cy="201" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <circle cx="117" cy="173" r="1.8" fill="#00b4ff" opacity="0.7"/>
-            <!-- STATUS BADGE "IN TRANSIT" -->
-            <rect x="14" y="10" width="112" height="22" rx="4" fill="rgba(0,180,255,0.08)" stroke="#00b4ff" stroke-width="1.5"/>
-            <circle cx="27" cy="21" r="4" fill="#00c896"><animate attributeName="opacity" values="1;0.25;1" dur="1.8s" repeatCount="indefinite"/></circle>
-            <text x="36" y="25" font-family="monospace" font-size="8" fill="#00c896" font-weight="700">IN TRANSIT</text>
-            <!-- Route info -->
-            <rect x="14" y="36" width="162" height="18" rx="3" fill="rgba(0,180,255,0.05)" stroke="rgba(0,180,255,0.3)" stroke-width="1"/>
-            <text x="22" y="48" font-family="monospace" font-size="7.5" fill="rgba(0,180,255,0.7)">ATL &#x2192; CHI &#xB7; 312mi</text>
-          </svg>
+          <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-labelledby="title desc">
+<title id="frt_title">BFT Freight Command Dashboard</title><desc id="frt_desc">Realistic freight dashboard showing flatbed truck, route data, AI pricing, load status, and revenue cards.</desc>
+<defs><linearGradient id="frt_bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06111e"/><stop offset="1" stop-color="#020617"/></linearGradient><linearGradient id="frt_blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient><filter id="frt_glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<rect width="900" height="520" rx="34" fill="url(#frt_bg)"/><rect x="28" y="28" width="844" height="464" rx="28" fill="#071827" stroke="#1e3a8a" stroke-width="2"/>
+<text x="60" y="72" fill="#eff6ff" font-family="Inter,Arial" font-size="24" font-weight="800">BFT FREIGHT COMMAND</text><text x="60" y="100" fill="#93c5fd" font-family="Inter,Arial" font-size="13" letter-spacing="3">LOAD MANAGEMENT · MARKET RATE AI</text>
+<g transform="translate(60 134)"><rect width="218" height="86" rx="18" fill="#0b2235" stroke="#164e63"/><text x="18" y="30" fill="#93c5fd" font-family="Inter,Arial" font-size="13">ACTIVE LOADS</text><text x="18" y="66" fill="#fff" font-family="Inter,Arial" font-size="34" font-weight="800">24</text></g>
+<g transform="translate(306 134)"><rect width="218" height="86" rx="18" fill="#0b2235" stroke="#164e63"/><text x="18" y="30" fill="#93c5fd" font-family="Inter,Arial" font-size="13">REVENUE TODAY</text><text x="18" y="66" fill="#fff" font-family="Inter,Arial" font-size="34" font-weight="800">$18.4K</text></g>
+<g transform="translate(552 134)"><rect width="250" height="86" rx="18" fill="#052e2b" stroke="#0f766e"/><text x="18" y="30" fill="#99f6e4" font-family="Inter,Arial" font-size="13">AI MARKET RATE</text><text x="18" y="66" fill="#fff" font-family="Inter,Arial" font-size="34" font-weight="800">$3.20/mi</text></g>
+<path d="M100 362 C192 274 322 420 440 324 S642 238 760 312" fill="none" stroke="#38bdf8" stroke-width="5" filter="url(#frt_glow)"/><circle cx="100" cy="362" r="10" fill="#22c55e"/><circle cx="760" cy="312" r="10" fill="#f97316"/><text x="76" y="390" fill="#cbd5e1" font-family="Inter,Arial" font-size="13">ATL</text><text x="742" y="342" fill="#cbd5e1" font-family="Inter,Arial" font-size="13">CHI</text>
+<g transform="translate(245 286)"><rect x="0" y="38" width="296" height="42" rx="8" fill="#334155"/><rect x="20" y="8" width="122" height="54" rx="8" fill="url(#frt_blue)"/><rect x="148" y="18" width="132" height="35" rx="5" fill="#64748b"/><path d="M190 18h90v-10h-90z" fill="#94a3b8"/><circle cx="52" cy="86" r="18" fill="#020617"/><circle cx="52" cy="86" r="8" fill="#e2e8f0"/><circle cx="250" cy="86" r="18" fill="#020617"/><circle cx="250" cy="86" r="8" fill="#e2e8f0"/><text x="26" y="42" fill="#e0f2fe" font-family="Inter,Arial" font-size="13" font-weight="800">BFT</text></g>
+<g transform="translate(610 365)"><rect width="192" height="76" rx="16" fill="#081d2c" stroke="#164e63"/><text x="16" y="28" fill="#e0f2fe" font-family="Inter,Arial" font-size="14" font-weight="700">ATL → CHI</text><text x="16" y="54" fill="#67e8f9" font-family="Inter,Arial" font-size="23" font-weight="800">312 mi</text><text x="108" y="54" fill="#22c55e" font-family="Inter,Arial" font-size="12" font-weight="700">IN TRANSIT</text></g>
+</svg>
         </div>
       </div>
       <div class="float-card" style="bottom:-14px;left:-24px;transform:scale(.86) rotate(1deg)">
@@ -615,7 +432,59 @@ select.cf-field option{background:#0d1425}
 <div class="sep"><div class="sep-line"></div></div>
 
 <!-- MODULE 03 — HEALTH TRIAGE -->
-<section class="scene" id="scene-health">
+<section class="scene" id="scene-health" style="flex-direction:column;gap:2rem">
+  <div class="vehicle-banner-wrap">
+    <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 520" role="img" aria-labelledby="title desc">
+<title id="amb_title">BFT black electric blue health triage ambulance</title>
+<desc id="amb_desc">A realistic vector-style black ambulance with electric blue accents, BFT branding, and health triage markings.</desc>
+<defs>
+  <linearGradient id="amb_bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#020817"/><stop offset="1" stop-color="#061b32"/></linearGradient>
+  <linearGradient id="amb_black" x1="0" x2="1"><stop stop-color="#03050a"/><stop offset=".55" stop-color="#161d28"/><stop offset="1" stop-color="#05070c"/></linearGradient>
+  <linearGradient id="amb_blue" x1="0" x2="1"><stop stop-color="#00c8ff"/><stop offset=".5" stop-color="#0078ff"/><stop offset="1" stop-color="#003bff"/></linearGradient>
+  <linearGradient id="amb_chrome" x1="0" x2="1"><stop stop-color="#f8fbff"/><stop offset=".35" stop-color="#6d7a83"/><stop offset=".75" stop-color="#dbe6ef"/><stop offset="1" stop-color="#303b45"/></linearGradient>
+  <filter id="amb_glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="amb_shadow"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#000" flood-opacity=".6"/></filter>
+</defs>
+<rect width="1400" height="520" rx="34" fill="url(#amb_bg)"/>
+<g opacity=".16" stroke="#0d8dff" stroke-width="1"><path d="M60 92H1340M60 174H1340M60 256H1340M60 338H1340M60 420H1340"/><path d="M150 58V458M290 58V458M430 58V458M570 58V458M710 58V458M850 58V458M990 58V458M1130 58V458M1270 58V458"/></g>
+<ellipse cx="730" cy="425" rx="530" ry="34" fill="#001c3a" opacity=".85" filter="url(#amb_glow)"/>
+<g filter="url(#amb_shadow)">
+  <!-- rear ambulance box -->
+  <path d="M512 125h610c47 0 85 38 85 85v178H471V166c0-23 18-41 41-41z" fill="url(#amb_black)" stroke="#40566d" stroke-width="4"/>
+  <path d="M546 154h541c34 0 62 28 62 62v137H546z" fill="#09111b" stroke="#223a54" stroke-width="3"/>
+  <rect x="617" y="183" width="128" height="130" rx="13" fill="#081522" stroke="#4f6e8a" stroke-width="3"/>
+  <rect x="784" y="183" width="128" height="130" rx="13" fill="#081522" stroke="#4f6e8a" stroke-width="3"/>
+  <path d="M555 292h594" stroke="url(#amb_blue)" stroke-width="15" filter="url(#amb_glow)"/>
+  <path d="M555 293c102-47 235-44 367-7 74 21 148 29 227 2v39c-90 29-173 21-269-5-119-32-209-28-325 18z" fill="url(#amb_blue)" opacity=".84"/>
+  <!-- heartbeat line -->
+  <path d="M545 335h120l24-44 38 83 38-63 28 24h350" fill="none" stroke="#13c8ff" stroke-width="6" filter="url(#amb_glow)"/>
+  <!-- cab -->
+  <path d="M148 314c8-75 43-143 108-175 43-22 131-23 196-9 50 11 86 51 94 103l24 158H91c9-38 26-63 57-77z" fill="url(#amb_black)" stroke="#40566d" stroke-width="4"/>
+  <path d="M268 156h142c45 0 78 32 89 83l8 39H203c14-56 36-99 65-122z" fill="#081522" stroke="#55708a" stroke-width="3"/>
+  <path d="M295 165h93c34 0 64 25 72 62l7 33H242c11-45 27-78 53-95z" fill="#092538" stroke="#11344f" stroke-width="3"/>
+  <path d="M96 329h179c44 0 80 35 80 80H85z" fill="#05070c" stroke="#344d65" stroke-width="3"/>
+  <rect x="117" y="277" width="92" height="104" rx="16" fill="url(#amb_chrome)"/>
+  <rect x="133" y="291" width="60" height="75" rx="10" fill="#05070c" stroke="#dbe6ef" stroke-width="3"/>
+  <path d="M139 291v75M162 291v75M186 291v75" stroke="#e6f3ff" stroke-width="3" opacity=".75"/>
+  <path d="M229 318l113-8 31 30-144 11z" fill="#0a1c2d" stroke="#3b607e" stroke-width="3"/>
+  <path d="M245 323l91-6 20 17-110 9z" fill="#e9fbff" opacity=".9"/>
+  <!-- lights -->
+  <g filter="url(#amb_glow)"><rect x="301" y="107" width="156" height="23" rx="9" fill="url(#amb_blue)"/><rect x="319" y="110" width="25" height="17" rx="4" fill="#ff3030"/><rect x="362" y="110" width="25" height="17" rx="4" fill="#e7f9ff"/><rect x="406" y="110" width="25" height="17" rx="4" fill="#0b87ff"/><rect x="1041" y="142" width="45" height="19" rx="7" fill="#ff3030"/><rect x="989" y="142" width="45" height="19" rx="7" fill="#0b87ff"/><path d="M241 342h120" stroke="url(#amb_blue)" stroke-width="7"/></g>
+  <!-- medical branding -->
+  <g transform="translate(955 195)"><path d="M41 0v32l27-21 15 20-28 21 28 21-15 20-27-21v32H16V72l-28 21-15-20 28-21-28-21 15-20 28 21V0z" fill="url(#amb_blue)" filter="url(#amb_glow)"/></g>
+  <text x="1017" y="247" font-family="Arial Black,Arial,sans-serif" font-size="74" fill="#0b87ff" font-weight="900">BFT</text>
+  <text x="1022" y="283" font-family="Arial,sans-serif" font-size="25" fill="#e9f4ff" font-weight="800">HEALTH TRIAGE</text>
+  <text x="600" y="243" font-family="Arial Black,Arial,sans-serif" font-size="48" fill="#dfeeff">AI TRIAGE</text>
+  <text x="600" y="273" font-family="Arial,sans-serif" font-size="22" fill="#8db9dd">PATIENT ASSESSMENT • PRIORITY ROUTING</text>
+  <!-- wheels -->
+  <g>
+    <circle cx="282" cy="397" r="70" fill="#020409"/><circle cx="282" cy="397" r="46" fill="url(#amb_chrome)"/><circle cx="282" cy="397" r="24" fill="#0c1117"/>
+    <circle cx="1010" cy="397" r="70" fill="#020409"/><circle cx="1010" cy="397" r="46" fill="url(#amb_chrome)"/><circle cx="1010" cy="397" r="24" fill="#0c1117"/>
+  </g>
+</g>
+<rect x="18" y="18" width="1364" height="484" rx="28" fill="none" stroke="#125f9d" opacity=".6"/>
+</svg>
+  </div>
   <div class="scene-inner">
     <div class="scene-text">
       <span class="pain-stmt">Manual triage delays cost lives — and lawsuits.</span>
@@ -633,49 +502,7 @@ select.cf-field option{background:#0d1425}
       <div class="device">
         <div class="device-bar"><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="device-url">bft-platform / health-triage</div></div>
         <div class="device-body">
-          <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-            <rect x="12" y="12" width="172" height="128" rx="6" fill="#080810" stroke="#ff4757" stroke-width="1.5"/>
-            <rect x="20" y="20" width="156" height="94" rx="3" fill="#040408" stroke="rgba(255,71,87,.18)" stroke-width="1"/>
-            <rect x="85" y="140" width="22" height="18" rx="1" fill="#080810" stroke="rgba(255,71,87,.25)" stroke-width="1"/>
-            <rect x="70" y="157" width="52" height="5" rx="2" fill="#080810" stroke="rgba(255,71,87,.25)" stroke-width="1"/>
-            <line x1="20" y1="55" x2="176" y2="55" stroke="rgba(255,71,87,.07)" stroke-width="1"/>
-            <line x1="20" y1="67" x2="176" y2="67" stroke="rgba(255,71,87,.07)" stroke-width="1"/>
-            <line x1="20" y1="79" x2="176" y2="79" stroke="rgba(255,71,87,.07)" stroke-width="1"/>
-            <line x1="59" y1="20" x2="59" y2="114" stroke="rgba(255,71,87,.05)" stroke-width="1"/>
-            <line x1="98" y1="20" x2="98" y2="114" stroke="rgba(255,71,87,.05)" stroke-width="1"/>
-            <line x1="137" y1="20" x2="137" y2="114" stroke="rgba(255,71,87,.05)" stroke-width="1"/>
-            <line x1="20" y1="67" x2="176" y2="67" stroke="rgba(255,71,87,.14)" stroke-width="1"/>
-            <path d="M20,67 L38,67 Q42,61 46,67 L53,67 L57,67 L59,74 L62,36 L65,84 L69,67 L74,67 Q78,58 82,67 L96,67 L110,67 Q114,61 118,67 L125,67 L129,67 L131,74 L134,36 L137,84 L141,67 L146,67 Q150,58 154,67 L176,67" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="animation:pulse-light 2.2s ease-in-out infinite"/>
-            <rect x="20" y="104" width="156" height="10" rx="2" fill="rgba(255,71,87,.06)"/>
-            <text x="24" y="112" font-family="monospace" font-size="6.5" fill="#ff4757" font-weight="700">HR: 92</text>
-            <text x="66" y="112" font-family="monospace" font-size="6.5" fill="#00c896" font-weight="700">BP: 128/84</text>
-            <text x="128" y="112" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.45)">SpO2: 97%</text>
-            <circle cx="166" cy="24" r="5" fill="rgba(255,71,87,.3)" stroke="#ff4757" stroke-width="1"><animate attributeName="opacity" values="1;.15;1" dur="1.1s" repeatCount="indefinite"/></circle>
-            <rect x="198" y="8" width="192" height="182" rx="6" fill="#06060e" stroke="rgba(255,71,87,.18)" stroke-width="1.5"/>
-            <text x="294" y="25" font-family="monospace" font-size="7" fill="rgba(255,71,87,.55)" font-weight="700" text-anchor="middle" letter-spacing=".08em">TRIAGE QUEUE</text>
-            <rect x="203" y="32" width="182" height="33" rx="3" fill="rgba(255,71,87,.07)" stroke="rgba(255,71,87,.22)" stroke-width="1"/>
-            <rect x="203" y="32" width="3" height="33" rx="1" fill="#ff4757"/>
-            <text x="212" y="45" font-family="monospace" font-size="6.5" fill="#ff4757" font-weight="700">CRIT</text>
-            <text x="212" y="57" font-family="monospace" font-size="6" fill="rgba(232,240,254,.5)">Martinez &middot; 58M &middot; Chest Pain</text>
-            <rect x="346" y="37" width="30" height="12" rx="5" fill="rgba(255,71,87,.25)" stroke="#ff4757" stroke-width=".8"><animate attributeName="opacity" values="1;.4;1" dur="1.2s" repeatCount="indefinite"/></rect>
-            <text x="361" y="46" font-family="monospace" font-size="5.5" fill="#ff4757" font-weight="700" text-anchor="middle">NOW</text>
-            <rect x="203" y="70" width="182" height="30" rx="3" fill="rgba(255,107,53,.05)" stroke="rgba(255,107,53,.18)" stroke-width="1"/>
-            <rect x="203" y="70" width="3" height="30" rx="1" fill="#ff6b35"/>
-            <text x="212" y="82" font-family="monospace" font-size="6.5" fill="#ff6b35" font-weight="700">HIGH</text>
-            <text x="212" y="93" font-family="monospace" font-size="6" fill="rgba(232,240,254,.5)">Thompson &middot; 34F &middot; Head Injury</text>
-            <text x="376" y="87" font-family="monospace" font-size="6" fill="rgba(232,240,254,.3)" text-anchor="end">4m</text>
-            <rect x="203" y="105" width="182" height="30" rx="3" fill="rgba(168,85,247,.05)" stroke="rgba(168,85,247,.16)" stroke-width="1"/>
-            <rect x="203" y="105" width="3" height="30" rx="1" fill="#a855f7"/>
-            <text x="212" y="117" font-family="monospace" font-size="6.5" fill="#a855f7" font-weight="700">MED</text>
-            <text x="212" y="128" font-family="monospace" font-size="6" fill="rgba(232,240,254,.5)">Davis &middot; 27M &middot; Fracture</text>
-            <text x="376" y="122" font-family="monospace" font-size="6" fill="rgba(232,240,254,.3)" text-anchor="end">18m</text>
-            <rect x="203" y="140" width="182" height="30" rx="3" fill="rgba(0,200,150,.04)" stroke="rgba(0,200,150,.14)" stroke-width="1"/>
-            <rect x="203" y="140" width="3" height="30" rx="1" fill="#00c896"/>
-            <text x="212" y="152" font-family="monospace" font-size="6.5" fill="#00c896" font-weight="700">LOW</text>
-            <text x="212" y="163" font-family="monospace" font-size="6" fill="rgba(232,240,254,.5)">Kim &middot; 45F &middot; Sprain</text>
-            <text x="376" y="157" font-family="monospace" font-size="6" fill="rgba(232,240,254,.3)" text-anchor="end">35m</text>
-            <text x="294" y="184" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.25)" text-anchor="middle">3 critical &middot; 7 high &middot; 12 medium &middot; 42 discharged</text>
-          </svg>
+          <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-labelledby="title desc"><title id="hlt_title">BFT Health Triage Dashboard</title><desc id="hlt_desc">AI health triage queue with patient vitals, severity flags, and live patient flow cards.</desc><defs><linearGradient id="hlt_bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#020617"/></linearGradient><filter id="hlt_glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="900" height="520" rx="34" fill="url(#hlt_bg)"/><rect x="28" y="28" width="844" height="464" rx="28" fill="#071827" stroke="#155e75" stroke-width="2"/><text x="60" y="72" fill="#ecfeff" font-family="Inter,Arial" font-size="24" font-weight="800">SMART HEALTH TRIAGE</text><text x="60" y="100" fill="#67e8f9" font-family="Inter,Arial" font-size="13" letter-spacing="3">PATIENT FLOW · SEVERITY AI · REAL-TIME VITALS</text><g transform="translate(60 135)"><rect width="300" height="280" rx="22" fill="#081d2c" stroke="#164e63"/><text x="20" y="34" fill="#e0f2fe" font-family="Inter,Arial" font-size="15" font-weight="800">LIVE VITALS</text><path d="M24 150 L70 150 L86 104 L112 198 L140 150 L176 150 L196 124 L220 150 L270 150" fill="none" stroke="#22d3ee" stroke-width="5" stroke-linecap="round" filter="url(#hlt_glow)"/><text x="24" y="88" fill="#fff" font-family="Inter,Arial" font-size="36" font-weight="800">HR 92</text><text x="24" y="230" fill="#cbd5e1" font-family="Inter,Arial" font-size="16">BP 128/84</text><text x="160" y="230" fill="#cbd5e1" font-family="Inter,Arial" font-size="16">SpO₂ 97%</text><rect x="24" y="250" width="252" height="12" rx="6" fill="#123047"/><rect x="24" y="250" width="224" height="12" rx="6" fill="#22c55e"/></g><g transform="translate(394 135)"><text x="0" y="0" fill="#e0f2fe" font-family="Inter,Arial" font-size="15" font-weight="800">TRIAGE QUEUE</text><g transform="translate(0 24)"><rect width="400" height="58" rx="14" fill="#3b0a16" stroke="#ef4444"/><text x="18" y="35" fill="#fecaca" font-family="Inter,Arial" font-size="14" font-weight="800">CRIT</text><text x="78" y="35" fill="#fff" font-family="Inter,Arial" font-size="15" font-weight="700">Martinez · 58M · Chest Pain</text><text x="322" y="35" fill="#fca5a5" font-family="Inter,Arial" font-size="13" font-weight="700">NOW</text></g><g transform="translate(0 98)"><rect width="400" height="58" rx="14" fill="#351a05" stroke="#f97316"/><text x="18" y="35" fill="#fed7aa" font-family="Inter,Arial" font-size="14" font-weight="800">HIGH</text><text x="78" y="35" fill="#fff" font-family="Inter,Arial" font-size="15" font-weight="700">Thompson · 34F · Head Injury</text><text x="322" y="35" fill="#fdba74" font-family="Inter,Arial" font-size="13" font-weight="700">4m</text></g><g transform="translate(0 172)"><rect width="400" height="58" rx="14" fill="#082f49" stroke="#38bdf8"/><text x="18" y="35" fill="#bae6fd" font-family="Inter,Arial" font-size="14" font-weight="800">MED</text><text x="78" y="35" fill="#fff" font-family="Inter,Arial" font-size="15" font-weight="700">Davis · 27M · Fracture</text><text x="322" y="35" fill="#7dd3fc" font-family="Inter,Arial" font-size="13" font-weight="700">18m</text></g></g><g transform="translate(60 435)"><text fill="#ef4444" font-family="Inter,Arial" font-size="18" font-weight="800">3 critical</text><text x="120" fill="#f97316" font-family="Inter,Arial" font-size="18" font-weight="800">7 high</text><text x="215" fill="#38bdf8" font-family="Inter,Arial" font-size="18" font-weight="800">12 medium</text><text x="345" fill="#22c55e" font-family="Inter,Arial" font-size="18" font-weight="800">42 discharged</text></g></svg>
         </div>
       </div>
     </div>
@@ -703,65 +530,7 @@ select.cf-field option{background:#0d1425}
       <div class="device">
         <div class="device-bar"><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="device-url">bft-platform / drivers</div></div>
         <div class="device-body">
-          <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-            <rect x="12" y="32" width="158" height="106" rx="8" fill="#0a1020" stroke="#00c896" stroke-width="1.5"/>
-            <rect x="12" y="32" width="158" height="26" rx="8" fill="rgba(0,200,150,.14)"/>
-            <rect x="12" y="46" width="158" height="12" fill="rgba(0,200,150,.14)"/>
-            <text x="20" y="50" font-family="monospace" font-size="9" fill="#00c896" font-weight="700">CDL-A LICENSE</text>
-            <rect x="20" y="64" width="40" height="52" rx="3" fill="rgba(0,200,150,.07)" stroke="rgba(0,200,150,.28)" stroke-width="1"/>
-            <circle cx="40" cy="78" r="10" fill="rgba(0,200,150,.18)" stroke="rgba(0,200,150,.38)" stroke-width="1"/>
-            <rect x="25" y="91" width="30" height="22" rx="2" fill="rgba(0,200,150,.14)"/>
-            <text x="66" y="72" font-family="monospace" font-size="7" fill="rgba(232,240,254,.65)">J. MITCHELL</text>
-            <text x="66" y="83" font-family="monospace" font-size="6" fill="rgba(232,240,254,.32)">CDL# GA-482910</text>
-            <text x="66" y="93" font-family="monospace" font-size="6" fill="rgba(232,240,254,.32)">DOB: 03/15/1989</text>
-            <text x="66" y="103" font-family="monospace" font-size="6" fill="rgba(232,240,254,.32)">EXP: 06/2027</text>
-            <rect x="66" y="107" width="36" height="14" rx="3" fill="rgba(0,200,150,.18)" stroke="#00c896" stroke-width="1"/>
-            <text x="84" y="117" font-family="monospace" font-size="7" fill="#00c896" font-weight="700" text-anchor="middle">CLASS A</text>
-            <line x1="20" y1="122" x2="20" y2="132" stroke="rgba(0,200,150,.55)" stroke-width="2.5"/>
-            <line x1="25" y1="122" x2="25" y2="132" stroke="rgba(0,200,150,.3)" stroke-width="1.2"/>
-            <line x1="29" y1="122" x2="29" y2="132" stroke="rgba(0,200,150,.55)" stroke-width="2.5"/>
-            <line x1="33" y1="122" x2="33" y2="132" stroke="rgba(0,200,150,.3)" stroke-width="1.2"/>
-            <line x1="37" y1="122" x2="37" y2="132" stroke="rgba(0,200,150,.55)" stroke-width="3"/>
-            <line x1="41" y1="122" x2="41" y2="132" stroke="rgba(0,200,150,.3)" stroke-width="1.2"/>
-            <line x1="45" y1="122" x2="45" y2="132" stroke="rgba(0,200,150,.45)" stroke-width="2"/>
-            <line x1="49" y1="122" x2="49" y2="132" stroke="rgba(0,200,150,.3)" stroke-width="1.2"/>
-            <line x1="53" y1="122" x2="53" y2="132" stroke="rgba(0,200,150,.55)" stroke-width="2.5"/>
-            <line x1="57" y1="122" x2="57" y2="132" stroke="rgba(0,200,150,.3)" stroke-width="1.2"/>
-            <rect x="182" y="8" width="210" height="184" rx="6" fill="#060810" stroke="rgba(0,200,150,.18)" stroke-width="1.5"/>
-            <text x="287" y="25" font-family="monospace" font-size="7" fill="rgba(0,200,150,.5)" font-weight="700" text-anchor="middle" letter-spacing=".08em">FLEET STATUS</text>
-            <rect x="187" y="32" width="200" height="34" rx="3" fill="rgba(0,200,150,.06)" stroke="rgba(0,200,150,.18)" stroke-width="1"/>
-            <circle cx="202" cy="49" r="10" fill="rgba(0,200,150,.15)" stroke="rgba(0,200,150,.38)" stroke-width="1"/>
-            <text x="202" y="52" font-family="monospace" font-size="6.5" fill="#00c896" font-weight="700" text-anchor="middle">JM</text>
-            <text x="218" y="44" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.8)" font-weight="600">James Mitchell</text>
-            <text x="218" y="56" font-family="monospace" font-size="5.5" fill="rgba(232,240,254,.32)">CDL-A &middot; Atlanta</text>
-            <rect x="300" y="40" width="44" height="12" rx="5" fill="rgba(0,200,150,.2)" stroke="#00c896" stroke-width="1"><animate attributeName="opacity" values="1;.45;1" dur="1.8s" repeatCount="indefinite"/></rect>
-            <text x="322" y="49" font-family="monospace" font-size="5.5" fill="#00c896" font-weight="700" text-anchor="middle">ON DUTY</text>
-            <text x="378" y="50" font-family="monospace" font-size="6.5" fill="#00d4ff">4.9&#9733;</text>
-            <rect x="187" y="71" width="200" height="32" rx="3" fill="rgba(0,212,255,.05)" stroke="rgba(0,212,255,.14)" stroke-width="1"/>
-            <circle cx="202" cy="87" r="10" fill="rgba(0,212,255,.14)" stroke="rgba(0,212,255,.36)" stroke-width="1"/>
-            <text x="202" y="90" font-family="monospace" font-size="6.5" fill="#00d4ff" font-weight="700" text-anchor="middle">TR</text>
-            <text x="218" y="82" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.8)" font-weight="600">T. Robinson</text>
-            <text x="218" y="94" font-family="monospace" font-size="5.5" fill="rgba(232,240,254,.32)">CDL-B &middot; Decatur</text>
-            <rect x="297" y="78" width="50" height="12" rx="5" fill="rgba(255,107,53,.2)" stroke="#ff6b35" stroke-width="1"/>
-            <text x="322" y="87" font-family="monospace" font-size="5.5" fill="#ff6b35" font-weight="700" text-anchor="middle">EN ROUTE</text>
-            <text x="378" y="88" font-family="monospace" font-size="6.5" fill="#00d4ff">4.7&#9733;</text>
-            <rect x="187" y="108" width="200" height="32" rx="3" fill="rgba(168,85,247,.04)" stroke="rgba(168,85,247,.14)" stroke-width="1"/>
-            <circle cx="202" cy="124" r="10" fill="rgba(168,85,247,.14)" stroke="rgba(168,85,247,.36)" stroke-width="1"/>
-            <text x="202" y="127" font-family="monospace" font-size="6.5" fill="#a855f7" font-weight="700" text-anchor="middle">DW</text>
-            <text x="218" y="119" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.8)" font-weight="600">D. Washington</text>
-            <text x="218" y="131" font-family="monospace" font-size="5.5" fill="rgba(232,240,254,.32)">CDL-A &middot; Marietta</text>
-            <rect x="300" y="115" width="44" height="12" rx="5" fill="rgba(0,200,150,.2)" stroke="#00c896" stroke-width="1"><animate attributeName="opacity" values="1;.45;1" dur="2.2s" repeatCount="indefinite"/></rect>
-            <text x="322" y="124" font-family="monospace" font-size="5.5" fill="#00c896" font-weight="700" text-anchor="middle">ON DUTY</text>
-            <text x="378" y="125" font-family="monospace" font-size="6.5" fill="#00d4ff">5.0&#9733;</text>
-            <rect x="187" y="145" width="200" height="30" rx="3" fill="rgba(255,255,255,.02)" stroke="rgba(255,255,255,.07)" stroke-width="1" opacity=".5"/>
-            <circle cx="202" cy="160" r="10" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.14)" stroke-width="1"/>
-            <text x="202" y="163" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.38)" font-weight="700" text-anchor="middle">KL</text>
-            <text x="218" y="155" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.38)">K. Lee</text>
-            <text x="218" y="167" font-family="monospace" font-size="5.5" fill="rgba(232,240,254,.2)">CDL-B &middot; Sandy Springs</text>
-            <rect x="300" y="151" width="44" height="12" rx="5" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-            <text x="322" y="160" font-family="monospace" font-size="5.5" fill="rgba(232,240,254,.38)" font-weight="700" text-anchor="middle">OFFLINE</text>
-            <text x="378" y="161" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.28)">4.5&#9733;</text>
-          </svg>
+          <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-labelledby="title desc"><title id="drv_title">BFT Driver Intelligence Hub</title><desc id="drv_desc">Driver compliance dashboard with CDL license card, status list, ratings, and active workforce map.</desc><defs><linearGradient id="drv_bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#020617"/></linearGradient><linearGradient id="drv_card" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0e7490"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient></defs><rect width="900" height="520" rx="34" fill="url(#drv_bg)"/><rect x="28" y="28" width="844" height="464" rx="28" fill="#071827" stroke="#155e75" stroke-width="2"/><text x="60" y="72" fill="#ecfeff" font-family="Inter,Arial" font-size="24" font-weight="800">DRIVER INTELLIGENCE HUB</text><text x="60" y="100" fill="#67e8f9" font-family="Inter,Arial" font-size="13" letter-spacing="3">COMPLIANCE · AVAILABILITY · PERFORMANCE</text><g transform="translate(60 135)"><rect width="350" height="218" rx="24" fill="url(#drv_card)"/><circle cx="72" cy="104" r="42" fill="#0f172a" opacity=".85"/><text x="51" y="114" fill="#e0f2fe" font-family="Inter,Arial" font-size="30" font-weight="800">JM</text><text x="136" y="62" fill="#fff" font-family="Inter,Arial" font-size="21" font-weight="800">J. MITCHELL</text><text x="136" y="92" fill="#dbeafe" font-family="Inter,Arial" font-size="14">CDL-A LICENSE</text><text x="136" y="126" fill="#e0f2fe" font-family="Inter,Arial" font-size="13">CDL# GA-482910</text><text x="136" y="150" fill="#e0f2fe" font-family="Inter,Arial" font-size="13">DOB: 03/15/1989</text><text x="136" y="174" fill="#bbf7d0" font-family="Inter,Arial" font-size="13" font-weight="800">EXP: 06/2027 · VALID</text><text x="28" y="196" fill="#bfdbfe" font-family="Inter,Arial" font-size="12" letter-spacing="2">BFT VERIFIED DRIVER PROFILE</text></g><g transform="translate(450 135)"><rect width="350" height="65" rx="16" fill="#082f49" stroke="#38bdf8"/><text x="20" y="40" fill="#fff" font-family="Inter,Arial" font-size="16" font-weight="800">James Mitchell</text><text x="164" y="40" fill="#bae6fd" font-family="Inter,Arial" font-size="13">CDL-A · Atlanta</text><text x="285" y="40" fill="#22c55e" font-family="Inter,Arial" font-size="13" font-weight="800">4.9★</text><rect x="0" y="82" width="350" height="65" rx="16" fill="#0b2235" stroke="#164e63"/><text x="20" y="122" fill="#fff" font-family="Inter,Arial" font-size="16" font-weight="800">T. Robinson</text><text x="164" y="122" fill="#cbd5e1" font-family="Inter,Arial" font-size="13">CDL-B · Decatur</text><text x="285" y="122" fill="#fbbf24" font-family="Inter,Arial" font-size="13" font-weight="800">EN ROUTE</text><rect x="0" y="164" width="350" height="65" rx="16" fill="#0b2235" stroke="#164e63"/><text x="20" y="204" fill="#fff" font-family="Inter,Arial" font-size="16" font-weight="800">D. Washington</text><text x="164" y="204" fill="#cbd5e1" font-family="Inter,Arial" font-size="13">CDL-A · Marietta</text><text x="285" y="204" fill="#22c55e" font-family="Inter,Arial" font-size="13" font-weight="800">5.0★</text></g><g transform="translate(60 390)"><rect width="218" height="70" rx="18" fill="#0b2235" stroke="#164e63"/><text x="18" y="28" fill="#93c5fd" font-family="Inter,Arial" font-size="13">ON DUTY</text><text x="18" y="58" fill="#fff" font-family="Inter,Arial" font-size="30" font-weight="800">8</text></g><g transform="translate(306 390)"><rect width="218" height="70" rx="18" fill="#0b2235" stroke="#164e63"/><text x="18" y="28" fill="#93c5fd" font-family="Inter,Arial" font-size="13">AVG RATING</text><text x="18" y="58" fill="#fff" font-family="Inter,Arial" font-size="30" font-weight="800">4.8★</text></g></svg>
         </div>
       </div>
     </div>
@@ -788,41 +557,7 @@ select.cf-field option{background:#0d1425}
       <div class="device">
         <div class="device-bar"><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="device-url">bft-platform / reports</div></div>
         <div class="device-body">
-          <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-            <rect x="8" y="8" width="384" height="184" rx="6" fill="#05070d" stroke="rgba(255,107,53,.12)" stroke-width="1"/>
-            <text x="22" y="25" font-family="monospace" font-size="7.5" fill="rgba(255,107,53,.6)" font-weight="700" letter-spacing=".06em">WEEKLY REVENUE</text>
-            <text x="378" y="22" font-family="monospace" font-size="9.5" fill="#ff6b35" font-weight="700" text-anchor="end">$84.2K</text>
-            <text x="378" y="33" font-family="monospace" font-size="7" fill="#00c896" text-anchor="end">&#8593; 12% vs last wk</text>
-            <line x1="40" y1="38" x2="40" y2="158" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
-            <line x1="40" y1="158" x2="375" y2="158" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
-            <line x1="40" y1="68" x2="375" y2="68" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
-            <line x1="40" y1="98" x2="375" y2="98" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
-            <line x1="40" y1="128" x2="375" y2="128" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
-            <text x="36" y="71" font-family="monospace" font-size="5.5" fill="rgba(232,240,254,.22)" text-anchor="end">15K</text>
-            <text x="36" y="101" font-family="monospace" font-size="5.5" fill="rgba(232,240,254,.22)" text-anchor="end">10K</text>
-            <text x="36" y="131" font-family="monospace" font-size="5.5" fill="rgba(232,240,254,.22)" text-anchor="end">5K</text>
-            <rect x="49" y="64" width="28" height="94" rx="2" fill="rgba(0,102,255,.4)" stroke="#0066ff" stroke-width="1" style="transform-box:fill-box;transform-origin:50% 100%;animation:growBar .6s .05s cubic-bezier(.4,0,.2,1) forwards;transform:scaleY(0)"/>
-            <text x="63" y="172" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.35)" text-anchor="middle">Mon</text>
-            <rect x="95" y="42" width="28" height="116" rx="2" fill="rgba(0,102,255,.4)" stroke="#0066ff" stroke-width="1" style="transform-box:fill-box;transform-origin:50% 100%;animation:growBar .6s .15s cubic-bezier(.4,0,.2,1) forwards;transform:scaleY(0)"/>
-            <text x="109" y="172" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.35)" text-anchor="middle">Tue</text>
-            <rect x="141" y="78" width="28" height="80" rx="2" fill="rgba(0,102,255,.4)" stroke="#0066ff" stroke-width="1" style="transform-box:fill-box;transform-origin:50% 100%;animation:growBar .6s .25s cubic-bezier(.4,0,.2,1) forwards;transform:scaleY(0)"/>
-            <text x="155" y="172" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.35)" text-anchor="middle">Wed</text>
-            <rect x="187" y="38" width="28" height="120" rx="2" fill="rgba(255,107,53,.55)" stroke="#ff6b35" stroke-width="1.5" style="transform-box:fill-box;transform-origin:50% 100%;animation:growBar .7s .35s cubic-bezier(.4,0,.2,1) forwards;transform:scaleY(0)"/>
-            <text x="201" y="172" font-family="monospace" font-size="6.5" fill="#ff6b35" text-anchor="middle">Thu</text>
-            <text x="201" y="34" font-family="monospace" font-size="6" fill="#ff6b35" font-weight="700" text-anchor="middle" style="animation:pulse-light 2.5s ease-in-out infinite">$14.8K</text>
-            <rect x="233" y="55" width="28" height="103" rx="2" fill="rgba(0,102,255,.4)" stroke="#0066ff" stroke-width="1" style="transform-box:fill-box;transform-origin:50% 100%;animation:growBar .6s .45s cubic-bezier(.4,0,.2,1) forwards;transform:scaleY(0)"/>
-            <text x="247" y="172" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.35)" text-anchor="middle">Fri</text>
-            <rect x="279" y="50" width="28" height="108" rx="2" fill="rgba(168,85,247,.45)" stroke="#a855f7" stroke-width="1" style="transform-box:fill-box;transform-origin:50% 100%;animation:growBar .6s .55s cubic-bezier(.4,0,.2,1) forwards;transform:scaleY(0)"/>
-            <text x="293" y="172" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.35)" text-anchor="middle">Sat</text>
-            <rect x="325" y="71" width="28" height="87" rx="2" fill="rgba(168,85,247,.45)" stroke="#a855f7" stroke-width="1" style="transform-box:fill-box;transform-origin:50% 100%;animation:growBar .6s .65s cubic-bezier(.4,0,.2,1) forwards;transform:scaleY(0)"/>
-            <text x="339" y="172" font-family="monospace" font-size="6.5" fill="rgba(232,240,254,.35)" text-anchor="middle">Sun</text>
-            <polyline points="63,110 109,99 155,119 201,82 247,107 293,104 339,116" fill="none" stroke="#ff6b35" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="320" stroke-dashoffset="320" style="animation:drawLine 2s 1s ease-out forwards"/>
-            <circle cx="63" cy="110" r="3.5" fill="#ff6b35" opacity="0" style="animation:pulse-light 2.2s 2.5s ease-in-out infinite"/>
-            <circle cx="201" cy="82" r="3.5" fill="#ff6b35" opacity="0" style="animation:pulse-light 2.2s 2.8s ease-in-out infinite"/>
-            <circle cx="339" cy="116" r="3.5" fill="#ff6b35" opacity="0" style="animation:pulse-light 2.2s 3.1s ease-in-out infinite"/>
-            <text x="22" y="188" font-family="monospace" font-size="5.5" fill="rgba(232,240,254,.2)">30-DAY TREND</text>
-            <polyline points="80,185 90,182 100,186 110,180 120,183 130,179 140,181 150,177 160,180 170,176" fill="none" stroke="rgba(0,212,255,.4)" stroke-width="1" stroke-linecap="round"/>
-          </svg>
+          <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-labelledby="title desc"><title id="ops_title">BFT Operations Reports Dashboard</title><desc id="ops_desc">Live KPI reports dashboard with revenue chart, trend cards, AI anomaly detection, and weekly performance.</desc><defs><linearGradient id="ops_bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#020617"/></linearGradient><linearGradient id="ops_line" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#22c55e"/></linearGradient><filter id="ops_glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="900" height="520" rx="34" fill="url(#ops_bg)"/><rect x="28" y="28" width="844" height="464" rx="28" fill="#071827" stroke="#155e75" stroke-width="2"/><text x="60" y="72" fill="#ecfeff" font-family="Inter,Arial" font-size="24" font-weight="800">LIVE OPERATIONS REPORTS</text><text x="60" y="100" fill="#67e8f9" font-family="Inter,Arial" font-size="13" letter-spacing="3">KPI DASHBOARD · AI TRENDS · EXECUTIVE SUMMARY</text><g transform="translate(60 130)"><rect width="240" height="104" rx="20" fill="#082f49" stroke="#38bdf8"/><text x="20" y="35" fill="#bae6fd" font-family="Inter,Arial" font-size="13">WEEKLY REVENUE</text><text x="20" y="78" fill="#fff" font-family="Inter,Arial" font-size="38" font-weight="800">$84.2K</text></g><g transform="translate(330 130)"><rect width="190" height="104" rx="20" fill="#052e2b" stroke="#14b8a6"/><text x="20" y="35" fill="#99f6e4" font-family="Inter,Arial" font-size="13">VS LAST WEEK</text><text x="20" y="78" fill="#22c55e" font-family="Inter,Arial" font-size="38" font-weight="800">↑ 12%</text></g><g transform="translate(550 130)"><rect width="250" height="104" rx="20" fill="#2a1705" stroke="#f59e0b"/><text x="20" y="35" fill="#fde68a" font-family="Inter,Arial" font-size="13">AI ANOMALIES</text><text x="20" y="78" fill="#fff" font-family="Inter,Arial" font-size="38" font-weight="800">2</text><text x="72" y="76" fill="#fbbf24" font-family="Inter,Arial" font-size="14">review needed</text></g><g transform="translate(76 272)"><line x1="0" y1="142" x2="706" y2="142" stroke="#334155"/><line x1="0" y1="96" x2="706" y2="96" stroke="#1e293b"/><line x1="0" y1="48" x2="706" y2="48" stroke="#1e293b"/><path d="M0 124 L112 98 L224 106 L336 64 L448 76 L560 36 L706 50" fill="none" stroke="url(#ops_line)" stroke-width="7" stroke-linecap="round" filter="url(#ops_glow)"/><g fill="#22d3ee"><circle cx="0" cy="124" r="7"/><circle cx="112" cy="98" r="7"/><circle cx="224" cy="106" r="7"/><circle cx="336" cy="64" r="7"/><circle cx="448" cy="76" r="7"/><circle cx="560" cy="36" r="7"/><circle cx="706" cy="50" r="7"/></g><text x="0" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Mon</text><text x="112" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Tue</text><text x="224" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Wed</text><text x="336" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Thu</text><text x="448" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Fri</text><text x="560" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Sat</text><text x="690" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Sun</text></g></svg>
         </div>
       </div>
     </div>
@@ -862,6 +597,14 @@ select.cf-field option{background:#0d1425}
   </div>
 </section>
 
+<div style="position:relative;z-index:1;text-align:center;padding:0 1rem 3rem">
+  <p style="font-size:.8rem;color:rgba(232,240,254,.4);margin-bottom:1rem;letter-spacing:.08em;text-transform:uppercase">Full Interactive Platform</p>
+  <a href="../../BFT-App-Demo/index.html" style="display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 2rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.4);color:#a855f7;border-radius:50px;font-size:.9rem;font-weight:700;text-decoration:none;transition:all .25s" onmouseover="this.style.background='rgba(168,85,247,.22)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(168,85,247,.1)';this.style.transform=''">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+    Explore Full BFT Operations Platform &rarr;
+  </a>
+</div>
+
 <div class="sep"><div class="sep-line"></div></div>
 
 <!-- ONYX AI -->
@@ -874,6 +617,9 @@ select.cf-field option{background:#0d1425}
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" fill="currentColor"/><line x1="10" y1="2" x2="10" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="10" y1="15" x2="10" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="10" x2="5" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="15" y1="10" x2="18" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
       Talk to Onyx &rarr;
     </a>
+    <div style="width:100%;max-width:860px;margin-top:1.5rem;border-radius:14px;overflow:hidden">
+      <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-labelledby="title desc"><title id="onx_title">Onyx AI Voice Dispatcher</title><desc id="onx_desc">Futuristic AI voice dispatcher interface with glowing assistant orb, call waveform, lead qualification, booking, and dispatch automation cards.</desc><defs><radialGradient id="onx_orb" cx="50%" cy="48%" r="55%"><stop stop-color="#e0f2fe"/><stop offset=".32" stop-color="#22d3ee"/><stop offset=".72" stop-color="#2563eb"/><stop offset="1" stop-color="#0f172a"/></radialGradient><linearGradient id="onx_bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#020617"/></linearGradient><filter id="onx_glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="900" height="520" rx="34" fill="url(#onx_bg)"/><rect x="28" y="28" width="844" height="464" rx="28" fill="#071827" stroke="#155e75" stroke-width="2"/><text x="60" y="72" fill="#ecfeff" font-family="Inter,Arial" font-size="24" font-weight="800">ONYX AI — VOICE INTELLIGENCE</text><text x="60" y="100" fill="#67e8f9" font-family="Inter,Arial" font-size="13" letter-spacing="3">CALL INTAKE · LEAD QUALIFICATION · AUTO DISPATCH</text><circle cx="450" cy="250" r="112" fill="url(#onx_orb)" filter="url(#onx_glow)"/><circle cx="450" cy="250" r="148" fill="none" stroke="#22d3ee" stroke-width="2" opacity=".45"/><circle cx="450" cy="250" r="188" fill="none" stroke="#38bdf8" stroke-width="1" opacity=".2"/><text x="404" y="260" fill="#020617" font-family="Inter,Arial" font-size="30" font-weight="900">ONYX</text><path d="M254 252 q18 -68 36 0 t36 0 t36 0" fill="none" stroke="#22d3ee" stroke-width="5" stroke-linecap="round" filter="url(#onx_glow)"/><path d="M536 252 q18 -68 36 0 t36 0 t36 0" fill="none" stroke="#22d3ee" stroke-width="5" stroke-linecap="round" filter="url(#onx_glow)"/><g transform="translate(70 150)"><rect width="220" height="80" rx="18" fill="#082f49" stroke="#38bdf8"/><text x="18" y="32" fill="#bae6fd" font-family="Inter,Arial" font-size="13">INBOUND CALL</text><text x="18" y="60" fill="#fff" font-family="Inter,Arial" font-size="21" font-weight="800">Tow Request</text></g><g transform="translate(610 150)"><rect width="220" height="80" rx="18" fill="#052e2b" stroke="#14b8a6"/><text x="18" y="32" fill="#99f6e4" font-family="Inter,Arial" font-size="13">QUALIFIED LEAD</text><text x="18" y="60" fill="#fff" font-family="Inter,Arial" font-size="21" font-weight="800">Ready to Book</text></g><g transform="translate(70 315)"><rect width="220" height="80" rx="18" fill="#2a1705" stroke="#f59e0b"/><text x="18" y="32" fill="#fde68a" font-family="Inter,Arial" font-size="13">AUTO DISPATCH</text><text x="18" y="60" fill="#fff" font-family="Inter,Arial" font-size="21" font-weight="800">Driver Assigned</text></g><g transform="translate(610 315)"><rect width="220" height="80" rx="18" fill="#111827" stroke="#64748b"/><text x="18" y="32" fill="#cbd5e1" font-family="Inter,Arial" font-size="13">STATUS UPDATE</text><text x="18" y="60" fill="#fff" font-family="Inter,Arial" font-size="21" font-weight="800">SMS Sent</text></g></svg>
+    </div>
   </div>
 </section>
 
