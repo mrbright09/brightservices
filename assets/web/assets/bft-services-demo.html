@@ -219,8 +219,16 @@ select.cf-field option{background:#0d1425}
 <div class="sep"><div class="sep-line"></div></div>
 
 <!-- MODULE 01 — TOW DISPATCH -->
-<section class="scene" id="scene-tow">
-  <div class="scene-inner">
+<section class="scene" id="scene-tow" style="flex-direction:column;gap:2.5rem">
+
+  <div class="vehicle-banner-wrap" style="position:relative">
+    <img src="../../BFT-App-Demo/bft-tow-dispatch.svg" alt="BFT Tow Dispatch Dashboard" width="100%" style="display:block;border-radius:12px">
+    <div class="float-card" style="top:12px;right:12px;transform:scale(.92)">
+      <div style="color:var(--accent);font-weight:700;font-size:.58rem">AI ROUTING</div>
+      <div>Optimal ETA: 4.2 min</div>
+    </div>
+  </div>
+  <div class="scene-inner" style="grid-template-columns:1fr;max-width:680px">
     <div class="scene-text">
       <span class="pain-stmt">Drivers sitting idle costs you $180/hr.</span>
       <span class="scene-tag" style="color:var(--accent)">Module 01 — Fleet Command</span>
@@ -233,26 +241,22 @@ select.cf-field option{background:#0d1425}
       </div>
       <a class="ghost-btn" href="demo-tow.html">Explore Dispatch Demo &rarr;</a>
     </div>
-    <div class="device-wrap">
-      <div class="device">
-        <div class="device-bar"><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="device-url">bft-platform / tow-dispatch</div></div>
-        <div class="device-body" style="padding:0">
-          <img src="../../BFT-App-Demo/bft-tow-dispatch.svg" alt="BFT Tow Dispatch Dashboard" width="100%" style="display:block;border-radius:4px">
-        </div>
-      </div>
-      <div class="float-card" style="top:-18px;right:-28px;transform:scale(.88) rotate(-1deg)">
-        <div style="color:var(--accent);font-weight:700;font-size:.58rem">AI ROUTING</div>
-        <div>Optimal ETA: 4.2 min</div>
-      </div>
-    </div>
   </div>
 </section>
 
 <div class="sep"><div class="sep-line"></div></div>
 
 <!-- MODULE 02 — FREIGHT -->
-<section class="scene" id="scene-freight">
-  <div class="scene-inner rev">
+<section class="scene" id="scene-freight" style="flex-direction:column;gap:2.5rem">
+
+  <div class="vehicle-banner-wrap" style="position:relative">
+    <img src="../../BFT-App-Demo/bft-freight-command.svg" alt="BFT Freight Command Dashboard" width="100%" style="display:block;border-radius:12px">
+    <div class="float-card" style="bottom:12px;left:12px;transform:scale(.92)">
+      <div style="color:var(--purple);font-weight:700;font-size:.58rem">AI PRICING</div>
+      <div>Market rate: $3.20/mi</div>
+    </div>
+  </div>
+  <div class="scene-inner rev" style="grid-template-columns:1fr;max-width:680px">
     <div class="scene-text">
       <span class="pain-stmt">Paper logs and phone calls lose $3K per haul.</span>
       <span class="scene-tag" style="color:var(--purple)">Module 02 — Load Management</span>
@@ -265,26 +269,18 @@ select.cf-field option{background:#0d1425}
       </div>
       <a class="ghost-btn" href="demo-freight.html">Explore Freight Demo &rarr;</a>
     </div>
-    <div class="device-wrap">
-      <div class="device">
-        <div class="device-bar"><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="device-url">bft-platform / freight</div></div>
-        <div class="device-body" style="padding:0">
-          <img src="../../BFT-App-Demo/bft-freight-command.svg" alt="BFT Freight Command Dashboard" width="100%" style="display:block;border-radius:4px">
-        </div>
-      </div>
-      <div class="float-card" style="bottom:-14px;left:-24px;transform:scale(.86) rotate(1deg)">
-        <div style="color:var(--purple);font-weight:700;font-size:.58rem">AI PRICING</div>
-        <div>Market rate: $3.20/mi</div>
-      </div>
-    </div>
   </div>
 </section>
 
 <div class="sep"><div class="sep-line"></div></div>
 
 <!-- MODULE 03 — HEALTH TRIAGE -->
-<section class="scene" id="scene-health">
-  <div class="scene-inner">
+<section class="scene" id="scene-health" style="flex-direction:column;gap:2.5rem">
+
+  <div class="vehicle-banner-wrap" style="position:relative">
+    <img src="../../BFT-App-Demo/bft-health-triage.svg" alt="BFT Health Triage Dashboard" width="100%" style="display:block;border-radius:12px">
+  </div>
+  <div class="scene-inner" style="grid-template-columns:1fr;max-width:680px">
     <div class="scene-text">
       <span class="pain-stmt">Manual triage delays cost lives — and lawsuits.</span>
       <span class="scene-tag" style="color:var(--red)">Module 03 — Patient Flow</span>
@@ -296,14 +292,6 @@ select.cf-field option{background:#0d1425}
         <div><div class="stat-val" style="color:var(--green)">42</div><div class="stat-label">Discharged</div></div>
       </div>
       <a class="ghost-btn" href="demo-health.html">Explore Health Demo &rarr;</a>
-    </div>
-    <div class="device-wrap">
-      <div class="device">
-        <div class="device-bar"><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="device-url">bft-platform / health-triage</div></div>
-        <div class="device-body" style="padding:0">
-          <img src="../../BFT-App-Demo/bft-health-triage.svg" alt="BFT Health Triage Dashboard" width="100%" style="display:block;border-radius:4px">
-        </div>
-      </div>
     </div>
   </div>
 </section>
