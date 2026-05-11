@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 520" role="img" aria-labelledby="title desc">
+<title id="title">BFT black electric blue health triage ambulance</title>
+<desc id="desc">A realistic vector-style black ambulance with electric blue accents, BFT branding, and health triage markings.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#020817"/><stop offset="1" stop-color="#061b32"/></linearGradient>
+  <linearGradient id="black" x1="0" x2="1"><stop stop-color="#03050a"/><stop offset=".55" stop-color="#161d28"/><stop offset="1" stop-color="#05070c"/></linearGradient>
+  <linearGradient id="blue" x1="0" x2="1"><stop stop-color="#00c8ff"/><stop offset=".5" stop-color="#0078ff"/><stop offset="1" stop-color="#003bff"/></linearGradient>
+  <linearGradient id="chrome" x1="0" x2="1"><stop stop-color="#f8fbff"/><stop offset=".35" stop-color="#6d7a83"/><stop offset=".75" stop-color="#dbe6ef"/><stop offset="1" stop-color="#303b45"/></linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="shadow"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#000" flood-opacity=".6"/></filter>
+</defs>
+<rect width="1400" height="520" rx="34" fill="url(#bg)"/>
+<g opacity=".16" stroke="#0d8dff" stroke-width="1"><path d="M60 92H1340M60 174H1340M60 256H1340M60 338H1340M60 420H1340"/><path d="M150 58V458M290 58V458M430 58V458M570 58V458M710 58V458M850 58V458M990 58V458M1130 58V458M1270 58V458"/></g>
+<ellipse cx="730" cy="425" rx="530" ry="34" fill="#001c3a" opacity=".85" filter="url(#glow)"/>
+<g filter="url(#shadow)">
+  <!-- rear ambulance box -->
+  <path d="M512 125h610c47 0 85 38 85 85v178H471V166c0-23 18-41 41-41z" fill="url(#black)" stroke="#40566d" stroke-width="4"/>
+  <path d="M546 154h541c34 0 62 28 62 62v137H546z" fill="#09111b" stroke="#223a54" stroke-width="3"/>
+  <rect x="617" y="183" width="128" height="130" rx="13" fill="#081522" stroke="#4f6e8a" stroke-width="3"/>
+  <rect x="784" y="183" width="128" height="130" rx="13" fill="#081522" stroke="#4f6e8a" stroke-width="3"/>
+  <path d="M555 292h594" stroke="url(#blue)" stroke-width="15" filter="url(#glow)"/>
+  <path d="M555 293c102-47 235-44 367-7 74 21 148 29 227 2v39c-90 29-173 21-269-5-119-32-209-28-325 18z" fill="url(#blue)" opacity=".84"/>
+  <!-- heartbeat line -->
+  <path d="M545 335h120l24-44 38 83 38-63 28 24h350" fill="none" stroke="#13c8ff" stroke-width="6" filter="url(#glow)"/>
+  <!-- cab -->
+  <path d="M148 314c8-75 43-143 108-175 43-22 131-23 196-9 50 11 86 51 94 103l24 158H91c9-38 26-63 57-77z" fill="url(#black)" stroke="#40566d" stroke-width="4"/>
+  <path d="M268 156h142c45 0 78 32 89 83l8 39H203c14-56 36-99 65-122z" fill="#081522" stroke="#55708a" stroke-width="3"/>
+  <path d="M295 165h93c34 0 64 25 72 62l7 33H242c11-45 27-78 53-95z" fill="#092538" stroke="#11344f" stroke-width="3"/>
+  <path d="M96 329h179c44 0 80 35 80 80H85z" fill="#05070c" stroke="#344d65" stroke-width="3"/>
+  <rect x="117" y="277" width="92" height="104" rx="16" fill="url(#chrome)"/>
+  <rect x="133" y="291" width="60" height="75" rx="10" fill="#05070c" stroke="#dbe6ef" stroke-width="3"/>
+  <path d="M139 291v75M162 291v75M186 291v75" stroke="#e6f3ff" stroke-width="3" opacity=".75"/>
+  <path d="M229 318l113-8 31 30-144 11z" fill="#0a1c2d" stroke="#3b607e" stroke-width="3"/>
+  <path d="M245 323l91-6 20 17-110 9z" fill="#e9fbff" opacity=".9"/>
+  <!-- lights -->
+  <g filter="url(#glow)"><rect x="301" y="107" width="156" height="23" rx="9" fill="url(#blue)"/><rect x="319" y="110" width="25" height="17" rx="4" fill="#ff3030"/><rect x="362" y="110" width="25" height="17" rx="4" fill="#e7f9ff"/><rect x="406" y="110" width="25" height="17" rx="4" fill="#0b87ff"/><rect x="1041" y="142" width="45" height="19" rx="7" fill="#ff3030"/><rect x="989" y="142" width="45" height="19" rx="7" fill="#0b87ff"/><path d="M241 342h120" stroke="url(#blue)" stroke-width="7"/></g>
+  <!-- medical branding -->
+  <g transform="translate(955 195)"><path d="M41 0v32l27-21 15 20-28 21 28 21-15 20-27-21v32H16V72l-28 21-15-20 28-21-28-21 15-20 28 21V0z" fill="url(#blue)" filter="url(#glow)"/></g>
+  <text x="1017" y="247" font-family="Arial Black,Arial,sans-serif" font-size="74" fill="#0b87ff" font-weight="900">BFT</text>
+  <text x="1022" y="283" font-family="Arial,sans-serif" font-size="25" fill="#e9f4ff" font-weight="800">HEALTH TRIAGE</text>
+  <text x="600" y="243" font-family="Arial Black,Arial,sans-serif" font-size="48" fill="#dfeeff">AI TRIAGE</text>
+  <text x="600" y="273" font-family="Arial,sans-serif" font-size="22" fill="#8db9dd">PATIENT ASSESSMENT • PRIORITY ROUTING</text>
+  <!-- wheels -->
+  <g>
+    <circle cx="282" cy="397" r="70" fill="#020409"/><circle cx="282" cy="397" r="46" fill="url(#chrome)"/><circle cx="282" cy="397" r="24" fill="#0c1117"/>
+    <circle cx="1010" cy="397" r="70" fill="#020409"/><circle cx="1010" cy="397" r="46" fill="url(#chrome)"/><circle cx="1010" cy="397" r="24" fill="#0c1117"/>
+  </g>
+</g>
+<rect x="18" y="18" width="1364" height="484" rx="28" fill="none" stroke="#125f9d" opacity=".6"/>
+</svg>

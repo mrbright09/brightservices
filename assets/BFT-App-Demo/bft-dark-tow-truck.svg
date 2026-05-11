@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 520" role="img" aria-labelledby="title desc">
+<title id="title">BFT black electric blue heavy duty tow truck</title>
+<desc id="desc">A realistic vector-style black heavy duty tow truck with electric blue accents and BFT branding.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#020817"/><stop offset="1" stop-color="#061b32"/></linearGradient>
+  <linearGradient id="body" x1="0" x2="1"><stop stop-color="#05070c"/><stop offset=".45" stop-color="#151b24"/><stop offset="1" stop-color="#020409"/></linearGradient>
+  <linearGradient id="blue" x1="0" x2="1"><stop stop-color="#00b7ff"/><stop offset=".45" stop-color="#0078ff"/><stop offset="1" stop-color="#003bff"/></linearGradient>
+  <linearGradient id="chrome" x1="0" x2="1"><stop stop-color="#d8e4ee"/><stop offset=".35" stop-color="#6d7b86"/><stop offset=".65" stop-color="#f7fbff"/><stop offset="1" stop-color="#36424d"/></linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="softShadow"><feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#000" flood-opacity=".55"/></filter>
+</defs>
+<rect width="1400" height="520" rx="34" fill="url(#bg)"/>
+<g opacity=".18" stroke="#0d8dff" stroke-width="1"><path d="M60 84H1320M60 154H1320M60 224H1320M60 294H1320M60 364H1320"/><path d="M120 52V462M240 52V462M360 52V462M480 52V462M600 52V462M720 52V462M840 52V462M960 52V462M1080 52V462M1200 52V462"/></g>
+<ellipse cx="760" cy="448" rx="560" ry="34" fill="#001c3a" opacity=".8" filter="url(#glow)"/>
+<g filter="url(#softShadow)">
+  <!-- rear body -->
+  <path d="M560 208h525c42 0 74 34 74 76v116H506V260c0-29 24-52 54-52z" fill="url(#body)" stroke="#38536d" stroke-width="3"/>
+  <path d="M674 182h205l68 58H641z" fill="#0b111a" stroke="#2b4055" stroke-width="3"/>
+  <path d="M938 229h202c25 0 46 20 46 46v125H913z" fill="#070b12" stroke="#30485f" stroke-width="3"/>
+  <!-- cab -->
+  <path d="M173 237c25-94 111-154 219-154h117c73 0 122 53 128 127l18 188H97l11-58c8-45 28-80 65-103z" fill="url(#body)" stroke="#42586b" stroke-width="4"/>
+  <path d="M290 117h171c54 0 91 38 98 93l8 58H220c18-84 58-130 70-151z" fill="#0d1824" stroke="#55708a" stroke-width="3"/>
+  <path d="M322 129h101c31 0 59 24 65 57l10 56H267c12-52 28-89 55-113z" fill="#0b2638" stroke="#122f47" stroke-width="3"/>
+  <path d="M510 138c28 18 43 44 49 81l4 23h-61l-13-68c-3-16 5-31 21-36z" fill="#081722" stroke="#234963" stroke-width="3"/>
+  <!-- hood/grille -->
+  <path d="M102 315h185c35 0 63 27 63 62v24H92z" fill="#07090f" stroke="#394d5e" stroke-width="3"/>
+  <rect x="128" y="250" width="86" height="120" rx="20" fill="url(#chrome)"/>
+  <rect x="143" y="263" width="56" height="96" rx="14" fill="#070a0f" stroke="#a9bac8" stroke-width="4"/>
+  <path d="M147 263v96M171 263v96M195 263v96" stroke="#cbd8e2" stroke-width="3" opacity=".65"/>
+  <path d="M225 304l98-7 29 29-129 12z" fill="#0a1b2b" stroke="#41637f" stroke-width="3"/>
+  <path d="M241 310l81-5 18 17-95 9z" fill="#e8faff" opacity=".88"/>
+  <path d="M242 331h105" stroke="url(#blue)" stroke-width="6" filter="url(#glow)"/>
+  <!-- blue stripe -->
+  <path d="M500 297c150-54 272 13 414 42 91 19 170 4 242-34v35c-104 56-217 42-331 13-116-29-210-54-325 5z" fill="url(#blue)" opacity=".96"/>
+  <path d="M514 344c126-35 222 3 328 27 116 26 207 17 319-39" fill="none" stroke="#33c9ff" stroke-width="5" opacity=".8" filter="url(#glow)"/>
+  <!-- utility compartments -->
+  <g fill="none" stroke="#61758a" stroke-width="2.5" opacity=".9">
+    <rect x="593" y="250" width="82" height="126" rx="8"/><rect x="694" y="250" width="82" height="126" rx="8"/><rect x="795" y="250" width="82" height="126" rx="8"/><rect x="962" y="267" width="82" height="109" rx="8"/><rect x="1061" y="267" width="82" height="109" rx="8"/>
+  </g>
+  <g fill="#cbd8e2"><circle cx="655" cy="315" r="5"/><circle cx="756" cy="315" r="5"/><circle cx="857" cy="315" r="5"/><circle cx="1023" cy="323" r="5"/><circle cx="1122" cy="323" r="5"/></g>
+  <!-- boom -->
+  <path d="M858 157l374-69 22 42-355 92z" fill="#07101a" stroke="#385673" stroke-width="5"/>
+  <path d="M899 192l356-86" stroke="url(#blue)" stroke-width="11" filter="url(#glow)"/>
+  <path d="M1218 86h55c20 0 36 16 36 36v8h-78z" fill="#091321" stroke="#375873" stroke-width="4"/>
+  <path d="M1260 130v82" stroke="#70869a" stroke-width="5"/><path d="M1260 212c-18 12-14 39 9 43 20-8 19-36-9-43z" fill="none" stroke="#9fb2c3" stroke-width="6"/>
+  <!-- lights -->
+  <g filter="url(#glow)"><rect x="703" y="170" width="168" height="16" rx="8" fill="url(#blue)"/><rect x="982" y="220" width="148" height="12" rx="6" fill="url(#blue)"/><rect x="214" y="250" width="26" height="18" rx="8" fill="#ff9d00"/><rect x="344" y="70" width="138" height="18" rx="9" fill="url(#blue)"/></g>
+  <!-- wheels -->
+  <g>
+    <circle cx="298" cy="402" r="78" fill="#020409"/><circle cx="298" cy="402" r="52" fill="url(#chrome)"/><circle cx="298" cy="402" r="28" fill="#0c1117"/>
+    <circle cx="882" cy="402" r="72" fill="#020409"/><circle cx="882" cy="402" r="48" fill="url(#chrome)"/><circle cx="882" cy="402" r="25" fill="#0c1117"/>
+    <circle cx="1010" cy="402" r="72" fill="#020409"/><circle cx="1010" cy="402" r="48" fill="url(#chrome)"/><circle cx="1010" cy="402" r="25" fill="#0c1117"/>
+    <g fill="#101820"><circle cx="298" cy="402" r="9"/><circle cx="882" cy="402" r="8"/><circle cx="1010" cy="402" r="8"/></g>
+  </g>
+  <!-- branding -->
+  <text x="430" y="257" font-family="Arial Black,Arial,sans-serif" font-size="56" fill="#0b87ff" font-weight="900">BFT</text>
+  <text x="434" y="286" font-family="Arial,sans-serif" font-size="17" fill="#e9f4ff" font-weight="700">TOWING &amp; RECOVERY</text>
+  <text x="710" y="351" font-family="Arial Black,Arial,sans-serif" font-size="30" fill="#dfeeff">HEAVY DUTY</text>
+  <text x="710" y="383" font-family="Arial Black,Arial,sans-serif" font-size="30" fill="#dfeeff">RECOVERY</text>
+</g>
+<rect x="18" y="18" width="1364" height="484" rx="28" fill="none" stroke="#125f9d" opacity=".6"/>
+</svg>
