@@ -1,4 +1,4 @@
-/* BFT Services Demo — Vehicle SVG Polish Overrides */
+/* BFT Services Demo — Vehicle SVG Polish + Cinematic Motion Overrides */
 .vehicle-banner-wrap{
   width:100%;
   max-width:1100px;
@@ -7,6 +7,7 @@
   overflow:hidden;
   display:block;
   position:relative;
+  isolation:isolate;
   border:1px solid rgba(0,212,255,.22);
   background:linear-gradient(180deg,rgba(8,15,30,.92),rgba(2,6,23,.96));
   box-shadow:0 0 0 1px rgba(0,212,255,.06),0 0 30px rgba(0,102,255,.12),0 30px 90px rgba(0,0,0,.55);
@@ -18,6 +19,38 @@
   display:block;
   border-radius:18px;
   object-fit:cover;
+  position:relative;
+  z-index:1;
+  animation:bftSvgGlowPulse 8s ease-in-out infinite;
+}
+
+.vehicle-banner-wrap::before{
+  content:'';
+  position:absolute;
+  inset:-2px;
+  z-index:2;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,212,255,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,.045) 1px, transparent 1px);
+  background-size:42px 42px;
+  mix-blend-mode:screen;
+  opacity:.55;
+  animation:bftGridDrift 24s linear infinite;
+}
+
+.vehicle-banner-wrap::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  background:
+    linear-gradient(115deg, transparent 0%, transparent 42%, rgba(0,212,255,.12) 50%, transparent 58%, transparent 100%),
+    radial-gradient(circle at 20% 20%, rgba(0,212,255,.14), transparent 24%),
+    radial-gradient(circle at 78% 72%, rgba(0,102,255,.16), transparent 26%);
+  opacity:.62;
+  animation:bftTelemetrySweep 9s ease-in-out infinite;
 }
 
 #scene-health .vehicle-banner-wrap{
@@ -28,4 +61,72 @@
   aspect-ratio:16/9;
   object-fit:cover;
   filter:saturate(.95) contrast(1.02) brightness(.96);
+}
+
+/* Small status lights layered on the existing floating cards */
+.float-card::before{
+  content:'';
+  display:inline-block;
+  width:7px;
+  height:7px;
+  margin-right:7px;
+  border-radius:50%;
+  background:#00ff99;
+  box-shadow:0 0 12px rgba(0,255,153,.85);
+  animation:bftLiveBlink 1.8s ease-in-out infinite;
+}
+
+/* Motion keyframes */
+@keyframes bftSvgGlowPulse{
+  0%,100%{
+    filter:drop-shadow(0 0 8px rgba(0,212,255,.10)) brightness(1);
+  }
+  50%{
+    filter:drop-shadow(0 0 20px rgba(0,212,255,.22)) brightness(1.025);
+  }
+}
+
+@keyframes bftGridDrift{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(42px,42px,0)}
+}
+
+@keyframes bftTelemetrySweep{
+  0%,100%{transform:translateX(-18%);opacity:.32}
+  50%{transform:translateX(18%);opacity:.72}
+}
+
+@keyframes bftLiveBlink{
+  0%,100%{opacity:.32;transform:scale(.82)}
+  50%{opacity:1;transform:scale(1.08)}
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .vehicle-banner-wrap,
+  .vehicle-banner-wrap img,
+  .vehicle-banner-wrap::before,
+  .vehicle-banner-wrap::after,
+  .float-card::before{
+    animation:none!important;
+  }
+}
+
+@media(max-width:768px){
+  .vehicle-banner-wrap{
+    border-radius:14px;
+  }
+
+  .vehicle-banner-wrap img{
+    border-radius:14px;
+  }
+
+  .vehicle-banner-wrap::before{
+    background-size:34px 34px;
+    opacity:.38;
+  }
+
+  .vehicle-banner-wrap::after{
+    opacity:.42;
+  }
 }
