@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-labelledby="title desc">
+<title id="title">BFT Tow Dispatch Command Center</title><desc id="desc">Dark futuristic dispatch dashboard with live map, tow truck route, job cards, and AI routing panel.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#020611"/></linearGradient>
+<linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#2563eb"/></linearGradient>
+<linearGradient id="amber" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbbf24"/><stop offset="1" stop-color="#f97316"/></linearGradient>
+<filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="900" height="520" rx="34" fill="url(#bg)"/>
+<rect x="26" y="24" width="848" height="472" rx="26" fill="#071827" stroke="#164e63" stroke-width="2"/>
+<g opacity=".22" stroke="#38bdf8" stroke-width="1"><path d="M70 110H830M70 170H830M70 230H830M70 290H830M70 350H830M70 410H830"/><path d="M120 70V450M210 70V450M300 70V450M390 70V450M480 70V450M570 70V450M660 70V450M750 70V450"/></g>
+<text x="60" y="68" fill="#e0f2fe" font-family="Inter,Arial" font-size="24" font-weight="700">BFT DISPATCH ACTIVE</text>
+<text x="60" y="96" fill="#67e8f9" font-family="Inter,Arial" font-size="13" letter-spacing="3">LIVE GPS · HEAVY RECOVERY · AI ROUTING</text>
+<rect x="598" y="48" width="216" height="48" rx="14" fill="#052e3d" stroke="#22d3ee"/>
+<circle cx="622" cy="72" r="7" fill="#22c55e" filter="url(#glow)"/><text x="640" y="77" fill="#dffaff" font-family="Inter,Arial" font-size="15" font-weight="700">12 ACTIVE JOBS</text>
+<path d="M104 394 C178 312 198 260 286 276 C378 292 392 196 478 206 C568 216 580 142 706 132" fill="none" stroke="#22d3ee" stroke-width="6" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M106 394 C174 330 214 314 286 276" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="8 10"/>
+<g fill="#22d3ee" filter="url(#glow)"><circle cx="104" cy="394" r="9"/><circle cx="286" cy="276" r="8"/><circle cx="478" cy="206" r="8"/><circle cx="706" cy="132" r="10"/></g>
+<g transform="translate(640 122)"><rect width="170" height="104" rx="18" fill="#081d2c" stroke="#164e63"/><text x="18" y="32" fill="#f8fafc" font-family="Inter,Arial" font-size="15" font-weight="700">AI ROUTING</text><text x="18" y="60" fill="#67e8f9" font-family="Inter,Arial" font-size="28" font-weight="800">4.2 min</text><text x="18" y="84" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Optimal ETA</text></g>
+<g transform="translate(82 322)"><rect x="0" y="0" width="214" height="86" rx="18" fill="#0a2133" stroke="#38bdf8"/><text x="18" y="28" fill="#e0f2fe" font-family="Inter,Arial" font-size="15" font-weight="700">HEAVY RECOVERY UNIT</text><text x="18" y="54" fill="#94a3b8" font-family="Inter,Arial" font-size="13">I-85 North · Exit 104</text><text x="18" y="74" fill="#22c55e" font-family="Inter,Arial" font-size="12" font-weight="700">DISPATCHED · DRIVER EN ROUTE</text></g>
+<g transform="translate(385 250)"><rect x="0" y="0" width="132" height="62" rx="10" fill="url(#amber)"/><rect x="20" y="38" width="25" height="25" rx="12" fill="#020617"/><rect x="88" y="38" width="25" height="25" rx="12" fill="#020617"/><path d="M18 38h100l-18-24H50L36 28H18z" fill="#111827" opacity=".78"/><path d="M12 22h32v16H12z" fill="#0f172a"/><circle cx="32" cy="50" r="7" fill="#e5e7eb"/><circle cx="100" cy="50" r="7" fill="#e5e7eb"/></g>
+<g transform="translate(584 312)"><rect width="230" height="102" rx="18" fill="#081d2c" stroke="#164e63"/><text x="18" y="30" fill="#e0f2fe" font-family="Inter,Arial" font-size="14" font-weight="700">QUEUE HEALTH</text><text x="18" y="62" fill="#f8fafc" font-family="Inter,Arial" font-size="30" font-weight="800">98%</text><text x="80" y="60" fill="#94a3b8" font-family="Inter,Arial" font-size="13">completion</text><rect x="18" y="78" width="192" height="9" rx="5" fill="#123047"/><rect x="18" y="78" width="188" height="9" rx="5" fill="url(#cyan)"/></g>
+</svg>

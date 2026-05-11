@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 520" role="img" aria-labelledby="title desc">
+<title id="title">BFT black electric blue 18 wheeler freight truck</title>
+<desc id="desc">A realistic vector-style black 18 wheeler with electric blue BFT branding on the trailer.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#020817"/><stop offset="1" stop-color="#061b32"/></linearGradient>
+  <linearGradient id="black" x1="0" x2="1"><stop stop-color="#03050a"/><stop offset=".5" stop-color="#161d28"/><stop offset="1" stop-color="#05070c"/></linearGradient>
+  <linearGradient id="blue" x1="0" x2="1"><stop stop-color="#00c8ff"/><stop offset=".5" stop-color="#0078ff"/><stop offset="1" stop-color="#003bff"/></linearGradient>
+  <linearGradient id="chrome" x1="0" x2="1"><stop stop-color="#f8fbff"/><stop offset=".35" stop-color="#6d7a83"/><stop offset=".75" stop-color="#dbe6ef"/><stop offset="1" stop-color="#303b45"/></linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="shadow"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#000" flood-opacity=".6"/></filter>
+</defs>
+<rect width="1400" height="520" rx="34" fill="url(#bg)"/>
+<g opacity=".17" stroke="#0d8dff" stroke-width="1"><path d="M70 90H1330M70 170H1330M70 250H1330M70 330H1330M70 410H1330"/><path d="M160 55V455M300 55V455M440 55V455M580 55V455M720 55V455M860 55V455M1000 55V455M1140 55V455M1280 55V455"/></g>
+<ellipse cx="735" cy="433" rx="560" ry="34" fill="#001c3a" opacity=".86" filter="url(#glow)"/>
+<g filter="url(#shadow)">
+  <!-- trailer -->
+  <path d="M568 120h674c37 0 68 30 68 68v198H536V156c0-20 14-36 32-36z" fill="url(#black)" stroke="#40566d" stroke-width="4"/>
+  <path d="M592 145h642c21 0 38 17 38 38v169H592z" fill="#090f18" stroke="#1d334c" stroke-width="3"/>
+  <g opacity=".2" stroke="#86b7dd"><path d="M650 151v200M730 151v200M810 151v200M890 151v200M970 151v200M1050 151v200M1130 151v200M1210 151v200"/></g>
+  <path d="M612 310h650" stroke="url(#blue)" stroke-width="15" filter="url(#glow)"/>
+  <path d="M617 303c148-60 309-64 472-20 65 17 116 29 173 20v44c-96 10-169-18-257-42-139-38-257-30-388 25z" fill="url(#blue)" opacity=".9"/>
+  <path d="M702 197h92l-73 124h-94z" fill="url(#blue)" opacity=".92"/>
+  <text x="815" y="258" font-family="Arial Black,Arial,sans-serif" font-size="94" fill="#0b87ff" font-weight="900">BFT</text>
+  <text x="823" y="300" font-family="Arial,sans-serif" font-size="29" fill="#e9f4ff" font-weight="800">FREIGHT SOLUTIONS</text>
+  <g fill="#dbe6ef" opacity=".9"><rect x="617" y="371" width="25" height="6"/><rect x="701" y="371" width="25" height="6"/><rect x="785" y="371" width="25" height="6"/><rect x="869" y="371" width="25" height="6"/><rect x="953" y="371" width="25" height="6"/><rect x="1037" y="371" width="25" height="6"/><rect x="1121" y="371" width="25" height="6"/><rect x="1205" y="371" width="25" height="6"/></g>
+  <!-- tractor cab -->
+  <path d="M126 322c7-71 48-151 130-190 46-22 122-24 207-10 45 8 80 41 91 85l36 147H83c8-13 21-24 43-32z" fill="url(#black)" stroke="#40566d" stroke-width="4"/>
+  <path d="M255 150c48-22 140-20 184-10 40 9 66 41 77 88H197c14-38 31-65 58-78z" fill="#081522" stroke="#55708a" stroke-width="3"/>
+  <path d="M287 154h118c35 0 62 23 75 61l8 28H232c14-45 31-75 55-89z" fill="#092538" stroke="#11344f" stroke-width="3"/>
+  <path d="M93 322h188c43 0 78 35 78 78H82z" fill="#05070c" stroke="#344d65" stroke-width="3"/>
+  <rect x="116" y="270" width="92" height="114" rx="18" fill="url(#chrome)"/>
+  <rect x="131" y="284" width="62" height="86" rx="12" fill="#05070c" stroke="#dbe6ef" stroke-width="3"/>
+  <path d="M139 284v86M162 284v86M186 284v86" stroke="#e6f3ff" stroke-width="3" opacity=".75"/>
+  <path d="M230 315l130-10 33 31-164 12z" fill="#0a1c2d" stroke="#3b607e" stroke-width="3"/>
+  <path d="M248 320l105-7 22 18-125 10z" fill="#e9fbff" opacity=".9"/>
+  <path d="M247 342h134" stroke="url(#blue)" stroke-width="7" filter="url(#glow)"/>
+  <path d="M411 265h120" stroke="url(#blue)" stroke-width="12" filter="url(#glow)"/>
+  <path d="M89 386h505" stroke="#151b22" stroke-width="28"/>
+  <!-- wheels -->
+  <g>
+    <circle cx="272" cy="395" r="71" fill="#020409"/><circle cx="272" cy="395" r="47" fill="url(#chrome)"/><circle cx="272" cy="395" r="24" fill="#0c1117"/>
+    <circle cx="460" cy="397" r="65" fill="#020409"/><circle cx="460" cy="397" r="42" fill="url(#chrome)"/><circle cx="460" cy="397" r="22" fill="#0c1117"/>
+    <circle cx="555" cy="397" r="65" fill="#020409"/><circle cx="555" cy="397" r="42" fill="url(#chrome)"/><circle cx="555" cy="397" r="22" fill="#0c1117"/>
+    <circle cx="1105" cy="397" r="62" fill="#020409"/><circle cx="1105" cy="397" r="39" fill="url(#chrome)"/><circle cx="1105" cy="397" r="20" fill="#0c1117"/>
+    <circle cx="1192" cy="397" r="62" fill="#020409"/><circle cx="1192" cy="397" r="39" fill="url(#chrome)"/><circle cx="1192" cy="397" r="20" fill="#0c1117"/>
+  </g>
+  <g filter="url(#glow)"><rect x="250" y="103" width="126" height="12" rx="6" fill="url(#blue)"/><rect x="1220" y="128" width="32" height="8" rx="4" fill="#ff9d00"/><rect x="1280" y="208" width="9" height="42" rx="4" fill="url(#blue)"/></g>
+</g>
+<rect x="18" y="18" width="1364" height="484" rx="28" fill="none" stroke="#125f9d" opacity=".6"/>
+</svg>
