@@ -1,606 +1,651 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BFT AI Service Platform — Interactive Demo</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BFT Services — AI Operations Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --blue:#0066ff;--dark:#050d1a;--darker:#020a14;
-  --text:#e8f0fe;--accent:#00d4ff;--orange:#ff6b35;
-  --green:#00c896;--red:#ff4757;--purple:#a855f7;
+  --bg:#04050d;--bg2:#080a14;--bg3:#0c0e1c;--bg4:#111426;
+  --accent:#00b4ff;--a12:rgba(0,180,255,.12);--a25:rgba(0,180,255,.25);--aglow:rgba(0,180,255,.18);
+  --green:#00e676;--g12:rgba(0,230,118,.12);
+  --orange:#ff9500;--o12:rgba(255,149,0,.12);
+  --red:#ff3d57;--r12:rgba(255,61,87,.12);
+  --purple:#9c6fff;--p12:rgba(156,111,255,.12);
+  --text:#e2e8f4;--text2:#8899bb;--text3:#2e3a52;
+  --border:rgba(0,180,255,.1);--border2:rgba(0,180,255,.06);
+  --font-head:'Rajdhani',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
 }
-html{scroll-behavior:auto}
-body{background:var(--darker);color:var(--text);font-family:'Inter',-apple-system,sans-serif;overflow-x:hidden}
-#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);overflow-x:hidden;}
+
+/* GRID TEXTURE */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(0,180,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,180,255,.025) 1px,transparent 1px);
+  background-size:48px 48px;
+}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.9rem 3rem;display:flex;align-items:center;justify-content:space-between;background:rgba(5,13,26,.85);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,102,255,.15)}
-.nav-logo{font-size:.95rem;font-weight:800;letter-spacing:-.02em}
-.nav-logo span{color:var(--accent)}
-.nav-links{display:flex;gap:1.75rem}
-.nav-links a{font-size:.75rem;color:rgba(232,240,254,.55);text-decoration:none;font-weight:500;transition:color .2s}
-.nav-links a:hover{color:var(--accent)}
-
-/* PROGRESS DOTS */
-.prog-nav{position:fixed;right:1.75rem;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:10px}
-.prog-dot{width:6px;height:6px;border-radius:50%;background:rgba(232,240,254,.2);cursor:pointer;transition:all .3s;border:none}
-.prog-dot.active{background:var(--accent);box-shadow:0 0 8px var(--accent);transform:scale(1.4)}
-
-/* SCENES */
-.scene{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:7rem 3rem 5rem}
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:60px;
+  background:rgba(4,5,13,.85);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--font-head);font-size:22px;font-weight:700;color:var(--accent);letter-spacing:1.5px;text-decoration:none;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);}
+.nav-links{display:flex;align-items:center;gap:28px;}
+.nav-links a{font-size:13px;color:var(--text2);text-decoration:none;letter-spacing:.5px;transition:color .15s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 20px;border-radius:8px;
+  background:var(--a12);border:1px solid var(--a25);
+  color:var(--accent);font-size:13px;font-weight:600;
+  text-decoration:none;letter-spacing:.5px;
+  transition:all .2s;
+}
+.nav-cta:hover{background:rgba(0,180,255,.2);box-shadow:0 0 16px var(--aglow);}
 
 /* HERO */
-#scene-hero{flex-direction:column;gap:1.75rem;text-align:center;min-height:auto;padding-top:6rem;padding-bottom:2rem}
-.hero-eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);opacity:0;transform:translateY(16px)}
-.hero-title{font-size:clamp(2.8rem,6vw,5.2rem);font-weight:900;line-height:1.05;letter-spacing:-.04em;opacity:0;transform:translateY(24px)}
-.hero-title .accent{color:var(--accent)}
-.hero-sub{font-size:1rem;color:rgba(232,240,254,.6);max-width:580px;line-height:1.75;opacity:0;transform:translateY(20px)}
-.hero-chips{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;opacity:0;transform:translateY(16px)}
-.chip{padding:.45rem 1.1rem;border:1px solid rgba(0,212,255,.3);border-radius:50px;font-size:.75rem;font-weight:600;color:var(--accent);background:rgba(0,212,255,.05);text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:.4rem}
-.chip:hover{background:rgba(0,212,255,.14);border-color:var(--accent)}
-.hero-scroll{display:flex;flex-direction:column;align-items:center;gap:.55rem;opacity:0;font-size:.6rem;color:rgba(232,240,254,.3);letter-spacing:.14em;margin-top:.3rem}
-.chev-wrap{animation:chev 1.6s ease-in-out infinite}
-.chev{width:10px;height:10px;border-right:2px solid rgba(0,212,255,.6);border-bottom:2px solid rgba(0,212,255,.6);transform:rotate(45deg)}
+#hero{
+  position:relative;z-index:1;
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:80px 40px 60px;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 16px;border-radius:20px;
+  background:var(--g12);border:1px solid rgba(0,230,118,.25);
+  font-family:var(--font-mono);font-size:10px;letter-spacing:2.5px;
+  color:var(--green);text-transform:uppercase;
+  margin-bottom:28px;
+  animation:fadein .6s ease-out;
+}
+.pulse-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:gpulse 2s ease-in-out infinite;}
+@keyframes gpulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,230,118,.4)}50%{opacity:.8;box-shadow:0 0 0 5px rgba(0,230,118,0)}}
+.hero-h1{
+  font-family:var(--font-head);font-size:clamp(42px,7vw,86px);font-weight:700;
+  line-height:1;letter-spacing:-1px;color:#fff;
+  margin-bottom:10px;
+  animation:fadein .7s ease-out .1s both;
+}
+.hero-h1 span{color:var(--accent);}
+.hero-sub{
+  font-family:var(--font-head);font-size:clamp(18px,3vw,32px);font-weight:500;
+  color:var(--text2);letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:20px;
+  animation:fadein .7s ease-out .2s both;
+}
+.hero-desc{
+  font-size:16px;color:var(--text2);max-width:600px;line-height:1.7;
+  margin:0 auto 40px;
+  animation:fadein .7s ease-out .3s both;
+}
+.hero-ctas{
+  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  margin-bottom:60px;
+  animation:fadein .7s ease-out .4s both;
+}
+.cta-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 32px;border-radius:10px;
+  background:var(--a12);border:1.5px solid var(--a25);
+  color:var(--accent);font-size:15px;font-weight:600;
+  text-decoration:none;letter-spacing:.5px;
+  transition:all .2s;box-shadow:0 0 24px var(--aglow);
+}
+.cta-primary:hover{background:rgba(0,180,255,.22);box-shadow:0 0 40px rgba(0,180,255,.3);transform:translateY(-1px);}
+.cta-secondary{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 32px;border-radius:10px;
+  background:var(--g12);border:1.5px solid rgba(0,230,118,.3);
+  color:var(--green);font-size:15px;font-weight:600;
+  text-decoration:none;letter-spacing:.5px;
+  transition:all .2s;
+}
+.cta-secondary:hover{background:rgba(0,230,118,.18);transform:translateY(-1px);}
+.hero-stats{
+  display:flex;gap:40px;justify-content:center;flex-wrap:wrap;
+  animation:fadein .7s ease-out .5s both;
+}
+.hstat{text-align:center;}
+.hstat-num{font-family:var(--font-head);font-size:36px;font-weight:700;color:var(--accent);line-height:1;}
+.hstat-lbl{font-size:12px;color:var(--text2);letter-spacing:.5px;margin-top:4px;}
+.hero-divider{width:1px;height:36px;background:var(--border);align-self:center;}
+@keyframes fadein{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 
-/* PROOF STRIP */
-.proof-strip{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.4rem 1.5rem;padding:1.3rem 2rem;background:rgba(0,212,255,.035);border-top:1px solid rgba(0,212,255,.1);border-bottom:1px solid rgba(0,212,255,.1);font-size:.72rem;font-weight:600;color:rgba(232,240,254,.5);letter-spacing:.04em}
-.proof-sep{color:rgba(0,212,255,.2)}
+/* SECTION */
+.section{position:relative;z-index:1;padding:80px 40px;}
+.section-inner{max-width:1100px;margin:0 auto;}
+.section-eyebrow{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:3px;
+  color:var(--accent);text-transform:uppercase;margin-bottom:12px;
+}
+.section-title{font-family:var(--font-head);font-size:clamp(28px,4vw,48px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:12px;}
+.section-sub{font-size:15px;color:var(--text2);max-width:560px;line-height:1.7;}
 
-/* PAIN STATEMENT */
-.pain-stmt{font-family:monospace;font-size:.67rem;font-variant:small-caps;letter-spacing:.1em;color:rgba(232,240,254,.32);margin-bottom:.55rem;display:block}
+/* MODULES GRID */
+.modules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:50px;}
+.mod-card{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:14px;padding:28px;
+  position:relative;overflow:hidden;
+  transition:border-color .2s,transform .2s;
+  cursor:default;
+}
+.mod-card:hover{border-color:var(--border);transform:translateY(-2px);}
+.mod-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--mc,var(--accent));opacity:.6;
+}
+.mod-num{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--text3);margin-bottom:14px;}
+.mod-icon{font-size:28px;margin-bottom:14px;display:block;}
+.mod-title{font-family:var(--font-head);font-size:22px;font-weight:700;color:#fff;margin-bottom:8px;}
+.mod-desc{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:18px;}
+.mod-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.mod-tag{
+  padding:3px 10px;border-radius:10px;
+  font-size:10px;font-weight:500;letter-spacing:.5px;
+  background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text2);
+}
+.mod-tag.new{background:var(--g12);border-color:rgba(0,230,118,.2);color:var(--green);}
+.mod-card.featured{border-color:rgba(0,230,118,.2);box-shadow:0 0 30px rgba(0,230,118,.05);}
+.featured-ribbon{
+  position:absolute;top:14px;right:14px;
+  background:var(--g12);border:1px solid rgba(0,230,118,.25);
+  color:var(--green);font-family:var(--font-mono);font-size:9px;
+  letter-spacing:2px;padding:3px 10px;border-radius:10px;
+}
 
-/* CONTENT SCENES */
-.scene-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;max-width:1180px;width:100%}
-.scene-inner.rev{direction:rtl}
-.scene-inner.rev>*{direction:ltr}
-.scene-text{opacity:0;transform:translateX(-44px)}
-.scene-inner.rev .scene-text{transform:translateX(44px)}
-.scene-tag{font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.9rem;display:block}
-.scene-heading{font-size:clamp(1.9rem,3vw,2.8rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:.9rem}
-.scene-desc{font-size:.9rem;color:rgba(232,240,254,.58);line-height:1.85;margin-bottom:1.75rem}
-.stat-row{display:flex;gap:2rem;margin-bottom:1.75rem}
-.stat-val{font-size:1.7rem;font-weight:800;letter-spacing:-.04em}
-.stat-label{font-size:.68rem;color:rgba(232,240,254,.42);font-weight:500;margin-top:2px}
+/* AUTO-BID FEATURE HIGHLIGHT */
+.autobid-highlight{
+  background:var(--bg2);border:1px solid rgba(0,230,118,.15);
+  border-radius:16px;padding:40px;margin-top:60px;
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;
+  position:relative;overflow:hidden;
+}
+.autobid-highlight::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--green),transparent);opacity:.5;
+}
+.ab-glow{
+  position:absolute;top:-60px;right:-60px;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(0,230,118,.08),transparent 70%);
+  pointer-events:none;
+}
+.ab-left{}
+.ab-eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:3px;color:var(--green);margin-bottom:12px;}
+.ab-title{font-family:var(--font-head);font-size:clamp(24px,3vw,38px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:14px;}
+.ab-desc{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:22px;}
+.ab-features{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.ab-features li{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;color:var(--text2);
+}
+.ab-features li::before{content:'→';color:var(--green);flex-shrink:0;font-family:var(--font-mono);}
+.ab-right{}
+.ab-mock{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:12px;overflow:hidden;font-family:var(--font-mono);font-size:11px;
+}
+.ab-mock-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;border-bottom:1px solid var(--border2);
+}
+.ab-mock-title{color:var(--text2);font-size:10px;letter-spacing:1.5px;}
+.ab-mock-live{display:flex;align-items:center;gap:6px;color:var(--green);font-size:10px;}
+.ab-mock-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:gpulse 2s ease-in-out infinite;}
+.ab-feed-demo{padding:6px 0;}
+.ab-row{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 16px;border-bottom:1px solid var(--border2);
+  font-size:10px;
+}
+.ab-row:last-child{border-bottom:none;}
+.ab-rt{color:var(--text3);width:60px;flex-shrink:0;}
+.ab-rid{color:var(--accent);width:65px;flex-shrink:0;}
+.ab-rroute{flex:1;color:var(--text2);}
+.ab-rval{width:72px;text-align:right;flex-shrink:0;}
+.ab-rstatus{width:68px;text-align:right;font-weight:700;flex-shrink:0;}
+.st-sub{color:var(--accent);}
+.st-acc{color:var(--green);}
+.st-rej{color:var(--red);}
 
-/* GHOST BUTTON */
-.ghost-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.6rem;border:1px solid rgba(255,255,255,.18);color:rgba(232,240,254,.75);border-radius:8px;font-size:.82rem;font-weight:600;text-decoration:none;transition:all .2s;background:transparent}
-.ghost-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,212,255,.06);transform:translateY(-1px)}
+/* ONYX SECTION */
+.onyx-section{
+  background:linear-gradient(135deg,var(--bg2),var(--bg3));
+  border:1px solid var(--border);border-radius:16px;
+  padding:50px 40px;
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;
+  position:relative;overflow:hidden;
+}
+.onyx-glow{
+  position:absolute;left:-80px;top:50%;transform:translateY(-50%);
+  width:280px;height:280px;
+  background:radial-gradient(circle,rgba(0,180,255,.07),transparent 70%);
+  pointer-events:none;
+}
+.onyx-orb-wrap{display:flex;justify-content:center;align-items:center;}
+.onyx-orb{
+  width:140px;height:140px;border-radius:50%;
+  border:2px solid rgba(0,180,255,.4);
+  background:radial-gradient(circle at 35% 35%,rgba(0,180,255,.12),rgba(0,180,255,.03));
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;position:relative;
+  box-shadow:0 0 40px rgba(0,180,255,.15),inset 0 0 24px rgba(0,180,255,.06);
+  animation:orbpulse 4s ease-in-out infinite;
+}
+@keyframes orbpulse{0%,100%{box-shadow:0 0 40px rgba(0,180,255,.15),inset 0 0 24px rgba(0,180,255,.06)}50%{box-shadow:0 0 60px rgba(0,180,255,.25),inset 0 0 32px rgba(0,180,255,.1)}}
+.onyx-ring{
+  position:absolute;inset:-16px;border-radius:50%;
+  border:1px solid rgba(0,180,255,.12);
+  animation:spinring 12s linear infinite;
+}
+.onyx-ring2{
+  position:absolute;inset:-30px;border-radius:50%;
+  border:1px dashed rgba(0,180,255,.06);
+  animation:spinring 20s linear infinite reverse;
+}
+@keyframes spinring{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
-/* DEVICE */
-.device-wrap{opacity:0;transform:perspective(1100px) rotateY(14deg) rotateX(3deg) translateX(55px);position:relative}
-.scene-inner.rev .device-wrap{transform:perspective(1100px) rotateY(-14deg) rotateX(3deg) translateX(-55px)}
-.device{background:#0d1425;border-radius:12px;border:1px solid rgba(0,102,255,.22);overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.5),0 40px 80px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04)}
-.device-bar{height:34px;background:#08101e;border-bottom:1px solid rgba(0,102,255,.12);display:flex;align-items:center;padding:0 .9rem;gap:5px}
-.dd{width:9px;height:9px;border-radius:50%}
-.dd:nth-child(1){background:#ff5f57}.dd:nth-child(2){background:#febc2e}.dd:nth-child(3){background:#28c840}
-.device-url{margin-left:auto;font-size:.6rem;color:rgba(232,240,254,.25)}
-.device-body{padding:.7rem}
+/* STATS BAR */
+.stats-bar{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--border);border-radius:14px;overflow:hidden;
+  margin-top:60px;
+}
+.sbar-item{
+  background:var(--bg2);padding:28px 24px;text-align:center;
+}
+.sbar-num{font-family:var(--font-head);font-size:38px;font-weight:700;color:var(--accent);line-height:1;}
+.sbar-lbl{font-size:12px;color:var(--text2);margin-top:6px;letter-spacing:.5px;}
 
-/* DEPTH FLOAT CARDS */
-.float-card{position:absolute;padding:.6rem .85rem;background:rgba(13,20,37,.9);border:1px solid rgba(0,102,255,.2);border-radius:9px;backdrop-filter:blur(8px);font-size:.65rem;z-index:10;pointer-events:none}
+/* TECH GRID */
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:40px;}
+.tech-item{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:10px;padding:18px 20px;
+  display:flex;align-items:center;gap:12px;
+}
+.tech-icon{font-size:20px;flex-shrink:0;}
+.tech-name{font-size:13px;color:var(--text);font-weight:500;}
+.tech-sub{font-size:11px;color:var(--text2);margin-top:2px;}
 
-/* SEPARATOR */
-.sep{position:relative;z-index:1;height:160px;display:flex;align-items:center;justify-content:center}
-.sep-line{width:1px;height:100px;background:linear-gradient(to bottom,transparent,rgba(0,102,255,.5),transparent)}
+/* FOOTER CTA */
+#footer-cta{
+  position:relative;z-index:1;
+  padding:100px 40px;text-align:center;
+  background:linear-gradient(180deg,transparent,var(--bg2));
+}
+.fcta-title{font-family:var(--font-head);font-size:clamp(32px,5vw,62px);font-weight:700;color:#fff;margin-bottom:14px;line-height:1.1;}
+.fcta-sub{font-size:16px;color:var(--text2);margin-bottom:40px;}
+.fcta-form{
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+  max-width:500px;margin:0 auto 16px;
+}
+.fcta-input{
+  flex:1;min-width:220px;padding:13px 18px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:9px;color:var(--text);font-family:var(--font-body);font-size:14px;
+  outline:none;transition:border-color .2s;
+}
+.fcta-input:focus{border-color:var(--a25);}
+.fcta-input::placeholder{color:var(--text3);}
+.fcta-btn{
+  padding:13px 28px;border-radius:9px;
+  background:var(--accent);border:none;
+  color:#000;font-size:14px;font-weight:700;
+  cursor:pointer;letter-spacing:.5px;
+  transition:all .2s;white-space:nowrap;font-family:var(--font-body);
+}
+.fcta-btn:hover{background:#29c4ff;box-shadow:0 0 20px rgba(0,180,255,.4);}
+.fcta-note{font-size:11px;color:var(--text3);letter-spacing:.5px;}
 
-/* MINI UI SHARED */
-.stat-grid{display:grid;gap:.45rem;margin-bottom:.7rem}
-.sg4{grid-template-columns:repeat(4,1fr)}
-.sg2{grid-template-columns:repeat(2,1fr)}
-.sc{border-radius:6px;padding:.5rem;text-align:center}
-.sv{font-size:1rem;font-weight:700}.sl{font-size:.52rem;color:rgba(232,240,254,.42);margin-top:2px}
-.badge{padding:2px 7px;border-radius:50px;font-size:.52rem;font-weight:700}
-.b-green{background:rgba(0,200,150,.15);color:var(--green)}
-.b-orange{background:rgba(255,107,53,.15);color:var(--orange)}
-.b-dim{background:rgba(255,255,255,.07);color:rgba(232,240,254,.45)}
-.b-red{background:rgba(255,71,87,.15);color:var(--red)}
-.b-purple{background:rgba(168,85,247,.15);color:var(--purple)}
+/* FOOTER */
+footer{
+  position:relative;z-index:1;
+  padding:24px 40px;border-top:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+}
+.footer-brand{font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--accent);letter-spacing:1px;}
+.footer-meta{font-family:var(--font-mono);font-size:10px;letter-spacing:1.5px;color:var(--text3);}
+.footer-links{display:flex;gap:20px;}
+.footer-links a{font-size:12px;color:var(--text3);text-decoration:none;transition:color .15s;}
+.footer-links a:hover{color:var(--text2);}
 
-/* FREIGHT CALCULATOR */
-#scene-calc{flex-direction:column;gap:2.5rem}
-.calc-box{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.2);border-radius:14px;padding:2rem;max-width:780px;width:100%}
-.calc-fields{display:grid;gap:1rem}
-.calc-group{display:flex;flex-direction:column;gap:.4rem}
-.calc-label{font-size:.7rem;font-weight:600;color:rgba(232,240,254,.45);letter-spacing:.06em;text-transform:uppercase}
-.calc-input{padding:.7rem 1rem;background:rgba(255,255,255,.04);border:1px solid rgba(168,85,247,.25);border-radius:8px;color:var(--text);font-size:.9rem;font-family:'Inter',-apple-system,sans-serif;outline:none;transition:border-color .2s;width:100%}
-.calc-input:focus{border-color:rgba(168,85,247,.6)}
-.calc-result-box{text-align:center;min-width:160px}
-
-/* ONYX AI */
-#scene-onyx{flex-direction:column;gap:1.5rem;text-align:center}
-.onyx-inner{display:flex;flex-direction:column;align-items:center;gap:1.5rem;max-width:640px}
-.onyx-btn{display:inline-flex;align-items:center;gap:.7rem;padding:1rem 2.6rem;background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.45);color:#a855f7;border-radius:50px;font-size:1rem;font-weight:700;text-decoration:none;transition:all .3s;animation:onyxGlow 2.5s ease-in-out infinite}
-.onyx-btn:hover{background:rgba(168,85,247,.25);border-color:#a855f7;transform:translateY(-2px)}
-
-/* CONTACT FORM */
-#scene-cta{flex-direction:column;gap:1.75rem;text-align:center}
-.contact-form{display:grid;gap:.85rem;max-width:520px;width:100%;margin:2rem auto 0;text-align:left}
-.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
-.cf-field{width:100%;padding:.8rem 1rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:8px;color:var(--text);font-size:.88rem;font-family:'Inter',-apple-system,sans-serif;outline:none;transition:border-color .2s}
-.cf-field:focus{border-color:rgba(0,212,255,.45)}
-select.cf-field option{background:#0d1425}
-.cf-error{font-size:.72rem;color:var(--red);display:none;margin-top:-.4rem}
-.cf-submit{padding:.9rem 2rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;width:100%;font-family:inherit}
-.cf-submit:hover{background:#0051cc;transform:translateY(-1px)}
-.cf-confirm{display:none;padding:1.2rem;background:rgba(0,200,150,.08);border:1px solid rgba(0,200,150,.28);border-radius:10px;color:var(--green);text-align:center;font-size:.9rem;line-height:1.6}
-
-.vehicle-banner-wrap{width:100%;max-width:1100px;margin:0 auto;border-radius:14px;overflow:hidden;display:block}
-/* KEYFRAMES */
-@keyframes chev{0%,100%{opacity:.2;transform:translateY(-4px)}50%{opacity:1;transform:translateY(5px)}}
-@keyframes pulse-light{0%,100%{opacity:.25}50%{opacity:1}}
-@keyframes growBar{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-@keyframes drawLine{to{stroke-dashoffset:0}}
-@keyframes onyxGlow{0%,100%{box-shadow:0 0 14px rgba(168,85,247,.3),0 4px 20px rgba(0,0,0,.35)}50%{box-shadow:0 0 38px rgba(168,85,247,.65),0 4px 32px rgba(168,85,247,.18)}}
-
+/* RESPONSIVE */
 @media(max-width:768px){
-  .scene-inner{grid-template-columns:1fr;gap:2.5rem}
-  .scene-inner.rev{direction:ltr}
-  .device-wrap{transform:none!important}
-  .prog-nav{display:none}
-  nav .nav-links{display:none}
-  .calc-box{grid-template-columns:1fr}
-  .cf-row{grid-template-columns:1fr}
+  #nav{padding:0 20px;}
+  .nav-links{display:none;}
+  .section{padding:60px 20px;}
+  .autobid-highlight,.onyx-section{grid-template-columns:1fr;}
+  .ab-right{display:none;}
+  .onyx-orb-wrap{margin-bottom:20px;}
+  .stats-bar{grid-template-columns:repeat(2,1fr);}
+  footer{flex-direction:column;text-align:center;}
 }
 </style>
 </head>
 <body>
 
-<canvas id="bg-canvas"></canvas>
-
-<nav>
-  <div class="nav-logo">BFT <span>AI</span> Platform</div>
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <div class="nav-dot"></div>BFT SERVICES
+  </a>
   <div class="nav-links">
-    <a href="#scene-tow">Tow Dispatch</a>
-    <a href="#scene-freight">Freight</a>
-    <a href="#scene-health">Health Triage</a>
-    <a href="#scene-drivers">Drivers</a>
-    <a href="#scene-reports">Reports</a>
-    <a href="#scene-onyx">Onyx AI</a>
+    <a href="#modules">Platform</a>
+    <a href="#autobid">Auto-Bid</a>
+    <a href="#onyx">Onyx AI</a>
+    <a href="#tech">Technology</a>
   </div>
+  <a class="nav-cta" href="https://brightfuturetechllc.com/assets/BFT-App-Demo/index.html" target="_blank">
+    &#9654; Launch Demo
+  </a>
 </nav>
 
-<div class="prog-nav" id="prog-nav">
-  <button class="prog-dot active" data-t="scene-hero"></button>
-  <button class="prog-dot" data-t="scene-tow"></button>
-  <button class="prog-dot" data-t="scene-freight"></button>
-  <button class="prog-dot" data-t="scene-health"></button>
-  <button class="prog-dot" data-t="scene-drivers"></button>
-  <button class="prog-dot" data-t="scene-reports"></button>
-  <button class="prog-dot" data-t="scene-onyx"></button>
-  <button class="prog-dot" data-t="scene-cta"></button>
-</div>
-
 <!-- HERO -->
-<section class="scene" id="scene-hero">
-  <div class="hero-eyebrow">Bright Future Technologies LLC</div>
-  <h1 class="hero-title">Slow Dispatch Is<br><span class="accent">Costing You Jobs.</span></h1>
-  <p class="hero-sub">BFT's AI platform closes the gap — live GPS dispatch, freight tracking, health triage, driver intelligence, and ops analytics in one command center.</p>
-  <div class="hero-chips">
-    <a class="chip" href="#scene-tow">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="7" width="9" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="10" y="5" width="5" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><circle cx="3.5" cy="13" r="1.5" stroke="currentColor" stroke-width="1.1"/><circle cx="11.5" cy="13" r="1.5" stroke="currentColor" stroke-width="1.1"/><line x1="4.5" y1="9.5" x2="1.5" y2="4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Tow Dispatch
+<section id="hero">
+  <div class="hero-badge"><div class="pulse-dot"></div>CAGE Registered &middot; Federal Vendor &middot; Now Available</div>
+  <h1 class="hero-h1">Operations.<br><span>Automated.</span></h1>
+  <div class="hero-sub">Tow &mdash; Freight &mdash; Health</div>
+  <p class="hero-desc">BFT Services is an AI-powered operations platform that manages dispatch, freight logistics, and health triage from a single command center — in real time.</p>
+  <div class="hero-ctas">
+    <a class="cta-primary" href="https://brightfuturetechllc.com/assets/BFT-App-Demo/index.html" target="_blank">
+      &#9654;&nbsp; Launch Live Demo
     </a>
-    <a class="chip" href="#scene-freight">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="5" width="10" height="6" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="11" y="4" width="4" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><circle cx="3.5" cy="12" r="1.5" stroke="currentColor" stroke-width="1.1"/><circle cx="12.5" cy="12" r="1.5" stroke="currentColor" stroke-width="1.1"/></svg>
-      Freight
-    </a>
-    <a class="chip" href="#scene-health">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="8" y1="4.5" x2="8" y2="11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="4.5" y1="8" x2="11.5" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      Health Triage
-    </a>
-    <a class="chip" href="#scene-drivers">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="5.5" r="2.8" stroke="currentColor" stroke-width="1.2"/><path d="M2 14c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Drivers
-    </a>
-    <a class="chip" href="#scene-reports">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="14" height="14" rx="1.5" stroke="currentColor" stroke-width="1.2"/><line x1="4" y1="12" x2="4" y2="8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="8" y1="12" x2="8" y2="6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="12" y1="12" x2="12" y2="4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-      Reports
+    <a class="cta-secondary" href="https://brightfuturetechllc.com/assets/web/assets/bft-voice-agent.html" target="_blank">
+      &#9670;&nbsp; Talk to Onyx AI
     </a>
   </div>
-  <div class="hero-scroll">
-    <div class="chev-wrap"><div class="chev"></div></div>
-    SCROLL
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-num">3</div><div class="hstat-lbl">Industries Served</div></div>
+    <div class="hero-divider"></div>
+    <div class="hstat"><div class="hstat-num">6</div><div class="hstat-lbl">AI Modules</div></div>
+    <div class="hero-divider"></div>
+    <div class="hstat"><div class="hstat-num">7</div><div class="hstat-lbl">Database Types</div></div>
+    <div class="hero-divider"></div>
+    <div class="hstat"><div class="hstat-num">24/7</div><div class="hstat-lbl">AI Dispatch</div></div>
   </div>
 </section>
 
-<!-- SOCIAL PROOF STRIP -->
-<div class="proof-strip">
-  <span>3 Industries Served</span>
-  <span class="proof-sep">|</span>
-  <span>5 AI Modules</span>
-  <span class="proof-sep">|</span>
-  <span>Real-Time GPS + Dispatch</span>
-  <span class="proof-sep">|</span>
-  <span>CAGE Registered &middot; Federal Vendor</span>
-</div>
+<!-- MODULES -->
+<section class="section" id="modules">
+  <div class="section-inner">
+    <div class="section-eyebrow">Platform Modules</div>
+    <h2 class="section-title">One Platform.<br>Three Industries.</h2>
+    <p class="section-sub">Every module is AI-native — not bolted on. Real-time data, intelligent routing, and automated workflows out of the box.</p>
 
-<div class="sep"><div class="sep-line"></div></div>
+    <div class="modules-grid">
 
-<!-- MODULE 01 — TOW DISPATCH -->
-<section class="scene" id="scene-tow" style="flex-direction:column;gap:2.5rem">
-
-  <div class="vehicle-banner-wrap" style="position:relative">
-    <img src="../../BFT-App-Demo/bft-tow-dispatch.svg" alt="BFT Tow Dispatch Dashboard" width="100%" style="display:block;border-radius:12px">
-    <div class="float-card" style="top:12px;right:12px;transform:scale(.92)">
-      <div style="color:var(--accent);font-weight:700;font-size:.58rem">AI ROUTING</div>
-      <div>Optimal ETA: 4.2 min</div>
-    </div>
-  </div>
-  <div class="scene-inner" style="grid-template-columns:1fr;max-width:680px">
-    <div class="scene-text">
-      <span class="pain-stmt">Drivers sitting idle costs you $180/hr.</span>
-      <span class="scene-tag" style="color:var(--accent)">Module 01 — Fleet Command</span>
-      <h2 class="scene-heading">Real-Time<br>Tow Dispatch</h2>
-      <p class="scene-desc">Monitor every active job on a live map. AI routes drivers optimally, tracks status in real time, and surfaces alerts the moment a job changes state.</p>
-      <div class="stat-row">
-        <div><div class="stat-val" style="color:var(--accent)">12</div><div class="stat-label">Active Jobs</div></div>
-        <div><div class="stat-val" style="color:var(--green)">4.2m</div><div class="stat-label">Avg Response</div></div>
-        <div><div class="stat-val" style="color:var(--orange)">98%</div><div class="stat-label">Completion</div></div>
+      <div class="mod-card" style="--mc:var(--accent)">
+        <div class="mod-num">MODULE 01</div>
+        <span class="mod-icon">&#128663;</span>
+        <div class="mod-title">Tow Dispatch</div>
+        <p class="mod-desc">Real-time job queue with AI-optimized driver routing, live GPS map, priority triage, and instant status updates across your entire fleet.</p>
+        <div class="mod-tags">
+          <span class="mod-tag">Live GPS</span>
+          <span class="mod-tag">Auto-Assign</span>
+          <span class="mod-tag">Priority Queue</span>
+          <span class="mod-tag">ETA Tracking</span>
+        </div>
       </div>
-      <a class="ghost-btn" href="demo-tow.html">Explore Dispatch Demo &rarr;</a>
-    </div>
-  </div>
-</section>
 
-<div class="sep"><div class="sep-line"></div></div>
-
-<!-- MODULE 02 — FREIGHT -->
-<section class="scene" id="scene-freight" style="flex-direction:column;gap:2.5rem">
-
-  <div class="vehicle-banner-wrap" style="position:relative">
-    <img src="../../BFT-App-Demo/bft-freight-command.svg" alt="BFT Freight Command Dashboard" width="100%" style="display:block;border-radius:12px">
-    <div class="float-card" style="bottom:12px;left:12px;transform:scale(.92)">
-      <div style="color:var(--purple);font-weight:700;font-size:.58rem">AI PRICING</div>
-      <div>Market rate: $3.20/mi</div>
-    </div>
-  </div>
-  <div class="scene-inner rev" style="grid-template-columns:1fr;max-width:680px">
-    <div class="scene-text">
-      <span class="pain-stmt">Paper logs and phone calls lose $3K per haul.</span>
-      <span class="scene-tag" style="color:var(--purple)">Module 02 — Load Management</span>
-      <h2 class="scene-heading">Intelligent<br>Freight Command</h2>
-      <p class="scene-desc">Track active loads, monitor real-time revenue, and manage carrier assignments — all from one intelligent dashboard connected to live market rates.</p>
-      <div class="stat-row">
-        <div><div class="stat-val" style="color:var(--purple)">24</div><div class="stat-label">Active Loads</div></div>
-        <div><div class="stat-val" style="color:var(--green)">$18.4K</div><div class="stat-label">Revenue Today</div></div>
-        <div><div class="stat-val" style="color:var(--orange)">312mi</div><div class="stat-label">Avg Haul</div></div>
+      <div class="mod-card" style="--mc:var(--orange)">
+        <div class="mod-num">MODULE 02</div>
+        <span class="mod-icon">&#128666;</span>
+        <div class="mod-title">Freight Operations</div>
+        <p class="mod-desc">Track active loads, manage carrier assignments, monitor weight checkpoints, and calculate freight costs in real time — connected to live market rates.</p>
+        <div class="mod-tags">
+          <span class="mod-tag">Load Tracking</span>
+          <span class="mod-tag">Cost Calculator</span>
+          <span class="mod-tag">Weight Compliance</span>
+          <span class="mod-tag">Route Planning</span>
+        </div>
       </div>
-      <a class="ghost-btn" href="demo-freight.html">Explore Freight Demo &rarr;</a>
-    </div>
-  </div>
-</section>
 
-<div class="sep"><div class="sep-line"></div></div>
-
-<!-- MODULE 03 — HEALTH TRIAGE -->
-<section class="scene" id="scene-health" style="flex-direction:column;gap:2.5rem">
-
-  <div class="vehicle-banner-wrap" style="position:relative">
-    <img src="../../BFT-App-Demo/bft-health-triage.svg" alt="BFT Health Triage Dashboard" width="100%" style="display:block;border-radius:12px">
-  </div>
-  <div class="scene-inner" style="grid-template-columns:1fr;max-width:680px">
-    <div class="scene-text">
-      <span class="pain-stmt">Manual triage delays cost lives — and lawsuits.</span>
-      <span class="scene-tag" style="color:var(--red)">Module 03 — Patient Flow</span>
-      <h2 class="scene-heading">Smart<br>Health Triage</h2>
-      <p class="scene-desc">Prioritize patients by severity in real time. AI flags critical cases, manages wait times, and keeps care teams synchronized — reducing errors and delays.</p>
-      <div class="stat-row">
-        <div><div class="stat-val" style="color:var(--red)">3</div><div class="stat-label">Critical</div></div>
-        <div><div class="stat-val" style="color:var(--orange)">7</div><div class="stat-label">High Priority</div></div>
-        <div><div class="stat-val" style="color:var(--green)">42</div><div class="stat-label">Discharged</div></div>
+      <div class="mod-card featured" style="--mc:var(--green)">
+        <div class="featured-ribbon">NEW</div>
+        <div class="mod-num">MODULE 02b</div>
+        <span class="mod-icon">&#9889;</span>
+        <div class="mod-title">AI Auto-Bid</div>
+        <p class="mod-desc">Set your rules once. BFT monitors DAT and Truckstop load boards 24/7 and auto-submits bids on qualifying freight — while you focus on operations.</p>
+        <div class="mod-tags">
+          <span class="mod-tag new">DAT API</span>
+          <span class="mod-tag new">Truckstop</span>
+          <span class="mod-tag">Rule Engine</span>
+          <span class="mod-tag">Live Feed</span>
+        </div>
       </div>
-      <a class="ghost-btn" href="demo-health.html">Explore Health Demo &rarr;</a>
-    </div>
-  </div>
-</section>
 
-<div class="sep"><div class="sep-line"></div></div>
-
-<!-- MODULE 04 — DRIVERS -->
-<section class="scene" id="scene-drivers">
-  <div class="scene-inner rev">
-    <div class="scene-text">
-      <span class="pain-stmt">One unqualified driver is a $500K liability.</span>
-      <span class="scene-tag" style="color:var(--green)">Module 04 — Workforce</span>
-      <h2 class="scene-heading">Driver<br>Intelligence Hub</h2>
-      <p class="scene-desc">Track availability, performance scores, active assignments, and compliance status. AI surfaces the right driver for every job, every time.</p>
-      <div class="stat-row">
-        <div><div class="stat-val" style="color:var(--green)">8</div><div class="stat-label">On Duty</div></div>
-        <div><div class="stat-val" style="color:var(--accent)">4.8&#9733;</div><div class="stat-label">Avg Rating</div></div>
-        <div><div class="stat-val" style="color:var(--orange)">2</div><div class="stat-label">Offline</div></div>
+      <div class="mod-card" style="--mc:var(--red)">
+        <div class="mod-num">MODULE 03</div>
+        <span class="mod-icon">&#10084;&#65039;</span>
+        <div class="mod-title">Health Triage</div>
+        <p class="mod-desc">AI-prioritized patient intake with real-time severity scoring, provider assignment, wait time tracking, and escalation pathways for critical care.</p>
+        <div class="mod-tags">
+          <span class="mod-tag">Pain Scale</span>
+          <span class="mod-tag">Auto-Priority</span>
+          <span class="mod-tag">Provider Queue</span>
+          <span class="mod-tag">Escalation</span>
+        </div>
       </div>
-      <a class="ghost-btn" href="demo-drivers.html">Explore Drivers Demo &rarr;</a>
+
+      <div class="mod-card" style="--mc:var(--purple)">
+        <div class="mod-num">MODULE 04</div>
+        <span class="mod-icon">&#128100;</span>
+        <div class="mod-title">Driver Intelligence</div>
+        <p class="mod-desc">Full fleet visibility — availability, active assignments, compliance status, performance ratings, and CDL verification in a single dashboard.</p>
+        <div class="mod-tags">
+          <span class="mod-tag">CDL Verification</span>
+          <span class="mod-tag">Performance Scores</span>
+          <span class="mod-tag">Availability</span>
+        </div>
+      </div>
+
+      <div class="mod-card" style="--mc:var(--accent)">
+        <div class="mod-num">MODULE 05</div>
+        <span class="mod-icon">&#128202;</span>
+        <div class="mod-title">Operations Reports</div>
+        <p class="mod-desc">Live KPI dashboards across all modules. AI surfaces trends, flags anomalies, and generates executive-ready reports — no spreadsheets required.</p>
+        <div class="mod-tags">
+          <span class="mod-tag">Live KPIs</span>
+          <span class="mod-tag">AI Anomaly Detection</span>
+          <span class="mod-tag">CSV Export</span>
+        </div>
+      </div>
+
     </div>
-    <div class="device-wrap">
-      <div class="device">
-        <div class="device-bar"><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="device-url">bft-platform / drivers</div></div>
-        <div class="device-body">
-          <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-labelledby="title desc"><title id="drv_title">BFT Driver Intelligence Hub</title><desc id="drv_desc">Driver compliance dashboard with CDL license card, status list, ratings, and active workforce map.</desc><defs><linearGradient id="drv_bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#020617"/></linearGradient><linearGradient id="drv_card" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0e7490"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient></defs><rect width="900" height="520" rx="34" fill="url(#drv_bg)"/><rect x="28" y="28" width="844" height="464" rx="28" fill="#071827" stroke="#155e75" stroke-width="2"/><text x="60" y="72" fill="#ecfeff" font-family="Inter,Arial" font-size="24" font-weight="800">DRIVER INTELLIGENCE HUB</text><text x="60" y="100" fill="#67e8f9" font-family="Inter,Arial" font-size="13" letter-spacing="3">COMPLIANCE · AVAILABILITY · PERFORMANCE</text><g transform="translate(60 135)"><rect width="350" height="218" rx="24" fill="url(#drv_card)"/><circle cx="72" cy="104" r="42" fill="#0f172a" opacity=".85"/><text x="51" y="114" fill="#e0f2fe" font-family="Inter,Arial" font-size="30" font-weight="800">JM</text><text x="136" y="62" fill="#fff" font-family="Inter,Arial" font-size="21" font-weight="800">J. MITCHELL</text><text x="136" y="92" fill="#dbeafe" font-family="Inter,Arial" font-size="14">CDL-A LICENSE</text><text x="136" y="126" fill="#e0f2fe" font-family="Inter,Arial" font-size="13">CDL# GA-482910</text><text x="136" y="150" fill="#e0f2fe" font-family="Inter,Arial" font-size="13">DOB: 03/15/1989</text><text x="136" y="174" fill="#bbf7d0" font-family="Inter,Arial" font-size="13" font-weight="800">EXP: 06/2027 · VALID</text><text x="28" y="196" fill="#bfdbfe" font-family="Inter,Arial" font-size="12" letter-spacing="2">BFT VERIFIED DRIVER PROFILE</text></g><g transform="translate(450 135)"><rect width="350" height="65" rx="16" fill="#082f49" stroke="#38bdf8"/><text x="20" y="40" fill="#fff" font-family="Inter,Arial" font-size="16" font-weight="800">James Mitchell</text><text x="164" y="40" fill="#bae6fd" font-family="Inter,Arial" font-size="13">CDL-A · Atlanta</text><text x="285" y="40" fill="#22c55e" font-family="Inter,Arial" font-size="13" font-weight="800">4.9★</text><rect x="0" y="82" width="350" height="65" rx="16" fill="#0b2235" stroke="#164e63"/><text x="20" y="122" fill="#fff" font-family="Inter,Arial" font-size="16" font-weight="800">T. Robinson</text><text x="164" y="122" fill="#cbd5e1" font-family="Inter,Arial" font-size="13">CDL-B · Decatur</text><text x="285" y="122" fill="#fbbf24" font-family="Inter,Arial" font-size="13" font-weight="800">EN ROUTE</text><rect x="0" y="164" width="350" height="65" rx="16" fill="#0b2235" stroke="#164e63"/><text x="20" y="204" fill="#fff" font-family="Inter,Arial" font-size="16" font-weight="800">D. Washington</text><text x="164" y="204" fill="#cbd5e1" font-family="Inter,Arial" font-size="13">CDL-A · Marietta</text><text x="285" y="204" fill="#22c55e" font-family="Inter,Arial" font-size="13" font-weight="800">5.0★</text></g><g transform="translate(60 390)"><rect width="218" height="70" rx="18" fill="#0b2235" stroke="#164e63"/><text x="18" y="28" fill="#93c5fd" font-family="Inter,Arial" font-size="13">ON DUTY</text><text x="18" y="58" fill="#fff" font-family="Inter,Arial" font-size="30" font-weight="800">8</text></g><g transform="translate(306 390)"><rect width="218" height="70" rx="18" fill="#0b2235" stroke="#164e63"/><text x="18" y="28" fill="#93c5fd" font-family="Inter,Arial" font-size="13">AVG RATING</text><text x="18" y="58" fill="#fff" font-family="Inter,Arial" font-size="30" font-weight="800">4.8★</text></g></svg>
+
+    <!-- AUTO-BID DEEP DIVE -->
+    <div class="autobid-highlight" id="autobid">
+      <div class="ab-glow"></div>
+      <div class="ab-left">
+        <div class="ab-eyebrow">MODULE 02b &mdash; AI AUTO-BID</div>
+        <h3 class="ab-title">Stop Watching<br>Load Boards.<br><span style="color:var(--green)">Let BFT Bid.</span></h3>
+        <p class="ab-desc">Small carriers spend hours refreshing DAT, calling brokers, and negotiating rates. BFT's AI does it automatically — 24 hours a day, based on rules you set.</p>
+        <ul class="ab-features">
+          <li>Set minimum rate per mile, weight limits, and preferred lanes</li>
+          <li>AI monitors DAT and Truckstop load boards in real time</li>
+          <li>Qualifying loads get bid submissions automatically</li>
+          <li>Live activity feed shows every SUBMITTED, ACCEPTED, and REJECTED bid</li>
+          <li>Guardrails prevent overbidding — max bids/hour, min margin rules</li>
+          <li>Manual bid override available at any time</li>
+        </ul>
+      </div>
+      <div class="ab-right">
+        <div class="ab-mock">
+          <div class="ab-mock-bar">
+            <span class="ab-mock-title">BID ACTIVITY FEED</span>
+            <span class="ab-mock-live"><span class="ab-mock-dot"></span>LIVE</span>
+          </div>
+          <div class="ab-feed-demo" id="ab-feed-demo">
+            <div class="ab-row"><span class="ab-rt">14:22:08</span><span class="ab-rid">#LB-4425</span><span class="ab-rroute">Charlotte &#8594; Atlanta</span><span class="ab-rval" style="color:var(--green)">+$637</span><span class="ab-rstatus st-acc">ACCEPTED</span></div>
+            <div class="ab-row"><span class="ab-rt">14:21:54</span><span class="ab-rid">#LB-4423</span><span class="ab-rroute">Chatt. &#8594; Atlanta</span><span class="ab-rval">$2.85/mi</span><span class="ab-rstatus st-sub">SUBMITTED</span></div>
+            <div class="ab-row"><span class="ab-rt">14:21:31</span><span class="ab-rid">#LB-4429</span><span class="ab-rroute">Mobile &#8594; Atlanta</span><span class="ab-rval" style="color:var(--text3)">$2.05/mi</span><span class="ab-rstatus" style="color:var(--text3)">SKIPPED</span></div>
+            <div class="ab-row"><span class="ab-rt">14:21:09</span><span class="ab-rid">#LB-4421</span><span class="ab-rroute">Atlanta &#8594; Nashville</span><span class="ab-rval" style="color:var(--green)">+$595</span><span class="ab-rstatus st-acc">ACCEPTED</span></div>
+            <div class="ab-row"><span class="ab-rt">14:20:44</span><span class="ab-rid">#LB-4428</span><span class="ab-rroute">Augusta &#8594; Greenville</span><span class="ab-rval">$2.70/mi</span><span class="ab-rstatus st-sub">SUBMITTED</span></div>
+            <div class="ab-row"><span class="ab-rt">14:20:22</span><span class="ab-rid">#LB-4422</span><span class="ab-rroute">Birmingham &#8594; Memphis</span><span class="ab-rval" style="color:var(--red)">$2.15/mi</span><span class="ab-rstatus st-rej">REJECTED</span></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="sep"><div class="sep-line"></div></div>
-
-<!-- MODULE 05 — REPORTS -->
-<section class="scene" id="scene-reports">
-  <div class="scene-inner">
-    <div class="scene-text">
-      <span class="pain-stmt">You can't grow what you can't measure.</span>
-      <span class="scene-tag" style="color:var(--orange)">Module 05 — Analytics</span>
-      <h2 class="scene-heading">Live<br>Operations Reports</h2>
-      <p class="scene-desc">Real-time KPI dashboards across all modules. AI surfaces trends, flags anomalies, and generates ready-to-share reports — no spreadsheet required.</p>
-      <div class="stat-row">
-        <div><div class="stat-val" style="color:var(--orange)">$84.2K</div><div class="stat-label">Weekly Revenue</div></div>
-        <div><div class="stat-val" style="color:var(--green)">&#8593; 12%</div><div class="stat-label">vs Last Week</div></div>
-      </div>
-      <a class="ghost-btn" href="demo-reports.html">Explore Reports Demo &rarr;</a>
-    </div>
-    <div class="device-wrap">
-      <div class="device">
-        <div class="device-bar"><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="device-url">bft-platform / reports</div></div>
-        <div class="device-body">
-          <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-labelledby="title desc"><title id="ops_title">BFT Operations Reports Dashboard</title><desc id="ops_desc">Live KPI reports dashboard with revenue chart, trend cards, AI anomaly detection, and weekly performance.</desc><defs><linearGradient id="ops_bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#020617"/></linearGradient><linearGradient id="ops_line" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#22c55e"/></linearGradient><filter id="ops_glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="900" height="520" rx="34" fill="url(#ops_bg)"/><rect x="28" y="28" width="844" height="464" rx="28" fill="#071827" stroke="#155e75" stroke-width="2"/><text x="60" y="72" fill="#ecfeff" font-family="Inter,Arial" font-size="24" font-weight="800">LIVE OPERATIONS REPORTS</text><text x="60" y="100" fill="#67e8f9" font-family="Inter,Arial" font-size="13" letter-spacing="3">KPI DASHBOARD · AI TRENDS · EXECUTIVE SUMMARY</text><g transform="translate(60 130)"><rect width="240" height="104" rx="20" fill="#082f49" stroke="#38bdf8"/><text x="20" y="35" fill="#bae6fd" font-family="Inter,Arial" font-size="13">WEEKLY REVENUE</text><text x="20" y="78" fill="#fff" font-family="Inter,Arial" font-size="38" font-weight="800">$84.2K</text></g><g transform="translate(330 130)"><rect width="190" height="104" rx="20" fill="#052e2b" stroke="#14b8a6"/><text x="20" y="35" fill="#99f6e4" font-family="Inter,Arial" font-size="13">VS LAST WEEK</text><text x="20" y="78" fill="#22c55e" font-family="Inter,Arial" font-size="38" font-weight="800">↑ 12%</text></g><g transform="translate(550 130)"><rect width="250" height="104" rx="20" fill="#2a1705" stroke="#f59e0b"/><text x="20" y="35" fill="#fde68a" font-family="Inter,Arial" font-size="13">AI ANOMALIES</text><text x="20" y="78" fill="#fff" font-family="Inter,Arial" font-size="38" font-weight="800">2</text><text x="72" y="76" fill="#fbbf24" font-family="Inter,Arial" font-size="14">review needed</text></g><g transform="translate(76 272)"><line x1="0" y1="142" x2="706" y2="142" stroke="#334155"/><line x1="0" y1="96" x2="706" y2="96" stroke="#1e293b"/><line x1="0" y1="48" x2="706" y2="48" stroke="#1e293b"/><path d="M0 124 L112 98 L224 106 L336 64 L448 76 L560 36 L706 50" fill="none" stroke="url(#ops_line)" stroke-width="7" stroke-linecap="round" filter="url(#ops_glow)"/><g fill="#22d3ee"><circle cx="0" cy="124" r="7"/><circle cx="112" cy="98" r="7"/><circle cx="224" cy="106" r="7"/><circle cx="336" cy="64" r="7"/><circle cx="448" cy="76" r="7"/><circle cx="560" cy="36" r="7"/><circle cx="706" cy="50" r="7"/></g><text x="0" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Mon</text><text x="112" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Tue</text><text x="224" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Wed</text><text x="336" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Thu</text><text x="448" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Fri</text><text x="560" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Sat</text><text x="690" y="176" fill="#94a3b8" font-family="Inter,Arial" font-size="13">Sun</text></g></svg>
+<!-- ONYX -->
+<section class="section" id="onyx">
+  <div class="section-inner">
+    <div class="onyx-section">
+      <div class="onyx-glow"></div>
+      <div class="onyx-orb-wrap">
+        <div class="onyx-orb">
+          <div class="onyx-ring"></div>
+          <div class="onyx-ring2"></div>
+          &#127908;
         </div>
       </div>
+      <div>
+        <div class="section-eyebrow">AI VOICE AGENT</div>
+        <h2 class="section-title" style="margin-bottom:14px">Meet Onyx.</h2>
+        <p style="font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:20px;">Your AI dispatcher runs 24/7 — taking inbound calls, qualifying leads, booking jobs, and dispatching drivers without a human in the loop. Powered by Claude Sonnet.</p>
+        <ul class="ab-features" style="margin-bottom:28px">
+          <li>Voice-activated — speak naturally, Onyx understands operations context</li>
+          <li>Five context modes: General, Tow, Freight, Health, Demo Guide</li>
+          <li>Full conversation memory within session</li>
+          <li>Auto-listen mode — stays ready after each response</li>
+          <li>Works in any Chromium browser, no install required</li>
+        </ul>
+        <a class="cta-secondary" href="https://brightfuturetechllc.com/assets/web/assets/bft-voice-agent.html" target="_blank">
+          &#9670;&nbsp; Talk to Onyx Now
+        </a>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="sep"><div class="sep-line"></div></div>
-
-<!-- FREIGHT CALCULATOR -->
-<section class="scene" id="scene-calc">
-  <div style="text-align:center;max-width:700px;width:100%">
-    <span class="pain-stmt" style="justify-content:center;display:block">Manual rate quoting wastes 2 hours per load.</span>
-    <span class="scene-tag" style="color:var(--purple);text-align:center;display:block;margin-bottom:.9rem">Real-Time Freight Calculator</span>
-    <h2 class="scene-heading">Know Your Costs<br><span style="color:var(--purple)">Before You Book</span></h2>
-    <p class="scene-desc" style="max-width:500px;margin:0 auto 2rem">Enter route details for an instant estimate — powered by BFT's freight pricing engine.</p>
-  </div>
-  <div class="calc-box">
-    <div class="calc-fields">
-      <div class="calc-group">
-        <label class="calc-label" for="calc-dist">Distance (miles)</label>
-        <input id="calc-dist" class="calc-input" type="number" placeholder="280" min="0" oninput="calcFreight()">
-      </div>
-      <div class="calc-group">
-        <label class="calc-label" for="calc-weight">Weight (tons)</label>
-        <input id="calc-weight" class="calc-input" type="number" placeholder="22" min="0" oninput="calcFreight()">
-      </div>
-      <div class="calc-group">
-        <label class="calc-label" for="calc-fuel">Fuel rate ($/mi)</label>
-        <input id="calc-fuel" class="calc-input" type="number" placeholder="0.68" min="0" step="0.01" oninput="calcFreight()">
-      </div>
-    </div>
-    <div class="calc-result-box">
-      <div style="font-size:.68rem;color:rgba(232,240,254,.38);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem">Estimated Cost</div>
-      <div id="calc-result" style="font-size:2.6rem;font-weight:800;color:var(--purple);letter-spacing:-.04em">$240</div>
-      <div style="font-size:.62rem;color:rgba(232,240,254,.28);margin-top:.4rem;line-height:1.6">base fee + distance<br>+ weight surcharge</div>
+<!-- STATS BAR -->
+<section class="section" style="padding-top:0">
+  <div class="section-inner">
+    <div class="stats-bar">
+      <div class="sbar-item"><div class="sbar-num" style="color:var(--green)">94%</div><div class="sbar-lbl">On-Time Dispatch Rate</div></div>
+      <div class="sbar-item"><div class="sbar-num">8min</div><div class="sbar-lbl">Avg Tow Response</div></div>
+      <div class="sbar-item"><div class="sbar-num" style="color:var(--orange)">$18.4k</div><div class="sbar-lbl">Freight Revenue / Day</div></div>
+      <div class="sbar-item"><div class="sbar-num" style="color:var(--green)">65%</div><div class="sbar-lbl">Auto-Bid Acceptance Rate</div></div>
     </div>
   </div>
 </section>
 
-<div style="position:relative;z-index:1;text-align:center;padding:0 1rem 3rem">
-  <p style="font-size:.8rem;color:rgba(232,240,254,.4);margin-bottom:1rem;letter-spacing:.08em;text-transform:uppercase">Full Interactive Platform</p>
-  <a href="../../BFT-App-Demo/index.html" style="display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 2rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.4);color:#a855f7;border-radius:50px;font-size:.9rem;font-weight:700;text-decoration:none;transition:all .25s" onmouseover="this.style.background='rgba(168,85,247,.22)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(168,85,247,.1)';this.style.transform=''">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
-    Explore Full BFT Operations Platform &rarr;
-  </a>
-</div>
+<!-- TECH -->
+<section class="section" id="tech">
+  <div class="section-inner">
+    <div class="section-eyebrow">Technology Stack</div>
+    <h2 class="section-title">Built to Connect<br>Anything.</h2>
+    <p class="section-sub">BFT connects to your existing database — no migration required. Seven database types supported out of the box.</p>
+    <div class="tech-grid">
+      <div class="tech-item"><span class="tech-icon">&#128452;</span><div><div class="tech-name">SQL Server</div><div class="tech-sub">Enterprise default</div></div></div>
+      <div class="tech-item"><span class="tech-icon">&#128452;</span><div><div class="tech-name">PostgreSQL</div><div class="tech-sub">Open source</div></div></div>
+      <div class="tech-item"><span class="tech-icon">&#128452;</span><div><div class="tech-name">MySQL</div><div class="tech-sub">Web standard</div></div></div>
+      <div class="tech-item"><span class="tech-icon">&#128452;</span><div><div class="tech-name">SQLite</div><div class="tech-sub">Local / offline</div></div></div>
+      <div class="tech-item"><span class="tech-icon">&#9749;</span><div><div class="tech-name">Azure SQL</div><div class="tech-sub">Cloud managed</div></div></div>
+      <div class="tech-item"><span class="tech-icon">&#127807;</span><div><div class="tech-name">MongoDB</div><div class="tech-sub">Document store</div></div></div>
+      <div class="tech-item"><span class="tech-icon">&#128274;</span><div><div class="tech-name">AES-256 Export</div><div class="tech-sub">Encrypted CSV offline fallback</div></div></div>
+      <div class="tech-item"><span class="tech-icon">&#127911;</span><div><div class="tech-name">Azure Speech / Vosk</div><div class="tech-sub">Online + offline STT</div></div></div>
+      <div class="tech-item"><span class="tech-icon">&#128241;</span><div><div class="tech-name">.NET MAUI Mobile</div><div class="tech-sub">Driver companion app</div></div></div>
+      <div class="tech-item" style="border-color:rgba(0,230,118,.15)"><span class="tech-icon">&#9889;</span><div><div class="tech-name" style="color:var(--green)">CAGE Registered</div><div class="tech-sub">Federal vendor eligible</div></div></div>
+    </div>
+  </div>
+</section>
 
-<div class="sep"><div class="sep-line"></div></div>
-
-<!-- ONYX AI -->
-<section class="scene" id="scene-onyx">
-  <div class="onyx-inner">
-    <span class="scene-tag" style="color:var(--purple);opacity:1;transform:none">Onyx AI &mdash; Voice Intelligence</span>
-    <h2 class="scene-heading" style="text-align:center">Meet Onyx.<br><span style="color:var(--purple)">Your AI Dispatcher.</span></h2>
-    <p class="scene-desc" style="text-align:center;opacity:1;transform:none">Onyx handles inbound calls, qualifies leads, books jobs, and dispatches drivers &mdash; 24/7, without a human in the loop.</p>
-    <a class="onyx-btn" href="bft-voice-agent.html">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" fill="currentColor"/><line x1="10" y1="2" x2="10" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="10" y1="15" x2="10" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="10" x2="5" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="15" y1="10" x2="18" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      Talk to Onyx &rarr;
+<!-- FOOTER CTA -->
+<section id="footer-cta">
+  <div class="fcta-title">Ready to See It<br>In Your Operation?</div>
+  <p class="fcta-sub">Launch the live demo or request a custom walkthrough for your business.</p>
+  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:24px">
+    <a class="cta-primary" href="https://brightfuturetechllc.com/assets/BFT-App-Demo/index.html" target="_blank">
+      &#9654;&nbsp; Launch Live Demo
     </a>
-    <div style="width:100%;max-width:860px;margin-top:1.5rem;border-radius:14px;overflow:hidden">
-      <svg width="100%" height="auto" style="display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-labelledby="title desc"><title id="onx_title">Onyx AI Voice Dispatcher</title><desc id="onx_desc">Futuristic AI voice dispatcher interface with glowing assistant orb, call waveform, lead qualification, booking, and dispatch automation cards.</desc><defs><radialGradient id="onx_orb" cx="50%" cy="48%" r="55%"><stop stop-color="#e0f2fe"/><stop offset=".32" stop-color="#22d3ee"/><stop offset=".72" stop-color="#2563eb"/><stop offset="1" stop-color="#0f172a"/></radialGradient><linearGradient id="onx_bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#020617"/></linearGradient><filter id="onx_glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="900" height="520" rx="34" fill="url(#onx_bg)"/><rect x="28" y="28" width="844" height="464" rx="28" fill="#071827" stroke="#155e75" stroke-width="2"/><text x="60" y="72" fill="#ecfeff" font-family="Inter,Arial" font-size="24" font-weight="800">ONYX AI — VOICE INTELLIGENCE</text><text x="60" y="100" fill="#67e8f9" font-family="Inter,Arial" font-size="13" letter-spacing="3">CALL INTAKE · LEAD QUALIFICATION · AUTO DISPATCH</text><circle cx="450" cy="250" r="112" fill="url(#onx_orb)" filter="url(#onx_glow)"/><circle cx="450" cy="250" r="148" fill="none" stroke="#22d3ee" stroke-width="2" opacity=".45"/><circle cx="450" cy="250" r="188" fill="none" stroke="#38bdf8" stroke-width="1" opacity=".2"/><text x="404" y="260" fill="#020617" font-family="Inter,Arial" font-size="30" font-weight="900">ONYX</text><path d="M254 252 q18 -68 36 0 t36 0 t36 0" fill="none" stroke="#22d3ee" stroke-width="5" stroke-linecap="round" filter="url(#onx_glow)"/><path d="M536 252 q18 -68 36 0 t36 0 t36 0" fill="none" stroke="#22d3ee" stroke-width="5" stroke-linecap="round" filter="url(#onx_glow)"/><g transform="translate(70 150)"><rect width="220" height="80" rx="18" fill="#082f49" stroke="#38bdf8"/><text x="18" y="32" fill="#bae6fd" font-family="Inter,Arial" font-size="13">INBOUND CALL</text><text x="18" y="60" fill="#fff" font-family="Inter,Arial" font-size="21" font-weight="800">Tow Request</text></g><g transform="translate(610 150)"><rect width="220" height="80" rx="18" fill="#052e2b" stroke="#14b8a6"/><text x="18" y="32" fill="#99f6e4" font-family="Inter,Arial" font-size="13">QUALIFIED LEAD</text><text x="18" y="60" fill="#fff" font-family="Inter,Arial" font-size="21" font-weight="800">Ready to Book</text></g><g transform="translate(70 315)"><rect width="220" height="80" rx="18" fill="#2a1705" stroke="#f59e0b"/><text x="18" y="32" fill="#fde68a" font-family="Inter,Arial" font-size="13">AUTO DISPATCH</text><text x="18" y="60" fill="#fff" font-family="Inter,Arial" font-size="21" font-weight="800">Driver Assigned</text></g><g transform="translate(610 315)"><rect width="220" height="80" rx="18" fill="#111827" stroke="#64748b"/><text x="18" y="32" fill="#cbd5e1" font-family="Inter,Arial" font-size="13">STATUS UPDATE</text><text x="18" y="60" fill="#fff" font-family="Inter,Arial" font-size="21" font-weight="800">SMS Sent</text></g></svg>
-    </div>
+    <a class="cta-secondary" href="https://brightfuturetechllc.com/assets/web/assets/bft-voice-agent.html" target="_blank">
+      &#9670;&nbsp; Talk to Onyx
+    </a>
   </div>
+  <p class="fcta-note">CAGE REGISTERED &middot; FEDERAL VENDOR &middot; BRIGHTFUTURETECHLLC.COM</p>
 </section>
 
-<div class="sep"><div class="sep-line"></div></div>
-
-<!-- CTA + CONTACT FORM -->
-<section class="scene" id="scene-cta">
-  <div class="hero-eyebrow" style="opacity:1;transform:none">Built by Bright Future Technologies LLC</div>
-  <h2 class="hero-title" style="font-size:clamp(2.2rem,4vw,3.8rem);opacity:1;transform:none">Ready to Deploy<br><span class="accent">for Your Business?</span></h2>
-  <p class="hero-sub" style="opacity:1;transform:none">Every module is customizable for your industry. Let's build your AI-powered operations platform.</p>
-  <form class="contact-form" id="contact-form" novalidate>
-    <div class="cf-row">
-      <div>
-        <input id="cf-name" class="cf-field" type="text" placeholder="Full Name" autocomplete="name">
-        <div class="cf-error" id="err-name">Name is required.</div>
-      </div>
-      <div>
-        <input id="cf-company" class="cf-field" type="text" placeholder="Company" autocomplete="organization">
-        <div class="cf-error" id="err-company">Company is required.</div>
-      </div>
-    </div>
-    <div>
-      <select id="cf-industry" class="cf-field">
-        <option value="">Select Industry</option>
-        <option value="Towing &amp; Recovery">Towing &amp; Recovery</option>
-        <option value="Freight &amp; Logistics">Freight &amp; Logistics</option>
-        <option value="Healthcare">Healthcare</option>
-        <option value="Government / Federal">Government / Federal</option>
-        <option value="Other">Other</option>
-      </select>
-      <div class="cf-error" id="err-industry">Please select an industry.</div>
-    </div>
-    <div>
-      <textarea id="cf-msg" class="cf-field" rows="4" placeholder="Tell us about your operation..."></textarea>
-      <div class="cf-error" id="err-msg">Message is required.</div>
-    </div>
-    <button type="submit" class="cf-submit">Send Message &rarr;</button>
-  </form>
-  <div class="cf-confirm" id="cf-confirm">
-    Message sent! We'll be in touch within one business day.<br>
-    <span style="font-size:.8rem;color:rgba(232,240,254,.5)">Bright Future Technologies LLC &mdash; brightfuturetechllc.com</span>
+<footer>
+  <div class="footer-brand">BFT SERVICES</div>
+  <div class="footer-links">
+    <a href="https://brightfuturetechllc.com/assets/BFT-App-Demo/index.html" target="_blank">Live Demo</a>
+    <a href="https://brightfuturetechllc.com/assets/web/assets/bft-voice-agent.html" target="_blank">Onyx AI</a>
+    <a href="https://brightfuturetechllc.com">Website</a>
   </div>
-</section>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <div class="footer-meta">BRIGHT FUTURE TECHNOLOGIES LLC &copy; 2026</div>
+</footer>
 
 <script>
-var cvs = document.getElementById('bg-canvas');
-var renderer = new THREE.WebGLRenderer({canvas:cvs,antialias:true,alpha:true});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-renderer.setSize(innerWidth,innerHeight);
-var s3 = new THREE.Scene();
-var cam = new THREE.PerspectiveCamera(70,innerWidth/innerHeight,0.1,1000);
-cam.position.z = 5;
-var N = 2200;
-var pos = new Float32Array(N*3);
-var col = new Float32Array(N*3);
-for (var i = 0; i < N; i++) {
-  pos[i*3] = (Math.random()-.5)*22;
-  pos[i*3+1] = (Math.random()-.5)*22;
-  pos[i*3+2] = (Math.random()-.5)*12;
-  var t = Math.random();
-  col[i*3] = 0; col[i*3+1] = t*.4+(1-t)*.65; col[i*3+2] = 1;
-}
-var geo = new THREE.BufferGeometry();
-geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
-geo.setAttribute('color', new THREE.BufferAttribute(col,3));
-var pts = new THREE.Points(geo, new THREE.PointsMaterial({size:.022,vertexColors:true,transparent:true,opacity:.55,sizeAttenuation:true}));
-s3.add(pts);
-var scrollY = 0, mx = 0, my = 0;
-window.addEventListener('scroll', function(){ scrollY = window.scrollY; });
-window.addEventListener('mousemove', function(e){ mx = (e.clientX/innerWidth-.5)*2; my = (e.clientY/innerHeight-.5)*2; });
-(function tick(){
-  requestAnimationFrame(tick);
-  var tt = Date.now()*.0001;
-  pts.rotation.y = tt*.05 + scrollY*.00025;
-  pts.rotation.x = tt*.03 + my*.04;
-  cam.position.x += (mx*.25 - cam.position.x)*.018;
-  cam.position.y += (-my*.18 - cam.position.y)*.018;
-  var maxS = document.body.scrollHeight - innerHeight;
-  cam.position.z = 5 - (scrollY/maxS)*1.8;
-  renderer.render(s3, cam);
-})();
-window.addEventListener('resize', function(){
-  cam.aspect = innerWidth/innerHeight;
-  cam.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
-});
+// Clock-driven feed animation for auto-bid mock
+var feedRows=[
+  {time:'',id:'LB-4426',route:'Macon → Montgomery',val:'+$484',status:'ACCEPTED',cls:'st-acc'},
+  {time:'',id:'LB-4430',route:'Nashville → Birmingham',val:'$2.45/mi',status:'SUBMITTED',cls:'st-sub'},
+  {time:'',id:'LB-4424',route:'Columbus → Jacksonville',val:'$1.95/mi',status:'SKIPPED',cls:'',style:'color:var(--text3)'},
+  {time:'',id:'LB-4427',route:'Savannah → Columbia',val:'+$426',status:'ACCEPTED',cls:'st-acc'},
+  {time:'',id:'LB-4423',route:'Chatt. → Atlanta',val:'$2.85/mi',status:'SUBMITTED',cls:'st-sub'},
+  {time:'',id:'LB-4422',route:'Birmingham → Memphis',val:'$2.15/mi',status:'REJECTED',cls:'st-rej'}
+];
 
-function formatNum(n) {
-  var s = Math.round(n).toString();
-  var formatted = '';
-  var count = 0;
-  for (var fi = s.length - 1; fi >= 0; fi--) {
-    if (count > 0 && count % 3 === 0) { formatted = ',' + formatted; }
-    formatted = s[fi] + formatted;
-    count++;
-  }
-  return formatted;
-}
-function calcFreight() {
-  var distEl = document.getElementById('calc-dist');
-  var weightEl = document.getElementById('calc-weight');
-  var fuelEl = document.getElementById('calc-fuel');
-  if (!distEl || !weightEl || !fuelEl) { return; }
-  var dist = parseFloat(distEl.value) || 0;
-  var weight = parseFloat(weightEl.value) || 0;
-  var fuelRate = parseFloat(fuelEl.value) || 0;
-  var base = dist * fuelRate;
-  var weightSurcharge = weight > 20 ? (weight - 20) * 12 : 0;
-  var total = Math.round(base + weightSurcharge + 240);
-  var resultEl = document.getElementById('calc-result');
-  if (resultEl) { resultEl.textContent = '$' + formatNum(total); }
-}
-
-var cfForm = document.getElementById('contact-form');
-if (cfForm) {
-  cfForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    var nameEl = document.getElementById('cf-name');
-    var compEl = document.getElementById('cf-company');
-    var indEl  = document.getElementById('cf-industry');
-    var msgEl  = document.getElementById('cf-msg');
-    var valid = true;
-    function showErr(id, msg) {
-      var el = document.getElementById(id);
-      if (el) { el.style.display = 'block'; el.textContent = msg; }
-    }
-    function hideErr(id) {
-      var el = document.getElementById(id);
-      if (el) { el.style.display = 'none'; }
-    }
-    hideErr('err-name'); hideErr('err-company'); hideErr('err-industry'); hideErr('err-msg');
-    var nameVal = nameEl ? nameEl.value.trim() : '';
-    var compVal = compEl ? compEl.value.trim() : '';
-    var indVal  = indEl  ? indEl.value         : '';
-    var msgVal  = msgEl  ? msgEl.value.trim()  : '';
-    if (!nameVal) { showErr('err-name',     'Name is required.');          valid = false; }
-    if (!compVal) { showErr('err-company',  'Company is required.');       valid = false; }
-    if (!indVal)  { showErr('err-industry', 'Please select an industry.'); valid = false; }
-    if (!msgVal)  { showErr('err-msg',      'Message is required.');       valid = false; }
-    if (!valid) { return; }
-    var subject = 'BFT Platform Inquiry - ' + compVal;
-    var body    = 'Name: ' + nameVal + '\nCompany: ' + compVal + '\nIndustry: ' + indVal + '\nMessage:\n' + msgVal;
-    window.location.href = 'mailto:info@brightfuturetechllc.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    var confirm = document.getElementById('cf-confirm');
-    if (confirm) { confirm.style.display = 'block'; }
-    cfForm.style.display = 'none';
+function refreshFeedTimes(){
+  var now=new Date();
+  var feed=document.getElementById('ab-feed-demo');
+  if(!feed)return;
+  var rows=feed.querySelectorAll('.ab-row');
+  var base=new Date(now.getTime()-rows.length*18000);
+  rows.forEach(function(row,i){
+    var t=new Date(base.getTime()+i*18000);
+    var ts=t.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    var timeEl=row.querySelector('.ab-rt');
+    if(timeEl)timeEl.textContent=ts;
   });
 }
 
-gsap.registerPlugin(ScrollTrigger);
-gsap.timeline({defaults:{ease:'power3.out',duration:.85}})
-  .to('.hero-eyebrow', {opacity:1, y:0},   .3)
-  .to('.hero-title',   {opacity:1, y:0},   '-=.55')
-  .to('.hero-sub',     {opacity:1, y:0},   '-=.6')
-  .to('.hero-chips',   {opacity:1, y:0},   '-=.5')
-  .to('.hero-scroll',  {opacity:1},        '-=.3');
-gsap.to('.hero-title', {yPercent:-18, ease:'none', scrollTrigger:{trigger:'#scene-hero', start:'top top', end:'bottom top', scrub:true}});
-['tow','freight','health','drivers','reports'].forEach(function(id) {
-  var sec = document.getElementById('scene-' + id);
-  if (!sec) { return; }
-  var textEl = sec.querySelector('.scene-text');
-  var devEl  = sec.querySelector('.device-wrap');
-  var tl = gsap.timeline({scrollTrigger:{trigger:sec, start:'top 78%', end:'top 18%', scrub:.6}});
-  if (textEl) { tl.to(textEl, {opacity:1, x:0, duration:1}); }
-  if (devEl)  { tl.to(devEl,  {opacity:1, rotateY:0, rotateX:0, x:0, duration:1.2, ease:'power2.out'}, '-=.8'); }
-});
-gsap.from('.onyx-inner', {opacity:0, y:50, duration:1, scrollTrigger:{trigger:'#scene-onyx', start:'top 76%', end:'top 22%', scrub:.8}});
-gsap.from('.calc-box',   {opacity:0, y:30, duration:1, scrollTrigger:{trigger:'#scene-calc', start:'top 80%', end:'top 30%', scrub:.8}});
-gsap.utils.toArray('.float-card').forEach(function(card) {
-  var scene = card.closest('.scene');
-  if (scene) { gsap.to(card, {y:-28, ease:'none', scrollTrigger:{trigger:scene, start:'top bottom', end:'bottom top', scrub:1.6}}); }
-});
-gsap.utils.toArray('.sep-line').forEach(function(line) {
-  gsap.from(line, {scaleY:0, transformOrigin:'top center', ease:'none', scrollTrigger:{trigger:line, start:'top 92%', end:'top 15%', scrub:1}});
-});
-var dots = document.querySelectorAll('.prog-dot');
-var sceneIds = ['scene-hero','scene-tow','scene-freight','scene-health','scene-drivers','scene-reports','scene-onyx','scene-cta'];
-function setDot(i) {
-  dots.forEach(function(d, j) { d.classList.toggle('active', i === j); });
+// Rotate feed rows every 5 seconds
+var feedIdx=0;
+function rotateFeed(){
+  var feed=document.getElementById('ab-feed-demo');
+  if(!feed)return;
+  var newRow=feedRows[feedIdx%feedRows.length];
+  feedIdx++;
+  var now=new Date();
+  var ts=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  var div=document.createElement('div');
+  div.className='ab-row';
+  var valColor=newRow.cls==='st-acc'?'color:var(--green)':newRow.cls==='st-rej'?'color:var(--red)':newRow.style||'';
+  div.innerHTML='<span class="ab-rt">'+ts+'</span>'
+    +'<span class="ab-rid">#'+newRow.id+'</span>'
+    +'<span class="ab-rroute">'+newRow.route+'</span>'
+    +'<span class="ab-rval" style="'+valColor+'">'+newRow.val+'</span>'
+    +'<span class="ab-rstatus '+newRow.cls+'" '+(newRow.style?'style="'+newRow.style+'"':'')+'>'+newRow.status+'</span>';
+  feed.insertBefore(div,feed.firstChild);
+  if(feed.children.length>6)feed.removeChild(feed.lastChild);
 }
-sceneIds.forEach(function(id, i) {
-  var el = document.getElementById(id);
-  if (!el) { return; }
-  ScrollTrigger.create({trigger:el, start:'top 60%', end:'bottom 40%', onEnter:function(){ setDot(i); }, onEnterBack:function(){ setDot(i); }});
-});
-dots.forEach(function(d) {
-  d.addEventListener('click', function() {
-    var el = document.getElementById(d.dataset.t);
-    if (el) { el.scrollIntoView({behavior:'smooth'}); }
-  });
+
+refreshFeedTimes();
+setInterval(rotateFeed,4500);
+
+// Nav scroll shadow
+window.addEventListener('scroll',function(){
+  document.getElementById('nav').style.boxShadow=
+    window.scrollY>10?'0 2px 20px rgba(0,0,0,.4)':'none';
 });
 </script>
 </body>
