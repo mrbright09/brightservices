@@ -1,0 +1,25 @@
+// wrangler.jsonc — BFT Onyx API Proxy Worker
+{
+  "name": "bft-onyx-proxy",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-07",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+
+  // KV namespace for rate limiting
+  // ID was created via the Cloudflare MCP connector
+  "kv_namespaces": [
+    {
+      "binding": "BFT_RATE_LIMIT",
+      "id": "3c29ec4c086245928eac16569be75bb2"
+    }
+  ]
+
+  // ANTHROPIC_API_KEY is set as a secret — NOT stored here.
+  // Run: wrangler secret put ANTHROPIC_API_KEY
+  // Then paste your key when prompted.
+}

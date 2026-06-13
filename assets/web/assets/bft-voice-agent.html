@@ -116,7 +116,7 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
       <div class="logo-mark">BFT</div>
       <div>
         <div class="header-title">ONYX</div>
-        <div class="header-sub">VOICE OPERATIONS AGENT // CLAUDE SONNET</div>
+        <div class="header-sub">VOICE OPERATIONS AGENT // CLAUDE SONNET 4.6</div>
       </div>
     </div>
     <div class="status-row">
@@ -135,7 +135,7 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
       <div class="viz-wrapper">
         <canvas id="ring-canvas" width="154" height="154"></canvas>
         <div class="orb-core" id="orb" onclick="toggleListen()">
-          <span class="orb-icon" id="orb-icon">🎙️</span>
+          <span class="orb-icon" id="orb-icon">&#127897;&#65039;</span>
         </div>
       </div>
       <div class="viz-label" id="orb-lbl">TAP TO SPEAK</div>
@@ -176,16 +176,16 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
   <!-- TRANSCRIPT -->
   <div class="transcript" id="transcript">
     <div class="empty-state" id="empty-st">
-      <div class="empty-icon">◈</div>
+      <div class="empty-icon">&#9672;</div>
       <div class="empty-text">ONYX ONLINE<br/>TAP ORB OR TYPE BELOW<br/>VOICE + TEXT + AI ENABLED</div>
     </div>
   </div>
 
   <!-- INPUT -->
   <div class="input-row">
-    <button class="btn btn-mic" id="mic-btn" onclick="toggleListen()">🎙️</button>
+    <button class="btn btn-mic" id="mic-btn" onclick="toggleListen()">&#127897;&#65039;</button>
     <input class="txt-input" id="txt-in" type="text" placeholder="Type or tap the mic to speak..." onkeydown="hkey(event)" autocomplete="off"/>
-    <button class="btn btn-send" onclick="sendTxt()">SEND ↑</button>
+    <button class="btn btn-send" onclick="sendTxt()">SEND &#8593;</button>
   </div>
 
   <div class="bot-bar">
@@ -340,7 +340,7 @@ function setupRec(){
 
 async function toggleListen(){
   if(curState==='thinking'||curState==='speaking') return;
-  if(isListening){recognition?.stop();return;}
+  if(isListening){if(recognition) recognition.stop();return;}
   await initMic();
   recognition=setupRec();
   if(!recognition){addMsg('system','Speech recognition requires Chrome or Edge. Text input works in all browsers.');return;}
@@ -355,49 +355,64 @@ function speak(text){
   const clean=text.replace(/[*_#`]/g,'').replace(/\n/g,' ');
   const u=new SpeechSynthesisUtterance(clean);
   const vs=synth.getVoices();
-  const pref=vs.find(v=>v.name.includes('Google US English')||v.name.includes('Daniel')||v.name.includes('Alex'))||(vs.find(v=>v.lang==='en-US'));
+  const pref=vs.find(function(v){return v.name.includes('Google US English')||v.name.includes('Daniel')||v.name.includes('Alex');})||(vs.find(function(v){return v.lang==='en-US';}));
   if(pref)u.voice=pref;
   u.rate=0.95;u.pitch=0.88;u.volume=0.9;
   setState('speaking');
-  u.onend=()=>{setState('idle');if(document.getElementById('auto-tog').checked)setTimeout(toggleListen,700);};
-  u.onerror=()=>setState('idle');
+  u.onend=function(){setState('idle');if(document.getElementById('auto-tog').checked)setTimeout(toggleListen,700);};
+  u.onerror=function(){setState('idle');};
   synth.speak(u);
 }
+
+// Cloudflare Worker proxy endpoint — keeps the API key server-side
+// Update this URL after running: npm run deploy inside onyx-proxy/
+const PROXY_URL='https://bft-onyx-proxy.YOUR_SUBDOMAIN.workers.dev/v1/messages';
 
 async function callClaude(msg){
   setState('thinking');
   const tid=addMsg('onyx',null,true);
   history.push({role:'user',content:msg});
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
+    const res=await fetch(PROXY_URL,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
+        model:'claude-sonnet-4-6',
         max_tokens:1000,
         system:CTXS[currentCtx],
         messages:history.slice(-14)
       })
     });
-    if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||`HTTP ${res.status}`);}
     const d=await res.json();
-    const reply=d.content?.[0]?.text||'No response received.';
+    if(!res.ok){
+      const errMsg=d.error||'Something went wrong. Please try again.';
+      if(res.status===429){
+        addMsg('system','Rate limit reached. '+errMsg);
+      } else {
+        addMsg('system',errMsg);
+      }
+      removeThink(tid);
+      setState('idle');
+      return;
+    }
+    const reply=(d.content&&d.content[0]&&d.content[0].text)||'No response received.';
     history.push({role:'assistant',content:reply});
     removeThink(tid);
     addMsg('onyx',reply);
     speak(reply);
   }catch(e){
     removeThink(tid);
-    const em=e.message.includes('401')?'API authentication error — API key required.'
-      :e.message.includes('fetch')?'Network error — ensure this runs with proper API access.'
-      :`Error: ${e.message}`;
+    const em=e.message&&e.message.includes('fetch')
+      ?'Network error. Check your connection and try again.'
+      :'Onyx is temporarily unavailable. Please try again.';
     addMsg('system',em);
     setState('idle');
   }
 }
 
 let tc=0;
-function addMsg(role,text,thinking=false){
+function addMsg(role,text,thinking){
+  thinking=thinking||false;
   const es=document.getElementById('empty-st');
   if(es)es.remove();
   const tr=document.getElementById('transcript');
@@ -406,14 +421,14 @@ function addMsg(role,text,thinking=false){
   const d=document.createElement('div');
   d.className='msg'+(role==='user'?' user':'');
   d.id=id;
-  d.innerHTML=`<div class="msg-av">${av[role]||'SYS'}</div><div class="msg-bubble"><div class="msg-src">${role==='user'?'// OPERATOR':role==='onyx'?'// ONYX':'// SYSTEM'}</div>${thinking?'<div class="thinking-dots"><span></span><span></span><span></span></div>':`<div>${esc(text)}</div>`}</div>`;
+  d.innerHTML='<div class="msg-av">'+(av[role]||'SYS')+'</div><div class="msg-bubble"><div class="msg-src">'+(role==='user'?'// OPERATOR':role==='onyx'?'// ONYX':'// SYSTEM')+'</div>'+(thinking?'<div class="thinking-dots"><span></span><span></span><span></span></div>':'<div>'+esc(text)+'</div>')+'</div>';
   tr.appendChild(d);
   tr.scrollTop=tr.scrollHeight;
   if(role!=='system'){msgCount++;document.getElementById('mcnt').textContent='MESSAGES: '+msgCount;}
   return id;
 }
 
-function removeThink(id){const e=document.getElementById(id);if(e)e.remove();}
+function removeThink(id){var e=document.getElementById(id);if(e)e.remove();}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br/>');}
 
 function sendTxt(){
@@ -431,19 +446,19 @@ function hkey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendTxt();}
 function updateCtx(){
   currentCtx=document.getElementById('ctx-sel').value;
   history=[];
-  const m={general:'GENERAL MODE',tow:'TOW OPS MODE',freight:'FREIGHT MODE',health:'HEALTH MODE',demo:'DEMO GUIDE MODE'};
+  var m={general:'GENERAL MODE',tow:'TOW OPS MODE',freight:'FREIGHT MODE',health:'HEALTH MODE',demo:'DEMO GUIDE MODE'};
   addMsg('system','Context → '+m[currentCtx]+'. History cleared.');
 }
 
 function clearChat(){
   const tr=document.getElementById('transcript');
-  tr.innerHTML=`<div class="empty-state" id="empty-st"><div class="empty-icon">◈</div><div class="empty-text">ONYX ONLINE<br/>TAP ORB OR TYPE BELOW<br/>VOICE + TEXT + AI ENABLED</div></div>`;
+  tr.innerHTML='<div class="empty-state" id="empty-st"><div class="empty-icon">◈</div><div class="empty-text">ONYX ONLINE<br/>TAP ORB OR TYPE BELOW<br/>VOICE + TEXT + AI ENABLED</div></div>';
   history=[];msgCount=0;
   document.getElementById('mcnt').textContent='MESSAGES: 0';
   synth.cancel();setState('idle');
 }
 
-if(synth){synth.getVoices();synth.onvoiceschanged=()=>synth.getVoices();}
+if(synth){synth.getVoices();synth.onvoiceschanged=function(){synth.getVoices();};}
 setState('idle');
 </script>
 </body>
