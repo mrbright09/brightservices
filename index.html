@@ -5,14 +5,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
   <link rel="shortcut icon" href="assets/images/bft-logo.png" type="image/png">
-  <meta name="description" content="Bright Future Technologies LLC — Enterprise IT consulting, Microsoft Azure cloud solutions, FAA-certified drone photography, custom PC builds, smart home automation, and website development in Atlanta, GA.">
-  <title>Bright Future Technologies LLC | IT, Azure &amp; Drone Services — Atlanta, GA</title>
+  <meta name="description" content="Bright Future Technologies LLC — AI-powered operations platform for freight, tow dispatch, and health triage. Microsoft Azure cloud engineering, 13+ years enterprise IT, CAGE-registered federal vendor. Atlanta, GA.">
+  <title>Bright Future Technologies LLC | AI Operations Platform &amp; Enterprise Cloud — Atlanta, GA</title>
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://brightfuturetechllc.com/">
-  <meta property="og:title" content="Bright Future Technologies LLC | IT, Azure &amp; Drone Services — Atlanta, GA">
-  <meta property="og:description" content="Precision technology solutions for Atlanta businesses and homes. Microsoft Azure cloud, FAA-certified drone photography, smart home automation, custom PCs, and website development.">
+  <meta property="og:title" content="Bright Future Technologies LLC | AI Operations Platform &amp; Enterprise Cloud — Atlanta, GA">
+  <meta property="og:description" content="AI-powered operations management platform for freight logistics, tow dispatch, and health triage. Microsoft Azure cloud engineering, CAGE-registered federal vendor. Atlanta, GA.">
   <meta property="og:image" content="https://brightfuturetechllc.com/assets/images/background1.jpg">
   <meta property="og:locale" content="en_US">
   <meta property="og:site_name" content="Bright Future Technologies LLC">
@@ -20,7 +20,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Bright Future Technologies LLC | Atlanta IT &amp; Drone Services">
-  <meta name="twitter:description" content="Azure cloud, FAA drone photography, smart home automation, custom PCs, and web development — Atlanta, GA.">
+  <meta name="twitter:description" content="AI operations platform for freight, tow dispatch, and health triage. Azure cloud engineering, CAGE-registered federal vendor. Atlanta, GA.">
   <meta name="twitter:image" content="https://brightfuturetechllc.com/assets/images/background1.jpg">
 
   <!-- Canonical -->
@@ -224,8 +224,7 @@
     .btn-book:hover { background: var(--blue-hover) !important; color: var(--white) !important; }
 
     /* ==============================
-       Hero — clean premium gradient,
-       no pixel art dependency
+       Hero
        ============================== */
     #hero-section {
       min-height: 100vh;
@@ -242,7 +241,6 @@
       position: relative;
       overflow: hidden;
     }
-    /* Subtle geometric grid overlay */
     #hero-section::before {
       content: '';
       position: absolute;
@@ -290,7 +288,6 @@
       justify-content: center;
       flex-wrap: wrap;
     }
-    /* All 5 badges on one balanced row */
     .hero-badges {
       display: flex;
       justify-content: center;
@@ -429,7 +426,6 @@
       flex: 1;
       margin-bottom: 0;
     }
-    /* Price at the bottom — value first */
     .service-price {
       font-size: 0.8rem;
       color: #999;
@@ -455,7 +451,6 @@
     }
     .btn-service:hover { background: var(--blue-hover); }
 
-    /* Featured cards */
     .service-card.azure-card {
       border: 1.5px solid rgba(0,102,255,0.22);
       background: linear-gradient(135deg, #f0f4ff 0%, #ffffff 100%);
@@ -518,7 +513,6 @@
       transition: transform 0.35s ease;
     }
     .portfolio-item:hover img { transform: scale(1.06); }
-    /* Hover caption overlay */
     .portfolio-caption {
       position: absolute;
       bottom: 0; left: 0; right: 0;
@@ -532,7 +526,6 @@
     }
     .portfolio-item:hover .portfolio-caption { transform: translateY(0); }
 
-    /* ---- Portfolio Filter Tabs ---- */
     .pf-filter-tabs {
       display: flex; flex-wrap: wrap; gap: 0.5rem;
       justify-content: center; margin-bottom: 1.75rem;
@@ -547,7 +540,6 @@
     .pf-filter-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
     .portfolio-item.hidden { display: none; }
 
-    /* ---- CSS-only Portfolio Cards (IT / Web / Smart Home) ---- */
     .portfolio-card {
       border-radius: 8px; position: relative;
       overflow: hidden; cursor: pointer;
@@ -608,7 +600,6 @@
       color: rgba(255,255,255,0.65);
     }
 
-    /* ---- Google Rating Badge ---- */
     .google-rating-badge {
       display: inline-flex; align-items: center; gap: 0.6rem;
       background: #fff; border: 1.5px solid #e8e8e8;
@@ -626,7 +617,6 @@
     .google-rating-badge .g-stars { color: #FBBC05; font-size: 0.85rem; letter-spacing: 1px; }
     .google-rating-badge .g-text { font-size: 0.8rem; font-weight: 600; color: #444; }
 
-    /* ---- Floating CTA ---- */
     #float-cta {
       position: fixed; bottom: 1.6rem; right: 1.6rem;
       background: var(--blue); color: #fff;
@@ -648,7 +638,6 @@
       #float-cta { padding: 0.65rem 1.1rem; font-size: 0.82rem; bottom: 1rem; right: 1rem; }
     }
 
-    /* ---- Mobile UX polish ---- */
     @media (max-width: 576px) {
       .hero-eyebrow { font-size: 0.65rem; }
       h1 { font-size: 2rem; }
@@ -976,18 +965,189 @@
     }
     #site-footer .footer-bottom a:hover { color: var(--blue); }
 
-    /* Responsive */
     @media (max-width: 991px) {
       #mainNav .navbar-collapse { background: var(--navy); padding: 1rem; border-top: 1px solid rgba(0,102,255,0.2); }
       .btn-book { display: inline-block; margin-top: 0.5rem; }
+    }
+
+    /* ── Hero credential strip ──────────────────────────── */
+    .hero-credential-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem 0.6rem;
+      margin-top: 1.5rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: rgba(232,240,254,.55);
+    }
+    .hcs-sep { color: rgba(0,180,255,.3); }
+
+    /* ── BFT Platform section ───────────────────────────── */
+    #bft-platform {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .bft-module-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .bft-module-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+    .bft-module-card:hover { border-color: rgba(0,180,255,.3); transform: translateY(-2px); }
+    .bft-module-icon {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      background: rgba(0,180,255,.1);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+    .bft-module-title {
+      font-family: var(--font-head, 'Rajdhani', sans-serif);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0;
+    }
+    .bft-module-desc {
+      font-size: 0.875rem;
+      color: var(--text2);
+      line-height: 1.65;
+      margin: 0;
+      flex: 1;
+    }
+    .bft-module-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.5rem; }
+    .bft-tag {
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      background: rgba(0,180,255,.08);
+      border: 1px solid rgba(0,180,255,.18);
+      color: var(--accent);
+    }
+    .bft-platform-cta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      padding: 1.25rem 2rem;
+      background: rgba(0,180,255,.08);
+      border: 1px solid rgba(0,180,255,.2);
+      border-radius: 12px;
+    }
+    .bft-cta-text {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .bft-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.65rem 1.6rem;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #000;
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .bft-cta-btn:hover { background: #29c4ff; box-shadow: 0 0 18px rgba(0,180,255,.35); }
+
+    /* ── Azure credentials section ──────────────────────── */
+    #azure-credentials {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .az-col-heading {
+      font-family: var(--font-head, 'Rajdhani', sans-serif);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+    }
+    .az-cert-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .az-cert-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: border-color 0.15s;
+    }
+    .az-cert-pill:hover { border-color: rgba(0,180,255,.3); }
+    .az-achievements {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .az-achievements li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.88rem;
+      color: var(--text2);
+      line-height: 1.65;
+      padding: 0.85rem 1rem;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+    }
+    .az-achievements li::before {
+      content: "\2192";
+      color: var(--accent);
+      font-family: monospace;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    @media (max-width: 768px) {
+      .bft-platform-cta-bar { flex-direction: column; text-align: center; }
+      .hero-credential-strip { font-size: 0.65rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- ================================================
-     NAVBAR
-     ================================================ -->
+<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
   <div class="container">
     <a class="navbar-brand" href="#hero-section">
@@ -1002,6 +1162,7 @@
       <ul class="navbar-nav ml-auto align-items-lg-center">
         <li class="nav-item"><a class="nav-link" href="#hero-section">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#bft-platform">BFT Platform</a></li>
         <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
         <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
@@ -1015,62 +1176,174 @@
   </div>
 </nav>
 
-<!-- ================================================
-     HERO — Premium dark gradient, no pixel art
-     ================================================ -->
+<!-- HERO -->
 <section id="hero-section">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-9">
-        <div class="hero-eyebrow">Atlanta, GA &nbsp;&bull;&nbsp; Enterprise IT &amp; Creative Technology</div>
-        <h1>Precision Technology.<br><span>Built for Your World.</span></h1>
-        <p>Cloud architecture. FAA-certified aerial photography. Custom systems. Smart automation. Professional-grade tech delivered with an architect's precision.</p>
+        <div class="hero-eyebrow">AI Operations Platform &nbsp;&bull;&nbsp; Atlanta, GA &nbsp;&bull;&nbsp; Federal Vendor (CAGE Code)</div>
+        <h1>Enterprise AI Operations.<br><span>Built to Scale.</span></h1>
+        <p>BFT Services is an AI-powered operations management platform built for freight logistics, tow dispatch, and health triage. Backed by 13+ years of enterprise Azure cloud and automation engineering.</p>
         <div class="hero-btns">
-          <a class="btn-blue" href="#services">Explore Our Services</a>
-          <a class="btn-outline-white" href="#contact">Book a Free Call</a>
+          <a class="btn-blue" href="https://brightfuturetechllc.com/assets/BFT-App-Demo/index.html" target="_blank" rel="noopener noreferrer">Launch Live Demo</a>
+          <a class="btn-outline-white" href="https://brightfuturetechllc.com/assets/web/assets/bft-voice-agent.html" target="_blank" rel="noopener noreferrer">Talk to Onyx</a>
         </div>
-        <!-- All 5 badges — balanced flex-wrap row -->
-        <div class="hero-badges">
-          <span class="hero-badge"><i class="fa-solid fa-helicopter" style="margin-right:5px;"></i>Licensed Drone Pilot</span>
-          <span class="hero-badge"><i class="fa-solid fa-shield-halved" style="margin-right:5px;"></i>FAA Part 107 Certified</span>
-          <span class="hero-badge"><i class="fa-solid fa-cloud" style="margin-right:5px;"></i>Microsoft Azure Certified</span>
-          <span class="hero-badge"><i class="fa-solid fa-laptop-code" style="margin-right:5px;"></i>12+ Years IT Experience</span>
-          <span class="hero-badge"><i class="fa-solid fa-map-marker-alt" style="margin-right:5px;"></i>Atlanta Metro Area</span>
+        <div class="hero-credential-strip">
+          <span>AI Operations Platform</span>
+          <span class="hcs-sep">|</span>
+          <span>Microsoft Azure Certified</span>
+          <span class="hcs-sep">|</span>
+          <span>Federal Vendor (CAGE Code)</span>
+          <span class="hcs-sep">|</span>
+          <span>13+ Years Enterprise IT</span>
+          <span class="hcs-sep">|</span>
+          <span>Atlanta, GA</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================================================
-     STATS BAR — Social proof at a glance
-     ================================================ -->
+<!-- STATS BAR -->
 <div id="stats-bar">
   <div class="container">
     <div class="stats-bar-inner">
       <div class="stat-item">
-        <div class="stat-num">12+</div>
-        <div class="stat-label">Years in IT</div>
+        <div class="stat-num">13+</div>
+        <div class="stat-label">Years Enterprise IT</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">50+</div>
-        <div class="stat-label">Projects Delivered</div>
+        <div class="stat-num">AI</div>
+        <div class="stat-label">Powered Operations</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">4.9&#9733;</div>
-        <div class="stat-label">Client Rating</div>
+        <div class="stat-num">FED</div>
+        <div class="stat-label">CAGE Code Registered</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">FAA</div>
-        <div class="stat-label">Part 107 Licensed</div>
+        <div class="stat-num">3</div>
+        <div class="stat-label">Active Industry Modules</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ================================================
-     WHY CHOOSE US
-     ================================================ -->
+<!-- BFT SERVICES PLATFORM -->
+<section id="bft-platform">
+  <div class="container">
+    <h2 class="section-title">BFT Services Platform</h2>
+    <div class="section-divider"></div>
+    <p class="section-subtitle">An AI-powered operations management platform for high-stakes industries.</p>
+
+    <div class="row justify-content-center" style="margin-top:2.5rem;">
+
+      <!-- Freight Command -->
+      <div class="col-md-6 col-lg-4 d-flex mb-4">
+        <div class="bft-module-card w-100">
+          <div class="bft-module-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="1" y="10" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              <rect x="19" y="7" width="12" height="15" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="5.5" cy="25" r="2.5" stroke="currentColor" stroke-width="1.6"/>
+              <circle cx="14.5" cy="25" r="2.5" stroke="currentColor" stroke-width="1.6"/>
+              <circle cx="25.5" cy="25" r="2.5" stroke="currentColor" stroke-width="1.6"/>
+            </svg>
+          </div>
+          <h4 class="bft-module-title">Freight Command</h4>
+          <p class="bft-module-desc">AI-powered load management, carrier coordination, weight compliance, and auto-bidding for DAT and Truckstop.com load boards.</p>
+          <div class="bft-module-tags">
+            <span class="bft-tag">AI Auto-Bid</span>
+            <span class="bft-tag">Load Tracking</span>
+            <span class="bft-tag">Driver Dispatch</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tow Dispatch -->
+      <div class="col-md-6 col-lg-4 d-flex mb-4">
+        <div class="bft-module-card w-100">
+          <div class="bft-module-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="1" y="14" width="16" height="9" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              <rect x="17" y="9" width="10" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="5" cy="26" r="2.5" stroke="currentColor" stroke-width="1.6"/>
+              <circle cx="21" cy="26" r="2.5" stroke="currentColor" stroke-width="1.6"/>
+              <line x1="7" y1="18" x2="3" y2="10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h4 class="bft-module-title">Tow Dispatch</h4>
+          <p class="bft-module-desc">Real-time job queuing, GPS driver tracking, automated assignment, and live incident triage for roadside assistance operations.</p>
+          <div class="bft-module-tags">
+            <span class="bft-tag">Live GPS</span>
+            <span class="bft-tag">Job Queue</span>
+            <span class="bft-tag">Auto-Assign</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Health Triage -->
+      <div class="col-md-6 col-lg-4 d-flex mb-4">
+        <div class="bft-module-card w-100">
+          <div class="bft-module-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="2" y="2" width="28" height="28" rx="4" stroke="currentColor" stroke-width="1.8"/>
+              <line x1="16" y1="9" x2="16" y2="23" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="9" y1="16" x2="23" y2="16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h4 class="bft-module-title">Health Triage</h4>
+          <p class="bft-module-desc">Patient intake, AI-assisted priority scoring, provider assignment, and escalation management for EMS and clinical environments.</p>
+          <div class="bft-module-tags">
+            <span class="bft-tag">AI Triage</span>
+            <span class="bft-tag">Priority Queue</span>
+            <span class="bft-tag">Escalation</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="bft-platform-cta-bar">
+      <span class="bft-cta-text">See the full platform in action</span>
+      <a class="bft-cta-btn" href="https://brightfuturetechllc.com/assets/BFT-App-Demo/index.html" target="_blank" rel="noopener noreferrer">Launch Live Demo &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- AZURE & AUTOMATION CREDENTIALS -->
+<section id="azure-credentials">
+  <div class="container">
+    <h2 class="section-title">Enterprise Cloud &amp; Automation Engineering</h2>
+    <div class="section-divider"></div>
+    <p class="section-subtitle">The technical foundation behind BFT Services and every client engagement.</p>
+
+    <div class="row mt-4">
+      <div class="col-lg-5 mb-4 mb-lg-0">
+        <h5 class="az-col-heading">Certifications &amp; Credentials</h5>
+        <div class="az-cert-grid">
+          <span class="az-cert-pill"><i class="fa-brands fa-microsoft" style="margin-right:6px;"></i>Azure Administrator (AZ-104)</span>
+          <span class="az-cert-pill"><i class="fa-brands fa-microsoft" style="margin-right:6px;"></i>Azure DevOps Expert (AZ-400)</span>
+          <span class="az-cert-pill"><i class="fa-brands fa-microsoft" style="margin-right:6px;"></i>Power Platform (PL-200)</span>
+          <span class="az-cert-pill"><i class="fa-solid fa-graduation-cap" style="margin-right:6px;"></i>Georgia Tech Full Stack Certificate</span>
+          <span class="az-cert-pill"><i class="fa-solid fa-shield-halved" style="margin-right:6px;"></i>CompTIA A+</span>
+          <span class="az-cert-pill"><i class="fa-solid fa-helicopter" style="margin-right:6px;"></i>FAA Part 107 Licensed</span>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <h5 class="az-col-heading">Key Engineering Achievements</h5>
+        <ul class="az-achievements">
+          <li>70%+ reduction in manual workload through Azure Runbooks and PowerShell automation</li>
+          <li>Converted a 200+ person architecture firm to 100% remote operations in 6 months with zero incidents</li>
+          <li>Built production AI agent unifying 8 enterprise systems: ServiceNow, New Relic, M365, SharePoint, Teams, GitHub, Outlook, and TargetProcess</li>
+          <li>Automated SQL database operations across 4 environments, eliminating all manual DB ops</li>
+          <li>Federal vendor registration with CAGE code for government and enterprise contracts</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
 <section id="why-us">
   <div class="container">
     <h2 class="section-title">Why Bright Future Technologies</h2>
@@ -1109,19 +1382,14 @@
   </div>
 </section>
 
-<!-- ================================================
-     SERVICES — value-first, price at bottom
-     ================================================ -->
+<!-- SERVICES -->
 <section id="services">
   <div class="container">
-    <h2 class="section-title">Solutions Built for Your World</h2>
+    <h2 class="section-title">Technology Services &mdash; Home &amp; Business</h2>
     <div class="section-divider"></div>
-    <p class="section-subtitle">Enterprise cloud infrastructure. Cinematic aerial photography. Custom tech for home and business. All under one roof.</p>
+    <p class="section-subtitle">Professional IT services, aerial photography, smart home automation, and custom builds for Atlanta-area homes and businesses.</p>
 
-    <!-- Row 1 -->
     <div class="row">
-
-      <!-- Azure Cloud — Featured -->
       <div class="col-md-6 col-lg-4 d-flex">
         <div class="service-card azure-card w-100">
           <div class="service-icon"><i class="fa-solid fa-cloud"></i></div>
@@ -1138,8 +1406,6 @@
           <a class="btn-service" href="https://forms.gle/U3Kvm73iyBaQoYfs5" target="_blank" rel="noopener noreferrer">Start My Cloud Setup &rarr;</a>
         </div>
       </div>
-
-      <!-- IT Consultation — NEW -->
       <div class="col-md-6 col-lg-4 d-flex">
         <div class="service-card it-card w-100">
           <div class="service-icon"><i class="fa-solid fa-laptop-code"></i></div>
@@ -1156,8 +1422,6 @@
           <a class="btn-service" href="https://forms.gle/U3Kvm73iyBaQoYfs5" target="_blank" rel="noopener noreferrer">Book IT Consultation &rarr;</a>
         </div>
       </div>
-
-      <!-- Aerial Event Photography -->
       <div class="col-md-6 col-lg-4 d-flex">
         <div class="service-card w-100">
           <div class="service-icon"><i class="fa-solid fa-helicopter"></i></div>
@@ -1174,10 +1438,7 @@
       </div>
     </div>
 
-    <!-- Row 2 -->
     <div class="row">
-
-      <!-- Real Estate Aerial Photography -->
       <div class="col-md-6 col-lg-4 d-flex">
         <div class="service-card w-100">
           <div class="service-icon"><i class="fa-solid fa-house"></i></div>
@@ -1192,8 +1453,6 @@
           <a class="btn-service" href="https://forms.gle/e7uWLRq7B6Vy3HHf6" target="_blank" rel="noopener noreferrer">Get My Listing Shot &rarr;</a>
         </div>
       </div>
-
-      <!-- Smart Home -->
       <div class="col-md-6 col-lg-4 d-flex">
         <div class="service-card w-100">
           <div class="service-icon"><i class="fa-solid fa-wifi"></i></div>
@@ -1208,8 +1467,6 @@
           <a class="btn-service" href="https://forms.gle/U3Kvm73iyBaQoYfs5" target="_blank" rel="noopener noreferrer">Design My Smart Home &rarr;</a>
         </div>
       </div>
-
-      <!-- Website Services — single CTA -->
       <div class="col-md-6 col-lg-4 d-flex">
         <div class="service-card w-100">
           <div class="service-icon"><i class="fa-solid fa-globe"></i></div>
@@ -1226,10 +1483,7 @@
       </div>
     </div>
 
-    <!-- Row 3 — centered -->
     <div class="row justify-content-center">
-
-      <!-- Automobile Infotainment -->
       <div class="col-md-6 col-lg-4 d-flex">
         <div class="service-card w-100">
           <div class="service-icon"><i class="fa-solid fa-car"></i></div>
@@ -1244,8 +1498,6 @@
           <a class="btn-service" href="https://forms.gle/nRx9kFHLCpZbBctt7" target="_blank" rel="noopener noreferrer">Upgrade My Ride &rarr;</a>
         </div>
       </div>
-
-      <!-- Custom PC Builds -->
       <div class="col-md-6 col-lg-4 d-flex">
         <div class="service-card w-100">
           <div class="service-icon"><i class="fa-solid fa-desktop"></i></div>
@@ -1260,8 +1512,6 @@
           <a class="btn-service" href="https://forms.gle/GuVGrND2u19y3gtp8" target="_blank" rel="noopener noreferrer">Design My Build &rarr;</a>
         </div>
       </div>
-
-      <!-- AI Agent Development -->
       <div class="col-md-6 col-lg-4 d-flex">
         <div class="service-card azure-card w-100" style="position:relative;">
           <span style="position:absolute; top:1rem; right:1rem; background:var(--blue); color:#fff; font-size:0.62rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; border-radius:50px; padding:0.18rem 0.65rem;">New</span>
@@ -1279,14 +1529,11 @@
           <a class="btn-service" href="https://forms.gle/U3Kvm73iyBaQoYfs5" target="_blank" rel="noopener noreferrer">Build My AI Agent &rarr;</a>
         </div>
       </div>
-    </div><!-- end row 3 -->
-
+    </div>
   </div>
 </section>
 
-<!-- ================================================
-     CERTIFICATION STRIP
-     ================================================ -->
+<!-- CERTIFICATION STRIP -->
 <div id="cert-strip">
   <div class="container">
     <div class="cert-strip-inner">
@@ -1299,16 +1546,13 @@
   </div>
 </div>
 
-<!-- ================================================
-     PORTFOLIO
-     ================================================ -->
+<!-- PORTFOLIO -->
 <section id="portfolio">
   <div class="container">
     <h2 class="section-title">Our Work</h2>
     <div class="section-divider"></div>
     <p class="section-subtitle">From cinematic 4K aerial footage to enterprise cloud solutions — a look at what we deliver.</p>
 
-    <!-- Portfolio Filter Tabs -->
     <div class="pf-filter-tabs">
       <button class="pf-filter-btn active" data-filter="all">All Work</button>
       <button class="pf-filter-btn" data-filter="aerial">Aerial Photography</button>
@@ -1318,7 +1562,51 @@
     </div>
 
     <div class="portfolio-grid" id="portfolio-grid">
-      <!-- Aerial shots -->
+      <div class="portfolio-item portfolio-card portfolio-card-web portfolio-card-web-featured" data-category="web">
+        <div class="portfolio-card-featured-badge">Featured &mdash; Live &amp; Actively Updated</div>
+        <div class="portfolio-card-icon"><i class="fa-solid fa-robot"></i></div>
+        <div class="portfolio-card-title"><a href="https://brightfuturetechllc.com/assets/web/assets/bft-services-demo.html" target="_blank" rel="noopener">BFT AI Service App</a></div>
+        <div class="portfolio-card-sub">AI-Powered Operations Platform</div>
+        <div class="portfolio-card-tags">
+          <span class="portfolio-card-tag">AI Agent</span>
+          <span class="portfolio-card-tag">Demo</span>
+          <span class="portfolio-card-tag">Live App</span>
+        </div>
+        <div class="portfolio-caption">AI Platform &nbsp;&bull;&nbsp; BFT Operations App</div>
+      </div>
+      <div class="portfolio-item portfolio-card portfolio-card-web" data-category="web">
+        <div class="portfolio-card-icon"><i class="fa-solid fa-microphone-lines"></i></div>
+        <div class="portfolio-card-title"><a href="https://brightfuturetechllc.com/assets/BFT-App-Demo/index.html" target="_blank" rel="noopener">BFT AI Voice Agent</a></div>
+        <div class="portfolio-card-sub">Conversational AI Dispatcher — Onyx</div>
+        <div class="portfolio-card-tags">
+          <span class="portfolio-card-tag">AI Agent</span>
+          <span class="portfolio-card-tag">Voice</span>
+          <span class="portfolio-card-tag">Live App</span>
+        </div>
+        <div class="portfolio-caption">AI Demo &nbsp;&bull;&nbsp; BFT Voice Agent</div>
+      </div>
+      <div class="portfolio-item portfolio-card portfolio-card-it" data-category="it-cloud">
+        <div class="portfolio-card-icon"><i class="fa-solid fa-diagram-project"></i></div>
+        <div class="portfolio-card-title"><a href="https://mikalbright.com/#projects" target="_blank" rel="noopener">Enterprise AI Operations Agent</a></div>
+        <div class="portfolio-card-sub">8-System AI Integration</div>
+        <div class="portfolio-card-tags">
+          <span class="portfolio-card-tag">AI</span>
+          <span class="portfolio-card-tag">ServiceNow</span>
+          <span class="portfolio-card-tag">M365</span>
+        </div>
+        <div class="portfolio-caption">Enterprise AI &nbsp;&bull;&nbsp; mikalbright.com</div>
+      </div>
+      <div class="portfolio-item portfolio-card portfolio-card-it" data-category="it-cloud">
+        <div class="portfolio-card-icon"><i class="fa-brands fa-microsoft"></i></div>
+        <div class="portfolio-card-title"><a href="https://mikalbright.com/#projects" target="_blank" rel="noopener">Azure Automation Projects</a></div>
+        <div class="portfolio-card-sub">Runbooks, PowerShell &amp; DevOps</div>
+        <div class="portfolio-card-tags">
+          <span class="portfolio-card-tag">Azure</span>
+          <span class="portfolio-card-tag">PowerShell</span>
+          <span class="portfolio-card-tag">DevOps</span>
+        </div>
+        <div class="portfolio-caption">Azure Cloud &nbsp;&bull;&nbsp; Automation Engineering</div>
+      </div>
       <div class="portfolio-item" data-category="aerial">
         <img src="assets/images/background1.jpg" alt="Atlanta aerial view — Bright Future Technologies drone photography" loading="lazy">
         <div class="portfolio-caption">Atlanta Skyline &nbsp;&bull;&nbsp; Aerial Photography</div>
@@ -1343,8 +1631,6 @@
         <img src="assets/images/background21.jpg" alt="Property aerial overview — Bright Future Technologies" loading="lazy">
         <div class="portfolio-caption">Property Overview &nbsp;&bull;&nbsp; Real Estate Photography</div>
       </div>
-
-      <!-- IT & Cloud card -->
       <div class="portfolio-item portfolio-card portfolio-card-it" data-category="it-cloud">
         <div class="portfolio-card-icon"><i class="fa-brands fa-microsoft"></i></div>
         <div class="portfolio-card-title">Azure Cloud Migration</div>
@@ -1367,8 +1653,6 @@
         </div>
         <div class="portfolio-caption">IT Architecture &nbsp;&bull;&nbsp; Enterprise Systems</div>
       </div>
-
-      <!-- Web & Apps cards -->
       <div class="portfolio-item portfolio-card portfolio-card-web portfolio-card-web-featured" data-category="web">
         <div class="portfolio-card-featured-badge">Featured &mdash; Live &amp; Actively Updated</div>
         <div class="portfolio-card-icon"><i class="fa-solid fa-user-astronaut"></i></div>
@@ -1393,28 +1677,6 @@
         <div class="portfolio-caption">Client Site &nbsp;&bull;&nbsp; e100northmetro.org</div>
       </div>
       <div class="portfolio-item portfolio-card portfolio-card-web" data-category="web">
-        <div class="portfolio-card-icon"><i class="fa-solid fa-robot"></i></div>
-        <div class="portfolio-card-title"><a href="https://brightfuturetechllc.com/assets/web/assets/bft-services-demo.html" target="_blank" rel="noopener">BFT AI Service App</a></div>
-        <div class="portfolio-card-sub">AI-Powered Service Request Demo</div>
-        <div class="portfolio-card-tags">
-          <span class="portfolio-card-tag">AI Agent</span>
-          <span class="portfolio-card-tag">Demo</span>
-          <span class="portfolio-card-tag">Live App</span>
-        </div>
-        <div class="portfolio-caption">AI Demo &nbsp;&bull;&nbsp; BFT Service App</div>
-      </div>
-      <div class="portfolio-item portfolio-card portfolio-card-web" data-category="web">
-        <div class="portfolio-card-icon"><i class="fa-solid fa-microphone-lines"></i></div>
-        <div class="portfolio-card-title"><a href="https://brightfuturetechllc.com/assets/BFT-AI-AGENT-DEMO" target="_blank" rel="noopener">BFT AI Voice Agent</a></div>
-        <div class="portfolio-card-sub">Conversational AI Agent Demo</div>
-        <div class="portfolio-card-tags">
-          <span class="portfolio-card-tag">AI Agent</span>
-          <span class="portfolio-card-tag">Voice</span>
-          <span class="portfolio-card-tag">Live App</span>
-        </div>
-        <div class="portfolio-caption">AI Demo &nbsp;&bull;&nbsp; BFT Voice Agent</div>
-      </div>
-      <div class="portfolio-item portfolio-card portfolio-card-web" data-category="web">
         <div class="portfolio-card-icon"><i class="fa-solid fa-cake-candles"></i></div>
         <div class="portfolio-card-title"><a href="https://mrbright09.github.io/lavishwebsite/" target="_blank" rel="noopener">Lavish Sacred Buns &amp; Sweets</a></div>
         <div class="portfolio-card-sub">Luxury Bakery &amp; Sweets Brand</div>
@@ -1425,8 +1687,6 @@
         </div>
         <div class="portfolio-caption">Client Site &nbsp;&bull;&nbsp; Lavish Sacred Buns &amp; Sweets</div>
       </div>
-
-      <!-- Smart Home card -->
       <div class="portfolio-item portfolio-card portfolio-card-home" data-category="smart-home">
         <div class="portfolio-card-icon"><i class="fa-solid fa-house-signal"></i></div>
         <div class="portfolio-card-title">Smart Home Automation</div>
@@ -1454,7 +1714,6 @@
       " style="border:none; cursor:pointer;">View Full Drone Gallery</button>
     </div>
 
-    <!-- Full gallery (hidden by default) -->
     <div id="full-gallery" style="display:none;">
       <div class="full-grid mt-3">
         <img src="assets/images/background1.jpg"  alt="Drone photo 1" loading="lazy">
@@ -1485,7 +1744,6 @@
       </div>
     </div>
 
-    <!-- Video section — renamed -->
     <div class="video-section">
       <h3>See It in Motion</h3>
       <div class="section-divider"></div>
@@ -1502,9 +1760,7 @@
   </div>
 </section>
 
-<!-- ================================================
-     ABOUT — differentiator-focused, no redundant list
-     ================================================ -->
+<!-- ABOUT -->
 <section id="about">
   <div class="container">
     <h2 class="section-title">About Us</h2>
@@ -1517,7 +1773,7 @@
       </div>
       <div class="col-lg-7">
         <div class="about-text">
-          <p>Hi, I'm Mikal Bright, Sr., owner of Bright Future Technologies LLC. With over 12 years of IT experience, I founded this company to bring professional-grade technology solutions to individuals, families, and businesses across the Atlanta area.</p>
+          <p>I'm Mikal Bright, Sr., founder of Bright Future Technologies LLC and the engineer behind BFT Services &mdash; an AI-powered operations management platform serving freight logistics, tow dispatch, and health triage industries. With 13+ years of enterprise IT experience and multiple Azure certifications, I build systems designed to scale and last, not just solve today's problem.</p>
           <p>I'm a Microsoft Azure practitioner who helps businesses modernize through cloud infrastructure and intelligent automation — and a licensed FAA drone pilot delivering 4K aerial footage that would otherwise require helicopter rentals.</p>
           <div class="about-differentiator">
             "What separates Bright Future Technologies isn't just the range of services — it's the systems thinking behind every engagement. I don't install technology and leave. I architect solutions designed to scale, perform, and give you back time. That precision mindset is what every client in Atlanta gets."
@@ -1536,7 +1792,6 @@
       </div>
     </div>
 
-    <!-- Press & Media -->
     <div class="row mt-5">
       <div class="col-12 text-center mb-3">
         <span style="font-size:0.68rem; font-weight:800; letter-spacing:0.15em; text-transform:uppercase; color:var(--blue);">As Seen In</span>
@@ -1581,9 +1836,7 @@
   </div>
 </section>
 
-<!-- ================================================
-     TESTIMONIALS
-     ================================================ -->
+<!-- TESTIMONIALS -->
 <section id="testimonials">
   <div class="container">
     <h2 class="section-title">What Our Clients Say</h2>
@@ -1633,9 +1886,7 @@
   </div>
 </section>
 
-<!-- ================================================
-     FAQ — new section
-     ================================================ -->
+<!-- FAQ -->
 <section id="faq">
   <div class="container">
     <h2 class="section-title">Frequently Asked Questions</h2>
@@ -1709,9 +1960,7 @@
   </div>
 </section>
 
-<!-- ================================================
-     CONTACT
-     ================================================ -->
+<!-- CONTACT -->
 <section id="contact">
   <div class="container">
     <h2 class="section-title">Get In Touch</h2>
@@ -1787,9 +2036,7 @@
   </div>
 </section>
 
-<!-- ================================================
-     FOOTER
-     ================================================ -->
+<!-- FOOTER -->
 <footer id="site-footer">
   <div class="container">
     <div class="row">
@@ -1800,22 +2047,11 @@
         </div>
         <p class="footer-tagline">Technology solutions for your home, business &amp; cloud — Atlanta, GA</p>
         <div class="social-links">
-          <a href="https://www.instagram.com/brightfuturetechllc" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a href="https://www.facebook.com/BrightFutureTechLLC" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-            <i class="fa-brands fa-facebook"></i>
-          </a>
-          <a href="https://www.youtube.com/@BrightFutureTechnologiesLLC" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-            <i class="fa-brands fa-youtube"></i>
-          </a>
-          <a href="https://www.tiktok.com/@brightfuturetechllc" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-            <i class="fa-brands fa-tiktok"></i>
-          </a>
-          <!-- LinkedIn added to footer -->
-          <a href="https://www.linkedin.com/company/bright-future-technologies-llc/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            <i class="fa-brands fa-linkedin"></i>
-          </a>
+          <a href="https://www.instagram.com/brightfuturetechllc" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://www.facebook.com/BrightFutureTechLLC" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="https://www.youtube.com/@BrightFutureTechnologiesLLC" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          <a href="https://www.tiktok.com/@brightfuturetechllc" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="https://www.linkedin.com/company/bright-future-technologies-llc/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
         </div>
       </div>
       <div class="col-lg-4 mb-4">
@@ -1869,7 +2105,6 @@
   <i class="fa-solid fa-calendar-check"></i> Book a Free Call
 </a>
 
-<!-- FAQ accordion script -->
 <script>
 function toggleFaq(btn) {
   var answer = btn.nextElementSibling;
@@ -1883,7 +2118,6 @@ function toggleFaq(btn) {
 }
 </script>
 
-<!-- Portfolio filter script -->
 <script>
 (function() {
   var tabs = document.querySelectorAll('.pf-filter-btn');
