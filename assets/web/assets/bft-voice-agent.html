@@ -105,7 +105,17 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
 /* BOTTOM */
 .bot-bar{display:flex;align-items:center;justify-content:space-between;padding:4px 2px;}
 .bot-info{font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;}
+
+/* MAP PANEL */
+.map-panel{display:none;border-radius:8px;border:1px solid var(--border);overflow:hidden;position:relative;height:230px;background:var(--panel);}
+.map-panel.open{display:block;}
+#gmap{width:100%;height:100%;}
+.map-label{position:absolute;top:8px;left:10px;font-family:var(--font-mono);font-size:9px;letter-spacing:2px;color:var(--accent);background:rgba(5,6,14,0.85);padding:3px 8px;border-radius:3px;border:1px solid var(--border);z-index:10;pointer-events:none;text-transform:uppercase;}
+.qbtn.map-active{border-color:var(--accent);color:var(--accent);background:rgba(0,194,255,0.07);}
 </style>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPVHfqr6zFjaR5ZPYP8NSMESGkxWJ9QfI&callback=__gMapsReady">
+</script>
 </head>
 <body>
 <div class="app">
@@ -161,6 +171,7 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
         <button class="qbtn" onclick="qs('Give me a status report')">Status</button>
         <button class="qbtn" onclick="qs('Tell me about BFT Services')">About BFT</button>
         <button class="qbtn" onclick="qs('What are the three BFT modules?')">Modules</button>
+        <button class="qbtn" id="map-btn" onclick="toggleMap()">&#9974; Map</button>
       </div>
 
       <div class="toggle-row">
@@ -171,6 +182,13 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
         <span>Auto-listen</span>
       </div>
     </div>
+  </div>
+
+
+  <!-- MAP PANEL -->
+  <div class="map-panel" id="map-panel">
+    <div class="map-label">&#9974; GPS // LIVE MAP</div>
+    <div id="gmap"></div>
   </div>
 
   <!-- TRANSCRIPT -->
@@ -460,6 +478,56 @@ function clearChat(){
 
 if(synth){synth.getVoices();synth.onvoiceschanged=function(){synth.getVoices();};}
 setState('idle');
+
+// ── GOOGLE MAPS ──────────────────────────────────────────
+let mapInstance = null;
+let mapOpen = false;
+
+window.__gMapsReady = function() { /* API loaded */ };
+
+const MAP_DARK_STYLE = [
+  {elementType:'geometry',stylers:[{color:'#0a0c1a'}]},
+  {elementType:'labels.text.stroke',stylers:[{color:'#05060e'}]},
+  {elementType:'labels.text.fill',stylers:[{color:'#6a7a99'}]},
+  {featureType:'administrative.locality',elementType:'labels.text.fill',stylers:[{color:'#c8d6ee'}]},
+  {featureType:'poi',elementType:'labels.text.fill',stylers:[{color:'#6a7a99'}]},
+  {featureType:'poi.park',elementType:'geometry',stylers:[{color:'#0f1120'}]},
+  {featureType:'road',elementType:'geometry',stylers:[{color:'#1a2040'}]},
+  {featureType:'road',elementType:'labels.text.fill',stylers:[{color:'#6a7a99'}]},
+  {featureType:'road.highway',elementType:'geometry',stylers:[{color:'#0d3a5c'}]},
+  {featureType:'road.highway',elementType:'labels.text.fill',stylers:[{color:'#00c2ff'}]},
+  {featureType:'transit',elementType:'geometry',stylers:[{color:'#0f1120'}]},
+  {featureType:'water',elementType:'geometry',stylers:[{color:'#040d1f'}]},
+  {featureType:'water',elementType:'labels.text.fill',stylers:[{color:'#2a3450'}]}
+];
+
+function initMap() {
+  if (mapInstance) return;
+  if (typeof google === 'undefined' || !google.maps) {
+    setTimeout(initMap, 300);
+    return;
+  }
+  mapInstance = new google.maps.Map(document.getElementById('gmap'), {
+    center: {lat: 39.5, lng: -98.35},
+    zoom: 4,
+    mapTypeId: 'roadmap',
+    zoomControl: true,
+    mapTypeControl: false,
+    streetViewControl: false,
+    fullscreenControl: true,
+    styles: MAP_DARK_STYLE
+  });
+}
+
+function toggleMap() {
+  const panel = document.getElementById('map-panel');
+  const btn = document.getElementById('map-btn');
+  mapOpen = !mapOpen;
+  panel.classList.toggle('open', mapOpen);
+  btn.classList.toggle('map-active', mapOpen);
+  if (mapOpen) initMap();
+}
+
 </script>
 </body>
 </html>
