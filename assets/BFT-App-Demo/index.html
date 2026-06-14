@@ -1324,23 +1324,20 @@ tbody tr{cursor:pointer;}
 
 <!-- DRIVERS -->
 <div class="view" id="view-drivers">
-  <div class="ph"><div><div class="pt">Driver Management</div><div class="ps">Fleet status &amp; performance</div></div></div>
+  <div class="ph">
+    <div><div class="pt">Driver Management</div><div class="ps">Fleet status &amp; performance</div></div>
+    <div class="ha"><button class="btn pri" onclick="openModal('new-driver')">+ Add Driver</button></div>
+  </div>
   <div class="sg">
-    <div class="sc" style="--al:var(--green)"><div class="sl">Online</div><div class="sv">12</div><div class="sd up">80% available</div></div>
-    <div class="sc" style="--al:var(--accent)"><div class="sl">On Job</div><div class="sv">7</div><div class="sd">3 tow · 4 freight</div></div>
-    <div class="sc" style="--al:var(--orange)"><div class="sl">Avg Rating</div><div class="sv">4.8</div><div class="sd">142 reviews</div></div>
-    <div class="sc" style="--al:var(--purple)"><div class="sl">Miles Today</div><div class="sv">1,847</div><div class="sd">fleet total</div></div>
+    <div class="sc" style="--al:var(--green)"><div class="sl">Online</div><div class="sv" id="drv-online">0</div><div class="sd up">active</div></div>
+    <div class="sc" style="--al:var(--accent)"><div class="sl">On Job</div><div class="sv" id="drv-onjob">0</div><div class="sd">dispatched</div></div>
+    <div class="sc" style="--al:var(--orange)"><div class="sl">Avg Rating</div><div class="sv" id="drv-rating">—</div><div class="sd">fleet avg</div></div>
+    <div class="sc" style="--al:var(--purple)"><div class="sl">Total Roster</div><div class="sv" id="drv-total">0</div><div class="sd">drivers</div></div>
   </div>
   <div class="tc">
-    <div class="tb"><div class="tt">Driver Roster</div><input class="si" placeholder="Search..."/></div>
-    <table><thead><tr><th>ID</th><th>Name</th><th class="hm">Vehicle</th><th>Module</th><th>Status</th><th class="hm">Jobs</th><th>Rating</th></tr></thead>
-    <tbody>
-      <tr><td class="mono" style="color:var(--accent)">D-02</td><td>Tony Wallace</td><td class="hm">F-550 Flatbed</td><td>Tow</td><td><span class="p pa"><span class="pd"></span>On Job</span></td><td class="hm">5</td><td style="color:var(--green)">4.9</td></tr>
-      <tr><td class="mono" style="color:var(--accent)">D-04</td><td>Marcus Hill</td><td class="hm">Ram 3500</td><td>Tow</td><td><span class="p pe"><span class="pd"></span>En Route</span></td><td class="hm">4</td><td style="color:var(--green)">4.7</td></tr>
-      <tr><td class="mono" style="color:var(--accent)">D-07</td><td>James Carter</td><td class="hm">Peterbilt 379</td><td>Freight</td><td><span class="p pa"><span class="pd"></span>On Job</span></td><td class="hm">2</td><td style="color:var(--green)">4.8</td></tr>
-      <tr><td class="mono" style="color:var(--accent)">D-11</td><td>Derek Jones</td><td class="hm">F-350 Rollback</td><td>Tow</td><td><span class="p pe"><span class="pd"></span>En Route</span></td><td class="hm">3</td><td style="color:var(--orange)">4.5</td></tr>
-      <tr><td class="mono" style="color:var(--text2)">D-06</td><td>Andre Washington</td><td class="hm">Kenworth T680</td><td>Freight</td><td><span class="p pco"><span class="pd"></span>Offline</span></td><td class="hm">6</td><td style="color:var(--green)">5.0</td></tr>
-    </tbody></table>
+    <div class="tb"><div class="tt">Driver Roster</div><input class="si" placeholder="Search..." oninput="filterT(this,'driver-body')"/></div>
+    <table><thead><tr><th>ID</th><th>Name</th><th class="hm">Vehicle</th><th>Module</th><th>Status</th><th class="hm">Jobs</th><th>Rating</th><th>Action</th></tr></thead>
+    <tbody id="driver-body"></tbody></table>
   </div>
 </div>
 
@@ -1426,8 +1423,11 @@ tbody tr{cursor:pointer;}
     <h3>📍 Google Maps Integration</h3>
     <p>Show live dispatch maps for Tow and Freight modules. Get a free Maps JavaScript API key at <strong>console.cloud.google.com</strong> — $200/month free credit covers thousands of map loads.</p>
     <div class="ai-key-row">
-      <input type="text" class="fi" id="maps-key-inp" placeholder="AIza..." autocomplete="off"/>
-      <button class="btn pri" onclick="saveMapsKey()">Apply Maps Key</button>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input type="password" class="fi" id="maps-key-inp" placeholder="AIza..." autocomplete="off" style="flex:1;font-family:monospace;letter-spacing:2px"/>
+        <button type="button" class="btn" style="padding:9px 12px;font-size:16px;min-width:44px" onclick="toggleMapsKeyVis()" id="maps-key-eye" title="Show/hide key">👁</button>
+        <button class="btn pri" onclick="saveMapsKey()">Apply</button>
+      </div>
     </div>
     <p style="font-size:11px;color:var(--text3);margin-top:8px;">Key stored in browser session only. Enable Maps JavaScript API + Maps Embed API in your Google Cloud project.</p>
   </div>
@@ -1519,7 +1519,7 @@ tbody tr{cursor:pointer;}
 /* ══════════ STATE ══════════ */
 const S={
   tow:[],freight:[],health:[],interest:[],assets:[],
-  towId:1044,freightId:89,healthId:4404,assetId:1024,
+  towId:1044,freightId:89,healthId:4404,assetId:1024,driverId:11,
   apiKey:'',mapsKey:localStorage.getItem('bft_maps_key')||'',agentMod:'tow',
   agentHistory:[],listening:false,speaking:false,
   recog:null,aiEnabled:false,dark:true
@@ -1543,6 +1543,13 @@ S.tow=[
    year:'2018',make:'Nissan',model:'Altima',color:'Blue',damage:'Dead battery — no visible damage',
    insurance:'Progressive',policy:'PR-77301-D',insPhone:'1-800-776-4737',
    photos:[]},
+];
+S.drivers=[
+  {id:'D-02',name:'Tony Wallace',  vehicle:'F-550 Flatbed',    type:'Tow',     status:'On Job',   jobs:5,rating:4.9,phone:'(404) 555-0182'},
+  {id:'D-04',name:'Marcus Hill',   vehicle:'Ram 3500',          type:'Tow',     status:'En Route', jobs:4,rating:4.7,phone:'(404) 555-0191'},
+  {id:'D-07',name:'James Carter',  vehicle:'Peterbilt 379',     type:'Freight', status:'On Job',   jobs:2,rating:4.8,phone:'(770) 555-0321'},
+  {id:'D-11',name:'Derek Jones',   vehicle:'F-350 Rollback',    type:'Tow',     status:'En Route', jobs:3,rating:4.5,phone:'(678) 555-0447'},
+  {id:'D-06',name:'Andre Washington',vehicle:'Kenworth T680',   type:'Freight', status:'Offline',  jobs:6,rating:5.0,phone:'(404) 555-0267'},
 ];
 S.freight=[
   {id:'F-087',driver:'T. Harris',origin:'Atlanta, GA',dest:'Birmingham, AL',weight:24.5,miles:147,status:'In Transit',eta:'2h 14m',
@@ -1865,6 +1872,13 @@ function filterT(inp,id){
 }
 
 /* ══════════ GOOGLE MAPS ══════════ */
+function toggleMapsKeyVis(){
+  const inp=document.getElementById('maps-key-inp');
+  const eye=document.getElementById('maps-key-eye');
+  if(inp.type==='password'){inp.type='text';inp.style.letterSpacing='normal';eye.textContent='🔒';}
+  else{inp.type='password';inp.style.letterSpacing='2px';eye.textContent='👁';}
+}
+
 function saveMapsKey(){
   const k=document.getElementById('maps-key-inp').value.trim();
   if(!k){showToast('error','Enter a valid Maps API key');return;}
@@ -1931,6 +1945,38 @@ window.__bftMapsReady=function(){
 };
 
 // ── ETA CALCULATION ──
+// ── Driver helpers ──
+function driverOptions(selected){
+  return S.drivers.map(d=>{
+    const full=d.id+' '+d.name;
+    return `<option${full===selected?' selected':''}>${full}</option>`;
+  }).join('');
+}
+function driverFullList(){
+  return S.drivers.map(d=>d.id+' '+d.name);
+}
+
+// ── Generic delete helpers ──
+function deleteRecord(arr,id,renderFn,label){
+  const idx=arr.findIndex(x=>x.id===id);
+  if(idx<0)return;
+  if(!confirm('Delete '+label+' '+id+'? This cannot be undone.'))return;
+  arr.splice(idx,1);
+  renderFn();
+  closeModal();
+  showToast('info',label+' '+id+' removed');
+}
+
+function deleteDriver(id){
+  const idx=S.drivers.findIndex(d=>d.id===id);
+  if(idx<0)return;
+  if(!confirm('Remove driver '+id+'? Jobs assigned to them will stay in the system.'))return;
+  S.drivers.splice(idx,1);
+  renderDrivers();
+  closeModal();
+  showToast('info',id+' removed from roster');
+}
+
 function etaFallback(priority){
   // Realistic Atlanta dispatch estimates by priority
   const base={Critical:5,High:9,Medium:13,Low:18};
@@ -2488,7 +2534,8 @@ function openAssetDetail(id){
       a.checked=document.getElementById('da-chk').value;
       a.gov=document.getElementById('da-gov').checked;
       renderAssets();showToast('ok',id+' updated');
-    }
+    },
+    extra:`<button type="button" class="btn dan" style="margin-top:8px;width:100%;padding:10px" onclick="deleteRecord(S.assets,'${id}',renderAssets,'Asset')">🗑 Delete Asset</button>`
   });
 }
 
@@ -2505,6 +2552,63 @@ function exportAssets(){
 
 // Track returned assets this session
 const returnedAssets = new Set();
+
+function renderDrivers(){
+  const online=S.drivers.filter(d=>d.status!=='Offline');
+  const onJob=S.drivers.filter(d=>['On Job','En Route'].includes(d.status));
+  const avgR=S.drivers.length?Math.round(S.drivers.reduce((a,d)=>a+d.rating,0)/S.drivers.length*10)/10:0;
+  document.getElementById('drv-online').textContent=online.length;
+  document.getElementById('drv-onjob').textContent=onJob.length;
+  document.getElementById('drv-rating').textContent=avgR||'—';
+  document.getElementById('drv-total').textContent=S.drivers.length;
+  const stsCls2=s=>s==='On Job'?'pa':s==='En Route'?'pe':s==='Offline'?'pco':'pw';
+  document.getElementById('driver-body').innerHTML=S.drivers.length?S.drivers.map(d=>`
+    <tr onclick="openDriverDetail('${d.id}')">
+      <td class="mono" style="color:${d.status==='Offline'?'var(--text2)':'var(--accent)'}">${d.id}</td>
+      <td>${d.name}</td>
+      <td class="hm">${d.vehicle}</td>
+      <td style="font-size:12px">${d.type}</td>
+      <td><span class="p ${stsCls2(d.status)}"><span class="pd"></span>${d.status}</span></td>
+      <td class="hm">${d.jobs}</td>
+      <td style="color:${d.rating>=4.7?'var(--green)':'var(--orange)'}">${d.rating}</td>
+      <td><button class="btn dan" style="padding:3px 10px;font-size:11px" onclick="event.stopPropagation();deleteDriver('${d.id}')">Remove</button></td>
+    </tr>`).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:20px">No drivers — add one above</td></tr>';
+}
+
+function openDriverDetail(id){
+  const d=S.drivers.find(x=>x.id===id);if(!d)return;
+  openModal('detail',{title:'Driver — '+d.id,btn:'Update',html:`
+    <div class="fr2">
+      <div class="fg"><label class="fl">Driver ID</label><div style="padding:9px 12px;background:var(--surf);border:1px solid var(--border);border-radius:8px;font-family:'JetBrains Mono',monospace;color:var(--accent)">${d.id}</div></div>
+      <div class="fg"><label class="fl">Status</label><select class="fsel" id="dd-s">${['Available','On Job','En Route','Offline'].map(s=>`<option${s===d.status?' selected':''}>${s}</option>`).join('')}</select></div>
+    </div>
+    <div class="fr2">
+      <div class="fg"><label class="fl">Full Name</label><input class="fi" id="dd-n" value="${d.name}"/></div>
+      <div class="fg"><label class="fl">Phone</label><input class="fi" id="dd-ph" value="${d.phone||''}"/></div>
+    </div>
+    <div class="fr2">
+      <div class="fg"><label class="fl">Vehicle</label><input class="fi" id="dd-v" value="${d.vehicle}"/></div>
+      <div class="fg"><label class="fl">Module</label><select class="fsel" id="dd-t"><option${d.type==='Tow'?' selected':''}>Tow</option><option${d.type==='Freight'?' selected':''}>Freight</option><option${d.type==='Both'?' selected':''}>Both</option></select></div>
+    </div>
+    <div class="fr2">
+      <div class="fg"><label class="fl">Total Jobs</label><input class="fi" id="dd-j" type="number" value="${d.jobs}"/></div>
+      <div class="fg"><label class="fl">Rating (1–5)</label><input class="fi" id="dd-r" type="number" step="0.1" min="1" max="5" value="${d.rating}"/></div>
+    </div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+      <button type="button" class="btn dan" style="width:100%;padding:10px" onclick="deleteDriver('${d.id}')">🗑 Remove Driver from Roster</button>
+    </div>`,
+    cb:()=>{
+      d.name=document.getElementById('dd-n').value.trim()||d.name;
+      d.phone=document.getElementById('dd-ph').value.trim();
+      d.vehicle=document.getElementById('dd-v').value.trim();
+      d.type=document.getElementById('dd-t').value;
+      d.status=document.getElementById('dd-s').value;
+      d.jobs=parseInt(document.getElementById('dd-j').value)||d.jobs;
+      d.rating=parseFloat(document.getElementById('dd-r').value)||d.rating;
+      renderDrivers();showToast('ok',d.id+' updated');
+    }
+  });
+}
 
 function renderDriverView(){
   const myJobs = S.tow.filter(j => j.driver === 'D-04 Marcus Hill' && !['Completed','Cancelled'].includes(j.status));
@@ -2534,7 +2638,7 @@ function renderDriverView(){
         ${j.status==='En Route'?`<button class="jc-btn go" onclick="driverUpdateJob('${j.id}','Onsite')">📍 Mark Onsite</button>`:''}
         ${j.status==='Onsite'?`<button class="jc-btn done" onclick="driverUpdateJob('${j.id}','Completed')">✓ Complete Job</button>`:''}
         ${j.status==='Waiting'?`<button class="jc-btn go" onclick="driverUpdateJob('${j.id}','En Route')">🚛 Start En Route</button>`:''}
-        <button class="jc-btn ghost" onclick="driverUpdateJob('${j.id}','Cancelled')">Cancel</button>
+        <button class="jc-btn ghost" onclick="deleteRecord(S.tow,'${j.id}',()=>{renderTow();renderDriverView();},'Job')">Remove</button>
       </div>
     </div>`).join('') : '<div style="padding:20px;text-align:center;color:var(--text2);font-size:13px">No jobs currently assigned</div>';
 
@@ -2669,7 +2773,7 @@ function checkoutAsset(id){
   showToast('ok', a.name + ' checked out to you');
 }
 
-function renderAll(){renderTow();renderFreight();renderHealth();renderInterest();renderAssets();renderDriverView();renderNurseView();renderTrackerView();}
+function renderAll(){renderTow();renderFreight();renderHealth();renderInterest();renderAssets();renderDrivers();renderDriverView();renderNurseView();renderTrackerView();}
 
 /* ══════════ LIVE UPDATES ══════════ */
 function updateTowSt(id,val){const j=S.tow.find(x=>x.id===id);if(j){j.status=val;renderTow();showToast('info',`${id} → ${val}`);}}
@@ -2749,7 +2853,7 @@ function openModal(type,data){
       <div class="fg"><label class="fl">Location</label><input class="fi" id="nj-l" placeholder="Address or cross-street"/></div>
       <div class="fr2"><div class="fg"><label class="fl">Service Type</label><select class="fsel" id="nj-t"><option>Lock-out</option><option>Flat Tire</option><option>Battery Jump</option><option>Tow / Recovery</option><option>Accident</option><option>Engine Failure</option><option>Winch-out</option></select></div>
       <div class="fg"><label class="fl">Priority</label><select class="fsel" id="nj-p"><option>Low</option><option selected>Medium</option><option>High</option><option>Critical</option></select></div></div>
-      <div class="fg"><label class="fl">Assign Driver</label><select class="fsel" id="nj-d"><option>— Auto-assign —</option><option>D-04 Marcus Hill</option><option>D-07 James Carter</option><option>D-11 Derek Jones</option><option>D-02 Tony Wallace</option></select></div>
+      <div class="fg"><label class="fl">Assign Driver</label><select class="fsel" id="nj-d"><option>— Auto-assign —</option>${S.drivers.filter(d=>['Tow','Both'].includes(d.type)&&d.status!=='Offline').map(d=>`<option>${d.id+' '+d.name}</option>`).join('')}</select></div>
       <div style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px">
         <div style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Vehicle Info</div>
         <div class="fr2"><div class="fg"><label class="fl">Year</label><input class="fi" id="nj-yr" placeholder="2023" maxlength="4"/></div><div class="fg"><label class="fl">Color</label><input class="fi" id="nj-col" placeholder="e.g. Silver"/></div></div>
@@ -2803,7 +2907,7 @@ function openModal(type,data){
     'new-freight':{title:'New Freight Load',btn:'Create Load',html:`
       <div class="fr2"><div class="fg"><label class="fl">Origin</label><input class="fi" id="nf-o" placeholder="City, State"/></div><div class="fg"><label class="fl">Destination</label><input class="fi" id="nf-d" placeholder="City, State"/></div></div>
       <div class="fr2"><div class="fg"><label class="fl">Weight (tons)</label><input class="fi" id="nf-w" type="number" placeholder="0.0"/></div><div class="fg"><label class="fl">Distance (mi)</label><input class="fi" id="nf-m" type="number" placeholder="0"/></div></div>
-      <div class="fg"><label class="fl">Driver</label><select class="fsel" id="nf-dr"><option>T. Harris</option><option>D. Monroe</option><option>R. Simmons</option><option>C. Fields</option></select></div>
+      <div class="fg"><label class="fl">Driver</label><select class="fsel" id="nf-dr"><option>— Select driver —</option>${S.drivers.filter(d=>['Freight','Both'].includes(d.type)&&d.status!=='Offline').map(d=>`<option>${d.id+' '+d.name}</option>`).join('')}<option>External Carrier</option></select></div>
       <div style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px">
         <div style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">PO &amp; Schedule</div>
         <div class="fg"><label class="fl">PO Number</label><input class="fi" id="nf-po" placeholder="e.g. PO-2024-0001"/></div>
@@ -2911,6 +3015,36 @@ function openModal(type,data){
         showToast('ok', 'Connection added for ' + mod + ' — ' + DB_META[type].label);
         if(curDbModule === mod) renderDbPanel(mod);
       }},
+    'new-driver':{title:'Add Driver',btn:'Add Driver',html:`
+      <div class="fr2">
+        <div class="fg"><label class="fl">Full Name</label><input class="fi" id="nd2-n" placeholder="First Last"/></div>
+        <div class="fg"><label class="fl">Phone</label><input class="fi" id="nd2-ph" placeholder="(404) 555-0000"/></div>
+      </div>
+      <div class="fr2">
+        <div class="fg"><label class="fl">Vehicle</label><input class="fi" id="nd2-v" placeholder="e.g. Ford F-550 Flatbed"/></div>
+        <div class="fg"><label class="fl">Module</label><select class="fsel" id="nd2-t"><option>Tow</option><option>Freight</option><option>Both</option></select></div>
+      </div>
+      <div class="fr2">
+        <div class="fg"><label class="fl">Starting Rating</label><select class="fsel" id="nd2-r"><option value="5">5.0 — New hire</option><option value="4.5" selected>4.5 — Experienced</option><option value="4">4.0</option><option value="3.5">3.5</option></select></div>
+        <div class="fg"><label class="fl">Status</label><select class="fsel" id="nd2-s"><option>Available</option><option>On Job</option><option>Offline</option></select></div>
+      </div>`,
+      cb:()=>{
+        const nm=document.getElementById('nd2-n').value.trim();
+        if(!nm){showToast('error','Name required');return;}
+        S.driverId++;
+        const newId='D-'+String(S.driverId).padStart(2,'0');
+        S.drivers.push({
+          id:newId,name:nm,
+          vehicle:document.getElementById('nd2-v').value.trim()||'TBD',
+          type:document.getElementById('nd2-t').value,
+          status:document.getElementById('nd2-s').value,
+          jobs:0,
+          rating:parseFloat(document.getElementById('nd2-r').value)||4.5,
+          phone:document.getElementById('nd2-ph').value.trim()
+        });
+        renderDrivers();
+        showToast('ok',newId+' '+nm+' added to roster');
+      }},
     'new-dispatch':{title:'New EMS Dispatch',btn:'Dispatch Unit',html:`
       <div class="fr2">
         <div class="fg"><label class="fl">Patient Name</label><input class="fi" id="nd-pt" placeholder="Full name"/></div>
@@ -2969,6 +3103,13 @@ function openModal(type,data){
   document.getElementById('m-btn').textContent=c.btn||'Save';
   mCb=c.cb||null;
   document.getElementById('m-btn').onclick=()=>{if(mCb)mCb();closeModal();};
+  // Extra action button (delete etc.)
+  let extraSlot=document.getElementById('m-extra');
+  if(!extraSlot){
+    extraSlot=document.createElement('div');extraSlot.id='m-extra';
+    document.getElementById('m-body').after(extraSlot);
+  }
+  extraSlot.innerHTML=c.extra||'';
   document.getElementById('mo').classList.add('on');
 }
 function closeModal(e){if(!e||e.target===document.getElementById('mo'))document.getElementById('mo').classList.remove('on');}
@@ -2996,7 +3137,7 @@ function openJobDetail(id){
     </div>
     ${S.mapsKey?`<div id="job-map-wrap" style="margin-top:10px;display:none"><iframe id="job-map-iframe" src="" style="width:100%;height:220px;border-radius:8px;border:1px solid var(--border);display:block" frameborder="0" allowfullscreen></iframe></div>`:''}
     <div class="fr2">
-      <div class="fg"><label class="fl">Driver</label><select class="fsel" id="dj-d">${['D-04 Marcus Hill','D-07 James Carter','D-11 Derek Jones','D-02 Tony Wallace','Unassigned'].map(d=>`<option${d===j.driver?' selected':''}>${d}</option>`).join('')}</select></div>
+      <div class="fg"><label class="fl">Driver</label><select class="fsel" id="dj-d">${['Unassigned',...S.drivers.map(d=>d.id+' '+d.name)].map(d=>`<option${d===j.driver?' selected':''}>${d}</option>`).join('')}</select></div>
       <div class="fg"><label class="fl">Status</label><select class="fsel" id="dj-s">${['En Route','Onsite','Waiting','Completed','Cancelled'].map(s=>`<option${s===j.status?' selected':''}>${s}</option>`).join('')}</select></div>
     </div>
     <div style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px">
@@ -3047,7 +3188,8 @@ function openJobDetail(id){
       const newPhotos=Array.from(document.querySelectorAll('#dj-preview .photo-thumb')).map(img=>img.src);
       if(newPhotos.length)j.photos=[...(j.photos||[]),...newPhotos];
       renderTow();showToast('ok',id+' updated');
-    }
+    },
+    extra:`<button type="button" class="btn dan" style="margin-top:8px;width:100%;padding:10px" onclick="deleteRecord(S.tow,'${id}',renderTow,'Job')">🗑 Delete Job</button>`
   });
 }
 
@@ -3098,7 +3240,8 @@ function openFreightDetail(id){
       l.ref=document.getElementById('df-ref').value;
       l.db=document.getElementById('df-db').value;
       renderFreight();showToast('ok','#'+id+' updated');
-    }
+    },
+    extra:`<button type="button" class="btn dan" style="margin-top:8px;width:100%;padding:10px" onclick="deleteRecord(S.freight,'${id}',renderFreight,'Load')">🗑 Delete Load</button>`
   });
 }
 
@@ -3412,7 +3555,8 @@ function openCallDetail(id){
       c.vitals=document.getElementById('dc-v').value;
       c.notes=document.getElementById('dc-notes').value;
       renderHealth();renderMedicView();showToast('ok',id+' updated');
-    }
+    },
+    extra:`<button type="button" class="btn dan" style="margin-top:8px;width:100%;padding:10px" onclick="deleteRecord(S.health,'${id}',()=>{renderHealth();renderMedicView();},'Call')">🗑 Cancel & Remove Call</button>`
   });
 }
 
