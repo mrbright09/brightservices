@@ -1835,8 +1835,8 @@ function saveMapsKey(){
   if(!k){showToast('error','Enter a valid Maps API key');return;}
   S.mapsKey=k;
   localStorage.setItem('bft_maps_key',k);
-  loadMap('tow');
-  loadMap('freight');
+  if(!gMaps){loadMapsJS();} // will auto-render maps when ready
+  else{renderTowJSMap();renderFreightJSMap();}
   showToast('ok','Maps key saved — maps loading');
   // sync inline inputs
   const ti=document.getElementById('tow-inline-key');
@@ -1844,25 +1844,253 @@ function saveMapsKey(){
   if(ti)ti.value=k;if(fi)fi.value=k;
 }
 
+// ── DRIVER HOME POSITIONS (Atlanta area, used for ETA estimates) ──
+const DRIVER_HOME={
+  'D-04 Marcus Hill':{lat:33.841,lng:-84.371},
+  'D-07 James Carter':{lat:33.712,lng:-84.411},
+  'D-11 Derek Jones':{lat:33.849,lng:-84.362},
+  'D-02 Tony Wallace':{lat:33.781,lng:-84.383}
+};
+
+const DARK_MAP_STYLE=[
+  {elementType:'geometry',stylers:[{color:'#0a0f1e'}]},
+  {elementType:'labels.text.fill',stylers:[{color:'#8899bb'}]},
+  {elementType:'labels.text.stroke',stylers:[{color:'#04050d'}]},
+  {featureType:'road',elementType:'geometry',stylers:[{color:'#162236'}]},
+  {featureType:'road.highway',elementType:'geometry',stylers:[{color:'#0e2035'}]},
+  {featureType:'road',elementType:'labels.text.fill',stylers:[{color:'#5577aa'}]},
+  {featureType:'water',elementType:'geometry',stylers:[{color:'#050a14'}]},
+  {featureType:'poi',stylers:[{visibility:'off'}]},
+  {featureType:'transit',stylers:[{visibility:'off'}]}
+];
+
+let gMaps=null,towJSMap=null,freightJSMap=null;
+const _geocodeCache={};
+const _towMarkers=[],_freightMarkers=[];
+
+function _geocode(addr,cb){
+  if(_geocodeCache[addr]){cb(_geocodeCache[addr]);return;}
+  new gMaps.Geocoder().geocode({address:addr},(res,st)=>{
+    if(st==='OK'){_geocodeCache[addr]=res[0].geometry.location;}
+    cb(st==='OK'?res[0].geometry.location:null);
+  });
+}
+
+function loadMapsJS(){
+  if(gMaps||window.__bftMapsJsLoading||!S.mapsKey)return;
+  window.__bftMapsJsLoading=true;
+  const s=document.createElement('script');
+  s.src=`https://maps.googleapis.com/maps/api/js?key=${S.mapsKey}&callback=__bftMapsReady`;
+  s.async=true;s.defer=true;
+  document.head.appendChild(s);
+}
+
+window.__bftMapsReady=function(){
+  gMaps=window.google.maps;
+  renderTowJSMap();
+  renderFreightJSMap();
+  // Resolve any stuck ETAs
+  S.tow.filter(j=>j.eta==='Calculating...').forEach(calcJobETA);
+};
+
+// ── ETA CALCULATION ──
+function etaFallback(priority){
+  // Realistic Atlanta dispatch estimates by priority
+  const base={Critical:5,High:9,Medium:13,Low:18};
+  return (base[priority]||12)+' min';
+}
+
+function calcJobETA(job){
+  if(!job.driver||job.driver==='Unassigned'||!job.driver.startsWith('D-')){
+    job.eta='Pending';renderTow();return;
+  }
+  const pos=DRIVER_HOME[job.driver];
+  if(!pos){job.eta=etaFallback(job.priority);renderTow();return;}
+
+  if(gMaps){
+    // Real travel time via Distance Matrix API
+    const dest=job.loc+(job.loc.toLowerCase().includes('atlanta')?'':', Atlanta, GA');
+    new gMaps.DistanceMatrixService().getDistanceMatrix({
+      origins:[new gMaps.LatLng(pos.lat,pos.lng)],
+      destinations:[dest],
+      travelMode:gMaps.TravelMode.DRIVING
+    },(res,status)=>{
+      const el=res&&res.rows[0]&&res.rows[0].elements[0];
+      if(status==='OK'&&el&&el.status==='OK'){
+        const secs=el.duration.value;
+        job.eta=secs<60?'< 1 min':Math.round(secs/60)+' min';
+      }else{
+        job.eta=etaFallback(job.priority);
+      }
+      renderTow();
+    });
+  }else{
+    job.eta=etaFallback(job.priority);
+    renderTow();
+  }
+}
+
+function calcFreightETA(miles){
+  if(!miles||miles<=0)return'TBD';
+  // Average trucking speed ~58 mph
+  const totalMins=Math.round(miles/58*60);
+  const h=Math.floor(totalMins/60),m=totalMins%60;
+  return h>0?(m>0?h+'h '+m+'m':h+'h'):m+'m';
+}
+
+// ── INTERACTIVE JS MAPS ──
+function renderTowJSMap(){
+  const ph=document.getElementById('tow-map-ph');
+  const iframe=document.getElementById('tow-map-iframe');
+  if(!gMaps||!S.mapsKey){loadMap('tow');return;}
+
+  let div=document.getElementById('tow-js-map');
+  if(!div){
+    div=document.createElement('div');
+    div.id='tow-js-map';
+    div.style.cssText='width:100%;height:100%;border-radius:8px;';
+    iframe.parentNode.insertBefore(div,iframe);
+    iframe.style.display='none';
+  }
+  if(ph)ph.style.display='none';
+  div.style.display='block';
+
+  if(!towJSMap){
+    towJSMap=new gMaps.Map(div,{
+      center:{lat:33.79,lng:-84.38},zoom:11,
+      styles:DARK_MAP_STYLE,
+      mapTypeControl:false,streetViewControl:false,fullscreenControl:true
+    });
+  }
+
+  // Clear old markers
+  _towMarkers.forEach(m=>m.setMap(null));
+  _towMarkers.length=0;
+
+  const active=S.tow.filter(j=>!['Completed','Cancelled'].includes(j.status));
+  const PIN={Critical:'#ff3d57',High:'#ff9500',Medium:'#00b4ff',Low:'#00e676'};
+
+  active.forEach(j=>{
+    const addr=j.loc+(j.loc.toLowerCase().includes('atlanta')?'':', Atlanta, GA');
+    _geocode(addr,latLng=>{
+      if(!latLng)return;
+      const marker=new gMaps.Marker({
+        position:latLng,map:towJSMap,title:j.id+': '+j.customer,
+        icon:{path:gMaps.SymbolPath.CIRCLE,scale:9,
+          fillColor:PIN[j.priority]||'#00b4ff',fillOpacity:0.92,
+          strokeColor:'#fff',strokeWeight:2}
+      });
+      const info=new gMaps.InfoWindow({content:
+        `<div style="font-family:sans-serif;font-size:12px;min-width:160px;line-height:1.6">
+          <b style="color:#00b4ff">${j.id}</b> · ${j.type}<br>
+          <span style="color:#333">${j.customer}</span><br>
+          📍 ${j.loc}<br>
+          <b>${j.priority}</b> · ${j.status}${j.eta&&j.eta!=='—'?' · <b>'+j.eta+'</b>':''}
+        </div>`
+      });
+      marker.addListener('click',()=>info.open(towJSMap,marker));
+      _towMarkers.push(marker);
+    });
+  });
+
+  // Driver position markers
+  Object.entries(DRIVER_HOME).forEach(([name,pos])=>{
+    const hasJob=active.some(j=>j.driver===name);
+    const m=new gMaps.Marker({
+      position:pos,map:towJSMap,title:name,zIndex:10,
+      icon:{path:gMaps.SymbolPath.BACKWARD_CLOSED_ARROW,scale:6,
+        fillColor:hasJob?'#00e676':'#888',fillOpacity:0.9,
+        strokeColor:'#fff',strokeWeight:2,rotation:0}
+    });
+    const activeJobs=active.filter(j=>j.driver===name);
+    const info=new gMaps.InfoWindow({content:
+      `<div style="font-family:sans-serif;font-size:12px"><b style="color:#00e676">🚛 ${name}</b><br>Active: ${activeJobs.length} job${activeJobs.length!==1?'s':''}</div>`
+    });
+    m.addListener('click',()=>info.open(towJSMap,m));
+    _towMarkers.push(m);
+  });
+}
+
+function renderFreightJSMap(){
+  const ph=document.getElementById('freight-map-ph');
+  const iframe=document.getElementById('freight-map-iframe');
+  if(!gMaps||!S.mapsKey){loadMap('freight');return;}
+
+  let div=document.getElementById('freight-js-map');
+  if(!div){
+    div=document.createElement('div');
+    div.id='freight-js-map';
+    div.style.cssText='width:100%;height:100%;border-radius:8px;';
+    iframe.parentNode.insertBefore(div,iframe);
+    iframe.style.display='none';
+  }
+  if(ph)ph.style.display='none';
+  div.style.display='block';
+
+  if(!freightJSMap){
+    freightJSMap=new gMaps.Map(div,{
+      center:{lat:32.8,lng:-84.2},zoom:6,
+      styles:DARK_MAP_STYLE,
+      mapTypeControl:false,streetViewControl:false,fullscreenControl:true
+    });
+  }
+
+  _freightMarkers.forEach(m=>m.setMap(null));
+  _freightMarkers.length=0;
+
+  S.freight.filter(l=>l.status!=='Completed').forEach(l=>{
+    // Origin pin (purple)
+    _geocode(l.origin,pos=>{
+      if(!pos)return;
+      const m=new gMaps.Marker({
+        position:pos,map:freightJSMap,title:'#'+l.id+' Origin: '+l.origin,
+        icon:{path:gMaps.SymbolPath.CIRCLE,scale:8,fillColor:'#9c6fff',fillOpacity:0.9,strokeColor:'#fff',strokeWeight:2}
+      });
+      const info=new gMaps.InfoWindow({content:
+        `<div style="font-family:sans-serif;font-size:12px;line-height:1.6"><b style="color:#9c6fff">#${l.id}</b> · ${l.driver}<br>📦 Origin: ${l.origin}<br>➡️ Dest: ${l.dest}<br>${l.miles} mi · ${l.status}${l.eta&&l.eta!=='—'?' · '+l.eta:''}
+        </div>`
+      });
+      m.addListener('click',()=>info.open(freightJSMap,m));
+      _freightMarkers.push(m);
+    });
+    // Destination pin (orange)
+    _geocode(l.dest,pos=>{
+      if(!pos)return;
+      const m=new gMaps.Marker({
+        position:pos,map:freightJSMap,title:'#'+l.id+' Dest: '+l.dest,
+        icon:{path:gMaps.SymbolPath.CIRCLE,scale:8,fillColor:'#ff9500',fillOpacity:0.9,strokeColor:'#fff',strokeWeight:2}
+      });
+      _freightMarkers.push(m);
+    });
+  });
+}
+
 function loadMap(module){
   const keyInput=document.getElementById(module+'-inline-key');
   const key=S.mapsKey||(keyInput?keyInput.value.trim():'');
   if(!key){showToast('error','No Maps API key — add one in Settings');return;}
   S.mapsKey=key;
-  // Atlanta area coords for tow, wider SE region for freight
+  if(keyInput)keyInput.value=key;
+
+  // If JS API is loaded, use interactive map with job pins
+  if(gMaps){
+    if(module==='tow')renderTowJSMap();
+    else if(module==='freight')renderFreightJSMap();
+    showToast('ok',module.charAt(0).toUpperCase()+module.slice(1)+' map loaded');
+    return;
+  }
+
+  // Fallback: embed iframe (static view)
   const configs={
-    tow:{center:'33.749,-84.388',zoom:12,markers:'33.749,-84.388|33.772,-84.351|33.712,-84.411'},
-    freight:{center:'32.8,-84.2',zoom:7,markers:'33.749,-84.388|32.361,-86.279|33.080,-83.232|32.016,-81.093'}
+    tow:{center:'33.749,-84.388',zoom:12},
+    freight:{center:'32.8,-84.2',zoom:7}
   };
   const c=configs[module];
   const ph=document.getElementById(module+'-map-ph');
   const iframe=document.getElementById(module+'-map-iframe');
-  // Use Maps Embed API — no JS API required, just Maps Embed API enabled
-  const url=`https://www.google.com/maps/embed/v1/view?key=${key}&center=${c.center}&zoom=${c.zoom}&maptype=roadmap`;
-  iframe.src=url;
+  iframe.src=`https://www.google.com/maps/embed/v1/view?key=${key}&center=${c.center}&zoom=${c.zoom}&maptype=roadmap`;
   iframe.style.display='block';
   ph.style.display='none';
-  if(keyInput)keyInput.value=key;
   showToast('ok',module.charAt(0).toUpperCase()+module.slice(1)+' map loaded');
 }
 
@@ -2376,11 +2604,12 @@ function openModal(type,data){
         const dr=document.getElementById('nj-d').value;
         const photos=Array.from(document.querySelectorAll('#nj-preview .photo-thumb')).map(img=>img.src);
         S.towId++;
+        const _drAssigned=dr==='— Auto-assign —'?'Unassigned':dr;
         S.tow.unshift({
           id:'TOW-'+S.towId,type:t,customer:c,
           phone:document.getElementById('nj-ph').value.trim(),
-          loc:l,driver:dr==='— Auto-assign —'?'Unassigned':dr,
-          status:'Waiting',priority:pr,eta:'Calculating...',
+          loc:l,driver:_drAssigned,
+          status:'Waiting',priority:pr,eta:_drAssigned==='Unassigned'?'Pending':etaFallback(pr),
           year:document.getElementById('nj-yr').value.trim(),
           make:document.getElementById('nj-mk').value.trim(),
           model:document.getElementById('nj-mod').value.trim(),
@@ -2392,6 +2621,11 @@ function openModal(type,data){
           photos
         });
         renderTow();showToast('ok','Job #'+S.towId+' created — '+photos.length+' photo(s) attached');
+        // Kick off real ETA calculation (async)
+        const _newJob=S.tow[0];
+        if(_newJob.driver!=='Unassigned')calcJobETA(_newJob);
+        // Refresh map pins
+        if(gMaps)renderTowJSMap();
       }},
     'new-freight':{title:'New Freight Load',btn:'Create Load',html:`
       <div class="fr2"><div class="fg"><label class="fl">Origin</label><input class="fi" id="nf-o" placeholder="City, State"/></div><div class="fg"><label class="fl">Destination</label><input class="fi" id="nf-d" placeholder="City, State"/></div></div>
@@ -2418,7 +2652,7 @@ function openModal(type,data){
         S.freight.unshift({
           id:'F-'+S.freightId,
           driver:document.getElementById('nf-dr').value,
-          origin:o,dest:d,weight:w,miles:m,status:'Staged',eta:'TBD',
+          origin:o,dest:d,weight:w,miles:m,status:'Staged',eta:calcFreightETA(m),
           po:document.getElementById('nf-po').value.trim(),
           edod:document.getElementById('nf-edod').value,
           edoa:document.getElementById('nf-edoa').value,
@@ -2427,6 +2661,7 @@ function openModal(type,data){
           db:'SQL Server'
         });
         renderFreight();showToast('ok','Load #F-'+S.freightId+' created');
+        if(gMaps)renderFreightJSMap();
       }},
     'new-asset':{title:'Add New Asset',btn:'Add Asset',html:`
       <div class="fg"><label class="fl">Asset Name</label><input class="fi" id="na-n" placeholder="e.g. Peterbilt 579 — Unit 12"/></div>
@@ -3207,13 +3442,15 @@ function toggleMic(){
 document.getElementById('a-send').addEventListener('click',()=>{const t=document.getElementById('a-tf').value.trim();if(!t)return;document.getElementById('a-tf').value='';askAgent(t);});
 document.getElementById('a-tf').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('a-send').click();});
 speechSynthesis.onvoiceschanged=()=>{};
-window.addEventListener('resize',()=>{if(S.mapsKey){loadMap('tow');loadMap('freight');}});
+window.addEventListener('resize',()=>{if(S.mapsKey){if(gMaps){renderTowJSMap();renderFreightJSMap();}else{loadMap('tow');loadMap('freight');}}});
 window.addEventListener('load',()=>{
   const storedKey=localStorage.getItem('bft_maps_key');
   if(storedKey)S.mapsKey=storedKey;
   const inp=document.getElementById('maps-key-inp');
   if(inp)inp.value=S.mapsKey||'';
-  if(S.mapsKey){loadMap('tow');loadMap('freight');}
+  if(S.mapsKey){
+    loadMapsJS(); // load JS API first; __bftMapsReady will trigger interactive maps
+  }
 });
 </script>
 </body>
