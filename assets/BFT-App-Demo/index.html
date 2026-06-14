@@ -437,10 +437,11 @@ tbody tr{cursor:pointer;}
 /* FAB */
 #ai-fab{
   position:fixed;bottom:22px;right:22px;z-index:200;
-  width:52px;height:52px;border-radius:50%;
+  width:56px;height:56px;border-radius:50%;
   background:linear-gradient(135deg,var(--purple),var(--accent));
   border:none;cursor:pointer;display:none;
-  align-items:center;justify-content:center;font-size:22px;
+  align-items:center;justify-content:center;font-size:28px;
+  line-height:1;letter-spacing:0;
   box-shadow:0 4px 18px rgba(100,80,255,.4);
   transition:transform .2s,box-shadow .2s;
 }
@@ -566,7 +567,7 @@ tbody tr{cursor:pointer;}
   #toast{left:10px;right:10px;max-width:none;bottom:12px;}
 
   /* FAB: slightly smaller, above toast */
-  #ai-fab{bottom:72px;width:46px;height:46px;font-size:20px;}
+  #ai-fab{bottom:72px;width:50px;height:50px;font-size:24px;line-height:1;}
 
   /* Two-col role header badge */
   .role-badge{font-size:10px;padding:3px 8px;}
@@ -606,7 +607,7 @@ tbody tr{cursor:pointer;}
   .btn{padding:10px 18px;font-size:14px;}
   .ni{padding:11px 16px;font-size:14px;}
   .ni svg{width:17px;height:17px;}
-  #ai-fab{width:60px;height:60px;font-size:26px;bottom:28px;right:28px;}
+  #ai-fab{width:62px;height:62px;font-size:30px;line-height:1;bottom:28px;right:28px;}
   .mc{height:380px;}
   #agent-panel{max-width:780px;}
   .modal{max-width:580px;}
@@ -1143,19 +1144,37 @@ tbody tr{cursor:pointer;}
 <!-- HEALTH -->
 <div class="view" id="view-health">
   <div class="ph">
-    <div><div class="pt">Health Triage</div><div class="ps">Patient intake &amp; priority escalation</div></div>
-    <div class="ha"><button class="btn dan" onclick="openModal('new-patient')">+ New Patient</button></div>
+    <div><div class="pt">EMS Dispatch</div><div class="ps">Ambulance dispatch · Patient transport · In-clinic status</div></div>
+    <div class="ha"><button class="btn dan" onclick="openModal('new-dispatch')">+ New Dispatch</button></div>
   </div>
-  <div class="sg">
-    <div class="sc" style="--al:var(--red)"><div class="sl">Critical</div><div class="sv" style="color:var(--red)" id="hs-crit">0</div><div class="sd dn">Immediate</div></div>
-    <div class="sc" style="--al:var(--orange)"><div class="sl">High Priority</div><div class="sv" style="color:var(--orange)" id="hs-high">0</div><div class="sd">Avg wait 4 min</div></div>
-    <div class="sc" style="--al:var(--purple)"><div class="sl">Medium</div><div class="sv" style="color:var(--purple)" id="hs-med">0</div><div class="sd">Avg wait 18 min</div></div>
-    <div class="sc" style="--al:var(--green)"><div class="sl">Discharged</div><div class="sv" id="hs-dis">0</div><div class="sd up">today</div></div>
+  <div class="sg" style="grid-template-columns:repeat(5,1fr)">
+    <div class="sc" style="--al:var(--accent)"><div class="sl">En Route</div><div class="sv" style="color:var(--accent)" id="hs-enroute">0</div><div class="sd">dispatched</div></div>
+    <div class="sc" style="--al:var(--orange)"><div class="sl">On Scene</div><div class="sv" style="color:var(--orange)" id="hs-scene">0</div><div class="sd">at pickup</div></div>
+    <div class="sc" style="--al:var(--red)"><div class="sl">Transporting</div><div class="sv" style="color:var(--red)" id="hs-transport">0</div><div class="sd">to hospital</div></div>
+    <div class="sc" style="--al:var(--purple)"><div class="sl">In Treatment</div><div class="sv" style="color:var(--purple)" id="hs-treat">0</div><div class="sd">in clinic</div></div>
+    <div class="sc" style="--al:var(--green)"><div class="sl">Completed</div><div class="sv" id="hs-done">0</div><div class="sd up">today</div></div>
+  </div>
+  <div class="map-wrap" style="height:220px;position:relative;border-radius:10px;overflow:hidden;margin-bottom:16px;border:1px solid var(--border);background:var(--surf)">
+    <div class="map-placeholder" id="health-map-ph" style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:8px;color:var(--text2)">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      <div style="font-size:12px">Map loads automatically when Maps key is set</div>
+    </div>
+    <iframe id="health-map-iframe" class="google-map" style="display:none"></iframe>
   </div>
   <div class="tc">
-    <div class="tb"><div class="tt">Active Patients</div><input class="si" placeholder="Search..." oninput="filterT(this,'health-body')"/></div>
-    <table><thead><tr><th>ID</th><th>Name</th><th class="hm">Complaint</th><th>Pain</th><th>Priority</th><th class="hm">Wait</th><th>Status</th><th>Action</th></tr></thead>
-    <tbody id="health-body"></tbody></table>
+    <div class="tb"><div class="tt">🚨 Dispatch Queue</div><input class="si" placeholder="Search..." oninput="filterT(this,'health-dispatch-body')"/></div>
+    <table><thead><tr><th>Call ID</th><th>Patient</th><th class="hm">Call Type</th><th>Unit</th><th>ETA Pickup</th><th>Priority</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody id="health-dispatch-body"></tbody></table>
+  </div>
+  <div class="tc" style="margin-top:16px">
+    <div class="tb"><div class="tt">🚑 In Transit</div><input class="si" placeholder="Search..." oninput="filterT(this,'health-transit-body')"/></div>
+    <table><thead><tr><th>Call ID</th><th>Patient</th><th class="hm">Destination</th><th>Unit</th><th>ETA Hospital</th><th>Priority</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody id="health-transit-body"></tbody></table>
+  </div>
+  <div class="tc" style="margin-top:16px">
+    <div class="tb"><div class="tt">🏥 In-Clinic</div><input class="si" placeholder="Search..." oninput="filterT(this,'health-clinic-body')"/></div>
+    <table><thead><tr><th>Call ID</th><th>Patient</th><th class="hm">Hospital</th><th>Unit</th><th>Vitals</th><th>Priority</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody id="health-clinic-body"></tbody></table>
   </div>
 </div>
 
@@ -1262,22 +1281,22 @@ tbody tr{cursor:pointer;}
 <!-- NURSE / TRIAGE ROLE VIEW -->
 <div class="view" id="view-role-nurse">
   <div class="role-header" style="background:var(--rx);border-color:rgba(255,61,87,.2)">
-    <div class="role-avatar" style="background:var(--rx);border-color:rgba(255,61,87,.3)">🏥</div>
+    <div class="role-avatar" style="background:var(--rx);border-color:rgba(255,61,87,.3)">🚑</div>
     <div>
-      <div class="role-name">Nurse Fields</div>
-      <div class="role-sub">Triage Nurse · Emergency Department</div>
+      <div class="role-name">Unit 7 — Medic Taylor</div>
+      <div class="role-sub">Paramedic · Field Operations</div>
     </div>
     <div class="role-badge busy">● ON DUTY</div>
   </div>
   <div class="sg" style="grid-template-columns:repeat(4,1fr)">
-    <div class="sc" style="--al:var(--red)"><div class="sl">Critical</div><div class="sv" style="color:var(--red)" id="rn-crit">0</div><div class="sd dn">immediate</div></div>
-    <div class="sc" style="--al:var(--orange)"><div class="sl">High</div><div class="sv" style="color:var(--orange)" id="rn-high">0</div><div class="sd">urgent</div></div>
-    <div class="sc" style="--al:var(--purple)"><div class="sl">Medium</div><div class="sv" style="color:var(--purple)" id="rn-med">0</div><div class="sd">waiting</div></div>
-    <div class="sc" style="--al:var(--green)"><div class="sl">My Queue</div><div class="sv" id="rn-mine">0</div><div class="sd">assigned</div></div>
+    <div class="sc" style="--al:var(--accent)"><div class="sl">Dispatched</div><div class="sv" style="color:var(--accent)" id="rn-dispatch">0</div><div class="sd">en route</div></div>
+    <div class="sc" style="--al:var(--orange)"><div class="sl">On Scene</div><div class="sv" style="color:var(--orange)" id="rn-scene">0</div><div class="sd">at pickup</div></div>
+    <div class="sc" style="--al:var(--red)"><div class="sl">Transporting</div><div class="sv" style="color:var(--red)" id="rn-transit">0</div><div class="sd">to hospital</div></div>
+    <div class="sc" style="--al:var(--green)"><div class="sl">My Calls</div><div class="sv" id="rn-mine">0</div><div class="sd">assigned</div></div>
   </div>
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-    <div style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text2)">Patient Queue</div>
-    <button class="btn dan" style="padding:6px 14px;font-size:12px" onclick="openModal('new-patient')">+ Admit Patient</button>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text2)">My Active Calls</div>
+    <button class="btn dan" style="padding:6px 14px;font-size:12px" onclick="openModal('new-dispatch')">+ New Dispatch</button>
   </div>
   <div id="rn-queue"></div>
 </div>
@@ -1455,7 +1474,7 @@ tbody tr{cursor:pointer;}
       <button class="amt" onclick="setAgentMod('health',this)">🏥 Health</button>
       <button class="amt" onclick="setAgentMod('assets',this)">📦 Assets</button>
       <button class="amt" onclick="setAgentMod('driver',this)">🚗 Driver</button>
-      <button class="amt" onclick="setAgentMod('nurse',this)">🩺 Nurse</button>
+      <button class="amt" onclick="setAgentMod('nurse',this)">🚑 Medic</button>
     </div>
     <!-- PROMPT PANEL (Option 4) -->
     <div id="a-prompt-panel">
@@ -1500,7 +1519,7 @@ tbody tr{cursor:pointer;}
 /* ══════════ STATE ══════════ */
 const S={
   tow:[],freight:[],health:[],interest:[],assets:[],
-  towId:1044,freightId:89,healthId:2242,assetId:1024,
+  towId:1044,freightId:89,healthId:4404,assetId:1024,
   apiKey:'',mapsKey:localStorage.getItem('bft_maps_key')||'',agentMod:'tow',
   agentHistory:[],listening:false,speaking:false,
   recog:null,aiEnabled:false,dark:true
@@ -1534,10 +1553,26 @@ S.freight=[
    po:'PO-2024-8843',edod:'03/31/2025',edoa:'04/01/2025',carrier:'Simmons Carriers',db:'PostgreSQL',ref:'LD-443'},
 ];
 S.health=[
-  {id:'P-2241',name:'James Okafor',complaint:'Chest pain, SOB',pain:9,priority:'Critical',wait:'0 min',provider:'Dr. Reeves',status:'In Treatment'},
-  {id:'P-2242',name:'Maria Santos',complaint:'Severe abdominal pain',pain:8,priority:'Critical',wait:'3 min',provider:'Dr. Nguyen',status:'Awaiting'},
-  {id:'P-2239',name:'DeShawn Powell',complaint:'Laceration, forearm',pain:6,priority:'High',wait:'11 min',provider:'Nurse Fields',status:'Intake'},
-  {id:'P-2238',name:'Patricia Coleman',complaint:'Migraine, nausea',pain:5,priority:'Medium',wait:'22 min',provider:'—',status:'Waiting'},
+  {id:'AMB-4401',patient:'Marcus Robinson',age:54,gender:'M',callType:'Cardiac Event',
+   pickupAddr:'2847 Peachtree Rd NE, Atlanta, GA',hospital:'Grady Memorial Hospital',
+   unit:'Unit 7 — Medic Taylor',status:'En Route',priority:'Critical',
+   etaPickup:'6 min',etaHospital:'—',dispatchTime:'14:32',
+   vitals:'HR 42, BP 80/50, O2 88%',notes:''},
+  {id:'AMB-4402',patient:'Sandra Williams',age:31,gender:'F',callType:'MVA Trauma',
+   pickupAddr:'I-285 & Exit 29, Atlanta, GA',hospital:'Emory University Hospital',
+   unit:'Unit 3 — Medic Davis',status:'On Scene',priority:'High',
+   etaPickup:'Onsite',etaHospital:'18 min',dispatchTime:'14:18',
+   vitals:'BP 110/70, laceration R forearm',notes:''},
+  {id:'AMB-4403',patient:'DeShawn Powell',age:22,gender:'M',callType:'Laceration/Hemorrhage',
+   pickupAddr:'345 Lenox Rd NE, Atlanta, GA',hospital:'Piedmont Atlanta Hospital',
+   unit:'Unit 12 — Medic Johnson',status:'Transporting',priority:'High',
+   etaPickup:'Onsite',etaHospital:'9 min',dispatchTime:'13:55',
+   vitals:'HR 88, BP 118/76, stable',notes:''},
+  {id:'AMB-4404',patient:'Patricia Coleman',age:67,gender:'F',callType:'Stroke Protocol',
+   pickupAddr:'SR-400 & MM 14, Atlanta, GA',hospital:'Northside Hospital',
+   unit:'Unit 5 — Medic Williams',status:'In Treatment',priority:'Critical',
+   etaPickup:'Arrived',etaHospital:'Arrived',dispatchTime:'13:40',
+   vitals:'Admitted — Neuro ICU',notes:'NIH Stroke Scale 14'},
 ];
 S.assets=[
   {id:'AST-1001',name:'Peterbilt 579 — Unit 04',model:'Peterbilt 579',cat:'truck',assigned:'T. Harris',loc:'Atlanta, GA',condition:5,status:'Assigned',checked:'03/28/2025',serial:'1XP5DB9X7ND123456',gov:false},
@@ -1889,8 +1924,10 @@ window.__bftMapsReady=function(){
   gMaps=window.google.maps;
   renderTowJSMap();
   renderFreightJSMap();
+  renderAmbulanceMap();
   // Resolve any stuck ETAs
   S.tow.filter(j=>j.eta==='Calculating...').forEach(calcJobETA);
+  S.health.filter(c=>c.etaPickup==='Calculating...').forEach(calcAmbETA);
 };
 
 // ── ETA CALCULATION ──
@@ -2183,22 +2220,139 @@ function renderFreight(){
     <td>${l.status==='In Transit'?pillHtml('pe','En Route'):l.status==='Loading'?pillHtml('pa','Passed'):pillHtml('pw','Pending')}</td></tr>`).join('');
 }
 
+// EMS ambulance unit home positions
+const AMB_HOME={
+  'Unit 7 — Medic Taylor': {lat:33.755,lng:-84.390},
+  'Unit 3 — Medic Davis':  {lat:33.841,lng:-84.371},
+  'Unit 12 — Medic Johnson':{lat:33.772,lng:-84.351},
+  'Unit 5 — Medic Williams':{lat:33.712,lng:-84.411}
+};
+// Hospital positions
+const HOSPITALS={
+  'Grady Memorial Hospital':    {lat:33.753,lng:-84.381},
+  'Emory University Hospital':  {lat:33.795,lng:-84.324},
+  'Piedmont Atlanta Hospital':  {lat:33.800,lng:-84.375},
+  'Northside Hospital':         {lat:33.928,lng:-84.348},
+  'WellStar Atlanta Medical':   {lat:33.744,lng:-84.416}
+};
+let healthJSMap=null;
+const _healthMarkers=[];
+
+function calcAmbETA(call){
+  if(!call.unit||call.status==='In Treatment'||call.status==='Discharged')return;
+  const pos=AMB_HOME[call.unit];
+  if(!pos){call.etaPickup=etaFallback(call.priority);renderHealth();return;}
+  if(gMaps){
+    const dest=call.pickupAddr;
+    new gMaps.DistanceMatrixService().getDistanceMatrix({
+      origins:[new gMaps.LatLng(pos.lat,pos.lng)],
+      destinations:[dest],
+      travelMode:gMaps.TravelMode.DRIVING
+    },(res,status)=>{
+      const el=res&&res.rows[0]&&res.rows[0].elements[0];
+      if(status==='OK'&&el&&el.status==='OK'){
+        const secs=el.duration.value;
+        call.etaPickup=secs<60?'< 1 min':Math.round(secs/60)+' min';
+      }else{call.etaPickup=etaFallback(call.priority);}
+      renderHealth();
+    });
+  }else{call.etaPickup=etaFallback(call.priority);renderHealth();}
+}
+
+function renderAmbulanceMap(){
+  const ph=document.getElementById('health-map-ph');
+  const iframe=document.getElementById('health-map-iframe');
+  if(!gMaps||!S.mapsKey){return;}
+  let div=document.getElementById('health-js-map');
+  if(!div){
+    div=document.createElement('div');div.id='health-js-map';
+    div.style.cssText='width:100%;height:100%;border-radius:8px;';
+    iframe.parentNode.insertBefore(div,iframe);iframe.style.display='none';
+  }
+  if(ph)ph.style.display='none';div.style.display='block';
+  if(!healthJSMap){
+    healthJSMap=new gMaps.Map(div,{center:{lat:33.79,lng:-84.38},zoom:11,
+      styles:DARK_MAP_STYLE,mapTypeControl:false,streetViewControl:false,fullscreenControl:true});
+  }
+  _healthMarkers.forEach(m=>m.setMap(null));_healthMarkers.length=0;
+  const PIN={Critical:'#ff3d57',High:'#ff9500',Medium:'#00b4ff',Low:'#00e676'};
+  // Pickup location pins
+  S.health.filter(c=>!['Discharged','In Treatment'].includes(c.status)).forEach(c=>{
+    _geocode(c.pickupAddr+', Atlanta, GA',pos=>{
+      if(!pos)return;
+      const m=new gMaps.Marker({position:pos,map:healthJSMap,title:c.id+': '+c.patient,
+        icon:{path:gMaps.SymbolPath.CIRCLE,scale:9,fillColor:PIN[c.priority]||'#00b4ff',fillOpacity:0.9,strokeColor:'#fff',strokeWeight:2}});
+      const info=new gMaps.InfoWindow({content:`<div style="font-family:sans-serif;font-size:12px;line-height:1.6"><b style="color:#ff3d57">🚨 ${c.id}</b><br><b>${c.patient}</b> · ${c.callType}<br>📍 ${c.pickupAddr}<br>🏥 → ${c.hospital}<br><b>${c.priority}</b> · ${c.status}</div>`});
+      m.addListener('click',()=>info.open(healthJSMap,m));_healthMarkers.push(m);
+    });
+  });
+  // Ambulance unit markers
+  Object.entries(AMB_HOME).forEach(([name,pos])=>{
+    const hasCall=S.health.some(c=>c.unit===name&&!['Discharged'].includes(c.status));
+    const m=new gMaps.Marker({position:pos,map:healthJSMap,title:name,zIndex:10,
+      icon:{path:gMaps.SymbolPath.FORWARD_CLOSED_ARROW,scale:6,fillColor:hasCall?'#ff3d57':'#00e676',fillOpacity:0.9,strokeColor:'#fff',strokeWeight:2,rotation:0}});
+    _healthMarkers.push(m);
+  });
+}
+
 function renderHealth(){
-  document.getElementById('hs-crit').textContent=S.health.filter(p=>p.priority==='Critical').length;
-  document.getElementById('hs-high').textContent=S.health.filter(p=>p.priority==='High').length;
-  document.getElementById('hs-med').textContent=S.health.filter(p=>p.priority==='Medium').length;
-  document.getElementById('hs-dis').textContent=S.health.filter(p=>p.status==='Discharged').length;
-  document.getElementById('hb').textContent=S.health.filter(p=>p.priority==='Critical').length||'';
-  document.getElementById('health-body').innerHTML=S.health.filter(p=>p.status!=='Discharged').map(p=>`
-    <tr onclick="openPatientDetail('${p.id}')">
-      <td class="mono" style="color:${painCol(p.pain)}">${p.id}</td>
-      <td>${p.name}</td><td class="hm">${p.complaint}</td>
-      <td class="mono" style="font-weight:600;color:${painCol(p.pain)}">${p.pain}/10</td>
-      <td>${pillHtml(priCls(p.priority),p.priority)}</td>
-      <td class="hm mono">${p.wait}</td>
-      <td>${pillHtml(stsCls(p.status),p.status)}</td>
-      <td><button class="btn" style="padding:4px 10px;font-size:11px" onclick="event.stopPropagation();discharge('${p.id}')">Discharge</button></td>
-    </tr>`).join('');
+  const enroute=S.health.filter(c=>['Dispatched','En Route'].includes(c.status));
+  const scene=S.health.filter(c=>c.status==='On Scene');
+  const transit=S.health.filter(c=>['Transporting','Arrived'].includes(c.status));
+  const treat=S.health.filter(c=>c.status==='In Treatment');
+  const done=S.health.filter(c=>c.status==='Discharged');
+  document.getElementById('hs-enroute').textContent=enroute.length;
+  document.getElementById('hs-scene').textContent=scene.length;
+  document.getElementById('hs-transport').textContent=transit.length;
+  document.getElementById('hs-treat').textContent=treat.length;
+  document.getElementById('hs-done').textContent=done.length;
+  document.getElementById('hb').textContent=(enroute.length+scene.length)||'';
+  // Dispatch queue: Dispatched, En Route, On Scene
+  const dispatchCalls=[...enroute,...scene];
+  document.getElementById('health-dispatch-body').innerHTML=dispatchCalls.length?dispatchCalls.map(c=>`
+    <tr onclick="openCallDetail('${c.id}')">
+      <td class="mono" style="color:var(--red)">${c.id}</td>
+      <td>${c.patient}<span style="color:var(--text2);font-size:11px;margin-left:6px">${c.age}${c.gender}</span></td>
+      <td class="hm">${c.callType}</td>
+      <td style="font-size:12px">${c.unit}</td>
+      <td class="mono" style="color:var(--accent);font-weight:600">${c.etaPickup}</td>
+      <td>${pillHtml(priCls(c.priority),c.priority)}</td>
+      <td>${pillHtml(stsCls(c.status),c.status)}</td>
+      <td><button class="btn ok" style="padding:4px 10px;font-size:11px" onclick="event.stopPropagation();advCallStatus('${c.id}')">Advance ▶</button></td>
+    </tr>`).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:20px">No active dispatches</td></tr>';
+  // In transit: Transporting, Arrived
+  document.getElementById('health-transit-body').innerHTML=transit.length?transit.map(c=>`
+    <tr onclick="openCallDetail('${c.id}')">
+      <td class="mono" style="color:var(--orange)">${c.id}</td>
+      <td>${c.patient}<span style="color:var(--text2);font-size:11px;margin-left:6px">${c.age}${c.gender}</span></td>
+      <td class="hm">${c.hospital}</td>
+      <td style="font-size:12px">${c.unit}</td>
+      <td class="mono" style="color:var(--orange);font-weight:600">${c.etaHospital}</td>
+      <td>${pillHtml(priCls(c.priority),c.priority)}</td>
+      <td>${pillHtml(stsCls(c.status),c.status)}</td>
+      <td><button class="btn ok" style="padding:4px 10px;font-size:11px" onclick="event.stopPropagation();advCallStatus('${c.id}')">Advance ▶</button></td>
+    </tr>`).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:20px">No units in transit</td></tr>';
+  // In-clinic: In Treatment
+  document.getElementById('health-clinic-body').innerHTML=treat.length?treat.map(c=>`
+    <tr onclick="openCallDetail('${c.id}')">
+      <td class="mono" style="color:var(--purple)">${c.id}</td>
+      <td>${c.patient}<span style="color:var(--text2);font-size:11px;margin-left:6px">${c.age}${c.gender}</span></td>
+      <td class="hm">${c.hospital}</td>
+      <td style="font-size:12px">${c.unit}</td>
+      <td style="font-size:11px;color:var(--text2);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.vitals}</td>
+      <td>${pillHtml(priCls(c.priority),c.priority)}</td>
+      <td>${pillHtml(stsCls(c.status),c.status)}</td>
+      <td><button class="btn" style="padding:4px 10px;font-size:11px" onclick="event.stopPropagation();discharge('${c.id}')">Discharge</button></td>
+    </tr>`).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:20px">No patients in clinic</td></tr>';
+  // Reports update
+  if(document.getElementById('r-health'))document.getElementById('r-health').textContent=S.health.length;
+  const hc={Critical:0,High:0,Medium:0,Low:0};
+  S.health.forEach(c=>{if(hc[c.priority]!==undefined)hc[c.priority]++;});
+  const hm=Math.max(1,...Object.values(hc));
+  const cols={Critical:'var(--red)',High:'var(--orange)',Medium:'var(--purple)',Low:'var(--green)'};
+  const rb=document.getElementById('rbar-health');
+  if(rb)rb.innerHTML=Object.entries(hc).map(([k,v])=>`<div class="bar-wrap"><div class="bar-val">${v}</div><div class="bar" style="height:${Math.round(v/hm*100)}px;background:${cols[k]}"></div><div class="bar-lbl">${k}</div></div>`).join('');
+  if(gMaps)renderAmbulanceMap();
 }
 
 function renderInterest(){
@@ -2418,50 +2572,39 @@ function driverPickup(id){
   showToast('ok', id + ' assigned to you — En Route');
 }
 
-function renderNurseView(){
-  const active = S.health.filter(p => p.status !== 'Discharged');
-  const crit = active.filter(p => p.priority === 'Critical').length;
-  const high = active.filter(p => p.priority === 'High').length;
-  const med = active.filter(p => p.priority === 'Medium').length;
-  const mine = active.filter(p => p.provider === 'Nurse Fields').length;
+function renderMedicView(){
+  const MY_UNIT='Unit 7 — Medic Taylor';
+  const allActive=S.health.filter(c=>c.status!=='Discharged');
+  const myCalls=allActive.filter(c=>c.unit===MY_UNIT);
+  const dispatched=allActive.filter(c=>['Dispatched','En Route'].includes(c.status)).length;
+  const scene=allActive.filter(c=>c.status==='On Scene').length;
+  const transit=allActive.filter(c=>['Transporting','Arrived'].includes(c.status)).length;
 
-  document.getElementById('rn-crit').textContent = crit;
-  document.getElementById('rn-high').textContent = high;
-  document.getElementById('rn-med').textContent = med;
-  document.getElementById('rn-mine').textContent = mine;
+  document.getElementById('rn-dispatch').textContent=dispatched;
+  document.getElementById('rn-scene').textContent=scene;
+  document.getElementById('rn-transit').textContent=transit;
+  document.getElementById('rn-mine').textContent=myCalls.length;
 
-  const priClass = p => p==='Critical'?'crit':p==='High'?'high':p==='Medium'?'med':'low';
+  const priClass=p=>p==='Critical'?'crit':p==='High'?'high':p==='Medium'?'med':'low';
+  const order={Critical:0,High:1,Medium:2,Low:3};
+  const sorted=[...myCalls].sort((a,b)=>(order[a.priority]||3)-(order[b.priority]||3));
 
-  // Sort: Critical first, then High, Medium, Low
-  const order = {Critical:0,High:1,Medium:2,Low:3};
-  const sorted = [...active].sort((a,b) => (order[a.priority]||3) - (order[b.priority]||3));
-
-  document.getElementById('rn-queue').innerHTML = sorted.length ? sorted.map(p => `
-    <div class="pt-card ${priClass(p.priority)}" onclick="openPatientDetail('${p.id}')">
-      <div class="pt-pain ${priClass(p.priority)}">${p.pain}</div>
+  document.getElementById('rn-queue').innerHTML=sorted.length?sorted.map(c=>`
+    <div class="pt-card ${priClass(c.priority)}" onclick="openCallDetail('${c.id}')">
+      <div class="pt-pain ${priClass(c.priority)}" style="font-size:11px;padding:6px 4px;display:flex;align-items:center;justify-content:center">🚨</div>
       <div class="pt-info">
-        <div class="pt-name">${p.name}</div>
-        <div class="pt-complaint">${p.complaint}</div>
-        <div class="pt-wait">Wait: ${p.wait} &nbsp;·&nbsp; Provider: ${p.provider}</div>
+        <div class="pt-name">${c.patient} <span style="font-size:11px;color:var(--text2);font-weight:400">${c.age}${c.gender}</span></div>
+        <div class="pt-complaint">${c.callType} · 📍 ${c.pickupAddr}</div>
+        <div class="pt-wait">→ ${c.hospital} &nbsp;·&nbsp; ETA: ${c.etaPickup}</div>
       </div>
       <div class="pt-right">
-        ${pillHtml(priCls(p.priority), p.priority)}
-        ${pillHtml(stsCls(p.status), p.status)}
-        <button class="btn" style="padding:4px 10px;font-size:11px;margin-top:2px" onclick="event.stopPropagation();nurseAssign('${p.id}')">
-          ${p.provider==='Nurse Fields'?'✓ Assigned':'Assign Me'}
-        </button>
+        ${pillHtml(priCls(c.priority),c.priority)}
+        ${pillHtml(stsCls(c.status),c.status)}
+        <button class="btn ok" style="padding:4px 10px;font-size:11px;margin-top:2px" onclick="event.stopPropagation();advCallStatus('${c.id}')">Advance ▶</button>
       </div>
-    </div>`).join('') : '<div style="padding:20px;text-align:center;color:var(--text2);font-size:13px">Queue is clear</div>';
+    </div>`).join(''):'<div style="padding:20px;text-align:center;color:var(--text2);font-size:13px">No active calls assigned to this unit</div>';
 }
-
-function nurseAssign(id){
-  const p = S.health.find(x => x.id === id);
-  if(!p) return;
-  p.provider = p.provider === 'Nurse Fields' ? '—' : 'Nurse Fields';
-  renderHealth();
-  renderNurseView();
-  showToast('ok', id + (p.provider === 'Nurse Fields' ? ' assigned to you' : ' unassigned'));
-}
+function renderNurseView(){renderMedicView();}
 
 function renderTrackerView(){
   const mine = S.assets.filter(a => a.assigned === 'D-04 Marcus Hill');
@@ -2531,7 +2674,37 @@ function renderAll(){renderTow();renderFreight();renderHealth();renderInterest()
 /* ══════════ LIVE UPDATES ══════════ */
 function updateTowSt(id,val){const j=S.tow.find(x=>x.id===id);if(j){j.status=val;renderTow();showToast('info',`${id} → ${val}`);}}
 function updateFreightSt(id,val){const l=S.freight.find(x=>x.id===id);if(l){l.status=val;renderFreight();showToast('info',`#${id} → ${val}`);}}
-function discharge(id){const p=S.health.find(x=>x.id===id);if(p){p.status='Discharged';renderHealth();showToast('ok',`${id} discharged`);}}
+function discharge(id){
+  const c=S.health.find(x=>x.id===id);
+  if(c){c.status='Discharged';renderHealth();renderMedicView();showToast('ok',id+' discharged');}
+}
+
+const AMB_STATUS_FLOW=['Dispatched','En Route','On Scene','Transporting','Arrived','In Treatment','Discharged'];
+function advCallStatus(id){
+  const c=S.health.find(x=>x.id===id);if(!c)return;
+  const idx=AMB_STATUS_FLOW.indexOf(c.status);
+  if(idx<0||idx>=AMB_STATUS_FLOW.length-1)return;
+  c.status=AMB_STATUS_FLOW[idx+1];
+  // When transporting, compute ETA to hospital
+  if(c.status==='Transporting'&&S.mapsKey&&gMaps){
+    const hospPos=HOSPITALS[c.hospital];
+    const pickPos=AMB_HOME[c.unit];
+    if(hospPos&&pickPos){
+      new gMaps.DistanceMatrixService().getDistanceMatrix({
+        origins:[new gMaps.LatLng(pickPos.lat,pickPos.lng)],
+        destinations:[Object.keys(HOSPITALS).includes(c.hospital)?c.hospital+', Atlanta, GA':c.hospital],
+        travelMode:gMaps.TravelMode.DRIVING
+      },(res,st)=>{
+        const el=res&&res.rows[0]&&res.rows[0].elements[0];
+        if(st==='OK'&&el&&el.status==='OK'){c.etaHospital=Math.round(el.duration.value/60)+' min';}
+        else{c.etaHospital=etaFallback(c.priority);}
+        renderHealth();
+      });
+    }
+  }
+  if(c.status==='Arrived'||c.status==='In Treatment'){c.etaHospital='Arrived';}
+  renderHealth();renderMedicView();showToast('info',id+' → '+c.status);
+}
 
 /* ══════════ CALC ══════════ */
 function calcF(){
@@ -2553,7 +2726,7 @@ function addInterest(){
 
 /* ══════════ EXPORT ══════════ */
 function exportCSV(){
-  const rows=[['Module','ID','Detail 1','Detail 2','Status'],...S.tow.map(j=>['Tow',j.id,j.customer,j.type,j.status]),...S.freight.map(l=>['Freight',l.id,l.origin,l.dest,l.status]),...S.health.map(p=>['Health',p.id,p.name,p.complaint,p.status])];
+  const rows=[['Module','ID','Detail 1','Detail 2','Status'],...S.tow.map(j=>['Tow',j.id,j.customer,j.type,j.status]),...S.freight.map(l=>['Freight',l.id,l.origin,l.dest,l.status]),...S.health.map(c=>['EMS',c.id,c.patient,c.callType,c.status])];
   const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n'));a.download='bft_report.csv';a.click();
   showToast('ok','CSV exported');
 }
@@ -2738,17 +2911,55 @@ function openModal(type,data){
         showToast('ok', 'Connection added for ' + mod + ' — ' + DB_META[type].label);
         if(curDbModule === mod) renderDbPanel(mod);
       }},
-    'new-patient':{title:'New Patient Intake',btn:'Admit Patient',html:`
-      <div class="fr2"><div class="fg"><label class="fl">Patient Name</label><input class="fi" id="np-n" placeholder="Full name"/></div><div class="fg"><label class="fl">DOB</label><input class="fi" type="date"/></div></div>
-      <div class="fg"><label class="fl">Chief Complaint</label><input class="fi" id="np-c" placeholder="Primary reason for visit"/></div>
-      <div class="fg"><label class="fl">Pain Scale (1–10)</label><div class="pscale">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="pbtn" data-v="${n}" onclick="selPain(${n})">${n}</button>`).join('')}</div></div>
-      <div class="fr2"><div class="fg"><label class="fl">Priority</label><select class="fsel" id="np-p"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div><div class="fg"><label class="fl">Provider</label><select class="fsel" id="np-pv"><option>— Triage only —</option><option>Dr. Reeves</option><option>Dr. Nguyen</option><option>Nurse Fields</option></select></div></div>`,
+    'new-dispatch':{title:'New EMS Dispatch',btn:'Dispatch Unit',html:`
+      <div class="fr2">
+        <div class="fg"><label class="fl">Patient Name</label><input class="fi" id="nd-pt" placeholder="Full name"/></div>
+        <div class="fg"><label class="fl">Age &amp; Gender</label><input class="fi" id="nd-age" placeholder="e.g. 54M or 31F"/></div>
+      </div>
+      <div class="fg"><label class="fl">Call Type</label><select class="fsel" id="nd-ct">
+        <option>Cardiac Event</option><option>MVA Trauma</option><option>Stroke Protocol</option>
+        <option>Respiratory Distress</option><option>Laceration/Hemorrhage</option><option>Burns</option>
+        <option>Overdose</option><option>Fall/Injury</option><option>Psychiatric</option><option>General Emergency</option>
+      </select></div>
+      <div class="fg"><label class="fl">Pickup Address</label><input class="fi" id="nd-addr" placeholder="Street address, Atlanta, GA"/></div>
+      <div class="fr2">
+        <div class="fg"><label class="fl">Priority</label><select class="fsel" id="nd-p">
+          <option>Low</option><option>Medium</option><option>High</option><option>Critical</option>
+        </select></div>
+        <div class="fg"><label class="fl">Assign Unit</label><select class="fsel" id="nd-unit">
+          <option>Unit 7 — Medic Taylor</option><option>Unit 3 — Medic Davis</option>
+          <option>Unit 12 — Medic Johnson</option><option>Unit 5 — Medic Williams</option>
+        </select></div>
+      </div>
+      <div class="fg"><label class="fl">Destination Hospital</label><select class="fsel" id="nd-hosp">
+        <option>Grady Memorial Hospital</option><option>Emory University Hospital</option>
+        <option>Piedmont Atlanta Hospital</option><option>Northside Hospital</option><option>WellStar Atlanta Medical</option>
+      </select></div>
+      <div class="fg"><label class="fl">Initial Vitals</label><input class="fi" id="nd-v" placeholder="e.g. HR 88, BP 120/80, O2 98%"/></div>`,
       cb:()=>{
-        const nm=document.getElementById('np-n').value.trim()||'New Patient';
-        const co=document.getElementById('np-c').value.trim()||'General intake';
-        const painEl=document.querySelector('.pbtn.on');
-        S.healthId++;S.health.unshift({id:'P-'+S.healthId,name:nm,complaint:co,pain:painEl?parseInt(painEl.dataset.v):5,priority:document.getElementById('np-p').value,wait:'0 min',provider:document.getElementById('np-pv').value,status:'Intake'});
-        renderHealth();showToast('ok',nm+' admitted');
+        const pt=document.getElementById('nd-pt').value.trim()||'Unknown Patient';
+        const ageRaw=document.getElementById('nd-age').value.trim();
+        const ageNum=parseInt(ageRaw)||0;
+        const gender=ageRaw.replace(/[0-9]/g,'').toUpperCase()||'';
+        const addr=document.getElementById('nd-addr').value.trim()||'TBD';
+        const unit=document.getElementById('nd-unit').value;
+        const pr=document.getElementById('nd-p').value;
+        S.healthId++;
+        const newCall={
+          id:'AMB-'+S.healthId,patient:pt,age:ageNum,gender:gender,
+          callType:document.getElementById('nd-ct').value,
+          pickupAddr:addr,hospital:document.getElementById('nd-hosp').value,
+          unit:unit,status:'Dispatched',priority:pr,
+          etaPickup:unit&&addr?etaFallback(pr):'Calculating...',
+          etaHospital:'—',
+          dispatchTime:new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}),
+          vitals:document.getElementById('nd-v').value.trim(),notes:''
+        };
+        S.health.unshift(newCall);
+        renderHealth();renderMedicView();showToast('ok','Dispatch '+newCall.id+' — '+unit+' en route');
+        // Kick off real ETA calculation
+        calcAmbETA(newCall);
+        if(gMaps)renderAmbulanceMap();
       }},
     'detail':data||{}
   };
@@ -2906,7 +3117,7 @@ const DB_META = {
 const MODULE_FIELDS = {
   freight: ['Load ID','PO Number','Driver','Origin','Destination','Weight (tons)','EDOD','EDOA','Carrier','Status','ETA'],
   tow:     ['Job ID','Service Type','Customer','Phone','Location','Driver','Priority','Status','ETA','Insurance','Policy #'],
-  health:  ['Patient ID','Name','Date of Birth','Chief Complaint','Pain Score','Priority','Provider','Status','Wait Time'],
+  health:  ['Call ID','Patient','Age','Call Type','Pickup Address','Hospital','Unit','Priority','Status','ETA Pickup','ETA Hospital','Vitals'],
   assets:  ['Asset ID','Asset Name','Model','Category','Serial Number','Assigned To','Location','Condition','Status','Last Checked']
 };
 
@@ -3163,20 +3374,59 @@ function testDbConn(){
 setTimeout(()=>{ renderDbPanel('freight'); }, 120);
 setTimeout(updateDbMapper, 100);
 
-function openPatientDetail(id){
-  const p=S.health.find(x=>x.id===id);if(!p)return;
-  const col=p.priority==='Critical'?'var(--red)':p.priority==='High'?'var(--orange)':'var(--purple)';
-  openModal('detail',{title:'Patient — '+id,btn:'Update',html:`
-    <div class="fr2"><div class="fg"><label class="fl">ID</label><div style="padding:9px 12px;background:var(--surf);border:1px solid var(--border);border-radius:8px;font-family:'JetBrains Mono',monospace;color:${col}">${p.id}</div></div>
-    <div class="fg"><label class="fl">Priority</label><select class="fsel" id="dp-p">${['Low','Medium','High','Critical'].map(x=>`<option${x===p.priority?' selected':''}>${x}</option>`).join('')}</select></div></div>
-    <div class="fg"><label class="fl">Name</label><input class="fi" id="dp-n" value="${p.name}"/></div>
-    <div class="fg"><label class="fl">Complaint</label><input class="fi" id="dp-c" value="${p.complaint}"/></div>
-    <div class="fr2"><div class="fg"><label class="fl">Pain Score</label><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:${col};padding:9px 12px;background:var(--surf);border:1px solid var(--border);border-radius:8px">${p.pain}/10</div></div>
-    <div class="fg"><label class="fl">Status</label><select class="fsel" id="dp-s">${['Intake','Waiting','Awaiting','In Treatment','Discharged'].map(s=>`<option${s===p.status?' selected':''}>${s}</option>`).join('')}</select></div></div>
-    <div class="fg"><label class="fl">Escalate To</label><select class="fsel"><option>— No escalation —</option><option>Emergency</option><option>ICU</option><option>Surgery</option><option>Cardiology</option></select></div>`,
-    cb:()=>{p.name=document.getElementById('dp-n').value;p.complaint=document.getElementById('dp-c').value;p.priority=document.getElementById('dp-p').value;p.status=document.getElementById('dp-s').value;renderHealth();showToast('ok',id+' updated');}
+function openCallDetail(id){
+  const c=S.health.find(x=>x.id===id);if(!c)return;
+  const col=c.priority==='Critical'?'var(--red)':c.priority==='High'?'var(--orange)':'var(--purple)';
+  openModal('detail',{title:'EMS Call — '+id,btn:'Update',html:`
+    <div class="fr2">
+      <div class="fg"><label class="fl">Call ID</label><div style="padding:9px 12px;background:var(--surf);border:1px solid var(--border);border-radius:8px;font-family:'JetBrains Mono',monospace;color:${col}">${c.id}</div></div>
+      <div class="fg"><label class="fl">Priority</label><select class="fsel" id="dc-p">${['Low','Medium','High','Critical'].map(x=>`<option${x===c.priority?' selected':''}>${x}</option>`).join('')}</select></div>
+    </div>
+    <div class="fr2">
+      <div class="fg"><label class="fl">Patient</label><input class="fi" id="dc-pt" value="${c.patient}"/></div>
+      <div class="fg"><label class="fl">Age / Gender</label><input class="fi" id="dc-age" value="${c.age}${c.gender}"/></div>
+    </div>
+    <div class="fg"><label class="fl">Call Type</label><select class="fsel" id="dc-ct">${['Cardiac Event','MVA Trauma','Stroke Protocol','Respiratory Distress','Laceration/Hemorrhage','Burns','Overdose','Fall/Injury','Psychiatric','General Emergency'].map(x=>`<option${x===c.callType?' selected':''}>${x}</option>`).join('')}</select></div>
+    <div class="fg"><label class="fl">Pickup Address</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input class="fi" id="dc-addr" value="${c.pickupAddr}" style="flex:1"/>
+        ${S.mapsKey?`<button type="button" class="btn pri" style="white-space:nowrap;padding:9px 14px;font-size:12px" onclick="toggleCallMap('${c.pickupAddr}')">📍 Map</button>`:''}
+      </div>
+    </div>
+    ${S.mapsKey?`<div id="call-map-wrap" style="margin-top:10px;display:none"><iframe id="call-map-iframe" src="" style="width:100%;height:200px;border-radius:8px;border:1px solid var(--border)" frameborder="0" allowfullscreen></iframe></div>`:''}
+    <div class="fr2">
+      <div class="fg"><label class="fl">Assigned Unit</label><select class="fsel" id="dc-unit">${Object.keys(AMB_HOME).map(u=>`<option${u===c.unit?' selected':''}>${u}</option>`).join('')}</select></div>
+      <div class="fg"><label class="fl">Destination Hospital</label><select class="fsel" id="dc-hosp">${Object.keys(HOSPITALS).map(h=>`<option${h===c.hospital?' selected':''}>${h}</option>`).join('')}</select></div>
+    </div>
+    <div class="fg"><label class="fl">Status</label><select class="fsel" id="dc-s">${AMB_STATUS_FLOW.map(s=>`<option${s===c.status?' selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="fg"><label class="fl">Vitals</label><input class="fi" id="dc-v" value="${c.vitals}" placeholder="e.g. HR 88, BP 120/80, O2 98%"/></div>
+    <div class="fg"><label class="fl">Notes</label><input class="fi" id="dc-notes" value="${c.notes||''}"/></div>`,
+    cb:()=>{
+      c.patient=document.getElementById('dc-pt').value;
+      c.callType=document.getElementById('dc-ct').value;
+      c.pickupAddr=document.getElementById('dc-addr').value;
+      c.priority=document.getElementById('dc-p').value;
+      c.status=document.getElementById('dc-s').value;
+      c.unit=document.getElementById('dc-unit').value;
+      c.hospital=document.getElementById('dc-hosp').value;
+      c.vitals=document.getElementById('dc-v').value;
+      c.notes=document.getElementById('dc-notes').value;
+      renderHealth();renderMedicView();showToast('ok',id+' updated');
+    }
   });
 }
+
+function toggleCallMap(addr){
+  const wrap=document.getElementById('call-map-wrap');
+  const iframe=document.getElementById('call-map-iframe');
+  if(!wrap||!iframe)return;
+  if(wrap.style.display==='none'){
+    iframe.src=`https://www.google.com/maps/embed/v1/search?key=${S.mapsKey}&q=${encodeURIComponent(addr)}&zoom=15`;
+    wrap.style.display='block';
+  }else{wrap.style.display='none';iframe.src='';}
+}
+
+function openPatientDetail(id){openCallDetail(id);}
 
 /* ══════════ AI AGENT — SETTINGS OPT-IN ══════════ */
 function toggleAIAgent(enabled){
@@ -3213,9 +3463,10 @@ const AI={
       const custom=customPrompts.freight;
       return custom?base+' Additional instructions: '+custom:base;
     }},
-  health:{name:'BFT Triage AI',sub:'Health triage assistant',emoji:'🏥',
+  health:{name:'BFT EMS AI',sub:'Ambulance dispatch assistant',emoji:'🚑',
     sys:()=>{
-      const base=`You are the BFT Health Triage AI. Active patients: ${S.health.filter(p=>p.status!=='Discharged').map(p=>`${p.id} ${p.name} pain ${p.pain}/10 ${p.priority} ${p.status}`).join('; ')||'none'}. Help with triage prioritization and coordination. Always recommend real medical professionals for actual care. Under 3 sentences. No markdown.`;
+      const active=S.health.filter(c=>c.status!=='Discharged');
+      const base=`You are the BFT EMS Dispatch AI. Active calls: ${active.map(c=>`${c.id} ${c.patient} ${c.callType} pickup:${c.pickupAddr} unit:${c.unit} ETA:${c.etaPickup} status:${c.status} priority:${c.priority}`).join('; ')||'none'}. Help coordinators dispatch units, update call status, and manage patient transport to hospitals. Always recommend real medical professionals for actual care decisions. Under 3 sentences. No markdown.`;
       const custom=customPrompts.health;
       return custom?base+' Additional instructions: '+custom:base;
     }},
@@ -3232,10 +3483,10 @@ const AI={
       const custom=customPrompts.driver;
       return custom?base+' Additional instructions: '+custom:base;
     }},
-  nurse:{name:'BFT Triage AI',sub:'Nurse triage assistant',emoji:'🩺',
+  nurse:{name:'BFT Medic AI',sub:'Paramedic field assistant',emoji:'🚑',
     sys:()=>{
-      const myPts=S.health.filter(p=>p.status!=='Discharged');
-      const base=`You are the BFT Nurse Triage Assistant for Nurse Fields. Patient queue: ${myPts.map(p=>`${p.id} ${p.name} pain ${p.pain}/10 ${p.priority} ${p.status} provider:${p.provider}`).join('; ')||'none'}. Help prioritize patients, suggest escalations, and guide intake. Always defer to physicians for diagnosis and treatment. Under 2 sentences. No markdown.`;
+      const myCalls=S.health.filter(c=>c.unit==='Unit 7 — Medic Taylor'&&c.status!=='Discharged');
+      const base=`You are the BFT Paramedic Field AI for Unit 7 — Medic Taylor. My active calls: ${myCalls.map(c=>`${c.id} ${c.patient} ${c.callType} pickup:${c.pickupAddr} ETA:${c.etaPickup} status:${c.status}`).join('; ')||'none all clear'}. Help with call status updates, route guidance, and patient handoff coordination. Always defer to medical command for treatment decisions. Under 2 sentences. No markdown.`;
       const custom=customPrompts.nurse;
       return custom?base+' Additional instructions: '+custom:base;
     }}
@@ -3247,10 +3498,10 @@ const customPrompts={tow:'',freight:'',health:'',assets:'',driver:'',nurse:''};
 const PROMPT_META={
   tow:    {emoji:'🚛',label:'Tow Dispatch',    hint:'e.g. Always assign the closest available driver. Escalate Critical jobs immediately.'},
   freight:{emoji:'🚚',label:'Freight Ops',     hint:'e.g. Flag any load over 40 tons for compliance review. Prefer I-85 routing.'},
-  health: {emoji:'🏥',label:'Health Triage',   hint:'e.g. Follow ESI triage protocol. Alert charge nurse for any pain score 9+.'},
+  health: {emoji:'🚑',label:'EMS Dispatch',     hint:'e.g. Prioritize cardiac calls for Grady. Notify receiving hospital 10 minutes before arrival.'},
   assets: {emoji:'📦',label:'Asset Manager',   hint:'e.g. Flag any asset not checked in for 30+ days. Government assets need weekly verification.'},
   driver: {emoji:'🚗',label:'Driver View',     hint:'e.g. Always confirm customer identity before starting service. Photo required for accidents.'},
-  nurse:  {emoji:'🩺',label:'Nurse / Triage',  hint:'e.g. Our facility uses ESI Level 1-5. Always document pain reassessment every 30 minutes.'}
+  nurse:  {emoji:'🚑',label:'Medic / Crew',     hint:'e.g. Unit 7 covers Buckhead zone. Always confirm receiving hospital before loading patient.'}
 };
 
 function togglePromptPanel(){
