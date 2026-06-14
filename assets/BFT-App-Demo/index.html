@@ -1501,7 +1501,7 @@ tbody tr{cursor:pointer;}
 const S={
   tow:[],freight:[],health:[],interest:[],assets:[],
   towId:1044,freightId:89,healthId:2242,assetId:1024,
-  apiKey:'',mapsKey:'AIzaSyCPVHfqr6zFjaR5ZPYP8NSMESGkxWJ9QfI',agentMod:'tow',
+  apiKey:'',mapsKey:localStorage.getItem('bft_maps_key')||'',agentMod:'tow',
   agentHistory:[],listening:false,speaking:false,
   recog:null,aiEnabled:false,dark:true
 };
@@ -1834,6 +1834,7 @@ function saveMapsKey(){
   const k=document.getElementById('maps-key-inp').value.trim();
   if(!k){showToast('error','Enter a valid Maps API key');return;}
   S.mapsKey=k;
+  localStorage.setItem('bft_maps_key',k);
   loadMap('tow');
   loadMap('freight');
   showToast('ok','Maps key saved — maps loading');
@@ -1864,6 +1865,36 @@ function loadMap(module){
   if(keyInput)keyInput.value=key;
   showToast('ok',module.charAt(0).toUpperCase()+module.slice(1)+' map loaded');
 }
+
+function toggleJobMap(loc){
+  const wrap=document.getElementById('job-map-wrap');
+  const iframe=document.getElementById('job-map-iframe');
+  if(!wrap||!iframe)return;
+  if(wrap.style.display==='none'){
+    const q=encodeURIComponent(loc+', Atlanta, GA');
+    iframe.src=`https://www.google.com/maps/embed/v1/search?key=${S.mapsKey}&q=${q}&zoom=15&maptype=roadmap`;
+    wrap.style.display='block';
+  }else{
+    wrap.style.display='none';
+    iframe.src='';
+  }
+}
+
+function toggleFreightMap(origin,dest){
+  const wrap=document.getElementById('freight-detail-map-wrap');
+  const iframe=document.getElementById('freight-detail-map-iframe');
+  if(!wrap||!iframe)return;
+  if(wrap.style.display==='none'){
+    const o=encodeURIComponent(origin);
+    const d=encodeURIComponent(dest);
+    iframe.src=`https://www.google.com/maps/embed/v1/directions?key=${S.mapsKey}&origin=${o}&destination=${d}&mode=driving&maptype=roadmap`;
+    wrap.style.display='block';
+  }else{
+    wrap.style.display='none';
+    iframe.src='';
+  }
+}
+
 
 /* ══════════ RENDER ══════════ */
 function pillHtml(cls,label){return `<span class="p ${cls}"><span class="pd"></span>${label}</span>`;}
@@ -2511,7 +2542,13 @@ function openJobDetail(id){
       <div class="fg"><label class="fl">Customer</label><input class="fi" id="dj-c" value="${j.customer}"/></div>
       <div class="fg"><label class="fl">Phone</label><input class="fi" id="dj-ph" value="${j.phone||''}"/></div>
     </div>
-    <div class="fg"><label class="fl">Location</label><input class="fi" id="dj-l" value="${j.loc}"/></div>
+    <div class="fg"><label class="fl">Location</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input class="fi" id="dj-l" value="${j.loc}" style="flex:1"/>
+        ${S.mapsKey?`<button type="button" class="btn pri" style="white-space:nowrap;padding:9px 14px;font-size:12px" onclick="toggleJobMap('${j.loc}')">&#128205; Map</button>`:''}
+      </div>
+    </div>
+    ${S.mapsKey?`<div id="job-map-wrap" style="margin-top:10px;display:none"><iframe id="job-map-iframe" src="" style="width:100%;height:220px;border-radius:8px;border:1px solid var(--border);display:block" frameborder="0" allowfullscreen></iframe></div>`:''}
     <div class="fr2">
       <div class="fg"><label class="fl">Driver</label><select class="fsel" id="dj-d">${['D-04 Marcus Hill','D-07 James Carter','D-11 Derek Jones','D-02 Tony Wallace','Unassigned'].map(d=>`<option${d===j.driver?' selected':''}>${d}</option>`).join('')}</select></div>
       <div class="fg"><label class="fl">Status</label><select class="fsel" id="dj-s">${['En Route','Onsite','Waiting','Completed','Cancelled'].map(s=>`<option${s===j.status?' selected':''}>${s}</option>`).join('')}</select></div>
@@ -2578,6 +2615,8 @@ function openFreightDetail(id){
     <div class="fr2">
       <div class="fg"><label class="fl">Origin</label><input class="fi" id="df-o" value="${l.origin}"/></div>
       <div class="fg"><label class="fl">Destination</label><input class="fi" id="df-d" value="${l.dest}"/></div>
+    </div>
+    ${S.mapsKey?`<div style="margin-top:8px"><button type="button" class="btn pri" style="width:100%;font-size:12px;padding:9px" onclick="toggleFreightMap('${l.origin}','${l.dest}')">&#128506; View Route Map</button></div><div id="freight-detail-map-wrap" style="margin-top:10px;display:none"><iframe id="freight-detail-map-iframe" src="" style="width:100%;height:220px;border-radius:8px;border:1px solid var(--border);display:block" frameborder="0" allowfullscreen></iframe></div>`:''}
     </div>
     <div class="fr2">
       <div class="fg"><label class="fl">Driver</label><input class="fi" id="df-dr" value="${l.driver}"/></div>
@@ -3170,8 +3209,10 @@ document.getElementById('a-tf').addEventListener('keydown',e=>{if(e.key==='Enter
 speechSynthesis.onvoiceschanged=()=>{};
 window.addEventListener('resize',()=>{if(S.mapsKey){loadMap('tow');loadMap('freight');}});
 window.addEventListener('load',()=>{
+  const storedKey=localStorage.getItem('bft_maps_key');
+  if(storedKey)S.mapsKey=storedKey;
   const inp=document.getElementById('maps-key-inp');
-  if(inp)inp.value='AIzaSyCPVHfqr6zFjaR5ZPYP8NSMESGkxWJ9QfI';
+  if(inp)inp.value=S.mapsKey||'';
   if(S.mapsKey){loadMap('tow');loadMap('freight');}
 });
 </script>
