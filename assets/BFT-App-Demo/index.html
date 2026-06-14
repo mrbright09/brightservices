@@ -1501,7 +1501,7 @@ tbody tr{cursor:pointer;}
 const S={
   tow:[],freight:[],health:[],interest:[],assets:[],
   towId:1044,freightId:89,healthId:2242,assetId:1024,
-  apiKey:'',mapsKey:'',agentMod:'tow',
+  apiKey:'',mapsKey:'AIzaSyCPVHfqr6zFjaR5ZPYP8NSMESGkxWJ9QfI',agentMod:'tow',
   agentHistory:[],listening:false,speaking:false,
   recog:null,aiEnabled:false,dark:true
 };
@@ -3169,6 +3169,11 @@ document.getElementById('a-send').addEventListener('click',()=>{const t=document
 document.getElementById('a-tf').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('a-send').click();});
 speechSynthesis.onvoiceschanged=()=>{};
 window.addEventListener('resize',()=>{if(S.mapsKey){loadMap('tow');loadMap('freight');}});
+window.addEventListener('load',()=>{
+  const inp=document.getElementById('maps-key-inp');
+  if(inp)inp.value='AIzaSyCPVHfqr6zFjaR5ZPYP8NSMESGkxWJ9QfI';
+  if(S.mapsKey){loadMap('tow');loadMap('freight');}
+});
 </script>
 </body>
 </html>
