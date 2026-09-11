@@ -1,0 +1,2796 @@
+<meta charset="utf-8">
+<title>Azure Cost Console</title>
+<script>
+// Applied as early as possible (before the stylesheet even finishes
+// parsing) so a saved theme choice paints on the first frame instead of
+// flashing the OS-default theme and then flipping.
+try {
+  var savedTheme = localStorage.getItem("azcc_theme");
+  if (savedTheme === "dark" || savedTheme === "light") document.documentElement.setAttribute("data-theme", savedTheme);
+} catch (e) {}
+</script>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7;
+    --surface: #fcfcfb;
+    --surface-2: #ffffff;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #898781;
+    --border: rgba(11,11,11,0.10);
+    --border-strong: rgba(11,11,11,0.16);
+    --gridline: #e1e0d9;
+    --baseline: #c3c2b7;
+    --accent: #2a78d6;
+    --accent-wash: rgba(42,120,214,0.10);
+    --series-1: #2a78d6;
+    --series-2: #eb6834;
+    --series-3: #1baf7a;
+    --series-4: #eda100;
+    --series-5: #e87ba4;
+    --series-6: #008300;
+    --series-7: #4a3aa7;
+    --series-other: #c3c2b7;
+    --good: #0ca30c;
+    --critical: #d03b3b;
+    --delta-good-text: #006300;
+    --delta-bad-text: #b3261e;
+    --shadow: 0 1px 2px rgba(11,11,11,0.04), 0 8px 24px rgba(11,11,11,0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --page: #0d0d0d;
+      --surface: #1a1a19;
+      --surface-2: #201f1e;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #94928a;
+      --border: rgba(255,255,255,0.10);
+      --border-strong: rgba(255,255,255,0.18);
+      --gridline: #2c2c2a;
+      --baseline: #383835;
+      --accent: #3987e5;
+      --accent-wash: rgba(57,135,229,0.16);
+      --series-1: #3987e5;
+      --series-2: #d95926;
+      --series-3: #199e70;
+      --series-4: #c98500;
+      --series-5: #d55181;
+      --series-6: #008300;
+      --series-7: #9085e9;
+      --series-other: #383835;
+      --good: #0ca30c;
+      --critical: #e66767;
+      --delta-good-text: #0ca30c;
+      --delta-bad-text: #e66767;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d;
+    --surface: #1a1a19;
+    --surface-2: #201f1e;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #94928a;
+    --border: rgba(255,255,255,0.10);
+    --border-strong: rgba(255,255,255,0.18);
+    --gridline: #2c2c2a;
+    --baseline: #383835;
+    --accent: #3987e5;
+    --accent-wash: rgba(57,135,229,0.16);
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --series-4: #c98500;
+    --series-5: #d55181;
+    --series-6: #008300;
+    --series-7: #9085e9;
+    --series-other: #383835;
+    --good: #0ca30c;
+    --critical: #e66767;
+    --delta-good-text: #0ca30c;
+    --delta-bad-text: #e66767;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.4);
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --surface-2: #ffffff;
+    --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #898781;
+    --border: rgba(11,11,11,0.10); --border-strong: rgba(11,11,11,0.16);
+    --gridline: #e1e0d9; --baseline: #c3c2b7;
+    --accent: #2a78d6; --accent-wash: rgba(42,120,214,0.10);
+    --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-4: #eda100;
+    --series-5: #e87ba4; --series-6: #008300; --series-7: #4a3aa7; --series-other: #c3c2b7;
+    --good: #0ca30c; --critical: #d03b3b;
+    --delta-good-text: #006300; --delta-bad-text: #b3261e;
+    --shadow: 0 1px 2px rgba(11,11,11,0.04), 0 8px 24px rgba(11,11,11,0.06);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono {
+    font-family: ui-monospace, "Cascadia Code", "Segoe UI Mono", Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 28px 24px 80px; }
+
+  /* ---------- header ---------- */
+  .topbar { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 22px; }
+  .topbar h1 { font-size: 25px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 4px; text-wrap: balance; }
+  .topbar .eyebrow { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin: 0 0 6px; }
+  .topbar .sub { color: var(--text-secondary); font-size: 13px; max-width: 56ch; margin: 0; }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600;
+    padding: 5px 10px 5px 8px; border-radius: 100px; border: 1px solid var(--border-strong);
+    color: var(--text-secondary); background: var(--surface); white-space: nowrap;
+  }
+  .status-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); }
+  .status-pill.live .dot { background: var(--good); }
+
+  .filterbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .filterbar.second-row { margin-bottom: 20px; }
+  .filterbar-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .segmented { display: inline-flex; border: 1px solid var(--border-strong); border-radius: 8px; overflow: hidden; background: var(--surface); }
+  .segmented button {
+    appearance: none; border: none; background: transparent; color: var(--text-secondary);
+    font: inherit; font-size: 12.5px; font-weight: 600; padding: 7px 13px; cursor: pointer;
+  }
+  .segmented button + button { border-left: 1px solid var(--border-strong); }
+  .segmented button.active { background: var(--accent); color: #fff; }
+  select, input[type="text"], input[type="number"] {
+    font: inherit; font-size: 12.5px; color: var(--text-primary); background: var(--surface);
+    border: 1px solid var(--border-strong); border-radius: 8px; padding: 7px 10px;
+  }
+  select:focus, input:focus, button:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 1px;
+  }
+  .spacer { flex: 1; }
+
+  /* ---------- kpis ---------- */
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .kpi {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;
+  }
+  .kpi .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+  .kpi .value { font-size: 25px; font-weight: 700; letter-spacing: -0.01em; }
+  .kpi .delta { font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+  .kpi .delta.up { color: var(--delta-bad-text); }
+  .kpi .delta.down { color: var(--delta-good-text); }
+  .kpi .delta .ghost { color: var(--text-muted); font-weight: 500; }
+
+  /* ---------- cards ---------- */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; margin-bottom: 16px; position: relative; }
+  .card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .card-head h2 { font-size: 15px; font-weight: 700; margin: 0; }
+  .card-head p.hint { margin: 2px 0 0; font-size: 12px; color: var(--text-muted); }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--text-secondary); }
+  .legend .item { display: inline-flex; align-items: center; gap: 6px; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; border-radius: 4px; padding: 2px 4px; margin: -2px -4px; }
+  .legend .item:hover { background: var(--accent-wash); }
+  .legend .item:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .legend .item.highlighted { background: var(--accent-wash); color: var(--text-primary); font-weight: 700; }
+  .legend.has-highlight .item:not(.highlighted) { opacity: 0.45; }
+  .legend .swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; flex: none; }
+
+  /* ---------- chart ---------- */
+  .chart-shell { width: 100%; overflow-x: auto; }
+  svg.chart text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .bar-seg { cursor: pointer; }
+  .bar-total-label { font-size: 10.5px; fill: var(--text-muted); font-weight: 600; }
+  .bar-total-label.over-budget { fill: var(--critical); }
+  .budget-label { font-size: 10.5px; fill: var(--critical); font-weight: 600; }
+  .month-label { font-size: 11px; fill: var(--text-muted); }
+  .month-label.focused { fill: var(--text-primary); font-weight: 700; }
+  .axis-label { font-size: 10.5px; fill: var(--text-muted); }
+
+  #tooltip {
+    position: fixed; pointer-events: none; z-index: 40; background: var(--surface-2);
+    border: 1px solid var(--border-strong); border-radius: 10px; padding: 10px 12px;
+    box-shadow: var(--shadow); font-size: 12px; min-width: 190px; max-width: 320px; display: none;
+  }
+  #tooltip .tt-title { font-weight: 700; margin-bottom: 6px; }
+  #tooltip .tt-row { display: flex; justify-content: space-between; gap: 14px; padding: 2px 0; }
+  #tooltip .tt-row .k { display: flex; align-items: center; gap: 6px; color: var(--text-secondary); min-width: 0; }
+  #tooltip .tt-row .k span.nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #tooltip .tt-row .v { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; flex: none; }
+  #tooltip .tt-total { border-top: 1px solid var(--border); margin-top: 6px; padding-top: 6px; font-weight: 700; display: flex; justify-content: space-between; }
+  #tooltip .sw { width: 8px; height: 8px; border-radius: 2px; display: inline-block; flex: none; }
+
+  /* ---------- table ---------- */
+  .table-scroll { overflow-x: auto; }
+  table.data { border-collapse: collapse; width: 100%; min-width: 460px; font-size: 12.5px; }
+  table.data th {
+    text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--text-muted); font-weight: 600; padding: 0 10px 8px; border-bottom: 1px solid var(--border-strong);
+    white-space: nowrap;
+    /* Keeps the header (and its sort controls) in view while scrolling
+       through a long breakdown, so a re-sort doesn't require scrolling
+       back up first. */
+    position: sticky; top: 0; z-index: 1; background: var(--surface); padding-top: 6px;
+  }
+  table.data td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  table.data tbody tr:hover { background: var(--accent-wash); }
+  table.data td.num, table.data th.num { text-align: right; font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .row-total { font-weight: 700; }
+  .entity-name { display: flex; align-items: center; gap: 8px; }
+  .entity-name .nm { overflow-wrap: anywhere; }
+  .entity-swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+  table.data th.sortable { cursor: pointer; user-select: none; }
+  table.data th.sortable:hover { color: var(--text-secondary); }
+  table.data th.sortable .arrow { margin-left: 3px; opacity: 0.7; display: inline-block; }
+  table.data th.checkbox-col, table.data td.checkbox-col { width: 20px; padding-right: 0; padding-left: 10px; }
+  table.data input[type="checkbox"] { accent-color: var(--accent); cursor: pointer; }
+
+  /* "Other" row expand and the per-row "what's driving this cost" drill toggle */
+  .other-expand {
+    background: none; border: none; padding: 0; font: inherit; font-weight: 600; color: var(--text-primary);
+    cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+  }
+  .other-expand .arrow { display: inline-block; width: 0.9em; color: var(--text-muted); }
+  .entity-count { color: var(--text-muted); font-weight: 500; }
+  tr.other-row td { font-weight: 600; }
+  tr.other-sub-row td { background: var(--surface-2); }
+  tr.other-sub-row .other-sub { padding-left: 18px; }
+  .row-expand {
+    background: none; border: none; padding: 0; margin-right: 4px; cursor: pointer;
+    color: var(--text-muted); display: inline-flex; align-items: center; vertical-align: middle;
+  }
+  .row-expand:hover { color: var(--accent); }
+  .row-expand .arrow { display: inline-block; width: 0.9em; }
+  tr.drill-row td { background: var(--surface-2); }
+  tr.drill-row .drill-sub { padding-left: 26px; color: var(--text-secondary); }
+  tr.drill-status td { color: var(--text-muted); font-style: italic; }
+  .qty-note { font-size: 10.5px; color: var(--text-muted); font-weight: 400; margin-top: 1px; }
+
+  .focus-selection-bar {
+    display: none; align-items: center; justify-content: space-between; gap: 12px;
+    background: var(--accent-wash); border: 1px solid var(--accent); border-radius: 10px;
+    padding: 8px 12px; margin-bottom: 10px; font-size: 12.5px;
+  }
+  .focus-selection-bar.show { display: flex; }
+  .focus-selection-bar .clear-sel { background: none; border: none; color: var(--accent); text-decoration: underline; cursor: pointer; font: inherit; font-size: 12px; }
+
+  .customize-toggle {
+    font-size: 12px; font-weight: 600; color: var(--accent); background: none; border: none;
+    text-decoration: underline; cursor: pointer; padding: 0; margin-left: 8px;
+  }
+  .customize-panel {
+    display: none; position: absolute; top: 100%; right: 0; left: 0; margin-top: 6px;
+    border: 1px solid var(--border-strong); border-radius: 10px; padding: 12px 14px;
+    background: var(--surface-2); box-shadow: var(--shadow); z-index: 30; max-width: 480px;
+  }
+  .customize-panel.open { display: block; }
+  .customize-panel p.hint { margin: 0 0 8px; }
+  .customize-search {
+    width: 100%; margin-bottom: 10px; padding: 7px 10px; font-size: 12.5px;
+    border: 1px solid var(--border-strong); border-radius: 8px; background: var(--surface); color: var(--text-primary);
+  }
+  .customize-search:focus { outline: none; border-color: var(--accent); }
+  .customize-list { display: flex; flex-wrap: wrap; gap: 6px 16px; max-height: 260px; overflow-y: auto; }
+  .customize-list label { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; cursor: pointer; white-space: nowrap; }
+  .customize-color { width: 15px; height: 15px; padding: 0; border: 1px solid var(--border-strong); border-radius: 3px; background: none; cursor: pointer; flex: none; }
+  .customize-color::-webkit-color-swatch-wrapper { padding: 0; }
+  .customize-color::-webkit-color-swatch { border: none; border-radius: 2px; }
+
+  /* small external-link icon that opens a row's real Azure object in the Portal */
+  .portal-link {
+    color: var(--text-muted); text-decoration: none; font-size: 11px; margin-left: 4px;
+    opacity: 0.7; display: inline-block;
+  }
+  .portal-link:hover { color: var(--accent); opacity: 1; }
+
+  /* small pill naming which subscription(s) a row's cost came from - only
+     shown once more than one subscription is actually in play */
+  .sub-badge {
+    font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 100px; border: 1px solid var(--border-strong);
+    color: var(--text-secondary); white-space: nowrap; margin-left: 6px; display: inline-block;
+  }
+
+  .focus-search { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .focus-search input { flex: 1; max-width: 280px; }
+
+  /* ---------- month comparison ---------- */
+  .comparison-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .comparison-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+  #comparisonN { width: 48px; padding: 5px 6px; font-size: 12.5px; border: 1px solid var(--border-strong); border-radius: 6px; background: var(--surface); color: var(--text-primary); }
+  .comparison-summary {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;
+    margin-bottom: 16px;
+  }
+  .comparison-summary .stat { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+  .comparison-summary .stat .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 4px; }
+  .comparison-summary .stat .value { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-size: 16px; font-weight: 700; }
+  .comparison-summary .stat .value.up { color: var(--delta-bad-text); }
+  .comparison-summary .stat .value.down { color: var(--delta-good-text); }
+  .comparison-trailing-list { font-size: 12px; color: var(--text-secondary); margin: 0 0 16px; }
+  .comparison-trailing-list span { display: inline-block; margin-right: 14px; }
+  td.num.up { color: var(--delta-bad-text); }
+  td.num.down { color: var(--delta-good-text); }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    appearance: none; border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text-primary);
+    border-radius: 8px; padding: 8px 14px; font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { filter: brightness(1.06); color: #fff; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ---------- collapsibles ---------- */
+  details.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 16px; }
+  details.panel > summary {
+    list-style: none; cursor: pointer; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; font-weight: 700; font-size: 14px;
+  }
+  details.panel > summary::-webkit-details-marker { display: none; }
+  details.panel > summary .chev { transition: transform 0.15s ease; color: var(--text-muted); }
+  details.panel[open] > summary .chev { transform: rotate(90deg); }
+  .panel-body { padding: 0 20px 20px; }
+  .panel-body p.hint { color: var(--text-muted); font-size: 12px; margin: 0 0 14px; max-width: 68ch; }
+
+  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 14px; }
+  .field label { display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 5px; }
+  .field select, .field input { width: 100%; }
+
+  .copy-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+
+  .live-box { border: 1px solid var(--accent); background: var(--accent-wash); border-radius: 12px; padding: 14px 16px; }
+  .live-box h3 { margin: 0 0 4px; font-size: 13px; }
+  .live-status { font-size: 12px; margin-top: 8px; }
+  .live-status.ok { color: var(--delta-good-text); font-weight: 600; }
+  .live-status.err { color: var(--delta-bad-text); font-weight: 600; }
+  .link-btn { background: none; border: none; color: var(--text-muted); font-size: 11.5px; text-decoration: underline; cursor: pointer; padding: 0; }
+  .link-btn:hover { color: var(--accent); }
+
+  /* ---------- subscription connections/filter ---------- */
+  .subs-wrap { position: relative; }
+  .subs-panel {
+    display: none; position: absolute; top: 100%; left: 0; margin-top: 6px; width: 300px; max-width: 82vw;
+    background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: 12px;
+    box-shadow: var(--shadow); z-index: 30; padding: 12px;
+  }
+  .subs-panel.open { display: block; }
+  .subs-actions { display: flex; gap: 8px; margin-bottom: 8px; }
+  .subs-actions .btn { flex: 1; padding: 6px 10px; font-size: 11.5px; text-align: center; }
+  .subs-list { max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 1px; margin-bottom: 4px; }
+  .subs-item { display: flex; align-items: center; gap: 8px; font-size: 12.5px; padding: 5px 6px; border-radius: 6px; cursor: pointer; }
+  .subs-item:hover { background: var(--accent-wash); }
+  .subs-item input { margin: 0; }
+  .subs-item .nm { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #subsAddWrap { border-top: 1px solid var(--border); margin-top: 8px; padding-top: 10px; }
+  .connection-row { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 5px 2px; border-bottom: 1px solid var(--border); }
+  .connection-row .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); flex: none; }
+  .connection-row .dot.ok { background: var(--good); }
+  .connection-row .dot.error { background: var(--critical); }
+  .connection-row .nm { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  footer.foot { text-align: center; color: var(--text-muted); font-size: 11.5px; margin-top: 26px; }
+  footer.foot a { color: inherit; }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 16px 12px 60px; }
+    .card { padding: 14px; }
+    /* .segmented (Group by, By month/Year to date) doesn't wrap its
+       buttons onto a second line - on a narrow phone the Group by row
+       (4 buttons) is wider than the screen. Scrolling it internally
+       keeps it usable without forcing the whole page to scroll
+       sideways to reach content past it. */
+    .segmented { max-width: 100%; overflow-x: auto; }
+    .topbar { flex-direction: column; align-items: flex-start; }
+    .topbar > div:last-child { align-items: flex-start; width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <p class="eyebrow">Azure Subscription</p>
+      <h1>Azure Cost Console</h1>
+      <p class="sub">Track spend across your entire Azure subscription — break it down by resource group, service, resource, or tag. Sample data until you connect a backend.</p>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px">
+      <div style="display:flex; align-items:center; gap:8px">
+        <button class="btn" id="themeToggleBtn" type="button" title="Switch between light and dark">🌓 Theme</button>
+        <div class="status-pill" id="statusPill"><span class="dot"></span><span id="statusText">Sample data · not connected</span></div>
+      </div>
+      <div id="warmStatusText" class="hint" style="margin:0; text-align:right; display:none"></div>
+    </div>
+  </div>
+
+  <div class="filterbar">
+    <div class="field" style="min-width:110px">
+      <select id="yearSelect"></select>
+    </div>
+    <div class="segmented" id="viewToggle">
+      <button data-view="ytd" class="active">Year to date</button>
+      <button data-view="month">By month</button>
+    </div>
+    <div id="monthPickerWrap" style="display:none">
+      <select id="monthPicker"></select>
+    </div>
+    <div class="subs-wrap" style="min-width:170px" id="subsWrap">
+      <button class="btn" id="subsToggleBtn" type="button">All subscriptions ▾</button>
+      <div class="subs-panel" id="subsPanel">
+        <div class="subs-actions">
+          <button class="btn" id="subsAllBtn" type="button">All subscriptions</button>
+          <button class="btn" id="subsNoneBtn" type="button">Unselect all</button>
+        </div>
+        <input type="text" id="subsSearch" class="customize-search" placeholder="Search subscriptions…" autocomplete="off">
+        <div class="subs-list" id="subsList"></div>
+        <div id="subsAddWrap">
+          <p class="hint" style="margin:10px 0 6px">Add another subscription's connection (its own deployed Cost API Function App):</p>
+          <div class="form-grid" style="grid-template-columns:1fr;gap:8px;margin-bottom:8px">
+            <input type="text" id="subsAddUrl" placeholder="https://<function-app>.azurewebsites.net">
+            <input type="text" id="subsAddKey" placeholder="Function key">
+          </div>
+          <button class="btn primary" id="subsAddBtn" type="button" style="width:100%">Connect subscription</button>
+          <p class="hint" id="subsAddStatus" style="margin-top:6px"></p>
+        </div>
+      </div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+
+  <div class="filterbar second-row">
+    <span class="filterbar-label">Group by</span>
+    <div class="segmented" id="groupByToggle">
+      <button data-groupby="resourceGroup" class="active">Resource group</button>
+      <button data-groupby="service">Service</button>
+      <button data-groupby="resource">Resource</button>
+      <button data-groupby="tag">Tag</button>
+    </div>
+    <div id="tagKeyWrap" style="display:none">
+      <select id="tagKeySelect" style="min-width:200px">
+        <option value="">Select a tag key…</option>
+      </select>
+    </div>
+    <div class="spacer"></div>
+  </div>
+
+  <div class="kpi-row" id="kpiRow"></div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2 id="chartTitle">Monthly cost by resource group</h2>
+        <p class="hint">Bars use each month's actual cost; click a bar to focus that month below. <button class="customize-toggle" id="customizeToggleBtn">Customize breakdown</button> · <button class="customize-toggle" id="exportYearBtn">Export year CSV</button> · <button class="customize-toggle" id="budgetToggleBtn">Set monthly budget</button> · <label style="cursor:pointer"><input type="checkbox" id="yoyToggle"> Compare to prior year</label></p>
+        <div id="budgetWrap" style="display:none; margin-top:6px; align-items:center; gap:8px">
+          <label class="hint" for="budgetInput" style="margin:0">Monthly budget for <span id="budgetYearLabel"></span>:</label>
+          <input type="number" id="budgetInput" min="0" step="100" placeholder="e.g. 50000" style="max-width:140px">
+          <button class="link-btn" id="budgetClearBtn">Clear</button>
+        </div>
+      </div>
+      <div class="legend" id="chartLegend"></div>
+    </div>
+    <div class="customize-panel" id="customizePanel">
+      <p class="hint">Choose entities to show individually — automatic mode shows the top 40 by cost, everything else folded into "Other"; "Select all" shows every one with no cap (colors repeat past 40 - click a swatch below to pick your own color for one). <button class="link-btn" id="customizeAutoBtn">Reset to automatic (top 40 by cost)</button> · <button class="link-btn" id="customizeAllBtn">Select all</button> · <button class="link-btn" id="customizeNoneBtn">Unselect all</button> · <button class="link-btn" id="customizeSelectVisibleBtn">Select all matching search</button> · <button class="link-btn" id="customizeResetColorsBtn">Reset colors</button></p>
+      <input type="text" id="customizeSearch" class="customize-search" placeholder="Search…">
+      <div class="customize-list" id="customizeList"></div>
+    </div>
+    <div class="chart-shell"><svg class="chart" id="chartSvg"></svg></div>
+  </div>
+
+  <div class="card" id="focusCard">
+    <div class="card-head">
+      <div>
+        <h2 id="focusTitle">Focused month</h2>
+        <p class="hint" id="focusHint"></p>
+      </div>
+      <button class="btn" id="focusExportBtn">Export CSV</button>
+    </div>
+    <div class="focus-search">
+      <input type="text" id="focusSearchInput" placeholder="Search this month's breakdown…">
+    </div>
+    <div id="focusBody"></div>
+  </div>
+
+  <div class="card" id="comparisonCard" style="display:none">
+    <div class="card-head">
+      <div>
+        <h2 id="comparisonTitle">Month comparison</h2>
+        <p class="hint">Compares the focused month against its trailing months, so you can see what's driving a change and pull a written summary or a full export.</p>
+      </div>
+    </div>
+    <div class="comparison-controls">
+      <label class="comparison-toggle"><input type="checkbox" id="comparisonEnabled"> Compare to trailing</label>
+      <input type="number" id="comparisonN" min="1" max="24" value="3">
+      <span class="hint" style="margin:0">months</span>
+      <div class="spacer"></div>
+      <button class="btn" id="comparisonCopyBtn" style="display:none">Copy summary</button>
+      <button class="btn" id="comparisonExportBtn" style="display:none">Export CSV</button>
+    </div>
+    <div id="comparisonBody"></div>
+  </div>
+
+  <details class="panel">
+    <summary><span>About this dashboard</span><span class="chev">›</span></summary>
+    <div class="panel-body">
+      <p class="hint" style="margin-bottom:10px; max-width:none">
+        This dashboard reads real spend from Azure Cost Management through a Function App backend (no keys stored client-side beyond a scoped function key) and renders it as charts, KPIs, and exportable breakdowns — no manual pulls from the Portal.
+      </p>
+      <p class="hint" style="margin-bottom:10px; max-width:none">
+        <strong>Scope:</strong> the primary data source is <code class="mono">mg-landing-zones</code> — Tulane's ~30 core workload subscriptions — queried live and always current. A background job additionally pre-warms cost data for every other subscription in the tenant (150+, refreshed every 4 hours) and merges it in automatically wherever it's available, extending coverage close to tenant-wide without slowing down the primary view. A small number of subscriptions (e.g. platform/identity scaffolding subscriptions like <code class="mono">subs-management</code>) are rejected outright by Cost Management's API regardless of scope, and simply won't appear — that's an Azure-side limitation, not missing configuration.
+      </p>
+      <p class="hint" style="margin-bottom:10px; max-width:none">
+        <strong>Group by</strong> resource group, service, resource, or tag (pick a discovered tag key). <strong>Subscriptions</strong> narrows any view to specific subscriptions, or lets you connect an additional independently-deployed Function App for a subscription outside the above scope. Click any bar to focus that month, expand a row for a live "what's driving this cost" resource breakdown, compare a month against its trailing average, or export the current breakdown/comparison as CSV.
+      </p>
+      <p class="hint" style="margin:0; max-width:none">
+        Figures refresh from Cost Management on a short cache (default 30 minutes) to stay within Azure's shared, tenant-wide rate limits - switching tabs rapidly won't force a live re-fetch every time.
+      </p>
+    </div>
+  </details>
+
+  <details class="panel" id="connectDetails">
+    <summary><span>Connect to Azure</span><span class="chev">›</span></summary>
+    <div class="panel-body">
+      <div class="live-box">
+        <h3>Load live data</h3>
+        <p class="hint" style="margin-bottom:10px">Enter your deployed Azure Cost API Function's URL and key to replace the sample numbers below with actual Cost Management spend across your whole subscription, broken down by whichever dimension is selected above (resource group, service, resource, or tag). This only works when this page is loaded from its own hosted static site — a claude.ai artifact preview can't make outbound network calls at all, so open this page's live URL in a browser tab first if you're seeing this there.</p>
+        <div class="form-grid">
+          <div class="field"><label for="liveFuncUrl">Function App URL</label><input type="text" id="liveFuncUrl" placeholder="https://azure-cost-api-main.azurewebsites.net"></div>
+          <div class="field"><label for="liveFuncKey">Function key</label><input type="text" id="liveFuncKey" placeholder="host key from deploy.sh output"></div>
+        </div>
+        <div class="copy-row">
+          <button class="btn primary" id="loadLiveBtn">Load live data</button>
+          <button class="link-btn" id="forgetLiveBtn">Forget saved connection</button>
+        </div>
+        <div class="live-status" id="liveStatus"></div>
+      </div>
+    </div>
+  </details>
+
+  <footer class="foot">Whole-subscription cost dashboard · figures come from Azure Cost Management once connected · <span id="lastUpdated"></span></footer>
+</div>
+
+<div id="tooltip"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============ constants ============ */
+  var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  // Hard-wired backend connection - this page is only ever served from
+  // behind VDI-restricted access, so baking the function key into the
+  // page source (rather than requiring manual entry) is an accepted
+  // trade-off. Update these two if the Function App is ever recreated
+  // (a recreate rotates the key - see infra/deploy.sh's printed output,
+  // or `az functionapp keys list`).
+  var DEFAULT_FUNC_URL = "";
+  var DEFAULT_FUNC_KEY = "";
+  var TOP_N = 40; // colored series; everything past this folds into "Other" - matches Azure Cost Management's own breakdown allowance rather than the 7-color palette
+  var COLOR_VARS = ["--series-1","--series-2","--series-3","--series-4","--series-5","--series-6","--series-7"];
+  var OTHER_COLOR_VAR = "--series-other";
+  var OTHER_NAME = "Other";
+
+  var GROUP_BY_META = {
+    resourceGroup: { label: "resource group", plural: "resource groups" },
+    service:       { label: "service",        plural: "services" },
+    resource:      { label: "resource",        plural: "resources" },
+    tag:           { label: "tag value",       plural: "tag values" }
+  };
+
+  // Every groupBy value maps 1:1 to a real backend dimension now, so this
+  // is just an identity passthrough - kept as a function since call sites
+  // still route fetches/caching through it.
+  function actualGroupBy(groupBy){ return groupBy; }
+
+  var NOW = new Date(2026, 7, 2); // fixed "current date" context (Aug 2 2026)
+
+  var state = {
+    year: NOW.getFullYear(),
+    view: "ytd",
+    focusedMonth: NOW.getMonth(),
+    groupBy: "resourceGroup",
+    tagKey: "",
+    tagKeys: ["Environment"], // discovered via /api/tagKeys once connected; this illustrative default just keeps the dropdown non-empty for the sample-data view beforehand
+    connected: false,
+    funcUrl: "",
+    funcKey: "",
+    dataByKey: {}, // "year|groupBy[|tagKey][|subIds]" -> array[12] of {total, breakdown:[{name,cost,id}]}, only populated once fetched
+    subscriptionId: null, // captured from the first live response - used to build Azure Portal deep links
+    subscriptions: [], // [{id,name}] - discovered via the primary connection's /api/subscriptions, loaded once after connecting
+    extraConnections: [], // [{url,key,subscriptionId,label,status,error,dataByKey}] - additional independently-deployed Function Apps, added one at a time via "Connect subscription"
+    selectedSubscriptionIds: null, // null = all subscriptions (no filter); else an array of chosen subscription ids, spanning both the primary connection's discovered subs and any extraConnections
+    customSelection: null, // null = automatic top-N-by-cost (see TOP_N); else an explicit array of entity names to show individually, any length
+    highlighted: [], // names of entities to visually isolate in the chart/legend, as a combination - empty = no isolation. Purely a display overlay, doesn't touch customSelection/which entities are shown
+    colorOverrides: {}, // name -> user-picked hex color, overriding the automatic palette assignment for just that entity - see resolvedColor()
+    budgets: {}, // year (number) -> monthly budget threshold in dollars, drawn as a dashed line on the chart - persisted per browser, see loadBudgets()/saveBudgets()
+    compareYoY: false, // overlay the prior year's monthly totals as a reference line on the chart
+    focusSort: { col: "cost", dir: "desc" }, // sort state for the focused-month breakdown table
+    focusSearch: "", // filters the focused-month breakdown table by name substring
+    focusChecked: {}, // name -> true, for the focused-month row checkboxes (combined-subset total)
+    focusContextKey: null, // year|groupBy|tagKey|month - focusChecked/otherExpanded/drill state are all cleared whenever this changes, since names differ
+    otherExpanded: false, // whether the "Other" row's constituent entities are shown as sub-rows
+    drillExpanded: {}, // name -> true/false, which rows currently show a live "what's driving this cost" resource breakdown
+    drillData: {}, // name -> {loading, error, rows:[{name,cost}]} - cached per name so re-toggling doesn't refetch
+    comparisonEnabled: false,
+    comparisonN: 3, // trailing months to compare the focused month against
+    comparisonLoading: false,
+    comparisonContextKey: null, // year|month|groupBy|tagKey|N - triggers a re-fetch of trailing data when it changes
+    comparisonSort: { col: "delta", dir: "desc" } // sort state for the comparison breakdown table
+  };
+
+  // Client-side mirror of the backend's GROUP_BY_DIMENSIONS - which ARM
+  // dimension a given "Group by" mode filters on, for the drill-down query.
+  var ARM_DIMENSION_FOR = { resourceGroup: "ResourceGroupName", service: "ServiceName" };
+
+  /* ============ helpers ============ */
+  function fmtMoney(n){
+    var sign = n < 0 ? "-" : "";
+    n = Math.abs(n);
+    return sign + "$" + n.toLocaleString("en-US", {minimumFractionDigits:0, maximumFractionDigits:0});
+  }
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+  function cap(s){ return s.length ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+
+  function dimensionLabel(){
+    if (state.groupBy === "tag") return state.tagKey ? ("tag: " + state.tagKey) : "tag value";
+    return GROUP_BY_META[state.groupBy].label;
+  }
+  function dimensionPlural(){
+    if (state.groupBy === "tag") return state.tagKey ? (state.tagKey + " values") : "tag values";
+    return GROUP_BY_META[state.groupBy].plural;
+  }
+  /* ============ subscription scope (primary connection + extra connections) ============
+     The primary connection (the hard-wired backend) rolls up many
+     subscriptions in one call and gets narrowed server-side via a
+     subscriptionIds filter; each extra connection is its own separate,
+     already-single-subscription backend that either contributes fully or
+     not at all. state.selectedSubscriptionIds spans both kinds of ids. */
+  function primarySubIds(){ return state.subscriptions.map(function(s){ return s.id; }); }
+  function activePrimaryIds(){
+    if (!state.selectedSubscriptionIds) return primarySubIds(); // null = everything
+    var pset = primarySubIds();
+    return state.selectedSubscriptionIds.filter(function(id){ return pset.indexOf(id) !== -1; });
+  }
+  function isPrimaryActive(){
+    // No explicit filter = "everything the primary returns", regardless of
+    // whether /api/subscriptions has finished loading yet - deferring to
+    // activePrimaryIds().length here would wrongly read as "nothing active"
+    // during the brief window right after connecting, before that discovery
+    // call resolves, and blank the dashboard until some unrelated render
+    // happened to fire after it finished.
+    if (!state.selectedSubscriptionIds) return true;
+    return activePrimaryIds().length > 0;
+  }
+  function activeExtraConnections(){
+    return state.extraConnections.filter(function(c){
+      if (c.status !== "ok") return false;
+      if (!state.selectedSubscriptionIds) return true; // null = everything
+      return state.selectedSubscriptionIds.indexOf(c.subscriptionId) !== -1;
+    });
+  }
+
+  function subscriptionIdsSuffix(){
+    // Reflects only the primary connection's effective filter - toggling an
+    // extra connection's checkbox shouldn't fragment the primary's cache
+    // key, since it doesn't change what's actually sent to the primary
+    // backend.
+    var active = activePrimaryIds();
+    var all = primarySubIds();
+    if (!all.length || active.length === all.length) return "";
+    return "|" + active.slice().sort().join(",");
+  }
+  function cacheKey(year, groupBy, tagKey){
+    return year + "|" + groupBy + (groupBy === "tag" ? "|" + (tagKey || "") : "") + subscriptionIdsSuffix();
+  }
+  // Used for extra connections' own cache - their data isn't filtered by the
+  // primary's subscriptionIds selection, so it shouldn't fragment on it.
+  function plainCacheKey(year, groupBy, tagKey){
+    return year + "|" + groupBy + (groupBy === "tag" ? "|" + (tagKey || "") : "");
+  }
+
+  /* ============ sample/preview data ============ */
+  // Purely illustrative numbers shown until a live backend is connected -
+  // not derived from any rate card or model, just a plausible-looking
+  // cost shape for whichever breakdown dimension is selected, so the
+  // chart/table/KPIs have something meaningful to render.
+  var SAMPLE_YEAR_MULT = { 0: 0.72, 1: 0.87, 2: 1.0 }; // oldest -> newest of the 3 selectable years
+
+  // Three illustrative subscriptions, each with a fixed share of one
+  // canonical monthly total - every groupBy dimension below distributes
+  // THIS SAME total across its own named buckets, so switching "Group by"
+  // never changes the number in the KPI row, only how it's sliced (matching
+  // how the real backend behaves: different dimensions of the same spend).
+  var SAMPLE_SUBSCRIPTIONS = [
+    { id: "11111111-1111-4111-8111-111111111001", name: "Production" },
+    { id: "11111111-1111-4111-8111-111111111002", name: "Non-Production" },
+    { id: "11111111-1111-4111-8111-111111111003", name: "Shared Services" }
+  ];
+  var SUB_PROD = SAMPLE_SUBSCRIPTIONS[0].id, SUB_NONPROD = SAMPLE_SUBSCRIPTIONS[1].id, SUB_SHARED = SAMPLE_SUBSCRIPTIONS[2].id;
+  var SAMPLE_ALL_SUB_IDS = [SUB_PROD, SUB_NONPROD, SUB_SHARED];
+  var SAMPLE_SUB_SHARE = { };
+  SAMPLE_SUB_SHARE[SUB_PROD] = 0.58; SAMPLE_SUB_SHARE[SUB_NONPROD] = 0.24; SAMPLE_SUB_SHARE[SUB_SHARED] = 0.18;
+  var SAMPLE_CANONICAL_TOTAL = 35000; // baseline combined monthly spend across all three, before seasonal/year adjustment
+
+  /* mk(subId, weight, subId2, weight2, ...) -> {subId: weight, ...} - a small
+     builder so the tables below read as (subscription, weight) pairs. Each
+     entity's weight is relative WITHIN each subscription it belongs to -
+     resource groups and resources are naturally single-subscription in real
+     Azure, while a service/tag can legitimately be spent against from more
+     than one subscription at once, so those carry weight in more than one. */
+  function mk(){
+    var out = {};
+    for (var i = 0; i < arguments.length; i += 2) out[arguments[i]] = arguments[i + 1];
+    return out;
+  }
+  function dedupe(arr){
+    var seen = {}, out = [];
+    (arr || []).forEach(function(x){ if (x && !seen[x]){ seen[x] = true; out.push(x); } });
+    return out;
+  }
+
+  var SAMPLE_ENTITIES = {
+    resourceGroup: [
+      { name: "rg-prod-app",          subs: mk(SUB_PROD, 16400) },
+      { name: "rg-data-platform",     subs: mk(SUB_SHARED, 9200) },
+      { name: "rg-shared-network",    subs: mk(SUB_SHARED, 4100) },
+      { name: "rg-identity-security", subs: mk(SUB_SHARED, 2600) },
+      { name: "rg-sandbox-dev",       subs: mk(SUB_NONPROD, 1500) },
+      { name: "rg-monitoring",        subs: mk(SUB_SHARED, 640) },
+      { name: "rg-backup-dr",         subs: mk(SUB_PROD, 520) },
+      { name: "rg-misc-1",            subs: mk(SUB_NONPROD, 240) },
+      { name: "rg-misc-2",            subs: mk(SUB_NONPROD, 180) }
+    ],
+    service: [
+      { name: "Virtual Machines",     subs: mk(SUB_PROD, 9000, SUB_NONPROD, 3200, SUB_SHARED, 2000) },
+      { name: "Storage",              subs: mk(SUB_PROD, 5200, SUB_NONPROD, 1800, SUB_SHARED, 2800) },
+      { name: "SQL Database",         subs: mk(SUB_PROD, 5100, SUB_NONPROD, 1200, SUB_SHARED, 800) },
+      { name: "Virtual Network",      subs: mk(SUB_PROD, 1800, SUB_NONPROD, 900, SUB_SHARED, 1600) },
+      { name: "Log Analytics",        subs: mk(SUB_PROD, 900, SUB_NONPROD, 500, SUB_SHARED, 1200) },
+      { name: "Bandwidth",            subs: mk(SUB_PROD, 700, SUB_NONPROD, 300, SUB_SHARED, 500) },
+      { name: "Microsoft Defender for Cloud", subs: mk(SUB_SHARED, 900) },
+      { name: "Application Gateway",  subs: mk(SUB_PROD, 420, SUB_SHARED, 100) },
+      { name: "Azure Bastion",        subs: mk(SUB_SHARED, 300) }
+    ],
+    resource: [
+      { name: "vm-prod-web-01",       subs: mk(SUB_PROD, 6200) },
+      { name: "sql-prod-orders",      subs: mk(SUB_PROD, 5100) },
+      { name: "st-dataplatform01",    subs: mk(SUB_SHARED, 4300) },
+      { name: "vnet-hub-eastus",      subs: mk(SUB_SHARED, 3600) },
+      { name: "aks-prod-cluster",     subs: mk(SUB_PROD, 3100) },
+      { name: "appgw-prod-fe",        subs: mk(SUB_PROD, 2400) },
+      { name: "law-central",          subs: mk(SUB_SHARED, 1900) },
+      { name: "vm-prod-web-02",       subs: mk(SUB_NONPROD, 1500) },
+      { name: "fn-billing-processor", subs: mk(SUB_NONPROD, 1100) }
+    ],
+    tag: [
+      { name: "Production",  subs: mk(SUB_PROD, 22000) },
+      { name: "Staging",     subs: mk(SUB_NONPROD, 9000) },
+      { name: "Development", subs: mk(SUB_NONPROD, 5200) },
+      { name: "QA",          subs: mk(SUB_NONPROD, 2100) },
+      // deliberately spans two subscriptions, so the badge + drill-down
+      // breakout has something real to demonstrate
+      { name: "(untagged)",  subs: mk(SUB_SHARED, 900, SUB_PROD, 300) }
+    ]
+  };
+
+  function sampleMonthsForYear(year, groupBy, activeSubIds){
+    var yearOffset = year - (NOW.getFullYear() - 2);
+    var yearMult = SAMPLE_YEAR_MULT[yearOffset] != null ? SAMPLE_YEAR_MULT[yearOffset] : 1.0;
+    var isCurrentYear = year === NOW.getFullYear();
+    var uptoIdx = isCurrentYear ? NOW.getMonth() : 11;
+    var entities = SAMPLE_ENTITIES[groupBy] || SAMPLE_ENTITIES.resourceGroup;
+
+    var months = [];
+    for (var m = 0; m < 12; m++){
+      if (m > uptoIdx || !activeSubIds.length){ months.push({ total: 0, breakdown: [] }); continue; }
+      var seasonal = 1 + 0.07 * Math.sin((m / 12) * Math.PI * 2);
+      // each active subscription's total for this month - identical no
+      // matter which groupBy dimension is asking, so the grand total never
+      // moves when you switch "Group by".
+      var subTotal = {};
+      activeSubIds.forEach(function(sid){
+        subTotal[sid] = SAMPLE_CANONICAL_TOTAL * (SAMPLE_SUB_SHARE[sid] || 0) * yearMult * seasonal;
+      });
+      // this dimension's total weight per subscription, so each entity's
+      // share of that subscription's total can be computed
+      var weightSum = {};
+      entities.forEach(function(e){
+        Object.keys(e.subs).forEach(function(sid){
+          if (activeSubIds.indexOf(sid) === -1) return;
+          weightSum[sid] = (weightSum[sid] || 0) + e.subs[sid];
+        });
+      });
+      var breakdown = [];
+      entities.forEach(function(e){
+        Object.keys(e.subs).forEach(function(sid){
+          if (activeSubIds.indexOf(sid) === -1) return;
+          var wSum = weightSum[sid];
+          if (!wSum) return;
+          var cost = (e.subs[sid] / wSum) * (subTotal[sid] || 0);
+          if (cost > 0) breakdown.push({ name: e.name, cost: cost, id: null, subIds: [sid] });
+        });
+      });
+      var total = breakdown.reduce(function(s, r){ return s + r.cost; }, 0);
+      months.push({ total: total, breakdown: breakdown });
+    }
+    return months;
+  }
+
+  /* merges the primary connection's cached months (server-side filtered to
+     activePrimaryIds via the subscriptionIds query param) with every active
+     extra connection's own cached months - each source contributes its raw
+     breakdown rows (possibly duplicate names across sources), which
+     monthBreakdown()/otherConstituents() already know how to sum by name
+     rather than overwrite. */
+  function mergedMonthsForYear(year, groupBy, tagKey){
+    var sources = [];
+    if (isPrimaryActive() && state.dataByKey[cacheKey(year, groupBy, tagKey)]){
+      sources.push(state.dataByKey[cacheKey(year, groupBy, tagKey)]);
+    }
+    var plainKey = plainCacheKey(year, groupBy, tagKey);
+    activeExtraConnections().forEach(function(c){
+      if (c.dataByKey && c.dataByKey[plainKey]) sources.push(c.dataByKey[plainKey]);
+    });
+    var merged = [];
+    for (var m = 0; m < 12; m++){
+      var total = 0, breakdown = [];
+      sources.forEach(function(months){
+        var mm = months[m];
+        if (!mm) return;
+        total += mm.total;
+        breakdown = breakdown.concat(mm.breakdown || []);
+      });
+      merged.push({ total: total, breakdown: breakdown });
+    }
+    return merged;
+  }
+
+  function monthsForYear(year){
+    var fetchGroupBy = actualGroupBy(state.groupBy);
+    if (state.connected){
+      return mergedMonthsForYear(year, fetchGroupBy, state.tagKey);
+    }
+    return sampleMonthsForYear(year, fetchGroupBy, SAMPLE_ALL_SUB_IDS);
+  }
+
+  /* which entities to show individually in the chart/legend, in display order */
+  function yearOrder(year){
+    // Array.isArray (not a truthy/.length check) so an explicit "Unselect
+    // all" (customSelection = []) is honored as "show nothing individually"
+    // rather than being indistinguishable from null ("automatic top-N").
+    // Not capped at TOP_N here - an explicit selection (including "Select
+    // all") is shown in full; only the "automatic" (null) branch below caps
+    // at the top-N-by-cost default.
+    if (Array.isArray(state.customSelection)) return state.customSelection;
+    var months = monthsForYear(year);
+    var totals = {};
+    months.forEach(function(m){
+      (m.breakdown || []).forEach(function(b){ totals[b.name] = (totals[b.name] || 0) + b.cost; });
+    });
+    return Object.keys(totals).sort(function(a, b){ return totals[b] - totals[a]; }).slice(0, TOP_N);
+  }
+
+  /* every distinct entity seen this year, sorted by total cost - for the customize picker */
+  function allEntitiesForYear(year){
+    var months = monthsForYear(year);
+    var totals = {};
+    months.forEach(function(m){
+      (m.breakdown || []).forEach(function(b){ totals[b.name] = (totals[b.name] || 0) + b.cost; });
+    });
+    return Object.keys(totals).sort(function(a, b){ return totals[b] - totals[a]; });
+  }
+
+  /* true top entity by YTD cost, independent of chart display order (which may be
+     a manually-customized selection) - used by the "Top X" KPI card */
+  function topEntityForYtd(year, uptoIdx){
+    var months = monthsForYear(year);
+    var totals = {};
+    for (var i = 0; i <= uptoIdx; i++){
+      (months[i].breakdown || []).forEach(function(b){ totals[b.name] = (totals[b.name] || 0) + b.cost; });
+    }
+    var names = Object.keys(totals);
+    if (!names.length) return null;
+    names.sort(function(a, b){ return totals[b] - totals[a]; });
+    return { name: names[0], total: totals[names[0]] };
+  }
+
+  /* the single entity with the largest dollar swing between two months,
+     across every entity that ever appears (not just whatever's currently
+     shown in the chart/legend, and not folded into "Other") - ranked by
+     dollar delta rather than percentage, since a tiny prior-month base
+     (e.g. $0.01 -> $5) produces a huge but meaningless percentage. pct is
+     null for "new this month" entities (no prior-month cost to compare
+     against) rather than an infinite/undefined percentage. */
+  function biggestMover(year, lastIdx, prevIdx){
+    if (prevIdx < 0) return null;
+    var months = monthsForYear(year);
+    var lastTotals = {}, prevTotals = {};
+    (months[lastIdx].breakdown || []).forEach(function(b){ lastTotals[b.name] = (lastTotals[b.name] || 0) + b.cost; });
+    (months[prevIdx].breakdown || []).forEach(function(b){ prevTotals[b.name] = (prevTotals[b.name] || 0) + b.cost; });
+    var names = dedupe(Object.keys(lastTotals).concat(Object.keys(prevTotals)));
+    var best = null;
+    names.forEach(function(name){
+      var lastCost = lastTotals[name] || 0, prevCost = prevTotals[name] || 0;
+      var delta = lastCost - prevCost;
+      if (Math.abs(delta) < 1) return; // ignore sub-dollar noise
+      if (!best || Math.abs(delta) > Math.abs(best.delta)) best = { name: name, lastCost: lastCost, prevCost: prevCost, delta: delta };
+    });
+    if (!best) return null;
+    return { name: best.name, lastCost: best.lastCost, pct: best.prevCost > 0.01 ? (best.delta / best.prevCost * 100) : null };
+  }
+
+  function colorVarFor(name, index){
+    // Only 7 distinct hues exist in the palette - past that, cycle rather than
+    // index out of bounds. At 8+ simultaneous series the legend's text label
+    // is what actually disambiguates entries; color just loosely groups them.
+    return COLOR_VARS[index % COLOR_VARS.length];
+  }
+
+  /* the actual CSS color value to paint one entity with, ready to drop
+     straight into a fill/background - a user-picked override (a literal
+     hex string) if one's been set for this name, otherwise the given
+     default (a "var(--series-N)" expression from colorVarFor). Needed
+     because 8+ simultaneous series - common once "Select all" is used on a
+     tenant with 40+ resource groups - cycle back through the same 7 hues,
+     and there's no way to tell two same-colored entries apart at a glance. */
+  function resolvedColor(name, defaultVarExpr){
+    return state.colorOverrides[name] || defaultVarExpr;
+  }
+
+  /* Azure Portal deep link for one row, or null if there's no single real
+     Azure object to point at (Service/Tag names aren't navigable
+     objects on their own). A raw resource `id` always wins when present -
+     that covers "resource" mode rows and every drilled-in sub-resource
+     regardless of what dimension the parent row was grouped by. Otherwise,
+     a plain resource-group name can be linked directly since the URL only
+     needs the subscription + RG name, nothing per-row. */
+  function portalLinkForRow(name, id, subIds){
+    if (!state.connected) return null; // sample data has no real Azure object behind it - nothing to link to
+    if (id) return "https://portal.azure.com/#resource" + id + "/overview";
+    // A resource-group name only needs {subscription, RG name} to link -
+    // but now that multiple subscriptions can be in scope at once, that
+    // subscription has to come from THIS row specifically (subIds), not a
+    // single global one - a name that turned out to span more than one
+    // subscription has no single correct link, so it's suppressed rather
+    // than guessing.
+    var singleSub = subIds && subIds.length === 1 ? subIds[0] : (subIds && subIds.length > 1 ? null : state.subscriptionId);
+    if (state.groupBy === "resourceGroup" && singleSub && name && name !== "(none)" && name !== OTHER_NAME){
+      return "https://portal.azure.com/#resource/subscriptions/" + singleSub + "/resourceGroups/" + encodeURIComponent(name) + "/overview";
+    }
+    return null;
+  }
+  function portalLinkIcon(name, id, subIds){
+    var href = portalLinkForRow(name, id, subIds);
+    if (!href) return "";
+    return ' <a class="portal-link" href="' + escapeHtml(href) + '" target="_blank" rel="noopener" title="Open in Azure Portal" onclick="event.stopPropagation()">↗</a>';
+  }
+
+  /* which subscription list to badge against - the real connected list once
+     live, the three illustrative ones while disconnected. Silent (no badge)
+     when there's only one subscription in play, since there's nothing to
+     disambiguate. */
+  function subscriptionsForBadge(){
+    return state.connected ? allSubscriptionEntries() : SAMPLE_SUBSCRIPTIONS;
+  }
+  function subBadgeHtml(subIds){
+    var subs = subscriptionsForBadge();
+    if (!subIds || !subIds.length || subs.length <= 1) return "";
+    if (subIds.length > 1) {
+      return ' <span class="sub-badge" title="Spans ' + subIds.length + ' subscriptions">' + subIds.length + ' subs</span>';
+    }
+    // GUIDs are case-insensitive, but Cost Management's SubscriptionId
+    // column and the ARM subscriptions list don't always agree on casing -
+    // a naive === comparison silently drops every single-subscription
+    // badge whenever they disagree. Falls back to a shortened raw id
+    // (rather than nothing) if a name genuinely can't be found, so a lookup
+    // miss is visible/debuggable instead of just quietly not rendering.
+    var target = String(subIds[0]).toLowerCase();
+    var one = subs.filter(function(s){ return String(s.id).toLowerCase() === target; })[0];
+    var label = one ? one.name : (subIds[0].slice(0, 8) + "…");
+    return ' <span class="sub-badge" title="' + escapeHtml(subIds[0]) + (one ? "" : " (unrecognized)") + '">' + escapeHtml(label) + '</span>';
+  }
+
+  // Cost Management doesn't return a per-row unit for the quantity it bills
+  // against - only the resource's own ARM type reliably tells us what that
+  // number actually means, and even that turned out to need real-data
+  // verification rather than assumption: live data showed VM quantities
+  // exceeding the number of hours that physically exist in the month
+  // (e.g. 2,385 against a 744-hour July), meaning Cost Management sums
+  // multiple separate meters - base compute, OS licensing, etc. - under one
+  // resource ID, so "hrs" cannot be asserted for compute. GB-based capacity
+  // meters (storage, disks) don't have an equivalent sanity ceiling to
+  // check against and are a standard single-meter convention, so those stay;
+  // anything not in here (including VMs, for now) shows an honest
+  // "unit varies" note instead of a label that might be wrong.
+  var QUANTITY_UNIT_BY_RESOURCE_TYPE = {
+    "microsoft.storage/storageaccounts": "GB",
+    "microsoft.compute/disks": "GB"
+  };
+  function quantityUnitFor(id){
+    if (!id) return null;
+    var m = /\/providers\/([^/]+)\/([^/]+)\//i.exec(id + "/");
+    if (!m) return null;
+    return QUANTITY_UNIT_BY_RESOURCE_TYPE[(m[1] + "/" + m[2]).toLowerCase()] || null;
+  }
+  function quantityNoteHtml(quantity, id){
+    if (!quantity) return "";
+    var unit = quantityUnitFor(id);
+    var text = quantity.toLocaleString("en-US", { maximumFractionDigits: 1 }) + (unit ? " " + unit + " billed" : " billed (unit varies)");
+    return '<div class="qty-note">' + escapeHtml(text) + '</div>';
+  }
+
+  /* ordered [{name, cost, colorVar, id, subIds}] for one month: the display
+     entities (0 if absent this month) + Other. A name can legitimately
+     appear more than once in m.breakdown (once per contributing
+     subscription) when multiple subscriptions are in scope, so this SUMS by
+     name rather than overwriting, and tracks which subscription(s) fed each
+     total - the portal-link id is only kept when it's unambiguous (a single
+     id behind the name); a name resolving to two different ids across
+     subscriptions suppresses the link rather than picking one arbitrarily. */
+  function monthBreakdown(year, monthIdx, order){
+    var m = monthsForYear(year)[monthIdx] || { total: 0, breakdown: [] };
+    var byName = {}, idByName = {}, subIdsByName = {};
+    (m.breakdown || []).forEach(function(b){
+      byName[b.name] = (byName[b.name] || 0) + b.cost;
+      subIdsByName[b.name] = dedupe((subIdsByName[b.name] || []).concat(b.subIds || []));
+      if (idByName[b.name] === undefined) idByName[b.name] = b.id || null;
+      else if (b.id && b.id !== idByName[b.name]) idByName[b.name] = "__ambiguous__";
+    });
+    var segs = order.map(function(name, i){
+      var id = idByName[name];
+      return {
+        name: name, cost: byName[name] || 0,
+        id: id === "__ambiguous__" ? null : (id || null),
+        subIds: subIdsByName[name] || [],
+        colorVar: resolvedColor(name, "var(" + colorVarFor(name, i) + ")")
+      };
+    });
+    var namedSum = segs.reduce(function(s, x){ return s + x.cost; }, 0);
+    var otherCost = Math.max(0, m.total - namedSum);
+    if (otherCost > 0.01) segs.push({ name: OTHER_NAME, cost: otherCost, colorVar: resolvedColor(OTHER_NAME, "var(" + OTHER_COLOR_VAR + ")"), id: null, subIds: [] });
+    return { total: m.total, segments: segs };
+  }
+
+  function cssVar(name){ return getComputedStyle(document.body).getPropertyValue(name).trim(); }
+
+  /* ============ live data ============ */
+  function updateStatusPill(){
+    var pill = document.getElementById("statusPill");
+    var text = document.getElementById("statusText");
+    if (state.connected){
+      pill.classList.add("live");
+      text.textContent = "Live — " + state.funcUrl.replace(/^https?:\/\//, "");
+    } else {
+      pill.classList.remove("live");
+      text.textContent = "Sample data · not connected";
+    }
+  }
+
+  // "" when every discovered subscription is in scope (no filter needed);
+  // otherwise the query param that narrows the primary connection's rollup
+  // to just the checked ones that actually belong to it (extra connections'
+  // ids are meaningless to this backend and are never sent here).
+  function subscriptionIdsQueryParam(){
+    var active = activePrimaryIds();
+    var all = primarySubIds();
+    if (!all.length || active.length === all.length) return "";
+    return "&subscriptionIds=" + encodeURIComponent(active.join(","));
+  }
+
+  function fetchYear(year, groupBy, tagKey, url, key){
+    var qUrl = url + "/api/costSummary?code=" + encodeURIComponent(key) + "&from=" + year + "-01-01&to=" + year + "-12-31&groupBy=" + encodeURIComponent(groupBy);
+    if (groupBy === "tag") qUrl += "&tagKey=" + encodeURIComponent(tagKey || "");
+    qUrl += subscriptionIdsQueryParam();
+    return fetch(qUrl).then(function(r){ if (!r.ok) throw new Error("costSummary returned " + r.status); return r.json(); })
+      .then(function(json){
+        // A single explicit subscription selection (across everything in
+        // scope, not just the primary) is a more specific/current deep-link
+        // target than whatever the backend echoed back.
+        if (state.selectedSubscriptionIds && state.selectedSubscriptionIds.length === 1) {
+          state.subscriptionId = state.selectedSubscriptionIds[0];
+        } else if (json.subscriptionId) {
+          state.subscriptionId = json.subscriptionId;
+        }
+        var months = [];
+        for (var i = 0; i < 12; i++) months.push({ total: 0, breakdown: [] });
+        (json.months || []).forEach(function(m){
+          var idx = parseInt(m.month.slice(5, 7), 10) - 1;
+          if (idx < 0 || idx > 11) return;
+          months[idx] = {
+            total: m.total || 0,
+            breakdown: (m.breakdown || []).map(function(b){ return { name: b.name, cost: b.cost || 0, id: b.id || null, quantity: b.quantity || 0, subIds: b.subIds || [] }; })
+          };
+        });
+        state.dataByKey[cacheKey(year, groupBy, tagKey)] = months;
+      });
+  }
+
+  /* one extra connection's months for a year/dimension - same shape as
+     fetchYear's result, but stamps subIds with this connection's own
+     subscription id when the backend didn't already supply any (a
+     single-subscription-mode backend has nothing to disambiguate, so it
+     never bothers). */
+  function fetchYearForExtraConnection(conn, year, groupBy, tagKey){
+    var qUrl = conn.url + "/api/costSummary?code=" + encodeURIComponent(conn.key) + "&from=" + year + "-01-01&to=" + year + "-12-31&groupBy=" + encodeURIComponent(groupBy);
+    if (groupBy === "tag") qUrl += "&tagKey=" + encodeURIComponent(tagKey || "");
+    return fetch(qUrl).then(function(r){ if (!r.ok) throw new Error("costSummary returned " + r.status); return r.json(); })
+      .then(function(json){
+        if (json.subscriptionId && !conn.subscriptionId) conn.subscriptionId = json.subscriptionId;
+        var fallbackSubId = conn.subscriptionId || json.subscriptionId || null;
+        var months = [];
+        for (var i = 0; i < 12; i++) months.push({ total: 0, breakdown: [] });
+        (json.months || []).forEach(function(m){
+          var idx = parseInt(m.month.slice(5, 7), 10) - 1;
+          if (idx < 0 || idx > 11) return;
+          months[idx] = {
+            total: m.total || 0,
+            breakdown: (m.breakdown || []).map(function(b){
+              return {
+                name: b.name, cost: b.cost || 0, id: b.id || null, quantity: b.quantity || 0,
+                subIds: (b.subIds && b.subIds.length) ? b.subIds : (fallbackSubId ? [fallbackSubId] : [])
+              };
+            })
+          };
+        });
+        conn.dataByKey = conn.dataByKey || {};
+        conn.dataByKey[plainCacheKey(year, groupBy, tagKey)] = months;
+        return months;
+      });
+  }
+
+  /* registers an additional subscription's independently-deployed Function
+     App connection, without disturbing the primary connection or the
+     current selection - backs the "Connect subscription" control. */
+  function addConnection(url, key){
+    var conn = { url: url, key: key, subscriptionId: null, label: url, status: "pending", error: null, dataByKey: {} };
+    state.extraConnections.push(conn);
+    var fetchGb = actualGroupBy(state.groupBy);
+    return fetchYearForExtraConnection(conn, state.year, fetchGb, state.tagKey)
+      .then(function(){
+        conn.status = "ok";
+        renderAll();
+        // Best-effort friendlier label than the raw URL - not required for
+        // the connection to actually work, so a failure here is silent.
+        return fetch(url + "/api/subscriptions?code=" + encodeURIComponent(key))
+          .then(function(r){ return r.ok ? r.json() : null; })
+          .then(function(json){
+            var subs = (json && json.subscriptions) || [];
+            var match = conn.subscriptionId ? subs.filter(function(s){ return s.id === conn.subscriptionId; })[0] : subs[0];
+            if (match) conn.label = match.name;
+            renderAll();
+          }).catch(function(){ /* keep the URL as the label */ });
+      })
+      .catch(function(e){
+        conn.status = "error";
+        conn.error = e.message;
+        renderAll();
+        throw e; // rethrow so the "Connect subscription" button can show the failure
+      });
+  }
+
+  function loadLiveData(){
+    var url = document.getElementById("liveFuncUrl").value.trim().replace(/\/+$/, "");
+    var key = document.getElementById("liveFuncKey").value.trim();
+    var statusEl = document.getElementById("liveStatus");
+    if (!url || !key){
+      statusEl.textContent = "Enter both the Function URL and key first.";
+      statusEl.className = "live-status err";
+      return;
+    }
+    if (state.groupBy === "tag" && !state.tagKey){
+      statusEl.textContent = "Enter a tag key above first (Cost Management groups by one specific tag key at a time).";
+      statusEl.className = "live-status err";
+      return;
+    }
+    statusEl.textContent = "Connecting…";
+    statusEl.className = "live-status";
+
+    fetchYear(state.year, actualGroupBy(state.groupBy), state.tagKey, url, key).then(function(){
+      state.connected = true;
+      state.funcUrl = url;
+      state.funcKey = key;
+      try {
+        localStorage.setItem("azcc_funcUrl", url);
+        localStorage.setItem("azcc_funcKey", key);
+      } catch(e){ /* storage unavailable - not fatal */ }
+      var monthCount = state.dataByKey[cacheKey(state.year, actualGroupBy(state.groupBy), state.tagKey)].filter(function(m){ return m.total > 0; }).length;
+      statusEl.textContent = "Connected — loaded " + monthCount + " month" + (monthCount === 1 ? "" : "s") + " of actual subscription cost for " + state.year + ", by " + dimensionLabel() + ".";
+      statusEl.className = "live-status ok";
+      updateStatusPill();
+      renderAll();
+      loadSubscriptionList();
+      loadTagKeys();
+      loadWarmStatus();
+    }).catch(function(e){
+      statusEl.textContent = "Could not load live data (" + e.message + "). Check the URL/key, and confirm this page is being served from its own hosted static site, not a local file or the claude.ai preview — CORS only allows the deployed static site's origin.";
+      statusEl.className = "live-status err";
+      // Surface the connection details automatically on failure - they stay
+      // collapsed otherwise so a working connection doesn't clutter the page.
+      document.getElementById("connectDetails").open = true;
+    });
+  }
+
+  /* ============ subscriptions dropdown (primary discovery + extra connections) ============ */
+  // Loaded once per primary connection (subscription membership doesn't
+  // change mid-session) - populates the multi-select. Always visible
+  // (matches the sample) even with just one subscription, since "Connect
+  // subscription" is available regardless of how many the primary already
+  // discovered.
+  // Remembers the subscription filter across page reloads (localStorage,
+  // per-browser) - with ~90 tenant-wide subscriptions, re-narrowing the
+  // list by hand every reload is real friction. null/empty-array are both
+  // meaningful states (see selectedSubscriptionIds' own comment) so they're
+  // stored explicitly rather than treated as "nothing to save".
+  function persistSubscriptionSelection(){
+    try {
+      if (state.selectedSubscriptionIds === null) localStorage.removeItem("azcc_selectedSubs");
+      else localStorage.setItem("azcc_selectedSubs", JSON.stringify(state.selectedSubscriptionIds));
+    } catch (e) {}
+  }
+  function restoreSubscriptionSelection(){
+    try {
+      var raw = localStorage.getItem("azcc_selectedSubs");
+      if (!raw) return false;
+      var saved = JSON.parse(raw);
+      if (!Array.isArray(saved)) return false;
+      // Drop any id that no longer resolves to a real subscription (removed
+      // from the tenant, or this browser's saved pick predates a rename) -
+      // an empty result from that filtering is still meaningfully "restore
+      // to nothing selected", not "restoring failed, fall back to all".
+      var validIds = allSubscriptionEntries().map(function(e){ return e.id; });
+      state.selectedSubscriptionIds = saved.filter(function(id){ return validIds.indexOf(id) !== -1; });
+      return true;
+    } catch (e) { return false; }
+  }
+
+  function loadSubscriptionList(){
+    var qUrl = state.funcUrl + "/api/subscriptions?code=" + encodeURIComponent(state.funcKey);
+    fetch(qUrl).then(function(r){ if (!r.ok) throw new Error("status " + r.status); return r.json(); })
+      .then(function(json){
+        state.subscriptions = json.subscriptions || [];
+        var restored = restoreSubscriptionSelection();
+        renderSubscriptionsPanel();
+        updateSubscriptionsButtonLabel();
+        if (restored) refetchCurrentSelection();
+      })
+      .catch(function(){
+        // Non-fatal: the dashboard still works with the default "all
+        // subscriptions" rollup, just without anything auto-discovered to
+        // narrow down (extra connections, if any, still work).
+        renderSubscriptionsPanel();
+        updateSubscriptionsButtonLabel();
+      });
+  }
+
+  /* every subscription currently offered by the picker: the primary's
+     auto-discovered ones, plus any successfully-added extra connections
+     (failed ones show up as a read-only status row instead). */
+  function allSubscriptionEntries(){
+    var entries = state.subscriptions.map(function(s){ return { id: s.id, name: s.name, kind: "primary" }; });
+    state.extraConnections.forEach(function(c){
+      if (c.status === "ok" && c.subscriptionId) entries.push({ id: c.subscriptionId, name: c.label, kind: "extra" });
+    });
+    return entries;
+  }
+
+  function updateSubscriptionsButtonLabel(){
+    var btn = document.getElementById("subsToggleBtn");
+    if (!btn) return;
+    var all = allSubscriptionEntries();
+    if (!Array.isArray(state.selectedSubscriptionIds) || state.selectedSubscriptionIds.length >= all.length){
+      btn.textContent = "All subscriptions ▾";
+    } else if (state.selectedSubscriptionIds.length === 0){
+      btn.textContent = "No subscriptions ▾";
+    } else if (state.selectedSubscriptionIds.length === 1){
+      var one = all.filter(function(e){ return e.id === state.selectedSubscriptionIds[0]; })[0];
+      btn.textContent = (one ? one.name : "1 subscription") + " ▾";
+    } else {
+      btn.textContent = state.selectedSubscriptionIds.length + " subscriptions ▾";
+    }
+  }
+
+  function renderSubscriptionsPanel(){
+    var listEl = document.getElementById("subsList");
+    var all = allSubscriptionEntries();
+    var selected = Array.isArray(state.selectedSubscriptionIds) ? state.selectedSubscriptionIds : all.map(function(e){ return e.id; });
+    var q = (document.getElementById("subsSearch").value || "").trim().toLowerCase();
+    var filtered = q ? all.filter(function(e){ return e.name.toLowerCase().indexOf(q) !== -1; }) : all;
+    if (!all.length){
+      listEl.innerHTML = '<p class="hint" style="margin:6px 2px">No subscriptions connected yet.</p>';
+    } else if (!filtered.length){
+      listEl.innerHTML = '<p class="hint" style="margin:6px 2px">No subscriptions match "' + escapeHtml(q) + '".</p>';
+    } else {
+      listEl.innerHTML = filtered.map(function(e){
+        var checked = selected.indexOf(e.id) !== -1;
+        return '<label class="subs-item"><input type="checkbox" value="' + escapeHtml(e.id) + '"' + (checked ? " checked" : "") + '><span class="nm">' + escapeHtml(e.name) + '</span></label>';
+      }).join("");
+    }
+    state.extraConnections.forEach(function(c){
+      if (c.status !== "error") return;
+      listEl.innerHTML += '<div class="connection-row"><span class="dot error"></span><span class="nm">' + escapeHtml(c.url) + '</span><span style="color:var(--delta-bad-text)">failed</span></div>';
+    });
+  }
+
+  document.getElementById("subsToggleBtn").addEventListener("click", function(e){
+    e.stopPropagation();
+    var panel = document.getElementById("subsPanel");
+    var opening = !panel.classList.contains("open");
+    panel.classList.toggle("open", opening);
+    if (opening) renderSubscriptionsPanel();
+  });
+  document.addEventListener("click", function(e){
+    var panel = document.getElementById("subsPanel");
+    var toggle = document.getElementById("subsToggleBtn");
+    if (panel.classList.contains("open") && !panel.contains(e.target) && e.target !== toggle) panel.classList.remove("open");
+  });
+  document.getElementById("subsSearch").addEventListener("input", renderSubscriptionsPanel);
+  document.getElementById("subsList").addEventListener("change", function(e){
+    if (e.target.tagName !== "INPUT") return;
+    var all = allSubscriptionEntries();
+    var prevSelected = Array.isArray(state.selectedSubscriptionIds) ? state.selectedSubscriptionIds : all.map(function(en){ return en.id; });
+    // The search box can hide rows without unchecking them - reading only
+    // the checkboxes currently in the DOM would silently drop whatever's
+    // selected but filtered out of view. Keep every previously-selected id
+    // that isn't currently rendered, and layer today's visible checked
+    // state on top of just the ones that are.
+    var visibleIds = Array.prototype.slice.call(document.querySelectorAll("#subsList input[type=checkbox]")).map(function(i){ return i.value; });
+    var visibleChecked = Array.prototype.slice.call(document.querySelectorAll("#subsList input:checked")).map(function(i){ return i.value; });
+    var kept = prevSelected.filter(function(id){ return visibleIds.indexOf(id) === -1; });
+    state.selectedSubscriptionIds = kept.concat(visibleChecked);
+    persistSubscriptionSelection();
+    updateSubscriptionsButtonLabel();
+    refetchCurrentSelection();
+  });
+  document.getElementById("subsAllBtn").addEventListener("click", function(){
+    state.selectedSubscriptionIds = null;
+    persistSubscriptionSelection();
+    updateSubscriptionsButtonLabel();
+    renderSubscriptionsPanel();
+    refetchCurrentSelection();
+  });
+  document.getElementById("subsNoneBtn").addEventListener("click", function(){
+    state.selectedSubscriptionIds = []; // explicit empty - "no subscriptions selected", distinct from null ("all")
+    persistSubscriptionSelection();
+    updateSubscriptionsButtonLabel();
+    renderSubscriptionsPanel();
+    refetchCurrentSelection();
+  });
+  document.getElementById("subsAddBtn").addEventListener("click", function(){
+    var url = document.getElementById("subsAddUrl").value.trim().replace(/\/+$/, "");
+    var key = document.getElementById("subsAddKey").value.trim();
+    var statusEl = document.getElementById("subsAddStatus");
+    if (!url || !key){ statusEl.textContent = "Enter both the Function URL and key."; return; }
+    statusEl.textContent = "Connecting…";
+    addConnection(url, key).then(function(){
+      statusEl.textContent = "Connected.";
+      document.getElementById("subsAddUrl").value = "";
+      document.getElementById("subsAddKey").value = "";
+      renderSubscriptionsPanel();
+      updateSubscriptionsButtonLabel();
+    }).catch(function(e){
+      statusEl.textContent = "Could not connect (" + e.message + ").";
+      renderSubscriptionsPanel();
+    });
+  });
+
+  /* fetches whatever's missing (primary, if any of its subscriptions are
+     active, plus every active extra connection) for the current
+     year/dimension/tag, then re-renders once all of it settles. One
+     connection failing doesn't block the others. */
+  /* fetches one year's data into the cache (primary + active extra
+     connections) without touching the "Load live data" status text -
+     used for background loads like the prior-year comparison overlay,
+     which shouldn't stomp on the status message a foreground fetch is
+     showing. Returns a promise so the caller can re-render once ready;
+     resolves immediately (no-op) if everything needed is already cached. */
+  function ensureYearFetched(year){
+    if (!state.connected) return Promise.resolve();
+    var fetchGroupBy = actualGroupBy(state.groupBy);
+    if (state.groupBy === "tag" && !state.tagKey) return Promise.resolve();
+    var jobs = [];
+    var primaryKey = cacheKey(year, fetchGroupBy, state.tagKey);
+    if (isPrimaryActive() && !state.dataByKey[primaryKey]){
+      jobs.push(fetchYear(year, fetchGroupBy, state.tagKey, state.funcUrl, state.funcKey));
+    }
+    var plainKey = plainCacheKey(year, fetchGroupBy, state.tagKey);
+    activeExtraConnections().forEach(function(c){
+      if (!c.dataByKey || !c.dataByKey[plainKey]){
+        jobs.push(fetchYearForExtraConnection(c, year, fetchGroupBy, state.tagKey).catch(function(e){
+          c.status = "error"; c.error = e.message;
+        }));
+      }
+    });
+    return jobs.length ? Promise.all(jobs) : Promise.resolve();
+  }
+
+  /* fire-and-forget: if the year-over-year overlay is on, make sure the
+     prior year's data is loaded too (background, doesn't touch the
+     "Load live data" status text) and repaint the chart once it lands.
+     Safe to call unconditionally after anything that changes year/groupBy
+     /tagKey - it's a no-op when the toggle is off or already cached. */
+  function maybeFetchPriorYearForCompare(){
+    if (!state.compareYoY) return;
+    ensureYearFetched(state.year - 1).then(renderChart);
+  }
+
+  function refetchCurrentSelection(){
+    maybeFetchPriorYearForCompare();
+    if (!state.connected) { renderAll(); return; }
+    var fetchGroupBy = actualGroupBy(state.groupBy);
+    if (state.groupBy === "tag" && !state.tagKey) { renderAll(); return; }
+    var statusEl = document.getElementById("liveStatus");
+    var jobs = [];
+
+    var primaryKey = cacheKey(state.year, fetchGroupBy, state.tagKey);
+    if (isPrimaryActive() && !state.dataByKey[primaryKey]){
+      jobs.push(fetchYear(state.year, fetchGroupBy, state.tagKey, state.funcUrl, state.funcKey));
+    }
+    var plainKey = plainCacheKey(state.year, fetchGroupBy, state.tagKey);
+    activeExtraConnections().forEach(function(c){
+      if (!c.dataByKey || !c.dataByKey[plainKey]){
+        jobs.push(fetchYearForExtraConnection(c, state.year, fetchGroupBy, state.tagKey).catch(function(e){
+          c.status = "error"; c.error = e.message; // a fetch failing for one connection shouldn't break the others
+        }));
+      }
+    });
+
+    if (!jobs.length){ renderAll(); return; }
+    statusEl.textContent = "Loading " + state.year + " by " + dimensionLabel() + "…";
+    statusEl.className = "live-status";
+    Promise.all(jobs).then(function(){
+      statusEl.textContent = "Loaded " + state.year + " by " + dimensionLabel() + ".";
+      statusEl.className = "live-status ok";
+      renderAll();
+    }).catch(function(e){
+      statusEl.textContent = "Could not load this breakdown (" + e.message + ").";
+      statusEl.className = "live-status err";
+      renderAll();
+    });
+  }
+
+  document.getElementById("loadLiveBtn").addEventListener("click", loadLiveData);
+  document.getElementById("forgetLiveBtn").addEventListener("click", function(){
+    try {
+      localStorage.removeItem("azcc_funcUrl");
+      localStorage.removeItem("azcc_funcKey");
+    } catch(e){}
+    state.connected = false;
+    state.dataByKey = {};
+    state.subscriptions = [];
+    state.extraConnections = [];
+    state.selectedSubscriptionIds = null;
+    persistSubscriptionSelection();
+    state.tagKeys = [];
+    renderSubscriptionsPanel();
+    updateSubscriptionsButtonLabel();
+    renderTagKeySelect();
+    document.getElementById("warmStatusText").style.display = "none";
+    document.getElementById("liveFuncUrl").value = DEFAULT_FUNC_URL;
+    document.getElementById("liveFuncKey").value = DEFAULT_FUNC_KEY;
+    document.getElementById("liveStatus").textContent = "Reset to the hard-wired connection — reconnecting…";
+    document.getElementById("liveStatus").className = "live-status";
+    updateStatusPill();
+    loadLiveData();
+  });
+
+  /* ============ year / view / group-by controls ============ */
+  function populateYearSelect(){
+    var sel = document.getElementById("yearSelect");
+    sel.innerHTML = "";
+    var years = [NOW.getFullYear() - 2, NOW.getFullYear() - 1, NOW.getFullYear()];
+    years.forEach(function(y){
+      var o = document.createElement("option");
+      o.value = y; o.textContent = y;
+      if (y === state.year) o.selected = true;
+      sel.appendChild(o);
+    });
+    sel.addEventListener("change", function(){
+      state.year = parseInt(sel.value, 10);
+      if (document.getElementById("budgetWrap").style.display !== "none") renderBudgetControls();
+      refetchCurrentSelection();
+    });
+  }
+
+  function populateMonthPicker(){
+    var sel = document.getElementById("monthPicker");
+    sel.innerHTML = "";
+    MONTHS.forEach(function(m, i){
+      var o = document.createElement("option");
+      o.value = i; o.textContent = m + " " + state.year;
+      if (i === state.focusedMonth) o.selected = true;
+      sel.appendChild(o);
+    });
+    sel.addEventListener("change", function(){ state.focusedMonth = parseInt(sel.value, 10); renderAll(); });
+  }
+
+  document.getElementById("viewToggle").addEventListener("click", function(e){
+    var btn = e.target.closest("button[data-view]");
+    if (!btn) return;
+    state.view = btn.dataset.view;
+    document.querySelectorAll("#viewToggle button").forEach(function(b){ b.classList.toggle("active", b === btn); });
+    document.getElementById("monthPickerWrap").style.display = state.view === "month" ? "" : "none";
+    renderAll();
+  });
+
+  document.getElementById("groupByToggle").addEventListener("click", function(e){
+    var btn = e.target.closest("button[data-groupby]");
+    if (!btn) return;
+    state.groupBy = btn.dataset.groupby;
+    state.customSelection = null; // entity names differ per dimension - a stale pick from another view wouldn't mean anything here
+    state.highlighted = []; // same reasoning - highlighted names from another dimension wouldn't mean anything here
+    state.colorOverrides = {}; // same reasoning - a picked color for a name in another dimension wouldn't mean anything here
+    document.getElementById("customizeSearch").value = "";
+    document.querySelectorAll("#groupByToggle button").forEach(function(b){ b.classList.toggle("active", b === btn); });
+    document.getElementById("tagKeyWrap").style.display = state.groupBy === "tag" ? "" : "none";
+    // Land on Tag with data already showing rather than an empty "select a
+    // tag key" state - the first discovered key (alphabetical) is as good a
+    // default as any, and switching is one dropdown pick away if it's not
+    // the one they wanted.
+    if (state.groupBy === "tag" && !state.tagKey && state.tagKeys.length) {
+      state.tagKey = state.tagKeys[0];
+      renderTagKeySelect();
+    }
+    refetchCurrentSelection();
+  });
+
+  document.getElementById("tagKeySelect").addEventListener("change", function(e){
+    state.tagKey = e.target.value;
+    state.highlighted = []; // values differ per tag key - highlighted picks from another key wouldn't mean anything here
+    state.colorOverrides = {}; // same reasoning - a picked color for a value under another tag key wouldn't mean anything here
+    if (state.groupBy === "tag") refetchCurrentSelection();
+  });
+
+  /* ============ tag keys (populates the Group by "Tag" dropdown) ============ */
+  // Loaded once per primary connection, same as loadSubscriptionList() -
+  // avoids ever requiring a typed-blind tag key.
+  function loadTagKeys(){
+    var qUrl = state.funcUrl + "/api/tagKeys?code=" + encodeURIComponent(state.funcKey);
+    fetch(qUrl).then(function(r){ if (!r.ok) throw new Error("status " + r.status); return r.json(); })
+      .then(function(json){
+        state.tagKeys = json.tagKeys || [];
+        renderTagKeySelect();
+        // If the user is already sitting on the Tag tab (e.g. right after
+        // connecting, before this had a chance to load), don't leave them
+        // staring at "select a tag key" once real options exist.
+        if (state.groupBy === "tag" && !state.tagKey && state.tagKeys.length) {
+          state.tagKey = state.tagKeys[0];
+          renderTagKeySelect();
+          refetchCurrentSelection();
+        }
+      })
+      .catch(function(){
+        // Non-fatal: Tag grouping just won't have anything to offer in the
+        // dropdown until this succeeds (e.g. on a later reconnect).
+        state.tagKeys = [];
+        renderTagKeySelect();
+      });
+  }
+  function renderTagKeySelect(){
+    var sel = document.getElementById("tagKeySelect");
+    var current = state.tagKey;
+    sel.innerHTML = '<option value="">Select a tag key…</option>' +
+      state.tagKeys.map(function(k){ return '<option value="' + escapeHtml(k) + '"' + (k === current ? " selected" : "") + '>' + escapeHtml(k) + '</option>'; }).join("");
+    if (!state.tagKeys.length && current) {
+      // Keep whatever was already selected visible/selectable even if the
+      // fresh key list doesn't (yet) include it, rather than silently
+      // resetting an active selection out from under the user.
+      sel.innerHTML += '<option value="' + escapeHtml(current) + '" selected>' + escapeHtml(current) + '</option>';
+    }
+  }
+
+  /* ============ tenant-wide warm-cache status ============ */
+  // Surfaces the background warm-up job's progress next to the "Live"
+  // pill - it's a real, sizeable time lag (a first full pass over 150+
+  // subscriptions takes hours, refreshing every 4h thereafter), so silently
+  // improving in the background with no visible signal would just look like
+  // the dashboard is randomly missing data for some subscriptions.
+  function loadWarmStatus(){
+    var qUrl = state.funcUrl + "/api/warmStatus?code=" + encodeURIComponent(state.funcKey);
+    fetch(qUrl).then(function(r){ if (!r.ok) throw new Error("status " + r.status); return r.json(); })
+      .then(renderWarmStatus)
+      .catch(function(){ document.getElementById("warmStatusText").style.display = "none"; });
+  }
+  function renderWarmStatus(status){
+    var el = document.getElementById("warmStatusText");
+    if (!status || !status.enabled){ el.style.display = "none"; return; }
+    if (!status.started){
+      el.textContent = "Tenant-wide coverage: warm-up not started yet";
+      el.style.display = "";
+      return;
+    }
+    var ago = "";
+    if (status.lastRunAt){
+      var mins = Math.round((Date.now() - new Date(status.lastRunAt).getTime()) / 60000);
+      ago = mins < 60 ? (mins + "m ago") : (Math.round(mins / 60) + "h ago");
+    }
+    var coverage = status.coveragePct != null ? status.coveragePct + "% of a cycle" : "";
+    var cycleNote = status.lastFullCycleCompletedAt
+      ? "full coverage as of " + new Date(status.lastFullCycleCompletedAt).toLocaleString()
+      : "first full pass still in progress";
+    el.textContent = "Tenant-wide (" + status.subscriptionCount + " subs) — " + cycleNote + " · last run " + ago + (coverage ? " (" + coverage + " through current cycle)" : "");
+    el.title = (status.lastRunFailed ? status.lastRunFailed + " combos failing (e.g. unsupported subscriptions) as of last run. " : "") + "Refreshes automatically every 4 hours.";
+    el.style.display = "";
+  }
+
+  /* ============ KPI row ============ */
+  function renderKPIs(){
+    var months = monthsForYear(state.year);
+    var isCurrentYear = state.year === NOW.getFullYear();
+    var uptoIdx = isCurrentYear ? NOW.getMonth() : 11;
+
+    var ytdTotal = 0;
+    for (var i = 0; i <= uptoIdx; i++) ytdTotal += months[i].total;
+
+    // "Latest complete month" / "Projected annual" use the most recent
+    // COMPLETE month, not the current in-progress one - a few days of
+    // partial-month spend multiplied by 12 produces a misleading annual
+    // projection.
+    var currentMonthComplete = !isCurrentYear || NOW.getDate() >= new Date(state.year, uptoIdx + 1, 0).getDate();
+    var lastIdx = currentMonthComplete ? uptoIdx : uptoIdx - 1;
+    if (lastIdx < 0) lastIdx = uptoIdx; // Jan 1-ish edge case - nothing complete yet, fall back to current
+    var prevIdx = lastIdx - 1;
+    var lastMonthTotal = months[lastIdx].total;
+    var prevMonthTotal = prevIdx >= 0 ? months[prevIdx].total : null;
+    var mom = prevMonthTotal ? ((lastMonthTotal - prevMonthTotal) / prevMonthTotal * 100) : null;
+
+    var projectedAnnual = lastMonthTotal * 12;
+
+    var topEntity = topEntityForYtd(state.year, uptoIdx);
+    var topName = topEntity ? topEntity.name : null;
+    var topYtd = topEntity ? topEntity.total : 0;
+    var topPct = ytdTotal > 0 ? (topYtd / ytdTotal * 100) : 0;
+
+    var mover = biggestMover(state.year, lastIdx, prevIdx);
+
+    var cards = [
+      { label: (isCurrentYear ? "Year to date" : "Full year") + " total", value: fmtMoney(ytdTotal), deltaHtml: "<span class='ghost'>through " + MONTHS[uptoIdx] + " " + state.year + "</span>" },
+      { label: "Latest complete month (" + MONTHS[lastIdx] + ")", value: fmtMoney(lastMonthTotal), deltaHtml: mom === null ? "<span class='ghost'>no prior month</span>" :
+          "<span class='" + (mom >= 0 ? "up" : "down") + "'>" + (mom >= 0 ? "▲" : "▼") + " " + Math.abs(mom).toFixed(1) + "% vs " + MONTHS[prevIdx] + "</span>" },
+      { label: "Projected annual", value: fmtMoney(projectedAnnual), deltaHtml: "<span class='ghost'>" + MONTHS[lastIdx] + " rate × 12</span>" },
+      { label: "Top " + dimensionLabel(), value: topName ? fmtMoney(topYtd) : "—", deltaHtml: topName ? "<span class='ghost'>" + escapeHtml(topName) + " · " + topPct.toFixed(0) + "% of spend</span>" : "<span class='ghost'>no data</span>" },
+      { label: "Biggest mover (" + MONTHS[lastIdx] + " vs " + MONTHS[prevIdx] + ")", value: mover ? fmtMoney(mover.lastCost) : "—", deltaHtml: !mover ? "<span class='ghost'>no prior month</span>" :
+          mover.pct === null
+            ? "<span class='up'>▲ new</span> <span class='ghost'>" + escapeHtml(mover.name) + "</span>"
+            : "<span class='" + (mover.pct >= 0 ? "up" : "down") + "'>" + (mover.pct >= 0 ? "▲" : "▼") + " " + Math.abs(mover.pct).toFixed(0) + "%</span> <span class='ghost'>" + escapeHtml(mover.name) + "</span>" }
+    ];
+
+    var row = document.getElementById("kpiRow");
+    row.innerHTML = cards.map(function(c){
+      return '<div class="kpi"><div class="label">' + c.label + '</div><div class="value mono">' + c.value + '</div><div class="delta">' + c.deltaHtml + '</div></div>';
+    }).join("");
+  }
+
+  /* ============ chart ============ */
+  // Clicking a legend entry isolates it in the chart and breakdown table
+  // below, without touching state.customSelection - so you don't have to
+  // uncheck 90 boxes in Customize breakdown just to see one series clearly.
+  // Click more entries to build up a combination (their values are summed
+  // together, like a temporary multi-select), click a highlighted one again
+  // to drop it, or "Show all" to clear the whole combination.
+  function renderLegend(){
+    var order = yearOrder(state.year);
+    var el = document.getElementById("chartLegend");
+    var months = monthsForYear(state.year);
+    var hasOther = months.some(function(m){
+      var named = {};
+      order.forEach(function(name){ named[name] = true; });
+      return (m.breakdown || []).some(function(b){ return !named[b.name]; });
+    });
+    var items = order.map(function(name, i){
+      var hl = state.highlighted.indexOf(name) !== -1;
+      return '<span class="item' + (hl ? " highlighted" : "") + '" data-name="' + escapeHtml(name) + '" role="button" tabindex="0" aria-pressed="' + hl + '" title="' + escapeHtml(name) + ' - click to highlight, click more to combine"><span class="swatch" style="background:' + resolvedColor(name, "var(" + colorVarFor(name, i) + ")") + '"></span>' + escapeHtml(name) + '</span>';
+    });
+    if (hasOther){
+      var hlOther = state.highlighted.indexOf(OTHER_NAME) !== -1;
+      items.push('<span class="item' + (hlOther ? " highlighted" : "") + '" data-name="' + escapeHtml(OTHER_NAME) + '" role="button" tabindex="0" aria-pressed="' + hlOther + '" title="Other - click to highlight, click more to combine"><span class="swatch" style="background:' + resolvedColor(OTHER_NAME, "var(" + OTHER_COLOR_VAR + ")") + '"></span>Other</span>');
+    }
+    if (state.highlighted.length){
+      items.push('<span class="item" id="legendShowAllBtn" role="button" tabindex="0" style="font-weight:600; text-decoration:underline">Show all</span>');
+    }
+    el.innerHTML = items.join("");
+    el.classList.toggle("has-highlight", state.highlighted.length > 0);
+  }
+
+  function handleLegendActivate(target){
+    var showAll = target.closest("#legendShowAllBtn");
+    if (showAll){
+      state.highlighted = [];
+      renderLegend();
+      renderChart();
+      renderFocus();
+      return;
+    }
+    var item = target.closest(".item[data-name]");
+    if (!item) return;
+    var name = item.dataset.name;
+    var idx = state.highlighted.indexOf(name);
+    if (idx === -1) state.highlighted.push(name);
+    else state.highlighted.splice(idx, 1);
+    renderLegend();
+    renderChart();
+    renderFocus();
+  }
+  document.getElementById("chartLegend").addEventListener("click", function(e){
+    handleLegendActivate(e.target);
+  });
+  // role="button" items are keyboard-operable too - Enter/Space activate,
+  // matching native button semantics, so highlighting isn't mouse-only.
+  document.getElementById("chartLegend").addEventListener("keydown", function(e){
+    if (e.key !== "Enter" && e.key !== " ") return;
+    if (!e.target.closest('[role="button"]')) return;
+    e.preventDefault();
+    handleLegendActivate(e.target);
+  });
+
+  var tooltipEl = document.getElementById("tooltip");
+
+  function renderChart(){
+    var isCurrentYear = state.year === NOW.getFullYear();
+    var uptoIdx = isCurrentYear ? NOW.getMonth() : 11;
+    var order = yearOrder(state.year);
+    var breakdowns = [];
+    for (var bi = 0; bi < 12; bi++) breakdowns.push(monthBreakdown(state.year, bi, order));
+
+    var hl = state.highlighted;
+    document.getElementById("chartTitle").textContent = hl.length === 1
+      ? hl[0] + " — " + state.year
+      : hl.length > 1
+      ? hl.length + " selected — " + state.year
+      : "Monthly cost by " + dimensionLabel() + " — " + state.year;
+
+    var W = 900, H = 300;
+    var padL = 60, padR = 16, padT = 18, padB = 34;
+    var plotW = W - padL - padR, plotH = H - padT - padB;
+    var n = 12;
+    var gap = 10;
+    var barW = (plotW - gap * (n - 1)) / n;
+
+    // When one or more legend entries are highlighted, the chart isolates
+    // to just that combination - each bar becomes the sum of just those
+    // entities' segments (not the whole stack), and the axis rescales to
+    // fit just those values so the isolated trend isn't dwarfed by
+    // everything else that's now hidden.
+    function segCost(b){
+      if (!hl.length) return b.total;
+      return b.segments.filter(function(s){ return hl.indexOf(s.name) !== -1; })
+        .reduce(function(sum, s){ return sum + s.cost; }, 0);
+    }
+    // Budget line and the prior-year overlay both only apply to the whole
+    // -month total, not an isolated highlight combination - "under budget"
+    // or "vs last year" aren't meaningful comparisons against a per-entity
+    // subset.
+    var budget = !hl.length ? state.budgets[state.year] : null;
+    var priorMonths = (state.compareYoY && !hl.length) ? monthsForYear(state.year - 1) : null;
+    var maxTotal = 0;
+    breakdowns.forEach(function(b, i){ if (i <= uptoIdx || !isCurrentYear) maxTotal = Math.max(maxTotal, segCost(b)); });
+    if (maxTotal <= 0) maxTotal = 100;
+    // Extend the axis to fit the budget line and/or prior-year overlay too,
+    // so either one set above the current spend trend doesn't get silently
+    // clipped off-chart.
+    if (budget) maxTotal = Math.max(maxTotal, budget);
+    if (priorMonths) priorMonths.forEach(function(m){ maxTotal = Math.max(maxTotal, m.total); });
+    var niceMax = maxTotal * 1.18;
+
+    var gridlineColor = cssVar("--gridline");
+    var baselineColor = cssVar("--baseline");
+
+    var svg = document.getElementById("chartSvg");
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.setAttribute("width", "100%");
+    svg.setAttribute("height", H);
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", "Stacked bar chart of monthly Azure subscription cost by " + dimensionLabel() + " for " + state.year);
+
+    var parts = [];
+
+    var steps = 4;
+    for (var g = 0; g <= steps; g++){
+      var val = niceMax / steps * g;
+      var y = padT + plotH - (val / niceMax) * plotH;
+      parts.push('<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + y + '" y2="' + y + '" stroke="' + gridlineColor + '" stroke-width="1"></line>');
+      parts.push('<text class="axis-label" x="' + (padL - 8) + '" y="' + (y + 3) + '" text-anchor="end">' + fmtMoney(val) + '</text>');
+    }
+    parts.push('<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + (padT + plotH) + '" y2="' + (padT + plotH) + '" stroke="' + baselineColor + '" stroke-width="1.25"></line>');
+
+    breakdowns.forEach(function(b, i){
+      var x = padL + i * (barW + gap);
+      var future = isCurrentYear && i > uptoIdx;
+      var yTop = padT + plotH;
+      var segsToDraw = hl.length ? b.segments.filter(function(s){ return hl.indexOf(s.name) !== -1; }) : b.segments;
+      segsToDraw.forEach(function(seg){
+        var hgt = (seg.cost / niceMax) * plotH;
+        yTop -= hgt;
+        var color = seg.colorVar; // already a ready-to-use CSS color value - see resolvedColor()
+        var opacity = future ? 0.28 : 1;
+        parts.push('<rect class="bar-seg" data-month="' + i + '" data-name="' + escapeHtml(seg.name) + '" x="' + x + '" y="' + yTop + '" width="' + barW + '" height="' + Math.max(hgt - 1.5, 0) + '" rx="2" fill="' + color + '" opacity="' + opacity + '"></rect>');
+      });
+      var shownTotal = hl ? segCost(b) : b.total;
+      if (!future && shownTotal > 0){
+        var overBudget = budget && shownTotal > budget;
+        parts.push('<text class="bar-total-label' + (overBudget ? " over-budget" : "") + '" x="' + (x + barW / 2) + '" y="' + (padT + plotH - shownTotal / niceMax * plotH - 6) + '" text-anchor="middle">' + fmtMoney(shownTotal) + (overBudget ? " ⚠" : "") + '</text>');
+      }
+      var focused = i === state.focusedMonth && state.view === "month";
+      parts.push('<rect data-month="' + i + '" class="bar-hit" x="' + x + '" y="' + padT + '" width="' + barW + '" height="' + plotH + '" fill="transparent"></rect>');
+      if (focused){
+        parts.push('<rect x="' + (x - 3) + '" y="' + padT + '" width="' + (barW + 6) + '" height="' + plotH + '" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="3 3" rx="4"></rect>');
+      }
+      parts.push('<text class="month-label' + (focused ? " focused" : "") + '" x="' + (x + barW / 2) + '" y="' + (H - 10) + '" text-anchor="middle">' + MONTHS[i] + '</text>');
+    });
+
+    if (budget){
+      var budgetY = padT + plotH - (budget / niceMax) * plotH;
+      parts.push('<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + budgetY + '" y2="' + budgetY + '" stroke="var(--critical)" stroke-width="1.5" stroke-dasharray="5 4"></line>');
+      parts.push('<text class="budget-label" x="' + (W - padR) + '" y="' + (budgetY - 5) + '" text-anchor="end">Budget: ' + fmtMoney(budget) + '</text>');
+    }
+
+    if (priorMonths){
+      // A polyline through each month's prior-year total, drawn on top of
+      // the bars - a trend reference, not stacked/comparable to individual
+      // segments, so it deliberately doesn't try to match the bar colors.
+      var points = priorMonths.map(function(m, i){
+        var x = padL + i * (barW + gap) + barW / 2;
+        var y = padT + plotH - Math.min(m.total, niceMax) / niceMax * plotH;
+        return x + "," + y;
+      });
+      parts.push('<polyline points="' + points.join(" ") + '" fill="none" stroke="var(--text-secondary)" stroke-width="1.75" stroke-dasharray="2 3"></polyline>');
+      priorMonths.forEach(function(m, i){
+        var x = padL + i * (barW + gap) + barW / 2;
+        var y = padT + plotH - Math.min(m.total, niceMax) / niceMax * plotH;
+        parts.push('<circle cx="' + x + '" cy="' + y + '" r="2.5" fill="var(--text-secondary)"><title>' + MONTHS[i] + " " + (state.year - 1) + ": " + fmtMoney(m.total) + '</title></circle>');
+      });
+      parts.push('<text class="budget-label" style="fill:var(--text-secondary)" x="' + padL + '" y="' + (padT + 10) + '" text-anchor="start">- - - ' + (state.year - 1) + '</text>');
+    }
+
+    svg.innerHTML = parts.join("");
+
+    svg.querySelectorAll(".bar-hit, .bar-seg").forEach(function(el){
+      el.addEventListener("mousemove", function(ev){ showTooltip(ev, parseInt(el.dataset.month, 10)); });
+      el.addEventListener("mouseleave", hideTooltip);
+      el.addEventListener("click", function(){
+        var m = parseInt(el.dataset.month, 10);
+        if (isCurrentYear && m > uptoIdx) return;
+        state.focusedMonth = m; state.view = "month";
+        document.querySelectorAll("#viewToggle button").forEach(function(b){ b.classList.toggle("active", b.dataset.view === "month"); });
+        document.getElementById("monthPickerWrap").style.display = "";
+        renderAll();
+      });
+    });
+  }
+
+  function showTooltip(ev, monthIdx){
+    var order = yearOrder(state.year);
+    var b = monthBreakdown(state.year, monthIdx, order);
+    var rows = b.segments.filter(function(seg){ return seg.cost > 0.01; }).map(function(seg){
+      return '<div class="tt-row"><span class="k"><span class="sw" style="background:' + seg.colorVar + '"></span><span class="nm">' + escapeHtml(seg.name) + '</span></span><span class="v">' + fmtMoney(seg.cost) + '</span></div>';
+    }).join("");
+    tooltipEl.innerHTML = '<div class="tt-title">' + MONTHS[monthIdx] + ' ' + state.year + '</div>' + (rows || '<div class="tt-row"><span class="k">No cost data</span></div>') + '<div class="tt-total"><span>Total</span><span>' + fmtMoney(b.total) + '</span></div>';
+    tooltipEl.style.display = "block";
+    var x = ev.clientX + 16, y = ev.clientY + 16;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    tooltipEl.style.left = Math.min(x, vw - 330) + "px";
+    tooltipEl.style.top = Math.min(y, vh - 200) + "px";
+  }
+  function hideTooltip(){ tooltipEl.style.display = "none"; }
+
+  /* ============ focused month detail ============ */
+  function sortSegments(segs){
+    var col = state.focusSort.col, dir = state.focusSort.dir === "asc" ? 1 : -1;
+    return segs.slice().sort(function(a, b){
+      if (col === "name") return a.name.localeCompare(b.name) * dir;
+      return (a.cost - b.cost) * dir;
+    });
+  }
+
+  /* every entity folded into "Other" this month - i.e. everything in the raw
+     breakdown that isn't individually shown, sorted by cost. This is real
+     data we already have client-side; "Other" is purely a display rollup. */
+  function otherConstituents(year, monthIdx, order){
+    var months = monthsForYear(year);
+    var m = months[monthIdx] || { breakdown: [] };
+    var named = {};
+    order.forEach(function(n){ named[n] = true; });
+    // Same name-summing/subIds-merging as monthBreakdown() - a constituent
+    // can appear more than once in the raw breakdown (once per contributing
+    // subscription) and needs to be one row here too, not duplicated.
+    var byName = {}, idByName = {}, subIdsByName = {};
+    (m.breakdown || []).forEach(function(b){
+      if (named[b.name] || !(b.cost > 0.01)) return;
+      byName[b.name] = (byName[b.name] || 0) + b.cost;
+      subIdsByName[b.name] = dedupe((subIdsByName[b.name] || []).concat(b.subIds || []));
+      if (idByName[b.name] === undefined) idByName[b.name] = b.id || null;
+      else if (b.id && b.id !== idByName[b.name]) idByName[b.name] = "__ambiguous__";
+    });
+    return Object.keys(byName).map(function(name){
+      var id = idByName[name];
+      return { name: name, cost: byName[name], id: id === "__ambiguous__" ? null : (id || null), subIds: subIdsByName[name] || [] };
+    }).sort(function(a, c){ return c.cost - a.cost; });
+  }
+
+  /* what ARM filter (if any) would scope a live query down to just this row's
+     entity, so its individual resources can be fetched - null means "not
+     drillable" (already at resource granularity, or nothing to filter by). */
+  function drillParamsFor(name){
+    if (state.groupBy === "resource") return null; // already the finest granularity
+    if (state.groupBy === "tag"){
+      // Disconnected: same reasoning - don't require a typed tag key just to
+      // show the drill affordance in a sample-data demo.
+      if (!state.connected) return { filterTagKey: state.tagKey || "Environment", values: [name] };
+      if (!state.tagKey) return null;
+      // "(untagged)" has no single value to filter on - it means "this tag
+      // key is missing" - drill via the blank-match path instead.
+      if (name === "(untagged)") return { filterTagKey: state.tagKey, filterBlank: true };
+      return { filterTagKey: state.tagKey, values: [name] };
+    }
+    var dim = ARM_DIMENSION_FOR[state.groupBy];
+    if (!dim) return null;
+    // "(none)" means "this dimension is missing on the cost line" - same
+    // blank-match path as untagged, just for a dimension instead of a tag.
+    if (name === "(none)") return { filterDimension: dim, filterBlank: true };
+    return { filterDimension: dim, values: [name] };
+  }
+
+  function pad2(n){ return (n < 10 ? "0" : "") + n; }
+
+  /* fetches the resource-level breakdown for one drilled-in row, scoped to
+     just the focused month, and caches it in state.drillData[name]. */
+  // Known gap: this only ever queries the primary connection, even for a
+  // row whose cost actually came from an extra connection's subscription.
+  // Fine today since extra connections are opt-in and start empty, but if
+  // that becomes a real workflow this should route to whichever
+  // connection(s) the row's subIds point at, the way the primary/merged
+  // fetches already do.
+  function fetchDrill(name, params){
+    state.drillData[name] = { loading: true, error: null, rows: null };
+    var y = state.year, mIdx = state.focusedMonth;
+    var from = y + "-" + pad2(mIdx + 1) + "-01";
+    var lastDay = new Date(y, mIdx + 1, 0).getDate();
+    var to = y + "-" + pad2(mIdx + 1) + "-" + pad2(lastDay);
+    var qUrl = state.funcUrl + "/api/costSummary?code=" + encodeURIComponent(state.funcKey) +
+      "&from=" + from + "&to=" + to + "&groupBy=resource";
+    qUrl += params.filterBlank
+      ? "&filterBlank=true"
+      : "&filterValues=" + encodeURIComponent(params.values.join(","));
+    qUrl += params.filterTagKey
+      ? "&filterTagKey=" + encodeURIComponent(params.filterTagKey)
+      : "&filterDimension=" + encodeURIComponent(params.filterDimension);
+    qUrl += subscriptionIdsQueryParam();
+    fetch(qUrl).then(function(r){ if (!r.ok) throw new Error("status " + r.status); return r.json(); })
+      .then(function(json){
+        if (json.subscriptionId) state.subscriptionId = json.subscriptionId;
+        var monthRow = (json.months && json.months[0]) || { breakdown: [] };
+        var rows = (monthRow.breakdown || []).slice().sort(function(a, c){ return c.cost - a.cost; });
+        state.drillData[name] = { loading: false, error: null, rows: rows };
+        renderFocus();
+      })
+      .catch(function(e){
+        state.drillData[name] = { loading: false, error: e.message, rows: null };
+        renderFocus();
+      });
+  }
+
+  /* synthesizes a plausible resource-level breakdown for one drilled-in row
+     when there's no live backend to query - same shape as a real drill
+     result ({name, cost, quantity, id}), so the feature is demonstrable
+     from sample data instead of always showing a fetch error. Costs are
+     weighted shares of the parent row's own cost so percentages look
+     sensible; ids are fake ARM-shaped paths (fake subscription GUID) so
+     the unit-detection logic renders consistently - portalLinkForRow
+     suppresses the "open in Azure" link for these since they're not real. */
+  function sampleDrillRows(parentName, totalCost){
+    var base = (parentName || "resource").toLowerCase().replace(/^rg-/, "").replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "") || "resource";
+    var templates = [
+      { suffix: "-01", weight: 0.42, type: "Microsoft.Compute/virtualMachines" },
+      { suffix: "-02", weight: 0.23, type: "Microsoft.Compute/virtualMachines" },
+      { suffix: "data", weight: 0.16, type: "Microsoft.Storage/storageAccounts" },
+      { suffix: "-osdisk", weight: 0.11, type: "Microsoft.Compute/disks" },
+      { suffix: "-net", weight: 0.08, type: "Microsoft.Network/virtualNetworks" }
+    ];
+    return templates.map(function(t){
+      var cost = totalCost * t.weight;
+      var isVm = t.type === "Microsoft.Compute/virtualMachines";
+      var isCapacity = t.type === "Microsoft.Storage/storageAccounts" || t.type === "Microsoft.Compute/disks";
+      var quantity = isVm ? cost * 3.1 : (isCapacity ? cost * 8 : 0);
+      var name = t.type === "Microsoft.Storage/storageAccounts" ? (base.replace(/-/g, "") + t.suffix) : (base + t.suffix);
+      var id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/" + parentName + "/providers/" + t.type + "/" + name;
+      return { name: name, cost: cost, quantity: quantity, id: id };
+    });
+  }
+
+  /* ============ month comparison ============ */
+  /* the N months immediately before (year, monthIdx), oldest first, walking
+     back across a year boundary if needed (e.g. comparing Feb 2026 against
+     3 trailing months reaches into Nov/Dec 2025). */
+  function trailingMonthsList(year, monthIdx, n){
+    var list = [];
+    for (var i = n; i >= 1; i--){
+      var mi = monthIdx - i, y = year;
+      while (mi < 0){ mi += 12; y -= 1; }
+      list.push({ year: y, monthIdx: mi, label: MONTHS[mi] + " " + y });
+    }
+    return list;
+  }
+
+  /* makes sure every year touched by the trailing window is actually loaded
+     for the current dimension before comparisonData() reads from it - only
+     matters when connected live; sample data covers any year synthetically. */
+  function ensureTrailingData(year, monthIdx, n){
+    if (!state.connected) return Promise.resolve();
+    var years = {};
+    years[year] = true;
+    trailingMonthsList(year, monthIdx, n).forEach(function(t){ years[t.year] = true; });
+    var fetchGroupBy = actualGroupBy(state.groupBy);
+    var yearList = Object.keys(years).map(Number);
+    var jobs = [];
+    // A year with no billing history yet (subscription didn't exist, etc.)
+    // shouldn't break the whole comparison - treat a failed fetch as "no
+    // data for that year" rather than surfacing an error, for both the
+    // primary connection and every active extra one.
+    if (isPrimaryActive()){
+      yearList.filter(function(y){ return !state.dataByKey[cacheKey(y, fetchGroupBy, state.tagKey)]; })
+        .forEach(function(y){ jobs.push(fetchYear(y, fetchGroupBy, state.tagKey, state.funcUrl, state.funcKey).catch(function(){})); });
+    }
+    activeExtraConnections().forEach(function(c){
+      yearList.filter(function(y){ return !(c.dataByKey && c.dataByKey[plainCacheKey(y, fetchGroupBy, state.tagKey)]); })
+        .forEach(function(y){ jobs.push(fetchYearForExtraConnection(c, y, fetchGroupBy, state.tagKey).catch(function(){})); });
+    });
+    if (!jobs.length) return Promise.resolve();
+    return Promise.all(jobs);
+  }
+
+  /* target month vs. its trailing-N average, both as totals and per-entity -
+     the per-entity side is what answers "what's actually driving this". */
+  function comparisonData(year, monthIdx, n){
+    var trailing = trailingMonthsList(year, monthIdx, n);
+    var trailingMonths = trailing.map(function(t){ return monthsForYear(t.year)[t.monthIdx] || { total: 0, breakdown: [] }; });
+    var targetMonth = monthsForYear(year)[monthIdx] || { total: 0, breakdown: [] };
+    var count = trailingMonths.length || 1;
+
+    var avgTotal = trailingMonths.reduce(function(s, m){ return s + m.total; }, 0) / count;
+    var maxTrailing = trailingMonths.reduce(function(mx, m){ return Math.max(mx, m.total); }, 0);
+    var deltaVsAvg = targetMonth.total - avgTotal;
+    var pctVsAvg = avgTotal > 0 ? (deltaVsAvg / avgTotal * 100) : null;
+    var deltaVsMax = targetMonth.total - maxTrailing;
+
+    var avgByName = {};
+    trailingMonths.forEach(function(m){
+      (m.breakdown || []).forEach(function(b){ avgByName[b.name] = (avgByName[b.name] || 0) + b.cost; });
+    });
+    Object.keys(avgByName).forEach(function(name){ avgByName[name] = avgByName[name] / count; });
+
+    var targetByName = {};
+    (targetMonth.breakdown || []).forEach(function(b){ targetByName[b.name] = b.cost; });
+
+    var names = {};
+    Object.keys(targetByName).forEach(function(n2){ names[n2] = true; });
+    Object.keys(avgByName).forEach(function(n2){ names[n2] = true; });
+
+    var rows = Object.keys(names).map(function(name){
+      var cur = targetByName[name] || 0;
+      var avg = avgByName[name] || 0;
+      return {
+        name: name,
+        current: cur,
+        avg: avg,
+        delta: cur - avg,
+        pct: avg > 0.01 ? ((cur - avg) / avg * 100) : null // null = "new this month" (nothing to compare a % against)
+      };
+    }).filter(function(r){ return r.current > 0.01 || r.avg > 0.01; });
+
+    return {
+      trailing: trailing, trailingMonths: trailingMonths, targetMonth: targetMonth, count: count,
+      avgTotal: avgTotal, maxTrailing: maxTrailing,
+      deltaVsAvg: deltaVsAvg, pctVsAvg: pctVsAvg, deltaVsMax: deltaVsMax,
+      rows: rows
+    };
+  }
+
+  function sortComparisonRows(rows){
+    var col = state.comparisonSort.col, dir = state.comparisonSort.dir === "asc" ? 1 : -1;
+    return rows.slice().sort(function(a, b){
+      if (col === "name") return a.name.localeCompare(b.name) * dir;
+      if (col === "current") return (a.current - b.current) * dir;
+      if (col === "avg") return (a.avg - b.avg) * dir;
+      return (a.delta - b.delta) * dir;
+    });
+  }
+
+  /* the exact write-up structure this feature was built for: "I reviewed
+     the <Month> costs... the N-month average was approximately $X, which
+     means <Month> is about $Y higher/lower..." - ready to paste into an
+     email rather than hand-typed from the numbers each month. */
+  function comparisonSummaryText(cd, monthLabel){
+    var lines = [];
+    lines.push("I reviewed the " + monthLabel + " Azure costs, and the total is approximately " + fmtMoney(cd.targetMonth.total) + ".");
+    lines.push("For comparison, our Azure expenditures during the previous " + cd.count + " month" + (cd.count === 1 ? "" : "s") + " were:");
+    lines.push("");
+    cd.trailingMonths.forEach(function(m){ lines.push(fmtMoney(m.total)); });
+    lines.push("");
+    var dir1 = cd.deltaVsAvg >= 0 ? "higher" : "lower";
+    var verb = cd.deltaVsAvg >= 0 ? "an increase" : "a decrease";
+    var pctText = cd.pctVsAvg === null ? "an unknown percentage (no prior spend to compare against)" : "approximately " + Math.abs(cd.pctVsAvg).toFixed(0) + " percent";
+    lines.push("The " + cd.count + "-month average was approximately " + fmtMoney(cd.avgTotal) + ", which means " + monthLabel + " is about " + fmtMoney(Math.abs(cd.deltaVsAvg)) + " " + dir1 + ", or " + verb + " of " + pctText + ".");
+    var dir2 = cd.deltaVsMax >= 0 ? "above" : "below";
+    lines.push(monthLabel + " is also " + fmtMoney(Math.abs(cd.deltaVsMax)) + " " + dir2 + " the highest month during that period.");
+    return lines.join("\n");
+  }
+
+  function comparisonCsv(cd){
+    var rows = sortComparisonRows(cd.rows);
+    var lines = [["Entity", "This month", "Trailing avg", "Delta $", "Delta %"].join(",")];
+    rows.forEach(function(r){
+      var pct = r.pct === null ? "" : r.pct.toFixed(1);
+      var name = '"' + r.name.replace(/"/g, '""') + '"';
+      lines.push([name, r.current.toFixed(2), r.avg.toFixed(2), r.delta.toFixed(2), pct].join(","));
+    });
+    return lines.join("\n");
+  }
+
+  function downloadTextFile(filename, text, mime){
+    var blob = new Blob([text], { type: mime || "text/plain" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  }
+
+  /* recomputes the "N selected - combined: $X" bar from state.focusChecked, without re-rendering the table */
+  function updateFocusSelectionBar(){
+    var bar = document.getElementById("focusSelectionBar");
+    if (!bar) return;
+    var b = monthBreakdown(state.year, state.focusedMonth, yearOrder(state.year));
+    // Build the name->cost lookup from the FULL raw breakdown, not just the
+    // displayed segments - a checked "Other" constituent's cost lives there,
+    // not in the single lumped "Other" segment.
+    var months = monthsForYear(state.year);
+    var raw = (months[state.focusedMonth] || { breakdown: [] }).breakdown || [];
+    var byName = {};
+    raw.forEach(function(r){ byName[r.name] = r.cost; });
+    var checkedNames = Object.keys(state.focusChecked).filter(function(n){ return state.focusChecked[n] && byName[n] != null; });
+    if (!checkedNames.length){
+      bar.classList.remove("show");
+      return;
+    }
+    var sum = checkedNames.reduce(function(s, n){ return s + byName[n]; }, 0);
+    var pct = b.total > 0 ? (sum / b.total * 100) : 0;
+    document.getElementById("focusSelectionText").textContent =
+      checkedNames.length + " selected — combined: " + fmtMoney(sum) + " (" + pct.toFixed(1) + "% of month total)";
+    bar.classList.add("show");
+  }
+
+  function renderFocus(){
+    var card = document.getElementById("focusCard");
+    if (state.view !== "month"){ card.style.display = "none"; return; }
+    card.style.display = "";
+    var m = state.focusedMonth;
+    document.getElementById("focusTitle").textContent = MONTHS[m] + " " + state.year + " breakdown";
+
+    // row checkboxes (and the Other/drill-in expand states) only make sense
+    // for the entities on screen right now - clear all of them whenever the
+    // month/year/dimension changes underneath it.
+    var contextKey = state.year + "|" + state.groupBy + "|" + state.tagKey + "|" + m;
+    if (state.focusContextKey !== contextKey){
+      state.focusContextKey = contextKey;
+      state.focusChecked = {};
+      state.otherExpanded = false;
+      state.drillExpanded = {};
+      state.drillData = {};
+    }
+
+    var order = yearOrder(state.year);
+    var b = monthBreakdown(state.year, m, order);
+    var nonZero = b.segments.filter(function(s){ return s.cost > 0.01; });
+    var sorted = sortSegments(nonZero);
+
+    var others = otherConstituents(state.year, m, order);
+
+    // A legend highlight isolates the breakdown table the same way it
+    // isolates the chart - only the highlighted row(s), everything else out
+    // of view (not just "Other" hidden, the whole rest of the top-40+ list
+    // too). Applies the same way on every tab since it's just filtering by
+    // name, same as the search box below.
+    if (state.highlighted.length){
+      others = state.highlighted.indexOf(OTHER_NAME) !== -1 ? others : [];
+      sorted = sorted.filter(function(s){ return state.highlighted.indexOf(s.name) !== -1; });
+    }
+
+    // Search narrows both the top-level rows and what's inside a collapsed
+    // "Other" bucket - a match hiding inside Other still surfaces the Other
+    // row (with only its matching constituents), rather than requiring the
+    // user to expand it first to find out whether it's worth searching.
+    var focusQuery = (state.focusSearch || "").trim().toLowerCase();
+    if (focusQuery){
+      others = others.filter(function(o){ return o.name.toLowerCase().indexOf(focusQuery) !== -1; });
+      sorted = sorted.filter(function(s){
+        if (s.name === OTHER_NAME) return others.length > 0;
+        return s.name.toLowerCase().indexOf(focusQuery) !== -1;
+      });
+    }
+
+    document.getElementById("focusHint").textContent = state.highlighted.length
+      ? "Showing only " + (state.highlighted.length === 1 ? "\"" + state.highlighted[0] + "\"" : state.highlighted.length + " selected") + " (highlighted in the legend above) · " + sorted.length + " of " + nonZero.length + " " + dimensionPlural()
+      : focusQuery
+      ? sorted.length + " of " + nonZero.length + " " + dimensionPlural() + " match \"" + state.focusSearch.trim() + "\""
+      : nonZero.length + " " + (nonZero.length === 1 ? dimensionLabel() : dimensionPlural()) + " with recorded spend";
+
+    var nameArrow = state.focusSort.col === "name" ? (state.focusSort.dir === "asc" ? " ▲" : " ▼") : "";
+    var costArrow = state.focusSort.col === "cost" ? (state.focusSort.dir === "asc" ? " ▲" : " ▼") : "";
+
+    // "what's driving this cost" - a live resource-level breakdown for one
+    // named row, fetched on first expand and cached in state.drillData.
+    // `cost` is carried on the button as data-cost so the click handler can
+    // build a proportional sample breakdown when there's no live backend.
+    function drillToggleAndRows(name, cost){
+      var params = drillParamsFor(name);
+      if (!params) return { toggleHtml: "", rowsHtml: "" };
+      var expanded = !!state.drillExpanded[name];
+      var toggleHtml = '<button type="button" class="row-expand" data-action="toggle-drill" data-name="' + escapeHtml(name) + '" data-cost="' + (cost || 0) + '" aria-expanded="' + expanded + '" title="Show resources driving this cost"><span class="arrow">' + (expanded ? "▾" : "▸") + '</span></button>';
+      return { toggleHtml: toggleHtml, rowsHtml: expanded ? drillRowsHtml(name) : "" };
+    }
+    function drillRowsHtml(name){
+      var d = state.drillData[name];
+      if (!d || d.loading) return '<tr class="drill-row drill-status"><td class="checkbox-col"></td><td colspan="3">Loading resources…</td></tr>';
+      if (d.error) return '<tr class="drill-row drill-status"><td class="checkbox-col"></td><td colspan="3">Could not load resource breakdown (' + escapeHtml(d.error) + ').</td></tr>';
+      var rows = (d.rows || []).filter(function(r){ return r.cost > 0.01; });
+      if (!rows.length) return '<tr class="drill-row drill-status"><td class="checkbox-col"></td><td colspan="3">No individual resource data available for this entry.</td></tr>';
+      var sum = rows.reduce(function(s, r){ return s + r.cost; }, 0);
+      return rows.map(function(r){
+        var pct = sum > 0 ? (r.cost / sum * 100) : 0;
+        return '<tr class="drill-row"><td class="checkbox-col"></td><td><span class="entity-name drill-sub"><span class="nm">' + escapeHtml(r.name) + '</span>' + portalLinkIcon(r.name, r.id, r.subIds) + '</span></td>' +
+          '<td class="num">' + fmtMoney(r.cost) + quantityNoteHtml(r.quantity, r.id) + '</td><td class="num">' + pct.toFixed(1) + '% of selection</td></tr>';
+      }).join("");
+    }
+
+    var rowsHtml = sorted.map(function(s){
+      var pct = b.total > 0 ? (s.cost / b.total * 100) : 0;
+      var checked = state.focusChecked[s.name] ? " checked" : "";
+      var isOther = s.name === OTHER_NAME && others.length > 0;
+      var nameCell, ownDrillRows = "";
+      if (isOther){
+        nameCell = '<button type="button" class="other-expand" id="otherExpandBtn" aria-expanded="' + state.otherExpanded + '">' +
+          '<span class="arrow">' + (state.otherExpanded ? "▾" : "▸") + '</span> ' + escapeHtml(s.name) +
+          ' <span class="entity-count">(' + others.length + ')</span></button>';
+      } else {
+        var dt = drillToggleAndRows(s.name, s.cost);
+        nameCell = dt.toggleHtml + '<span class="entity-name"><span class="entity-swatch" style="background:' + s.colorVar + '"></span><span class="nm">' + escapeHtml(s.name) + '</span></span>' + portalLinkIcon(s.name, s.id, s.subIds) + subBadgeHtml(s.subIds);
+        ownDrillRows = dt.rowsHtml;
+      }
+      var row = '<tr' + (isOther ? ' class="other-row"' : '') + '><td class="checkbox-col"><input type="checkbox" class="focus-row-check" data-name="' + escapeHtml(s.name) + '"' + checked + '></td>' +
+        '<td>' + nameCell + '</td>' +
+        '<td class="num">' + fmtMoney(s.cost) + '</td><td class="num">' + pct.toFixed(1) + '%</td></tr>' + ownDrillRows;
+      if (isOther && state.otherExpanded){
+        row += others.map(function(o){
+          var oPct = b.total > 0 ? (o.cost / b.total * 100) : 0;
+          var oChecked = state.focusChecked[o.name] ? " checked" : "";
+          var odt = drillToggleAndRows(o.name, o.cost);
+          return '<tr class="other-sub-row"><td class="checkbox-col"><input type="checkbox" class="focus-row-check" data-name="' + escapeHtml(o.name) + '"' + oChecked + '></td>' +
+            '<td>' + odt.toggleHtml + '<span class="entity-name other-sub"><span class="entity-swatch" style="background:var(' + OTHER_COLOR_VAR + ')"></span><span class="nm">' + escapeHtml(o.name) + '</span></span>' + portalLinkIcon(o.name, o.id, o.subIds) + subBadgeHtml(o.subIds) + '</td>' +
+            '<td class="num">' + fmtMoney(o.cost) + '</td><td class="num">' + oPct.toFixed(1) + '%</td></tr>' + odt.rowsHtml;
+        }).join("");
+      }
+      return row;
+    }).join("");
+
+    var body = document.getElementById("focusBody");
+    body.innerHTML = rowsHtml
+      ? '<div class="focus-selection-bar" id="focusSelectionBar"><span id="focusSelectionText"></span><button class="clear-sel" id="focusClearSelBtn">Clear selection</button></div>' +
+        '<div class="table-scroll"><table class="data">' +
+        '<thead><tr><th class="checkbox-col"></th><th class="sortable" data-sort="name">' + cap(dimensionLabel()) + '<span class="arrow">' + nameArrow + '</span></th><th class="num sortable" data-sort="cost">Cost<span class="arrow">' + costArrow + '</span></th><th class="num">% of total</th></tr></thead>' +
+        '<tbody>' + rowsHtml + '</tbody>' +
+        '<tfoot><tr><td></td><td>All ' + dimensionPlural() + '</td><td class="num row-total">' + fmtMoney(b.total) + '</td><td class="num row-total">100%</td></tr></tfoot>' +
+        '</table></div>'
+      : (focusQuery
+        ? '<p class="hint">No ' + dimensionPlural() + ' match "' + escapeHtml(state.focusSearch.trim()) + '".</p>'
+        : '<p class="hint">No cost data for this month yet.</p>');
+
+    if (!rowsHtml) return;
+
+    body.querySelectorAll("th.sortable").forEach(function(th){
+      th.addEventListener("click", function(){
+        var col = th.dataset.sort;
+        if (state.focusSort.col === col){
+          state.focusSort.dir = state.focusSort.dir === "asc" ? "desc" : "asc";
+        } else {
+          state.focusSort.col = col;
+          state.focusSort.dir = col === "name" ? "asc" : "desc";
+        }
+        renderFocus();
+      });
+    });
+    body.querySelectorAll(".focus-row-check").forEach(function(cb){
+      cb.addEventListener("change", function(){
+        state.focusChecked[cb.dataset.name] = cb.checked;
+        updateFocusSelectionBar();
+      });
+    });
+    var otherBtn = document.getElementById("otherExpandBtn");
+    if (otherBtn){
+      otherBtn.addEventListener("click", function(){
+        state.otherExpanded = !state.otherExpanded;
+        renderFocus();
+      });
+    }
+    body.querySelectorAll('.row-expand[data-action="toggle-drill"]').forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var name = btn.dataset.name;
+        var expanding = !state.drillExpanded[name];
+        state.drillExpanded[name] = expanding;
+        if (expanding && !state.drillData[name]){
+          if (state.connected){
+            var params = drillParamsFor(name);
+            if (params) fetchDrill(name, params);
+          } else {
+            // No live backend to query - synthesize a plausible resource
+            // breakdown instead of erroring, so the drill-down feature
+            // itself is demonstrable from sample data too.
+            state.drillData[name] = { loading: false, error: null, rows: sampleDrillRows(name, parseFloat(btn.dataset.cost) || 0) };
+          }
+        }
+        renderFocus();
+      });
+    });
+    document.getElementById("focusClearSelBtn").addEventListener("click", function(){
+      state.focusChecked = {};
+      body.querySelectorAll(".focus-row-check").forEach(function(cb){ cb.checked = false; });
+      updateFocusSelectionBar();
+    });
+    updateFocusSelectionBar();
+  }
+
+  function renderComparison(){
+    var card = document.getElementById("comparisonCard");
+    if (state.view !== "month"){ card.style.display = "none"; return; }
+    card.style.display = "";
+
+    var copyBtn = document.getElementById("comparisonCopyBtn");
+    var exportBtn = document.getElementById("comparisonExportBtn");
+    var body = document.getElementById("comparisonBody");
+    var monthLabel = MONTHS[state.focusedMonth] + " " + state.year;
+    document.getElementById("comparisonTitle").textContent = "Month comparison — " + monthLabel;
+
+    if (!state.comparisonEnabled){
+      copyBtn.style.display = "none";
+      exportBtn.style.display = "none";
+      body.innerHTML = '<p class="hint">Turn on "Compare to trailing" above to see ' + monthLabel + "'s spend against its trailing months, and pull a written summary or full export.</p>";
+      return;
+    }
+
+    // (Re)fetch trailing data whenever what we're comparing actually changes
+    // - not on every render, same pattern as the focused-month table.
+    var contextKey = state.year + "|" + state.focusedMonth + "|" + state.groupBy + "|" + state.tagKey + "|" + state.comparisonN;
+    if (state.comparisonContextKey !== contextKey){
+      state.comparisonContextKey = contextKey;
+      state.comparisonLoading = true;
+      ensureTrailingData(state.year, state.focusedMonth, state.comparisonN).then(function(){
+        state.comparisonLoading = false;
+        renderComparison();
+      });
+    }
+
+    if (state.comparisonLoading){
+      copyBtn.style.display = "none";
+      exportBtn.style.display = "none";
+      body.innerHTML = '<p class="hint">Loading comparison data…</p>';
+      return;
+    }
+
+    var cd = comparisonData(state.year, state.focusedMonth, state.comparisonN);
+    copyBtn.style.display = "";
+    exportBtn.style.display = "";
+
+    var dirClass = cd.deltaVsAvg >= 0 ? "up" : "down";
+    var arrow = cd.deltaVsAvg >= 0 ? "▲" : "▼";
+    var pctText = cd.pctVsAvg === null ? "—" : arrow + " " + Math.abs(cd.pctVsAvg).toFixed(1) + "%";
+    var maxDirClass = cd.deltaVsMax >= 0 ? "up" : "down";
+    var maxArrow = cd.deltaVsMax >= 0 ? "▲" : "▼";
+
+    var trailingListHtml = cd.trailingMonths.map(function(m, i){
+      return "<span>" + escapeHtml(cd.trailing[i].label) + ": " + fmtMoney(m.total) + "</span>";
+    }).join("");
+
+    var summaryHtml = '<div class="comparison-summary">' +
+      '<div class="stat"><div class="label">' + escapeHtml(monthLabel) + '</div><div class="value">' + fmtMoney(cd.targetMonth.total) + '</div></div>' +
+      '<div class="stat"><div class="label">Trailing ' + cd.count + '-mo average</div><div class="value">' + fmtMoney(cd.avgTotal) + '</div></div>' +
+      '<div class="stat"><div class="label">vs. average</div><div class="value ' + dirClass + '">' + arrow + ' ' + fmtMoney(Math.abs(cd.deltaVsAvg)) + '</div></div>' +
+      '<div class="stat"><div class="label">% vs. average</div><div class="value ' + dirClass + '">' + pctText + '</div></div>' +
+      '<div class="stat"><div class="label">vs. highest trailing month</div><div class="value ' + maxDirClass + '">' + maxArrow + ' ' + fmtMoney(Math.abs(cd.deltaVsMax)) + '</div></div>' +
+      '</div>' +
+      '<p class="comparison-trailing-list">' + trailingListHtml + '</p>';
+
+    var nameArrow = state.comparisonSort.col === "name" ? (state.comparisonSort.dir === "asc" ? " ▲" : " ▼") : "";
+    var curArrow = state.comparisonSort.col === "current" ? (state.comparisonSort.dir === "asc" ? " ▲" : " ▼") : "";
+    var avgArrow = state.comparisonSort.col === "avg" ? (state.comparisonSort.dir === "asc" ? " ▲" : " ▼") : "";
+    var deltaArrow = state.comparisonSort.col === "delta" ? (state.comparisonSort.dir === "asc" ? " ▲" : " ▼") : "";
+
+    var sortedRows = sortComparisonRows(cd.rows);
+    var rowsHtml = sortedRows.map(function(r){
+      var dCls = r.delta > 0.01 ? "up" : (r.delta < -0.01 ? "down" : "");
+      var pctText2 = r.pct === null ? "new" : (r.pct >= 0 ? "▲ " : "▼ ") + Math.abs(r.pct).toFixed(0) + "%";
+      return '<tr><td><span class="entity-name"><span class="nm">' + escapeHtml(r.name) + '</span></span>' + portalLinkIcon(r.name, null) + '</td>' +
+        '<td class="num">' + fmtMoney(r.current) + '</td>' +
+        '<td class="num">' + fmtMoney(r.avg) + '</td>' +
+        '<td class="num ' + dCls + '">' + (r.delta >= 0 ? "+" : "-") + fmtMoney(Math.abs(r.delta)) + '</td>' +
+        '<td class="num ' + dCls + '">' + pctText2 + '</td></tr>';
+    }).join("");
+
+    body.innerHTML = summaryHtml + (rowsHtml
+      ? '<div class="table-scroll"><table class="data">' +
+        '<thead><tr><th class="sortable" data-csort="name">' + cap(dimensionLabel()) + '<span class="arrow">' + nameArrow + '</span></th>' +
+        '<th class="num sortable" data-csort="current">' + escapeHtml(monthLabel) + '<span class="arrow">' + curArrow + '</span></th>' +
+        '<th class="num sortable" data-csort="avg">Trailing avg<span class="arrow">' + avgArrow + '</span></th>' +
+        '<th class="num sortable" data-csort="delta">Δ $<span class="arrow">' + deltaArrow + '</span></th>' +
+        '<th class="num">Δ %</th></tr></thead>' +
+        '<tbody>' + rowsHtml + '</tbody>' +
+        '</table></div>'
+      : '<p class="hint">No comparable ' + dimensionPlural() + ' with recorded spend.</p>');
+
+    body.querySelectorAll("th.sortable").forEach(function(th){
+      th.addEventListener("click", function(){
+        var col = th.dataset.csort;
+        if (state.comparisonSort.col === col){
+          state.comparisonSort.dir = state.comparisonSort.dir === "asc" ? "desc" : "asc";
+        } else {
+          state.comparisonSort.col = col;
+          state.comparisonSort.dir = col === "name" ? "asc" : "desc";
+        }
+        renderComparison();
+      });
+    });
+  }
+
+  document.getElementById("comparisonEnabled").addEventListener("change", function(e){
+    state.comparisonEnabled = e.target.checked;
+    renderComparison();
+  });
+  document.getElementById("comparisonN").addEventListener("change", function(e){
+    var n = parseInt(e.target.value, 10);
+    if (!n || n < 1) n = 1;
+    if (n > 24) n = 24;
+    e.target.value = n;
+    state.comparisonN = n;
+    renderComparison();
+  });
+  document.getElementById("comparisonCopyBtn").addEventListener("click", function(){
+    var cd = comparisonData(state.year, state.focusedMonth, state.comparisonN);
+    var text = comparisonSummaryText(cd, MONTHS[state.focusedMonth] + " " + state.year);
+    var btn = document.getElementById("comparisonCopyBtn");
+    var orig = btn.textContent;
+    function flash(label){ btn.textContent = label; setTimeout(function(){ btn.textContent = orig; }, 1500); }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ flash("Copied!"); }).catch(function(){ window.prompt("Copy this text:", text); });
+    } else {
+      window.prompt("Copy this text:", text);
+    }
+  });
+  document.getElementById("comparisonExportBtn").addEventListener("click", function(){
+    var cd = comparisonData(state.year, state.focusedMonth, state.comparisonN);
+    var csv = comparisonCsv(cd);
+    downloadTextFile("cost-comparison-" + MONTHS[state.focusedMonth] + "-" + state.year + ".csv", csv, "text/csv");
+  });
+
+  /* CSV for the focused month's breakdown table as currently shown -
+     respects the active search filter, so "export what I'm looking at"
+     actually matches what's on screen rather than always dumping everything. */
+  function focusCsv(){
+    var order = yearOrder(state.year);
+    var b = monthBreakdown(state.year, state.focusedMonth, order);
+    var nonZero = b.segments.filter(function(s){ return s.cost > 0.01; });
+    var sorted = sortSegments(nonZero);
+    var others = otherConstituents(state.year, state.focusedMonth, order);
+    var focusQuery = (state.focusSearch || "").trim().toLowerCase();
+    if (focusQuery){
+      others = others.filter(function(o){ return o.name.toLowerCase().indexOf(focusQuery) !== -1; });
+      sorted = sorted.filter(function(s){
+        if (s.name === OTHER_NAME) return others.length > 0;
+        return s.name.toLowerCase().indexOf(focusQuery) !== -1;
+      });
+    }
+    var subs = subscriptionsForBadge();
+    function subLabel(subIds){
+      if (!subIds || !subIds.length) return "";
+      return subIds.map(function(id){
+        var one = subs.filter(function(s){ return s.id === id; })[0];
+        return one ? one.name : id;
+      }).join("; ");
+    }
+    var lines = [["Entity", "Subscription(s)", "Cost", "% of total"].join(",")];
+    function pushRow(name, cost, subIds){
+      var pct = b.total > 0 ? (cost / b.total * 100) : 0;
+      var nameField = '"' + String(name).replace(/"/g, '""') + '"';
+      var subField = '"' + subLabel(subIds).replace(/"/g, '""') + '"';
+      lines.push([nameField, subField, cost.toFixed(2), pct.toFixed(1)].join(","));
+    }
+    sorted.forEach(function(s){
+      if (s.name === OTHER_NAME && others.length){
+        others.forEach(function(o){ pushRow(o.name, o.cost, o.subIds); });
+      } else {
+        pushRow(s.name, s.cost, s.subIds);
+      }
+    });
+    return lines.join("\n");
+  }
+  document.getElementById("focusExportBtn").addEventListener("click", function(){
+    var csv = focusCsv();
+    downloadTextFile("cost-breakdown-" + MONTHS[state.focusedMonth] + "-" + state.year + ".csv", csv, "text/csv");
+  });
+
+  /* one row per (month, entity) for the whole year - every entity that
+     ever appears, not just whatever's currently in Customize breakdown's
+     top-40/selection, so exporting doesn't silently drop anything folded
+     into "Other" on screen. The month-by-month view someone building an
+     annual report actually needs, vs. focusCsv's single-month snapshot. */
+  function yearCsv(){
+    var months = monthsForYear(state.year);
+    var subs = subscriptionsForBadge();
+    function subLabel(subIds){
+      if (!subIds || !subIds.length) return "";
+      return subIds.map(function(id){
+        var one = subs.filter(function(s){ return s.id === id; })[0];
+        return one ? one.name : id;
+      }).join("; ");
+    }
+    var lines = [["Month", "Entity", "Subscription(s)", "Cost"].join(",")];
+    months.forEach(function(m, i){
+      var byName = {}, subIdsByName = {};
+      (m.breakdown || []).forEach(function(b){
+        byName[b.name] = (byName[b.name] || 0) + b.cost;
+        subIdsByName[b.name] = dedupe((subIdsByName[b.name] || []).concat(b.subIds || []));
+      });
+      Object.keys(byName).sort(function(a, b){ return byName[b] - byName[a]; }).forEach(function(name){
+        if (byName[name] <= 0.01) return;
+        var nameField = '"' + String(name).replace(/"/g, '""') + '"';
+        var subField = '"' + subLabel(subIdsByName[name]).replace(/"/g, '""') + '"';
+        lines.push([MONTHS[i] + " " + state.year, nameField, subField, byName[name].toFixed(2)].join(","));
+      });
+    });
+    return lines.join("\n");
+  }
+  document.getElementById("exportYearBtn").addEventListener("click", function(){
+    downloadTextFile("cost-breakdown-" + dimensionLabel().replace(/\s+/g, "-") + "-" + state.year + ".csv", yearCsv(), "text/csv");
+  });
+  document.getElementById("focusSearchInput").addEventListener("input", function(e){
+    state.focusSearch = e.target.value;
+    renderFocus();
+  });
+
+  /* ============ customize breakdown (entity picker) ============ */
+  function onCustomizeCheck(e){
+    var visibleNames = Array.prototype.slice.call(document.querySelectorAll(".customize-check")).map(function(cb){ return cb.value; });
+    var visibleChecked = Array.prototype.slice.call(document.querySelectorAll(".customize-check:checked")).map(function(cb){ return cb.value; });
+    // Same reasoning as the Subscriptions picker's search box: don't read
+    // only what's currently rendered, or filtering by search would silently
+    // drop whatever's checked but hidden by the search text. In automatic
+    // mode (customSelection null) the effective baseline is whatever
+    // yearOrder() currently shows (the top-40-by-cost default), not "every
+    // entity" - otherwise checking one box in automatic mode would jump
+    // straight to "every other entity ever seen" being selected too.
+    var prevSelected = Array.isArray(state.customSelection) ? state.customSelection : yearOrder(state.year);
+    var kept = prevSelected.filter(function(n){ return visibleNames.indexOf(n) === -1; });
+    // No cap on manual selection - past TOP_N distinct series, colors cycle
+    // (colorVarFor uses index % COLOR_VARS.length) rather than anything
+    // being silently blocked or folded into "Other". Always an array
+    // (possibly empty) - unchecking the last box this way behaves the same
+    // as the dedicated "Unselect all" button, rather than silently
+    // reverting to automatic top-N.
+    state.customSelection = kept.concat(visibleChecked);
+    renderAll();
+  }
+
+  /* the hex value to seed a color <input type=color> with - resolves the
+     current effective color (an override if one's set, otherwise whatever
+     the automatic palette would use) down to a literal hex string, since
+     that's the only format the native color picker accepts as a value. */
+  function hexColorFor(name, index){
+    return state.colorOverrides[name] || cssVar(colorVarFor(name, index)) || "#888888";
+  }
+
+  document.getElementById("customizeList").addEventListener("input", function(e){
+    if (!e.target.classList.contains("customize-color")) return;
+    state.colorOverrides[e.target.dataset.name] = e.target.value;
+    renderChart();
+    renderLegend();
+    renderFocus();
+  });
+
+  /* every name we've seen -> its raw resource ID, if any (only "resource"
+     mode entities have one) - used for the picker's "open in Azure" icons. */
+  function idsByNameForYear(year){
+    var months = monthsForYear(year);
+    var ids = {};
+    months.forEach(function(m){
+      (m.breakdown || []).forEach(function(b){ if (b.id && !ids[b.name]) ids[b.name] = b.id; });
+    });
+    return ids;
+  }
+
+  /* rebuilds just the checkbox list, applying the search box's current text -
+     kept separate from renderCustomizePanel() so typing in the search box
+     doesn't have to go through a full renderAll() and doesn't disturb focus. */
+  function renderCustomizeList(){
+    var entities = allEntitiesForYear(state.year);
+    var ids = idsByNameForYear(state.year);
+    var order = yearOrder(state.year);
+    var currentSet = {};
+    order.forEach(function(n){ currentSet[n] = true; });
+    var q = (document.getElementById("customizeSearch").value || "").trim().toLowerCase();
+    var filtered = q ? entities.filter(function(n){ return n.toLowerCase().indexOf(q) !== -1; }) : entities;
+    var list = document.getElementById("customizeList");
+    if (!filtered.length){
+      list.innerHTML = '<p class="hint" style="margin:0">No matches for "' + escapeHtml(q) + '".</p>';
+      return;
+    }
+    list.innerHTML = filtered.map(function(name, fi){
+      var checked = currentSet[name] ? " checked" : "";
+      // Colors only matter visually for entities actually shown in the
+      // chart right now (order) - anything else just gets a stable-but-
+      // arbitrary swatch based on its position in the full list, so the
+      // picker isn't left blank for rows that happen to be filtered out
+      // of the current top-N/selection.
+      var idx = order.indexOf(name);
+      var hex = hexColorFor(name, idx >= 0 ? idx : fi);
+      return '<label><input type="color" class="customize-color" data-name="' + escapeHtml(name) + '" value="' + hex + '" title="Pick a color for ' + escapeHtml(name) + '"><input type="checkbox" class="customize-check" value="' + escapeHtml(name) + '"' + checked + '>' + escapeHtml(name) + portalLinkIcon(name, ids[name]) + '</label>';
+    }).join("");
+    list.querySelectorAll(".customize-check").forEach(function(cb){
+      cb.addEventListener("change", onCustomizeCheck);
+    });
+  }
+
+  function renderCustomizePanel(){
+    var toggleBtn = document.getElementById("customizeToggleBtn");
+    var panel = document.getElementById("customizePanel");
+    toggleBtn.style.display = "";
+    renderCustomizeList();
+  }
+
+  document.getElementById("customizeSearch").addEventListener("input", renderCustomizeList);
+  document.getElementById("customizeToggleBtn").addEventListener("click", function(e){
+    e.stopPropagation();
+    document.getElementById("customizePanel").classList.toggle("open");
+  });
+  document.getElementById("customizeAutoBtn").addEventListener("click", function(){
+    state.customSelection = null;
+    renderAll();
+  });
+  document.getElementById("customizeAllBtn").addEventListener("click", function(){
+    // Deliberately uncapped - every entity for this year/dimension, shown
+    // individually with no "Other" bucket. Past TOP_N distinct series,
+    // colors cycle rather than anything being dropped.
+    state.customSelection = allEntitiesForYear(state.year);
+    renderAll();
+  });
+  document.getElementById("customizeNoneBtn").addEventListener("click", function(){
+    state.customSelection = []; // explicit empty - see yearOrder's Array.isArray check
+    renderAll();
+  });
+  document.getElementById("customizeSelectVisibleBtn").addEventListener("click", function(){
+    var q = (document.getElementById("customizeSearch").value || "").trim().toLowerCase();
+    var entities = allEntitiesForYear(state.year);
+    state.customSelection = q ? entities.filter(function(n){ return n.toLowerCase().indexOf(q) !== -1; }) : entities;
+    renderAll();
+  });
+  document.getElementById("customizeResetColorsBtn").addEventListener("click", function(){
+    state.colorOverrides = {};
+    renderAll();
+  });
+  // Dropdown behavior: click anywhere outside the panel (and its toggle) closes it.
+  document.addEventListener("click", function(e){
+    var panel = document.getElementById("customizePanel");
+    if (!panel.classList.contains("open")) return;
+    if (panel.contains(e.target)) return;
+    panel.classList.remove("open");
+  });
+
+  /* ============ init ============ */
+  function renderAll(){
+    populateMonthPicker();
+    renderKPIs();
+    renderLegend();
+    renderChart();
+    renderFocus();
+    renderComparison();
+    renderCustomizePanel();
+  }
+
+  document.getElementById("lastUpdated").textContent = "reference date " + NOW.toISOString().slice(0, 10);
+
+  /* ============ theme toggle ============ */
+  // Cycles OS-default -> light -> dark -> OS-default. "OS-default" (no
+  // data-theme attribute, no saved preference) is a real third state, not
+  // just a synonym for whichever the OS happens to be right now.
+  function currentThemeChoice(){
+    var attr = document.documentElement.getAttribute("data-theme");
+    return attr === "dark" || attr === "light" ? attr : null;
+  }
+  function applyTheme(choice){
+    if (choice) document.documentElement.setAttribute("data-theme", choice);
+    else document.documentElement.removeAttribute("data-theme");
+    try {
+      if (choice) localStorage.setItem("azcc_theme", choice);
+      else localStorage.removeItem("azcc_theme");
+    } catch (e) {}
+    // Colors are read live off computed CSS custom properties in several
+    // places (chart gridlines, color-picker swatches) - repaint everything
+    // so a mid-session theme switch doesn't leave stale colors behind.
+    renderAll();
+  }
+  document.getElementById("themeToggleBtn").addEventListener("click", function(){
+    var cur = currentThemeChoice();
+    applyTheme(cur === null ? "light" : cur === "light" ? "dark" : null);
+  });
+
+  /* ============ budget line ============ */
+  function saveBudgets(){
+    try { localStorage.setItem("azcc_budgets", JSON.stringify(state.budgets)); } catch (e) {}
+  }
+  function loadBudgets(){
+    try {
+      var raw = localStorage.getItem("azcc_budgets");
+      if (raw) state.budgets = JSON.parse(raw) || {};
+    } catch (e) {}
+  }
+  function renderBudgetControls(){
+    document.getElementById("budgetYearLabel").textContent = state.year;
+    var val = state.budgets[state.year];
+    document.getElementById("budgetInput").value = val != null ? val : "";
+  }
+  document.getElementById("budgetToggleBtn").addEventListener("click", function(){
+    var wrap = document.getElementById("budgetWrap");
+    var opening = wrap.style.display === "none";
+    wrap.style.display = opening ? "flex" : "none";
+    if (opening) renderBudgetControls();
+  });
+  document.getElementById("budgetInput").addEventListener("input", function(e){
+    var n = parseFloat(e.target.value);
+    if (e.target.value === "" || isNaN(n) || n <= 0) delete state.budgets[state.year];
+    else state.budgets[state.year] = n;
+    saveBudgets();
+    renderChart();
+  });
+  document.getElementById("budgetClearBtn").addEventListener("click", function(){
+    delete state.budgets[state.year];
+    saveBudgets();
+    renderBudgetControls();
+    renderChart();
+  });
+
+  document.getElementById("yoyToggle").addEventListener("change", function(e){
+    state.compareYoY = e.target.checked;
+    renderChart(); // immediate for disconnected/sample data or an already-cached prior year
+    maybeFetchPriorYearForCompare(); // background fetch + repaint if not cached yet
+  });
+
+  loadBudgets();
+  populateYearSelect();
+  renderTagKeySelect();
+  renderAll();
+  updateStatusPill();
+
+  try {
+    // Hard-wired connection - always connect on load using the baked-in
+    // URL/key (a value saved via a prior "Load live data" click, if
+    // different, still wins - lets you point at a different backend for
+    // testing without editing this file).
+    var savedUrl = localStorage.getItem("azcc_funcUrl") || DEFAULT_FUNC_URL;
+    var savedKey = localStorage.getItem("azcc_funcKey") || DEFAULT_FUNC_KEY;
+    document.getElementById("liveFuncUrl").value = savedUrl;
+    document.getElementById("liveFuncKey").value = savedKey;
+    loadLiveData();
+  } catch(e){ /* storage unavailable - not fatal */ }
+})();
+</script>
