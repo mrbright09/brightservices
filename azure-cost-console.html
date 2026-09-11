@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azure Cost Console - Bright Future Technologies</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root {
+    --bg: #0A0E1A;
+    --panel: #121826;
+    --panel-border: #212A3D;
+    --gold: #F5B942;
+    --blue: #4C8DFF;
+    --green: #34D399;
+    --text: #E8ECF4;
+    --text-muted: #8892A6;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Manrope', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---- nav ---- */
+  nav.top {
+    border-bottom: 1px solid var(--panel-border);
+    padding: 18px 0;
+  }
+  nav.top .wrap { display: flex; align-items: center; justify-content: space-between; }
+  .brand { font-weight: 800; font-size: 15px; letter-spacing: 0.02em; text-decoration: none; }
+  .brand span { color: var(--gold); }
+  nav.top .links { display: flex; gap: 22px; font-size: 14px; }
+  nav.top .links a { text-decoration: none; color: var(--text-muted); }
+  nav.top .links a:hover { color: var(--text); }
+
+  /* ---- hero ---- */
+  header.hero { text-align: center; padding: 88px 0 64px; }
+  .kicker { color: var(--blue); font-size: 14px; font-weight: 600; margin: 0 0 14px; }
+  h1 {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin: 0 0 16px;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .sub {
+    color: var(--text-muted);
+    font-size: 17px;
+    max-width: 460px;
+    margin: 0 auto 48px;
+  }
+
+  .meter {
+    display: inline-block;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 32px 40px;
+    margin-bottom: 12px;
+  }
+  .meter .label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .meter .figure {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 52px;
+    color: var(--gold);
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+  .meter .caption {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 10px;
+  }
+
+  .cta-row { display: flex; gap: 14px; justify-content: center; margin-top: 32px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid transparent;
+  }
+  .btn.primary { background: var(--blue); color: #0A0E1A; }
+  .btn.primary:hover { background: #6ba0ff; }
+  .btn.ghost { border-color: var(--panel-border); color: var(--text); }
+  .btn.ghost:hover { border-color: var(--blue); color: var(--blue); }
+
+  /* ---- sections ---- */
+  section { padding: 56px 0; border-top: 1px solid var(--panel-border); }
+  section h2 { font-size: 22px; font-weight: 800; margin: 0 0 10px; }
+  section .lead { color: var(--text-muted); font-size: 15px; margin: 0 0 28px; max-width: 520px; }
+
+  .swatch-row { display: flex; flex-wrap: wrap; gap: 10px 14px; }
+  .swatch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .swatch .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+
+  .steps { display: flex; flex-direction: column; gap: 20px; }
+  .step { display: flex; gap: 16px; align-items: baseline; }
+  .step .n {
+    font-family: var(--mono);
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 14px;
+    flex: none;
+    width: 24px;
+  }
+  .step .t { font-weight: 700; font-size: 15px; margin-bottom: 3px; }
+  .step .d { color: var(--text-muted); font-size: 14px; }
+
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 28px;
+  }
+  .stat { border-left: 2px solid var(--panel-border); padding-left: 14px; }
+  .stat .n { font-family: var(--mono); font-weight: 700; font-size: 22px; color: var(--green); font-variant-numeric: tabular-nums; }
+  .stat .l { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
+
+  p.body-copy { color: var(--text-muted); font-size: 15px; max-width: 560px; }
+  p.body-copy strong { color: var(--text); }
+
+  footer {
+    border-top: 1px solid var(--panel-border);
+    padding: 40px 0 56px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 560px) {
+    h1 { font-size: 30px; }
+    .meter { padding: 24px 22px; }
+    .meter .figure { font-size: 38px; }
+    .stat-strip { grid-template-columns: 1fr; gap: 18px; }
+    .cta-row { flex-direction: column; align-items: stretch; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a class="brand" href="/">BRIGHT FUTURE <span>TECH</span></a>
+    <div class="links">
+      <a href="#how">How it runs</a>
+      <a href="#watches">What it watches</a>
+      <a href="#for">Who it's for</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="kicker">FinOps tooling · Bright Future Technologies</p>
+    <h1>Your Azure bill, before it surprises you</h1>
+    <p class="sub">A live cost console that watches your whole subscription and tells you where the money went, without fifteen clicks through the Portal.</p>
+
+    <div class="meter">
+      <div class="label">YEAR TO DATE, SAMPLE TENANT</div>
+      <div class="figure" id="meterFigure">$0</div>
+      <div class="caption">sample data · connect your own tenant to see real numbers</div>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn primary" href="assets/azure-cost-console/avd_cost_console.html" target="_blank" rel="noopener">View Live Demo</a>
+      <a class="btn ghost" href="#how">See how it works</a>
+      <a class="btn ghost" href="mailto:Mikal.Bright@brightfuturetechllc.com">Ask about a deployment</a>
+    </div>
+  </div>
+</header>
+
+<section id="watches">
+  <div class="wrap">
+    <h2>Group spend any way you actually think about it</h2>
+    <p class="lead">Same dataset, four different lenses. Click between them and the whole picture redraws.</p>
+    <div class="swatch-row">
+      <span class="swatch"><span class="dot" style="background:#4C8DFF"></span>Resource group</span>
+      <span class="swatch"><span class="dot" style="background:#F5B942"></span>Service</span>
+      <span class="swatch"><span class="dot" style="background:#34D399"></span>Resource</span>
+      <span class="swatch"><span class="dot" style="background:#E879F9"></span>Tag</span>
+      <span class="swatch"><span class="dot" style="background:#8B7CFF"></span>Subscription</span>
+    </div>
+    <div class="stat-strip">
+      <div class="stat"><div class="n">30 min</div><div class="l">cache window, so it stays inside Azure's rate limits</div></div>
+      <div class="stat"><div class="n">1 endpoint</div><div class="l">one Function, one job, nothing else to maintain</div></div>
+      <div class="stat"><div class="n">0 secrets</div><div class="l">managed identity only, nothing to rotate</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>How it runs</h2>
+    <p class="lead">Small on purpose. Three moving parts, no server to patch.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="n">01</div>
+        <div>
+          <div class="t">A Function App reads Cost Management</div>
+          <div class="d">System-assigned managed identity, granted read-only Cost Management Reader on the subscription. No app registration, no client secret sitting in a vault somewhere.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">02</div>
+        <div>
+          <div class="t">One endpoint answers every view</div>
+          <div class="d">costSummary takes a date range and a group-by dimension, queries Cost Management, and hands back a clean monthly breakdown, cached so repeat views are instant.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">03</div>
+        <div>
+          <div class="t">A static page renders it</div>
+          <div class="d">No login wall, no framework to install. Any browser, hosted for pennies on a storage static website.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="for">
+  <div class="wrap">
+    <h2>Built for the person who got tired of clicking through the Portal</h2>
+    <p class="body-copy">If you're the one who gets asked <strong>"why did the bill jump last month"</strong> and the honest answer involves exporting a CSV and pivot-tabling it in Excel, this replaces that. Point it at a subscription or a whole management group and it just sits there, current, ready before anyone asks.</p>
+    <p class="body-copy" style="margin-top:16px;">Built and deployed by <strong>Bright Future Technologies LLC</strong> for clients running real spend across dozens of subscriptions. Happy to talk through a deployment for yours.</p>
+  </div>
+</section>
+
+<footer>
+  Bright Future Technologies LLC · <a href="https://brightfuturetechllc.com" target="_blank" rel="noopener">brightfuturetechllc.com</a>
+</footer>
+
+<script>
+  (function () {
+    var el = document.getElementById('meterFigure');
+    var target = 268005;
+    var duration = 1400;
+    var start = null;
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function fmt(n) {
+      var s = Math.round(n).toString();
+      var out = '';
+      var count = 0;
+      for (var i = s.length - 1; i >= 0; i--) {
+        out = s.charAt(i) + out;
+        count++;
+        if (count % 3 === 0 && i !== 0) out = ',' + out;
+      }
+      return '$' + out;
+    }
+
+    if (reduced) {
+      el.textContent = fmt(target);
+      return;
+    }
+
+    function tick(ts) {
+      if (start === null) start = ts;
+      var elapsed = ts - start;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = fmt(target * eased);
+      if (progress < 1) {
+        window.requestAnimationFrame(tick);
+      } else {
+        el.textContent = fmt(target);
+      }
+    }
+    window.requestAnimationFrame(tick);
+  })();
+</script>
+
+</body>
+</html>

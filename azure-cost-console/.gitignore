@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+function/node_modules/
+
+# Local secrets / runtime config (never commit)
+local.settings.json
+*.settings.json
+.env
+.env.*
+
+# Build artifacts
+function-deploy.zip
+*.zip
+
+# Editor / tool state
+.vscode/
+.claude/
+
+# OS cruft
+.DS_Store
+Thumbs.db
