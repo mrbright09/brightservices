@@ -284,12 +284,13 @@ try {
   .customize-color::-webkit-color-swatch-wrapper { padding: 0; }
   .customize-color::-webkit-color-swatch { border: none; border-radius: 2px; }
 
-  /* small external-link icon that opens a row's real Azure object in the Portal */
+  /* "Take Me There" link that opens a row's Azure object in the Portal */
   .portal-link {
-    color: var(--text-muted); text-decoration: none; font-size: 11px; margin-left: 4px;
-    opacity: 0.7; display: inline-block;
+    color: var(--accent); text-decoration: none; font-size: 11px; font-weight: 700;
+    margin-left: 8px; opacity: 0.82; display: inline-flex; align-items: center; gap: 2px;
+    white-space: nowrap; letter-spacing: 0.01em;
   }
-  .portal-link:hover { color: var(--accent); opacity: 1; }
+  .portal-link:hover { opacity: 1; text-decoration: underline; }
 
   /* small pill naming which subscription(s) a row's cost came from - only
      shown once more than one subscription is actually in play */
@@ -961,7 +962,16 @@ try {
      a plain resource-group name can be linked directly since the URL only
      needs the subscription + RG name, nothing per-row. */
   function portalLinkForRow(name, id, subIds){
-    if (!state.connected) return null; // sample data has no real Azure object behind it - nothing to link to
+    if (!state.connected) {
+      // In sample mode, show the link for groupBy views that produce navigable
+      // Azure objects in live mode (resource group and resource) so the feature
+      // is visible in the demo. Sample links land on the Portal home rather
+      // than a fake resource URL that would 404.
+      if ((state.groupBy === "resourceGroup" || state.groupBy === "resource") && name && name !== OTHER_NAME) {
+        return "https://portal.azure.com";
+      }
+      return null;
+    }
     if (id) return "https://portal.azure.com/#resource" + id + "/overview";
     // A resource-group name only needs {subscription, RG name} to link -
     // but now that multiple subscriptions can be in scope at once, that
@@ -978,7 +988,10 @@ try {
   function portalLinkIcon(name, id, subIds){
     var href = portalLinkForRow(name, id, subIds);
     if (!href) return "";
-    return ' <a class="portal-link" href="' + escapeHtml(href) + '" target="_blank" rel="noopener" title="Open in Azure Portal" onclick="event.stopPropagation()">↗</a>';
+    var tip = state.connected
+      ? "Open in Azure Portal"
+      : "Open Azure Portal (sample data - real resource links load when connected to your tenant)";
+    return ' <a class="portal-link" href="' + escapeHtml(href) + '" target="_blank" rel="noopener" title="' + escapeHtml(tip) + '" onclick="event.stopPropagation()">Take Me There &#8599;</a>';
   }
 
   /* which subscription list to badge against - the real connected list once
