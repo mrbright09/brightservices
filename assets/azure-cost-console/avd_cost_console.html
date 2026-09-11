@@ -985,6 +985,19 @@ try {
     }
     return null;
   }
+  // Returns the Azure Portal blade URL for browsing ALL items of the current
+  // groupBy dimension - used by the "All X" footer row link so a visitor can
+  // jump straight to the right Portal view with one click.
+  function groupByPortalUrl(){
+    var urls = {
+      resourceGroup: "https://portal.azure.com/#browse/resourcesbyresourcegroups",
+      service:       "https://portal.azure.com/#blade/Microsoft_Azure_CostManagement/Menu/costanalysis",
+      resource:      "https://portal.azure.com/#browse/all",
+      tag:           "https://portal.azure.com/#blade/HubsExtension/TagsBlade"
+    };
+    return urls[state.groupBy] || "https://portal.azure.com";
+  }
+
   function portalLinkIcon(name, id, subIds){
     var href = portalLinkForRow(name, id, subIds);
     if (!href) return "";
@@ -2306,7 +2319,7 @@ try {
         '<div class="table-scroll"><table class="data">' +
         '<thead><tr><th class="checkbox-col"></th><th class="sortable" data-sort="name">' + cap(dimensionLabel()) + '<span class="arrow">' + nameArrow + '</span></th><th class="num sortable" data-sort="cost">Cost<span class="arrow">' + costArrow + '</span></th><th class="num">% of total</th></tr></thead>' +
         '<tbody>' + rowsHtml + '</tbody>' +
-        '<tfoot><tr><td></td><td>All ' + dimensionPlural() + '</td><td class="num row-total">' + fmtMoney(b.total) + '</td><td class="num row-total">100%</td></tr></tfoot>' +
+        '<tfoot><tr><td></td><td><a class="portal-link" style="font-size:12.5px;font-weight:700" href="' + escapeHtml(groupByPortalUrl()) + '" target="_blank" rel="noopener" title="View all ' + escapeHtml(dimensionPlural()) + ' in Azure Portal">All ' + dimensionPlural() + ' &#8599;</a></td><td class="num row-total">' + fmtMoney(b.total) + '</td><td class="num row-total">100%</td></tr></tfoot>' +
         '</table></div>'
       : (focusQuery
         ? '<p class="hint">No ' + dimensionPlural() + ' match "' + escapeHtml(state.focusSearch.trim()) + '".</p>'
