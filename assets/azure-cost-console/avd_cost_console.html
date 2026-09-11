@@ -2253,18 +2253,38 @@ try {
     // for the entities on screen right now - clear all of them whenever the
     // month/year/dimension changes underneath it.
     var contextKey = state.year + "|" + state.groupBy + "|" + state.tagKey + "|" + m;
+    var freshContext = false;
     if (state.focusContextKey !== contextKey){
       state.focusContextKey = contextKey;
       state.focusChecked = {};
       state.otherExpanded = false;
       state.drillExpanded = {};
       state.drillData = {};
+      freshContext = true;
     }
 
     var order = yearOrder(state.year);
     var b = monthBreakdown(state.year, m, order);
     var nonZero = b.segments.filter(function(s){ return s.cost > 0.01; });
     var sorted = sortSegments(nonZero);
+
+    // Auto-expand the highest-cost row on a fresh context so the drill-down
+    // feature is immediately visible without needing a second interaction.
+    // Only for resourceGroup and service views where sub-resource breakdown
+    // is meaningful; skipped for resource and tag where there is no useful
+    // deeper layer to show.
+    if (freshContext && sorted.length > 0 && (state.groupBy === "resourceGroup" || state.groupBy === "service")) {
+      var topSeg = sorted[0];
+      if (topSeg.name !== OTHER_NAME) {
+        state.drillExpanded[topSeg.name] = true;
+        if (!state.connected) {
+          state.drillData[topSeg.name] = { loading: false, error: null, rows: sampleDrillRows(topSeg.name, topSeg.cost) };
+        } else {
+          var dParams = drillParamsFor(topSeg.name);
+          if (dParams) fetchDrill(topSeg.name, dParams);
+        }
+      }
+    }
 
     var others = otherConstituents(state.year, m, order);
 
