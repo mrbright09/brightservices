@@ -114,7 +114,17 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
 .qbtn.map-active{border-color:var(--accent);color:var(--accent);background:rgba(0,194,255,0.07);}
 </style>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPVHfqr6zFjaR5ZPYP8NSMESGkxWJ9QfI&callback=__gMapsReady">
+<script src="/site-config.js"></script>
+<script>
+  // Google Maps key is NOT stored in this repo. See SETUP.md.
+  (function () {
+    var k = (window.SITE_CONFIG || {}).GOOGLE_MAPS_API_KEY;
+    if (!k) { console.warn('Google Maps API key not configured - see SETUP.md'); return; }
+    var s = document.createElement('script');
+    s.async = true; s.defer = true;
+    s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(k) + '&callback=__gMapsReady';
+    document.head.appendChild(s);
+  })();
 </script>
 </head>
 <body>

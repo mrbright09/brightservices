@@ -1,0 +1,43 @@
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate site-config.js from repo secrets
+        env:
+          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+        run: |
+          if [ -z "$GOOGLE_MAPS_API_KEY" ]; then
+            echo "::warning::GOOGLE_MAPS_API_KEY secret is not set; maps will be disabled."
+          fi
+          printf 'window.SITE_CONFIG = { GOOGLE_MAPS_API_KEY: "%s" };\n' "$GOOGLE_MAPS_API_KEY" > site-config.js
+
+      - name: Strip non-site folders from the published artifact
+        run: rm -rf .git .github onyx-proxy azure-cost-console/function azure-cost-console/infra
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4

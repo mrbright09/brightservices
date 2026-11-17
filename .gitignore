@@ -1,0 +1,19 @@
+# Runtime config with keys (generated at deploy, never committed)
+site-config.js
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.pfx
+local.settings.json
+.dev.vars
+
+# Tooling / editor state
+.vs/
+.vscode/
+node_modules/
+.wrangler/
+.DS_Store
+Thumbs.db
